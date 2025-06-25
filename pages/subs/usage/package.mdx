@@ -66,3 +66,22 @@ The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) is the bes
 - **SubtitleData**: All returned values from the API with their respective types.
 
 Our types are very simple and well-documented. Check out the types.ts file [here](https://raw.githubusercontent.com/itzCozi/wyzie-lib/refs/heads/main/src/types.ts).
+
+### Configuration
+
+One user asked on Github for a configurable API hostname (AKA you can change the url the package will request) and I was like bruh that sounds like a good idea so below is the usage. Love ya guys!
+
+```ts
+import { configure, searchSubtitles, parseToVTT } from 'wyzie-lib';
+
+// Configure the library to use a custom API endpoint
+configure({ 
+  baseUrl: 'https://my-custom-subtitle-scraper.com' 
+});
+
+// Now all requests will go to https://my-custom-subtitle-scraper.com/search
+const subtitles = await searchSubtitles({
+  tmdb_id: 123456,
+  language: "en"
+});
+```

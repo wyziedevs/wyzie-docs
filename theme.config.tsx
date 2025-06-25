@@ -70,6 +70,7 @@ export default defineTheme({
   directories: [
     directory("main", {
       sidebar: [
+        group("Donations", [link("Donate", "/donate")]),
         group("Wyzie Subs", [
           link("Introduction", "/subs/intro"),
           link("Hosting", "/subs/hosting"),
