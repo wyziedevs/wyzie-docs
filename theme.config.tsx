@@ -74,6 +74,7 @@ export default defineTheme({
         group("Wyzie Subs", [
           link("Introduction", "/subs/intro"),
           link("Hosting", "/subs/hosting"),
+          link("Sources", "/subs/sources"),
           link.nested({
               title: 'Usage',
               items: [
