@@ -22,7 +22,13 @@ If you have decided against using the NPM package, then let's get started. I wil
       "language": "en",
       "media": "The Martian",
       "isHearingImpaired": false,
-      "source": "opensubtitles"
+      "source": "opensubtitles",
+      "release": "The.Martian.2015.1080p.WEB-DL",
+      "releases": ["The.Martian.2015.1080p.WEB-DL"],
+      "fileName": "the.martian.2015.1080p.web-dl.srt",
+      "origin": "WEB-DL",
+      "matchedRelease": "The.Martian.2015.1080p.WEB-DL",
+      "matchedFilter": "martian"
     }
     ```
   </Tabs.Tab>
@@ -40,15 +46,18 @@ If you have decided against using the NPM package, then let's get started. I wil
 
 ### Parameters
 
-| Parameter            | Example                                       | Description                                                                                   |
-| -------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| **id**               | `/search?id=tt3659388` or `/search?id=286217` | The TMDB or IMDB ID of the show or movie _(id is required)_.                                  |
-| **season & episode** | `/search?id=tt0121955&season=1&episode=1`     | The season and episode of the media if it's a show. _(Both season and episode are required.)_ |
-| **language**         | `/search?id=tt3659388&language=en`            | The language of the subtitles that will be returned _(must be in an ISO 3166-2 code)_.        |
-| **format**           | `/search?id=tt3659388&format=srt`             | The format of subtitles returned.                                                             |
-| **hi**               | `/search?id=tt3659388&hi=true`                | Determines if the subtitles are for the hearing impaired.                                     |
-| **encoding**         | `/search?id=tt3659388&encoding=utf-8`         | The character encoding of the subtitle files.                                                 |
-| **source**           | `/search?source=subdl                         | Desired source of the subtitle (defaults to open-subtitles).                                  |
+| Parameter            | Example                                                | Description                                                                                             |
+| -------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| **id**               | `/search?id=tt3659388` or `/search?id=286217`         | TMDB or IMDB ID of the show or movie _(required)_.                                                      |
+| **season & episode** | `/search?id=tt0121955&season=1&episode=1`             | Season and episode for TV searches. Both must be present together.                                      |
+| **language**         | `/search?id=tt3659388&language=en,es`                 | Language filter (ISO 639-1 codes). Multiple values are comma-separated.                                 |
+| **format**           | `/search?id=tt3659388&format=srt,ass`                 | Subtitle formats to return. Multiple values allowed.                                                    |
+| **hi**               | `/search?id=tt3659388&hi=true`                        | Whether to prefer hearing-impaired subtitles.                                                           |
+| **encoding**         | `/search?id=tt3659388&encoding=utf-8,latin-1`         | Character encoding filter.                                                                              |
+| **source**           | `/search?id=tt3659388&source=subdl,podnapisi`         | Subtitle providers to query (`all` queries every enabled source; default `opensubtitles`).              |
+| **release**          | `/search?id=tt3659388&release=martian,1080p`          | Release or scene name filters (comma-separated).                                                        |
+| **file/fileName**    | `/search?id=tt3659388&file=proper`                    | Filename filters (aliases: `file`, `filename`, `fileName`).                                             |
+| **origin**           | `/search?id=tt3659388&origin=WEB,BLURAY`              | Content origin filter, comma-separated (e.g., `WEB`, `BLURAY`, `DVD`).                                  |
 
 <Important>
   When using an IMDB ID, ensure that the first two characters ('tt') are
@@ -69,3 +78,9 @@ If you have decided against using the NPM package, then let's get started. I wil
 | **media**             | The name of the media that the subtitles are for.                    |
 | **isHearingImpaired** | Boolean representing if the subtitle is hearing impaired accessible. |
 | **source**            | Which source the subtitle was scraped from.                          |
+| **release**           | Primary release name.                                                |
+| **releases**          | Other release names compatible with the subtitle.                    |
+| **fileName**          | Original filename when available.                                    |
+| **origin**            | Content origin (e.g., WEB, BluRay, DVD).                             |
+| **matchedRelease**    | Release value that matched your filter (if provided).                |
+| **matchedFilter**     | The user-supplied filter that matched (if provided).                 |

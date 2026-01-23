@@ -20,10 +20,17 @@ The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) is the bes
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
-    
-    // Fetches all subtitles for the media with the TMDB ID 286217
-    const data: SubtitleData[] = await searchSubtitles({ tmdb_id: 286217, format: "srt" });
-    console.log(data[0].id); // Prints the ID of the first subtitle object
+
+    // Fetch English WEB-DL SRT subtitles for TMDB 286217, prefer matching releases
+    const data: SubtitleData[] = await searchSubtitles({
+      tmdb_id: 286217,
+      format: ["srt"],
+      language: ["en"],
+      release: ["web-dl", "1080p"],
+      origin: ["WEB"],
+    });
+
+    console.log(data[0].url); // Download URL for the first subtitle
     ```
   </Tabs.Tab>
   <Tabs.Tab>
@@ -47,17 +54,22 @@ The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) is the bes
   homepage](https://sub.wyzie.ru). If you have any questions, start there.
 </Note>
 
-| Parameter    | Name              | Description                                                                 |
-| ------------ | ----------------- | --------------------------------------------------------------------------- |
-| **tmdb_id**  | TmdbId            | The TMDB ID of the movie or TV show. _(tmdb_id or imdb_id is required)_     |
-| **imdb_id**  | ImdbId            | The IMDB ID of the movie or TV show. _(imdb_id or tmdb_id is required)_     |
-| **format**   | format            | The file format of the subtitles returned. _(srt, txt, sub, ssa, ass)_      |
-| **season**   | season            | Desired season of subtitles _(this requires the episode parameter as well)_ |
-| **episode**  | episode           | The episode of the given season.                                            |
-| **language** | language          | The ISO 3166-2 code of the provided subtitles.                              |
-| **encoding** | encoding          | The character encoding of the file.                                         |
-| **hi**       | isHearingImpaired | A boolean indicating if the subtitles are hearing impaired.                 |
-| **source**   | source            | The source of where we stole the subtitle.                                  |
+| Parameter       | Name              | Description                                                                     |
+| --------------- | ----------------- | ------------------------------------------------------------------------------- |
+| **tmdb_id**     | TmdbId            | TMDB ID of the movie or TV show _(tmdb_id or imdb_id is required)_.            |
+| **imdb_id**     | ImdbId            | IMDB ID of the movie or TV show _(imdb_id or tmdb_id is required)_.            |
+| **format**      | format            | File formats to return (e.g., `srt`, `ass`). Accepts a list.                   |
+| **season**      | season            | Season number (requires episode).                                              |
+| **episode**     | episode           | Episode number (requires season).                                              |
+| **language**    | language          | ISO 639-1 codes for subtitle language. Accepts a list.                         |
+| **encoding**    | encoding          | Character encoding filter (e.g., `utf-8`, `latin-1`).                          |
+| **hi**          | isHearingImpaired | Boolean for hearing-impaired subtitles.                                        |
+| **source**      | source            | Subtitle providers to query (`all` for every enabled source).                  |
+| **release**     | release           | Release/scene filters (accepts a list).                                        |
+| **filename**    | filename/file     | Filename filters; aliases `file` and `fileName` are supported.                 |
+| **origin**      | origin            | Content origin filter (e.g., `WEB`, `BLURAY`, `DVD`).                          |
+
+The package also ships lightweight TMDB helpers: `searchTmdb`, `getTvDetails`, and `getSeasonDetails` for quickly finding IDs before hitting `/search`.
 
 ### Types
 
