@@ -1,3 +1,3 @@
 # Wyzie Docs
 
-Find it at https://docs.wyzie.ru
+Find it at https:

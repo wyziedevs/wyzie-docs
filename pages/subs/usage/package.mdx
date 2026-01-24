@@ -4,7 +4,7 @@ title: 'Using the Wyzie NPM Package'
 
 # Using the Wyzie NPM Package
 
-The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) is the best way to use Wyzie Subs if your project is in JavaScript or TypeScript. Wyzie Lib (the NPM package) is fast, simple, and reliable, as well as having an onboard VTT parser for parsing subtitles into VTT format. Additionally, it has no dependencies, making it lightweight and reliable. [Read the code](https://github.com/itzcozi/wyzie-lib)
+The Wyzie Subs [NPM package](https:
 
 ## Installation
 
@@ -21,7 +21,7 @@ The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) is the bes
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
 
-    // Fetch English WEB-DL SRT subtitles for TMDB 286217, prefer matching releases
+
     const data: SubtitleData[] = await searchSubtitles({
       tmdb_id: 286217,
       format: ["srt"],
@@ -30,18 +30,18 @@ The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) is the bes
       origin: ["WEB"],
     });
 
-    console.log(data[0].url); // Download URL for the first subtitle
+    console.log(data[0].url);
     ```
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
 
-    // Fetches all subtitles for the media with the TMDB ID 286217
+
     const data: SubtitleData[] = await searchSubtitles({ tmdb_id: 286217, format: "srt" });
-    // Converts the first subtitle from SRT to VTT format
-    const vttContent = await parseToVTT(data[0].url); // Passes the first subtitle URL
-    console.log(vttContent); // Prints the raw VTT content
+
+    const vttContent = await parseToVTT(data[0].url);
+    console.log(vttContent);
     ```
 
   </Tabs.Tab>
@@ -51,7 +51,7 @@ The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) is the bes
 
 <Note>
   For more information (or if you are stuck), please visit the [Wyzie Subs
-  homepage](https://sub.wyzie.ru). If you have any questions, start there.
+  homepage](https:
 </Note>
 
 | Parameter       | Name              | Description                                                                     |
@@ -77,7 +77,7 @@ The package also ships lightweight TMDB helpers: `searchTmdb`, `getTvDetails`, a
 - **QueryParams**: All parameters (optional and required) available for the wyzie-subs API.
 - **SubtitleData**: All returned values from the API with their respective types.
 
-Our types are very simple and well-documented. Check out the types.ts file [here](https://raw.githubusercontent.com/itzCozi/wyzie-lib/refs/heads/main/src/types.ts).
+Our types are very simple and well-documented. Check out the types.ts file [here](https:
 
 ### Configuration
 
@@ -86,12 +86,12 @@ One user asked on Github for a configurable API hostname (AKA you can change the
 ```ts
 import { configure, searchSubtitles, parseToVTT } from 'wyzie-lib';
 
-// Configure the library to use a custom API endpoint
+
 configure({ 
   baseUrl: 'https://my-custom-subtitle-scraper.com' 
 });
 
-// Now all requests will go to https://my-custom-subtitle-scraper.com/search
+
 const subtitles = await searchSubtitles({
   tmdb_id: 123456,
   language: "en"
