@@ -16,7 +16,7 @@ The Wyzie Subs [NPM package](https:
 
 ## Usage
 
-<Tabs items={["Fetching Subtitles", "VTT Parser"]}>
+<Tabs items={["Fetching Subtitles", "VTT Parser", "Get Sources"]}>
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
@@ -45,6 +45,16 @@ The Wyzie Subs [NPM package](https:
     ```
 
   </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+    import { getSources } from "wyzie-lib";
+
+
+    const sources = await getSources();
+    console.log(sources); // ["subdl", "subf2m", "opensubtitles", "animetosho", "gestdown"]
+    ```
+
+  </Tabs.Tab>
 </Tabs>
 
 ### Parameters
@@ -68,14 +78,16 @@ The Wyzie Subs [NPM package](https:
 | **release**     | release           | Release/scene filters (accepts a list).                                        |
 | **filename**    | filename/file     | Filename filters; aliases `file` and `fileName` are supported.                 |
 | **origin**      | origin            | Content origin filter (e.g., `WEB`, `BLURAY`, `DVD`).                          |
+| **refresh**     | refresh           | Bypass cache and fetch fresh results from sources.                             |
 
-The package also ships lightweight TMDB helpers: `searchTmdb`, `getTvDetails`, and `getSeasonDetails` for quickly finding IDs before hitting `/search`.
+The package also ships lightweight TMDB helpers: `searchTmdb`, `getTvDetails`, and `getSeasonDetails` for quickly finding IDs before hitting `/search`. Additionally, `getSources` can be used to fetch the list of currently enabled subtitle sources.
 
 ### Types
 
 - **SearchSubtitlesParams**: All valid parameters recognized by the API.
 - **QueryParams**: All parameters (optional and required) available for the wyzie-subs API.
 - **SubtitleData**: All returned values from the API with their respective types.
+- **SourcesResponse**: Response type from the `/sources` endpoint.
 
 Our types are very simple and well-documented. Check out the types.ts file [here](https:
 

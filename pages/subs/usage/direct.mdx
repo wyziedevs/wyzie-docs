@@ -58,6 +58,7 @@ If you have decided against using the NPM package, then let's get started. I wil
 | **release**          | `/search?id=tt3659388&release=martian,1080p`          | Release or scene name filters (comma-separated).                                                        |
 | **file/fileName**    | `/search?id=tt3659388&file=proper`                    | Filename filters (aliases: `file`, `filename`, `fileName`).                                             |
 | **origin**           | `/search?id=tt3659388&origin=WEB,BLURAY`              | Content origin filter, comma-separated (e.g., `WEB`, `BLURAY`, `DVD`).                                  |
+| **refresh**          | `/search?id=tt3659388&refresh=true`                   | Bypass cache and fetch fresh results. Use when sources may have updated.                                |
 
 <Important>
   When using an IMDB ID, ensure that the first two characters ('tt') are
@@ -81,6 +82,7 @@ If you have decided against using the NPM package, then let's get started. I wil
 | **release**           | Primary release name.                                                |
 | **releases**          | Other release names compatible with the subtitle.                    |
 | **fileName**          | Original filename when available.                                    |
+| **downloadCount**     | Number of downloads on the source platform (if available).           |
 | **origin**            | Content origin (e.g., WEB, BluRay, DVD).                             |
 | **matchedRelease**    | Release value that matched your filter (if provided).                |
 | **matchedFilter**     | The user-supplied filter that matched (if provided).                 |

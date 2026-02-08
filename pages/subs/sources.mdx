@@ -4,6 +4,46 @@ title: 'Wyzie Subs Sources'
 
 # Wyzie Subs Sources
 
-Wyzie Subs sources can vary in availability depending on the status of the provider's website or if a source has been blocked and requires a new bypass to remain operational.
+Wyzie Subs aggregates subtitles from multiple providers. Source availability can vary depending on provider status or if a source requires a bypass to remain operational.
 
-You can view the current status of all available sources at [sub.wyzie.ru/status](https:
+## Available Sources
+
+| Source          | Status    | Description                                             |
+| --------------- | --------- | ------------------------------------------------------- |
+| **opensubtitles** | ✅ Enabled | The default source. Large database of subtitles.       |
+| **subdl**         | ✅ Enabled | Fast and reliable subtitle provider.                   |
+| **subf2m**        | ✅ Enabled | Subscene fork with wide language support.              |
+| **podnapisi**     | ✅ Enabled | Multilingual subtitle database from Slovenia.          |
+| **animetosho**    | ✅ Enabled | Specialized in anime subtitles. Shutting down May 2026.|
+| **gestdown**      | ✅ Enabled | Alternative subtitle provider.                         |
+
+## Using Sources
+
+Use the `source` parameter to specify which provider(s) to query:
+
+```
+/search?id=tt3659388&source=subdl
+/search?id=tt3659388&source=subdl,subf2m
+/search?id=tt3659388&source=all
+```
+
+- Use `source=all` to query all enabled sources simultaneously
+- Default source is `opensubtitles` if not specified
+- Multiple sources can be specified as a comma-separated list
+
+## API Endpoint
+
+You can programmatically fetch the list of currently enabled sources:
+
+```
+GET /sources
+```
+
+Returns:
+```json
+{
+  "sources": ["subdl", "subf2m", "opensubtitles", "podnapisi", "animetosho", "gestdown"]
+}
+```
+
+You can also view the real-time status of all sources at [sub.wyzie.ru/status](https:
