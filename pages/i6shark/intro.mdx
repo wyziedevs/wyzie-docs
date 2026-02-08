@@ -1,0 +1,66 @@
+---
+title: 'Intro to i6.shark'
+---
+
+# Intro to i6.shark
+
+i6.shark is an IPv6 proxy server that allows you to make HTTP requests from randomly generated IPv6 addresses in a /48 subnet. This is the proxy currently powering Wyzie Subs in production.
+
+A /48 subnet has `1,208,925,819,614,629,174,706,176` (1.2 × 10²⁴) IPv6 addresses, making it virtually impossible to block through traditional IP banning. Using a single subnet means those who really want to block you can block your ASN address, so be careful with that.
+
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '0.5rem',
+  }}
+>
+  <Button to="hosting" type="secondary">Hosting</Button>
+  <Button to="https://github.com/itzcozi/i6.shark" type="secondary">GitHub</Button>
+</div>
+
+## Features
+
+- **Random IPv6 Generation**: Creates random IPv6 addresses from your /48 prefix for each request
+- **Full HTTP Method Support**: GET, POST, PUT, DELETE, and all other HTTP methods
+- **HMAC-SHA256 Authentication**: Secure API key authentication using user-agent based tokens
+- **Intelligent IP Pool Management**: 
+  - Automatic IP rotation with configurable pool size
+  - Smart IP lifecycle management (add, track usage, auto-flush)
+  - Per-IP request counting with automatic rotation after max requests
+  - Unused IP cleanup based on inactivity threshold
+- **Advanced Request Handling**:
+  - Custom header forwarding via JSON query parameter
+  - Cloudflare and CDN header stripping for anonymity
+  - Support for multiple URL parameter formats (`?url=`, `?destination=`, or path-based)
+  - Optional fallback to system default IP with `?normal` parameter
+- **Host Whitelisting**: Built-in domain whitelist for security (configurable in code)
+- **Automatic Maintenance**:
+  - Periodic IP pool flushing (hourly by default)
+  - Subnet validation and cleanup
+  - Connection pooling and keepalive optimization
+- **High Performance**:
+  - Concurrent request handling with buffer pooling
+  - Configurable timeouts and connection limits
+  - Efficient IPv6 address management via netlink
+- **Debug Mode**: Detailed logging for troubleshooting and monitoring
+
+## Requirements
+
+- Go 1.20 or higher
+- Linux/Unix system with IPv6 support (preferably Ubuntu)
+- Root privileges (for port 80 binding and IPv6 manipulation)
+- IPv6 /48 subnet allocation from your hosting provider
+
+## Hosting Providers
+
+The following providers are known to offer /48 IPv6 subnets:
+
+| Provider | Payment Methods |
+| -------- | --------------- |
+| [DataWagon](https://datawagon.com) | All payments |
+| [Clouvider](https://clouvider.co.uk/) | All payments |
+| [BuyVM](https://buyvm.net/) | All payments |
+| [SoftShellWeb](https://softshellweb.com/) | All payments |
+| [Aeza](https://aeza.io/) | Crypto only |

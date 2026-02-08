@@ -93,6 +93,10 @@ export default defineTheme({
           link("Introduction", "/proxy/intro"),
           link("Hosting", "/proxy/hosting"),
         ]),
+        group("i6.shark", [
+          link("Introduction", "/i6shark/intro"),
+          link("Hosting", "/i6shark/hosting"),
+        ]),
       ]
     })
   ],

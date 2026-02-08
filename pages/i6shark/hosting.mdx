@@ -1,0 +1,98 @@
+---
+title: 'Hosting i6.shark'
+---
+
+# Hosting i6.shark
+
+Setting up i6.shark requires a VPS with a /48 IPv6 subnet. Once configured, it runs autonomously with minimal maintenance.
+
+## Steps
+
+<Steps>
+  <Steps.Step>
+    Clone the repository:
+    ```bash
+    git clone https://github.com/itzcozi/i6.shark.git
+    cd i6.shark
+    ```
+  </Steps.Step>
+  <Steps.Step>
+    Configure constants in `src/main.go`:
+    ```go
+    const (
+      SharedSecret          = "REPLACE_WITH_RANDOM_SECRET_32_CHARS" // Secret between client & server
+      Version               = "2.3"                                 // Version of the script
+      IPv6Prefix            = "xxxx:xxxx:xxxx"                      // Your /48 prefix
+      IPv6Subnet            = "6000"                                // Using subnet 1000 within your /48
+      Interface             = "ens3"                                // Detected interface from your system
+      ListenPort            = 80                                    // Proxy server port
+      ListenHost            = "0.0.0.0"                             // Listen on all interfaces
+      RequestTimeout        = 30 * time.Second                      // Request timeout in seconds
+      Debug                 = false                                 // Enable debug output
+      RequireAuth           = true                                  // Require API-Token authentication
+      DesiredPoolSize       = 50                                    // Target number of IPs in the pool
+      PoolManageInterval    = 1 * time.Second                       // Check/add very frequently
+      PoolAddBatchSize      = 5                                     // Larger batches for faster pool growth
+      IPFlushInterval       = 1 * time.Hour                         // Flush all IPs every hour
+      MaxRequestsPerIP      = 15                                    // Max requests per IP before rotation
+      UnusedIPFlushInterval = 10 * time.Minute                      // Check for unused IPs every 10 minutes
+      IPInactivityThreshold = 30 * time.Minute                      // Remove IP if unused for this duration
+    )
+    ```
+  </Steps.Step>
+  <Steps.Step>
+    Build the application (Ubuntu 24.04):
+    ```bash
+    go build -o i6shark ./src
+    ```
+  </Steps.Step>
+  <Steps.Step>
+    Run as root (required for port 80 + IPv6 addr ops):
+    ```bash
+    sudo ./i6shark
+    ```
+  </Steps.Step>
+</Steps>
+
+## Systemd Service (Recommended)
+
+For production use, set up a systemd service for auto-start on boot:
+
+```bash
+sudo tee /etc/systemd/system/i6shark.service >/dev/null <<'EOF'
+[Unit]
+Description=i6.shark IPv6 proxy
+After=network-online.target
+Wants=network-online.target
+[Service]
+WorkingDirectory=/opt/i6.shark
+ExecStart=/opt/i6.shark/i6shark
+Restart=always
+RestartSec=3
+User=root
+AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_NET_ADMIN
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now i6shark
+```
+
+The proxy server will run without interruption and upkeep itself automatically.
+
+## Daily Restart (Optional)
+
+Add a cron job to restart the server daily at a random time:
+
+```bash
+(crontab -l 2>/dev/null; echo "$(shuf -i 0-59 -n 1) $(shuf -i 0-23 -n 1) * * * systemctl restart i6shark") | crontab -
+```
+
+## API Authentication
+
+API tokens are generated using HMAC-SHA256 with a shared secret key. The input for key generation is the user-agent header. See the `validateAPIToken` function in the source code for implementation details.
+
+<Note>
+  A Python version is available but **not recommended** as it is slower and not up to date.
+</Note>
