@@ -7,7 +7,7 @@ import faviconUrl from "./public/favicon.png";
 const usageGuide = (url: string) => `/subs/usage/${url}`;
 
 export default defineTheme({
-  github: "itzcozi/wyzie-subs",
+  github: "wyziedevs/wyzie-subs",
   navigation: [
     link('Discord', 'https://discord.gg/2mxraHBVtB', {
       newTab: true,
@@ -20,7 +20,7 @@ export default defineTheme({
   ],
   contentFooter: {
     text: "Created by BadDeveloper with 💙",
-    editRepositoryBase: "https://github.com/itzcozi/wyzie-docs/blob/master",
+    editRepositoryBase: "https://github.com/wyziedevs/wyzie-docs/blob/master",
     socials: [
       social.github("https://github.com/itzcozi"),
       social.discord("https://discord.gg/2mxraHBVtB"),
