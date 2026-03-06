@@ -31,8 +31,93 @@ GET /sources
 Returns:
 ```json
 {
-  "sources": ["subdl", "subf2m", "opensubtitles", "podnapisi", "animetosho", "gestdown"]
+  "sources": ["subdl", "subf2m", "opensubtitles", "podnapisi", "animetosho", "gestdown", "jimaku", "kitsunekko", "yify"]
 }
 ```
 
 You can also view the real-time status of all sources at [sub.wyzie.ru/status](https://sub.wyzie.ru/status).
+
+## Source Details
+
+### opensubtitles
+The largest subtitle database online. Supports movies and TV shows across a wide range of languages. Uses the official OpenSubtitles REST API.
+
+- **Content:** Movies & TV shows
+- **Languages:** Extensive multilingual support
+- **Formats:** SRT, ASS, SSA, VTT, SUB, and more
+
+---
+
+### subdl
+A community-driven subtitle site with a broad selection of movies and TV shows.
+
+- **Content:** Movies & TV shows
+- **Languages:** Extensive multilingual support
+- **Formats:** SRT, ASS, SSA, VTT, SUB, and more
+
+---
+
+### subf2m
+A large subtitle repository with extensive language coverage for movies and TV shows.
+
+- **Content:** Movies & TV shows
+- **Languages:** Extensive multilingual support
+- **Formats:** SRT, ASS, SSA, VTT, SUB, and more
+
+---
+
+### podnapisi
+One of the oldest subtitle databases. Well-curated collection covering movies and TV shows.
+
+- **Content:** Movies & TV shows
+- **Languages:** Extensive multilingual support
+- **Formats:** SRT, ASS, SSA, VTT, SUB, and more
+
+---
+
+### animetosho
+Scrapes anime subtitle attachments directly from torrent releases indexed on AnimeTosho.
+
+- **Content:** Anime (TV shows)
+- **Languages:** Japanese, English, and others depending on the release
+- **Formats:** ASS, SRT, SSA, and others
+
+<Note>
+  AnimeTosho is scheduled to shut down in May 2026.
+</Note>
+
+---
+
+### gestdown
+Provides subtitles for TV shows via the Gestdown API with broad language support.
+
+- **Content:** TV shows only
+- **Languages:** Extensive multilingual support
+- **Formats:** SRT, ASS, and more
+
+---
+
+### jimaku
+Scrapes [jimaku.cc](https://jimaku.cc), a community-maintained repository of anime subtitle files. Matches titles using the TMDB API.
+
+- **Content:** Anime (movies & TV shows)
+- **Languages:** Primarily Japanese; also English, Chinese, and more depending on available files
+- **Formats:** SRT, ASS, SSA, VTT, SUB, and others
+
+---
+
+### kitsunekko
+Scrapes directory listings from [kitsunekko.net](https://kitsunekko.net), a dedicated anime subtitle repository. Matches titles using the TMDB API.
+
+- **Content:** Anime (TV shows)
+- **Languages:** English and Japanese subtitle directories
+- **Formats:** SRT, ASS, SSA, VTT, SUB, and others
+
+---
+
+### yify
+Scrapes [yifysubtitles.ch](https://yifysubtitles.ch) for subtitles matched by IMDB ID. Movies only.
+
+- **Content:** Movies only (TV shows are not supported)
+- **Languages:** Extensive multilingual support (Albanian, Arabic, English, French, Spanish, and many more)
+- **Formats:** SRT (delivered inside a ZIP archive)
