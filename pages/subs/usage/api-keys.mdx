@@ -1,0 +1,80 @@
+---
+title: 'API Keys'
+---
+
+# API Keys
+
+Wyzie Subs is rolling out API keys to track usage across the platform. Getting a key is free and takes seconds; no email or account required.
+
+<Important>
+  API keys will soon be required for all requests. Grab yours now so you're ready.
+</Important>
+
+## Getting Your Key
+
+Visit [sub.wyzie.ru/redeem](https://sub.wyzie.ru/redeem) to claim a free developer API key. You'll need to complete a quick verification (Cloudflare Turnstile) and you'll receive your key instantly.
+
+- **Free** — no cost, no email, no account
+- **Unlimited requests** — no rate limits
+- **All sources** — full access to every subtitle provider
+- **One key per device** — keys are tied to your browser fingerprint (90-day window)
+
+Your key will look something like: `wyzie-abc123xyz`
+
+## Using Your Key
+
+Append `&key=YOUR_KEY` to every API request.
+
+### Direct Fetching
+
+```
+https://sub.wyzie.io/search?id=tt3659388&key=YOUR_KEY
+https://sub.wyzie.io/search?id=286217&language=en&key=YOUR_KEY
+https://sub.wyzie.io/search?id=tt0121955&season=1&episode=1&key=YOUR_KEY
+```
+
+### NPM Package
+
+Pass `key` alongside your other search parameters:
+
+```ts
+import { searchSubtitles } from "wyzie-lib";
+
+const data = await searchSubtitles({
+  tmdb_id: 286217,
+  language: ["en"],
+  key: "YOUR_KEY",
+});
+```
+
+Or set it once globally with `configure` so every request includes it automatically:
+
+```ts
+import { configure, searchSubtitles } from "wyzie-lib";
+
+configure({
+  baseUrl: "https://sub.wyzie.io",
+  key: "YOUR_KEY",
+});
+
+// key is now included in every request
+const data = await searchSubtitles({
+  tmdb_id: 286217,
+  language: ["en"],
+});
+```
+
+## What Happens Without a Key?
+
+Requests without a key still work **for now**, but you'll see an `X-Api-Notice` header in the response reminding you to claim one. In the near future, keyless requests will stop being accepted.
+
+## FAQ
+
+**Is it really free?**
+Yes. We're rolling out keys to track usage across the platform, there is no cost.
+
+**Can I use one key in multiple projects?**
+Yes. Your key works anywhere you call the API.
+
+**I lost my key. Can I get a new one?**
+Visit [sub.wyzie.ru/redeem](https://sub.wyzie.ru/redeem) again. Keys are linked to your device, so you may receive the same key if you're on the same browser.
