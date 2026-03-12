@@ -44,7 +44,7 @@ export default function LandingPage() {
       <Frame plain={true}>
         <CardGrid>
           <Card icon="mdi:key" title="Free API Keys">
-            Grab a free API key at sub.wyzie.ru/redeem - no account needed.
+            Grab a free API key at sub.wyzie.io/redeem - no account needed.
             We're rolling out keys to track usage across the platform.
           </Card>
           <Card icon="mdi:arm-flex" title="Reliable">
