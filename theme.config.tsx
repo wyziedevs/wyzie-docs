@@ -73,7 +73,6 @@ export default defineTheme({
         group("Donations", [link("Donate", "/donate")]),
         group("Wyzie Subs", [
           link("Introduction", "/subs/intro"),
-          link("Hosting", "/subs/hosting"),
           link("Sources", "/subs/sources"),
           link.nested({
               title: 'Usage',

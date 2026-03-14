@@ -6,6 +6,10 @@ title: 'Intro to Wyzie Subs'
 
 Wyzie Subs is a free and libre open-subtitles scraping API. There are two ways to make requests to the API: using our NPM package or directly fetching the Wyzie API itself. I recommend using our package, but some may find the types cumbersome. In order to use the API, you must first make that decision.
 
+<Important>
+  An API key is required for all requests. Get your free key at [sub.wyzie.io/redeem](https://sub.wyzie.io/redeem) — it's free, instant, and no account needed. See the [API Keys](/subs/usage/api-keys) page for details.
+</Important>
+
 <Note>
   We strongly recommend the NPM package if you are familiar with TypeScript or JavaScript
 </Note>
@@ -21,3 +25,31 @@ Wyzie Subs is a free and libre open-subtitles scraping API. There are two ways t
   <Button to="usage/package" type="secondary">NPM Package</Button>
   <Button to="usage/direct" type="secondary">Direct Fetching</Button>
 </div>
+
+## Protecting Your API Key
+
+Your API key should be kept private and never exposed in client-side code. There are two ways to protect it:
+
+### Option 1: Use Wyzie Worker
+
+[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) is a lightweight Cloudflare Worker proxy that injects your API key server-side. Deploy it to Cloudflare Workers and set your key as the `NITRO_API_TOKEN` environment variable. Then point your client requests at your worker URL instead of `sub.wyzie.io` — the worker forwards them with your key attached.
+
+```
+Client → your-worker.workers.dev/search?id=286217 → sub.wyzie.io/search?id=286217&key=YOUR_KEY
+```
+
+### Option 2: Build Your Own Proxy
+
+If you'd rather not use Wyzie Worker, you can build a simple server-side proxy in any framework. The idea is the same: your backend receives requests from your client, appends the API key, and forwards them to `sub.wyzie.io`.
+
+```ts
+// Example: a simple proxy endpoint
+const API_KEY = process.env.WYZIE_API_KEY;
+
+app.get("/subtitles", async (req, res) => {
+  const params = new URLSearchParams(req.query);
+  params.set("key", API_KEY);
+  const response = await fetch(`https://sub.wyzie.io/search?${params}`);
+  res.json(await response.json());
+});
+```

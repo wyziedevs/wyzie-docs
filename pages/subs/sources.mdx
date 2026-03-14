@@ -31,7 +31,7 @@ GET /sources
 Returns:
 ```json
 {
-  "sources": ["subdl", "subf2m", "opensubtitles", "podnapisi", "animetosho", "gestdown", "jimaku", "kitsunekko", "yify"]
+  "sources": ["subdl", "subf2m", "opensubtitles", "podnapisi", "animetosho", "gestdown", "jimaku", "kitsunekko", "yify", "ajatttools"]
 }
 ```
 
@@ -121,3 +121,12 @@ Scrapes [yifysubtitles.ch](https://yifysubtitles.ch) for subtitles matched by IM
 - **Content:** Movies only (TV shows are not supported)
 - **Languages:** Extensive multilingual support (Albanian, Arabic, English, French, Spanish, and many more)
 - **Formats:** SRT (delivered inside a ZIP archive)
+
+---
+
+### ajatttools
+Fetches subtitles from the [Ajatt-Tools/kitsunekko-mirror](https://github.com/Ajatt-Tools/kitsunekko-mirror) GitHub repository, which powers [subtitles.ajatt.top](https://subtitles.ajatt.top). Organized by media type (anime TV, anime movies, drama TV, drama movies). Matches titles using the TMDB API.
+
+- **Content:** Anime & drama (TV shows and movies)
+- **Languages:** Primarily Japanese; also English, Chinese, and others depending on available files
+- **Formats:** SRT, ASS, SSA, VTT, SUB, and others
