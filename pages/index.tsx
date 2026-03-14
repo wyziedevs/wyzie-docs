@@ -45,7 +45,7 @@ export default function LandingPage() {
         <CardGrid>
           <Card icon="mdi:key" title="Free API Keys">
             Grab a free API key at sub.wyzie.io/redeem - no account needed.
-            We're rolling out keys to track usage across the platform.
+            We&apos;re rolling out keys to track usage across the platform.
           </Card>
           <Card icon="mdi:arm-flex" title="Reliable">
             We pride ourselves on our consistent uptime and (almost) daily
