@@ -17,32 +17,24 @@ Setting up i6.shark requires a VPS with a /48 IPv6 subnet. Once configured, it r
     ```
   </Steps.Step>
   <Steps.Step>
-    Configure constants in `src/main.go`:
+    Configure constants in `src/consts.go`:
     ```bash
-    sudo nano /opt/i6.shark/src/main.go
+    sudo nano /opt/i6.shark/src/consts.go
     ```
     Update `SharedSecret`, `IPv6Prefix`, and `Interface` to match your server:
     ```go
     const (
-      SharedSecret          = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // Secret between client & server
-      Version               = "3.0"                              // Version of the script
-      IPv6Prefix            = "xxxx:xxxx:xxxx"                   // Your /48 prefix
-      IPv6Subnet            = "6000"                             // Using subnet 1000 within your /48
-      Interface             = "ens3"                             // Detected interface from your system
-      ListenPort            = 80                                 // Proxy server port
-      ListenHost            = "0.0.0.0"                          // Listen on all interfaces
-      RequestTimeout        = 30 * time.Second                   // Request timeout in seconds
-      Debug                 = false                              // Enable debug output
-      DesiredPoolSize       = 250                                // Target number of IPs in the pool
-      PoolManageInterval    = 500 * time.Millisecond             // Check pool frequently
-      PoolAddBatchSize      = 25                                 // Larger batches for faster pool growth
-      IPFlushInterval       = 1 * time.Hour                      // Flush all IPs every hour
-      MaxRequestsPerIP      = 100                                // Maximum requests allowed per IP before rotation
-      UnusedIPFlushInterval = 10 * time.Minute                   // Check for unused IPs every 10 minutes
-      IPInactivityThreshold = 30 * time.Minute                   // Remove IP if unused for this duration
-      MaxConcurrentPerIP    = 15                                 // Maximum concurrent requests per IP
+      SharedSecret = "your-shared-secret-here"  // Secret between client & server
+      Version      = "3.1"                      // Version of the script
+      IPv6Prefix   = "xxxx:xxxx:xxxx"            // Your /48 prefix
+      IPv6Subnet   = "6000"                      // Subnet within your /48
+      Interface    = "ens3"                       // Network interface
+      ListenPort   = 80                           // Proxy server port
+      ListenHost   = "0.0.0.0"                    // Listen on all interfaces
+      Debug        = false                        // Enable debug output
     )
     ```
+    The remaining tuning constants (pool sizes, timeouts, concurrency limits) have sensible defaults and typically don't need changes.
   </Steps.Step>
   <Steps.Step>
     Build the application:
@@ -100,6 +92,4 @@ Add a cron job to restart the server daily at a random time:
 
 API tokens are generated using HMAC-SHA256 with a shared secret key. The input for key generation is the user-agent header. See the `validateAPIToken` function in the source code for implementation details.
 
-<Note>
-  A Python version is available but **not recommended** as it is slower and not up to date.
-</Note>
+
