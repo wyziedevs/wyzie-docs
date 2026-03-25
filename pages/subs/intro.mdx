@@ -7,7 +7,7 @@ title: 'Intro to Wyzie Subs'
 Wyzie Subs is a free and libre open-subtitles scraping API. There are two ways to make requests to the API: using our NPM package or directly fetching the Wyzie API itself. I recommend using our package, but some may find the types cumbersome. In order to use the API, you must first make that decision.
 
 <Important>
-  An API key is required for all requests. Get your free key at [sub.wyzie.io/redeem](https://sub.wyzie.io/redeem) — it's free, instant, and no account needed. See the [API Keys](/subs/usage/api-keys) page for details.
+  An API key is required for all requests. Get your free key at [sub.wyzie.io/redeem](https://sub.wyzie.io/redeem) - it's free, instant, and no account needed. See the [API Keys](/subs/usage/api-keys) page for details.
 </Important>
 
 <Note>
@@ -32,7 +32,7 @@ Your API key should be kept private and never exposed in client-side code. There
 
 ### Option 1: Use Wyzie Worker
 
-[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) is a lightweight Cloudflare Worker proxy that injects your API key server-side. Deploy it to Cloudflare Workers and set your key as the `NITRO_API_TOKEN` environment variable. Then point your client requests at your worker URL instead of `sub.wyzie.io` — the worker forwards them with your key attached.
+[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) is a lightweight Cloudflare Worker proxy that injects your API key server-side. Deploy it to Cloudflare Workers and set your key as the `NITRO_API_TOKEN` environment variable. Then point your client requests at your worker URL instead of `sub.wyzie.io` - the worker forwards them with your key attached.
 
 ```
 Client → your-worker.workers.dev/search?id=286217 → sub.wyzie.io/search?id=286217&key=YOUR_KEY
