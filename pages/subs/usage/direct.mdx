@@ -32,7 +32,8 @@ If you have decided against using the NPM package, then let's get started. I wil
       "fileName": "the.martian.2015.1080p.web-dl.srt",
       "origin": "WEB-DL",
       "matchedRelease": "The.Martian.2015.1080p.WEB-DL",
-      "matchedFilter": "martian"
+      "matchedFilter": "martian",
+      "ai": false
     }
     ```
   </Tabs.Tab>
@@ -91,3 +92,4 @@ If you have decided against using the NPM package, then let's get started. I wil
 | **origin**            | Content origin (e.g., WEB, BluRay, DVD).                             |
 | **matchedRelease**    | Release value that matched your filter (if provided).                |
 | **matchedFilter**     | The user-supplied filter that matched (if provided).                 |
+| **ai**                | `true` if the entry is an AI-translated subtitle (see [Translate](translate)), `false` for normal scraped subtitles. Use it as a client-side filter when you only want one or the other. |

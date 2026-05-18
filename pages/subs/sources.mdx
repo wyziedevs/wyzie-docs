@@ -130,3 +130,12 @@ Fetches subtitles from the [Ajatt-Tools/kitsunekko-mirror](https://github.com/Aj
 - **Content:** Anime & drama (TV shows and movies)
 - **Languages:** Primarily Japanese; also English, Chinese, and others depending on available files
 - **Formats:** SRT, ASS, SSA, VTT, SUB, and others
+
+---
+
+### ai (beta)
+Not a scraper. AI-translated SRT generated on demand from the best available source subtitle. See the [AI Translation](usage/translate) guide for full details. Entries appear in `/search` responses with `"source": "ai"` and `"ai": true`. They are not affected by the `source` filter, but you can hide them client-side by filtering on the `ai` field.
+
+- **Content:** Anything Wyzie can find an SRT for
+- **Languages:** 80+ target languages
+- **Formats:** SRT only

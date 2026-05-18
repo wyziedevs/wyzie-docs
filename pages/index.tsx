@@ -48,6 +48,10 @@ export default function LandingPage() {
             verification. 1,000 requests/day at no cost. Paid plans available
             for higher usage.
           </Card>
+          <Card icon="mdi:robot-happy" title="AI Translation (beta)">
+            Translate any subtitle into 80+ languages on demand. Streams cue by
+            cue so playback can start in seconds. Free during beta.
+          </Card>
           <Card icon="mdi:arm-flex" title="Reliable">
             We pride ourselves on our consistent uptime and (almost) daily
             updates as well as fast caching.

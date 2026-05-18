@@ -84,10 +84,16 @@ export default defineTheme({
                 link(
                   'Direct Fetching',
                   usageGuide('direct'),
-                ),                link(
+                ),
+                link(
+                  'AI Translation',
+                  usageGuide('translate'),
+                ),
+                link(
                   'API Keys',
                   usageGuide('api-keys'),
-                ),              ],
+                ),
+              ],
             }),
         ]),
         group("Wyzie Proxy", [
