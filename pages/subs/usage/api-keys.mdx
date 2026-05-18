@@ -4,28 +4,38 @@ title: 'API Keys'
 
 # API Keys
 
-Wyzie Subs is rolling out API keys to track usage across the platform. Getting a key is free and takes seconds; no email or account required.
+Wyzie Subs requires an API key for all requests. A free tier covers most use cases; paid plans handle heavier usage.
 
-<Important>
-  API keys will soon be required for all requests. Grab yours now so you're ready.
-</Important>
+## Tiers
 
-## Getting Your Key
+| Tier               | What it costs          | Limit                         |
+| ------------------ | ---------------------- | ----------------------------- |
+| **Free**           | Free (Gmail required)  | 1,000 requests / UTC day      |
+| **Pro**            | $5 one-time            | 100,000 requests (currently bumped to 150,000 under a launch promo) |
+| **Top-ups**        | from $1.50 / 25K       | Adds to your paid balance     |
 
-Visit [sub.wyzie.io/redeem](https://sub.wyzie.io/redeem) to claim a free developer API key. You'll need to complete a quick verification (Cloudflare Turnstile) and you'll receive your key instantly.
+Pro and top-ups don't expire and there's no subscription. See [store.wyzie.io](https://store.wyzie.io) for full pricing and the dashboard.
 
-- **Free** - no cost, no email, no account
-- **Unlimited requests** - no rate limits
-- **All sources** - full access to every subtitle provider
-- **One key per device** - keys are tied to your browser fingerprint (90-day window)
+## Getting a Free Key
 
-Your key will look something like: `wyzie-abc123xyz`
+Visit [store.wyzie.io/redeem](https://store.wyzie.io/redeem):
+
+1. Solve a quick Cloudflare Turnstile captcha.
+2. Enter a **Gmail address** (only Gmail is accepted for the free tier).
+3. Enter the 6-digit code we email you.
+4. You receive an API key that looks like `wyzie-abc123...`.
+
+Each Gmail address can only redeem one free key. Already had a free key tied to that email? Verifying again just returns your existing key.
+
+## Upgrading to Pro
+
+Visit [store.wyzie.io](https://store.wyzie.io) and check out with the same email you used for your free key. Your existing `wyzie-...` key is upgraded in place with 100K (currently 150K promo) paid requests added on top.
+
+If you check out with a brand new email (no prior key), a fresh `wyzie-...` key is generated and emailed to you.
 
 ## Using Your Key
 
-Append `&key=YOUR_KEY` to every API request.
-
-### Direct Fetching
+Append `&key=YOUR_KEY` to every API request:
 
 ```
 https://sub.wyzie.io/search?id=tt3659388&key=YOUR_KEY
@@ -57,24 +67,27 @@ configure({
   key: "YOUR_KEY",
 });
 
-// key is now included in every request
 const data = await searchSubtitles({
   tmdb_id: 286217,
   language: ["en"],
 });
 ```
 
-## What Happens Without a Key?
+## Hitting the Limit
 
-Requests without a key still work **for now**, but you'll see an `X-Api-Notice` header in the response reminding you to claim one. In the near future, keyless requests will stop being accepted.
+- **Free tier** depleted → API returns `429` with `X-RateLimit-Reset` and `Retry-After` headers. Daily counter resets at UTC midnight.
+- **Paid balance** exhausted → API returns `402`. Top up at [store.wyzie.io/topup](https://store.wyzie.io/topup) or enable **auto top-up** in your dashboard to refill automatically when your balance crosses a threshold you set.
 
 ## FAQ
 
-**Is it really free?**
-Yes. We're rolling out keys to track usage across the platform, there is no cost.
+**I lost my key. Can I get a new one?**
+Visit [store.wyzie.io](https://store.wyzie.io) and use the "forgot key" flow with your registered email — we'll re-send your existing key.
 
 **Can I use one key in multiple projects?**
 Yes. Your key works anywhere you call the API.
 
-**I lost my key. Can I get a new one?**
-Visit [sub.wyzie.io/redeem](https://sub.wyzie.io/redeem) again. Keys are linked to your device, so you may receive the same key if you're on the same browser.
+**Will my key ever expire?**
+No. Free and paid keys both have no expiry. Free keys are capped per day; paid balance persists until you use it.
+
+**Is auto top-up safe?**
+You set a monthly spend cap. We never charge above that, and one-click disable is in every confirmation email plus your dashboard.
