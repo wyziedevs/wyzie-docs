@@ -13,7 +13,7 @@ export default defineTheme({
       newTab: true,
       icon: 'mdi:discord',
     }),
-    link('Donate', 'https://donate.cozi.lol', {
+    link('Donate', 'https://donate.wyzie.io', {
       newTab: true,
       icon: 'mdi:donate',
     }),

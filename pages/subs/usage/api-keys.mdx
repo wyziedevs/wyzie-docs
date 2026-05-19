@@ -33,6 +33,19 @@ Visit [store.wyzie.io](https://store.wyzie.io) and check out with the same email
 
 If you check out with a brand new email (no prior key), a fresh `wyzie-...` key is generated and emailed to you.
 
+## Keep Your Key Off the Client
+
+<Important>
+  **Never embed your API key in client-side code.** Browser JavaScript, mobile apps, browser extensions, Electron-style desktop apps, and public Git repositories are all considered client-side. Anything you ship to an end user can be inspected by them, and we have seen real cases where users pasted their key into a streaming site's frontend, only to have a third party scrape the JS bundle and drain the request balance within hours. Quota consumed this way is not refundable.
+</Important>
+
+Two safe ways to use the key from a client app:
+
+1. **Use [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker)** — a free Cloudflare Worker proxy that holds your key server-side. Point your client at the Worker URL instead of `sub.wyzie.io`.
+2. **Run your own proxy** — any backend endpoint that appends the key before forwarding to `sub.wyzie.io` works. See the [Intro page](/subs/intro#protecting-your-api-key) for a 10-line example.
+
+If the key shows up in a network tab in DevTools, it is exposed. Assume it is public and rotate it by emailing support.
+
 ## Using Your Key
 
 Append `&key=YOUR_KEY` to every API request:

@@ -32,7 +32,19 @@ Wyzie Subs is a free and libre open-subtitles scraping API. There are two ways t
 
 ## Protecting Your API Key
 
-Your API key should be kept private and never exposed in client-side code. There are two ways to protect it:
+<Important>
+  **Real incident:** we have seen developers paste their key directly into a streaming site's frontend JavaScript. Within hours, an unrelated party scraped it out of the JS bundle and used it until the daily limit or paid balance was exhausted. Quota lost this way is not refundable and is treated as the key owner's responsibility under our [Terms](https://store.wyzie.io/terms).
+</Important>
+
+Your API key should be kept private and **never** appear in:
+
+- Browser JavaScript (anything served to a `<script>` tag)
+- Mobile app binaries (Android/iOS, including obfuscated ones)
+- Browser extensions
+- Electron / desktop apps distributed to end users
+- Public Git repositories, gists, paste sites, or screenshots
+
+If the key reaches an end user's machine, treat it as public. There are two safe patterns:
 
 ### Option 1: Use Wyzie Worker
 
