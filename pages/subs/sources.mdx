@@ -22,7 +22,7 @@ Use the `source` parameter to specify which provider(s) to query:
 
 ## API Endpoint
 
-You can programmatically fetch the list of currently enabled sources:
+You can programmatically fetch the list of currently enabled sources and their plan tier:
 
 ```
 GET /sources
@@ -31,9 +31,51 @@ GET /sources
 Returns:
 ```json
 {
-  "sources": ["subdl", "subf2m", "opensubtitles", "podnapisi", "animetosho", "gestdown", "jimaku", "kitsunekko", "yify", "ajatttools"]
+  "sources": ["opensubtitles", "subf2m", "kitsunekko", "gestdown", "yify", "tvsubtitles"],
+  "free": ["opensubtitles", "tvsubtitles"],
+  "paid": ["subf2m", "kitsunekko", "gestdown", "yify"],
+  "tiered": [
+    { "key": "opensubtitles", "name": "OpenSubtitles", "tier": "free" },
+    { "key": "subf2m", "name": "Subf2m", "tier": "paid" }
+  ],
+  "allFree": false
 }
 ```
+
+- `free`: sources any key can query, including free keys.
+- `paid`: sources that require a Pro key.
+- `allFree`: when `true`, every enabled source is available to all keys and `paid` is empty.
+
+### Scoping to a key
+
+Pass your API key to get the sources that key can actually use:
+
+```
+GET /sources?key=YOUR_KEY
+```
+
+This adds key-specific fields without consuming a request from your quota:
+
+```json
+{
+  "sources": ["opensubtitles", "subf2m", "kitsunekko", "gestdown", "yify", "tvsubtitles"],
+  "free": ["opensubtitles", "tvsubtitles"],
+  "paid": ["subf2m", "kitsunekko", "gestdown", "yify"],
+  "tiered": [
+    { "key": "opensubtitles", "name": "OpenSubtitles", "tier": "free", "available": true },
+    { "key": "subf2m", "name": "Subf2m", "tier": "paid", "available": false }
+  ],
+  "key": { "valid": true, "type": "free" },
+  "available": ["opensubtitles", "tvsubtitles"],
+  "restricted": ["subf2m", "kitsunekko", "gestdown", "yify"],
+  "allFree": false
+}
+```
+
+- `available`: sources this key can query right now.
+- `restricted`: enabled sources this key cannot query (upgrade to Pro to unlock them).
+- `key.type`: `"free"` or `"paid"`.
+- `key.valid` is `false` when the key is malformed or not found, and `null` when the key could not be verified (in which case `available` and `restricted` are omitted).
 
 You can also view the real-time status of all sources at [sub.wyzie.io/status](https://sub.wyzie.io/status).
 
@@ -133,7 +175,7 @@ Fetches subtitles from the [Ajatt-Tools/kitsunekko-mirror](https://github.com/Aj
 
 ---
 
-### ai (beta)
+### ai
 Not a scraper. AI-translated SRT generated on demand from the best available source subtitle. See the [AI Translation](usage/translate) guide for full details. Entries appear in `/search` responses with `"source": "ai"` and `"ai": true`. They are not affected by the `source` filter, but you can hide them client-side by filtering on the `ai` field.
 
 - **Content:** Anything Wyzie can find an SRT for

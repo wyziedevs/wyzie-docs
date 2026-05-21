@@ -5,7 +5,7 @@ title: 'AI Subtitle Translation'
 # AI Subtitle Translation
 
 <Important>
-  AI translation is in **beta**. While in beta the endpoint is free for every valid API key and does not consume your daily limit or paid balance. This will change once the feature is stable.
+  AI translation is a **Pro feature**. Each translation costs **100 requests** from your key's balance, charged on a cache hit as well as a fresh translation. Free keys cannot use it.
 </Important>
 
 Wyzie can translate any subtitle into 80+ languages on the fly. Translations stream back as the model produces them, so playback can start within a second or two instead of waiting for the whole file. Results are cached for 30 days, so the second person who asks for the same translation gets it instantly.
@@ -74,7 +74,7 @@ The response body is an SRT file streamed as `text/plain; charset=utf-8`. Useful
 - AI translation needs an SRT source. Titles where every available subtitle is `.ass`, `.vtt`, or another format will return `404 No SRT found`.
 - Translation quality depends on the source subtitle. A poorly-timed or mistyped source produces a poorly-timed or mistyped translation.
 - Some users may want to opt out of AI rows entirely. Filter on `ai === false` in your client.
-- The endpoint is free during beta. Once it leaves beta, requests will consume your normal API budget. We will announce the cutover in [Discord](https://discord.gg/2mxraHBVtB) before flipping it on.
+- Translations are billed on cache hits too. Whether freshly generated or served from the 30-day cache, each `/translate` request costs 100 requests.
 
 ## Example
 
