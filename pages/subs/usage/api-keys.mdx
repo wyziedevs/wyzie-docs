@@ -41,8 +41,8 @@ If you check out with a brand new email (no prior key), a fresh `wyzie-...` key 
 
 Two safe ways to use the key from a client app:
 
-1. **Use [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker)** — a free Cloudflare Worker proxy that holds your key server-side. Point your client at the Worker URL instead of `sub.wyzie.io`.
-2. **Run your own proxy** — any backend endpoint that appends the key before forwarding to `sub.wyzie.io` works. See the [Intro page](/subs/intro#protecting-your-api-key) for a 10-line example.
+1. **Use [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker)**: a free Cloudflare Worker proxy that holds your key server-side. Point your client at the Worker URL instead of `sub.wyzie.io`.
+2. **Run your own proxy**: any backend endpoint that appends the key before forwarding to `sub.wyzie.io` works. See the [Intro page](/subs/intro#protecting-your-api-key) for a 10-line example.
 
 If the key shows up in a network tab in DevTools, it is exposed. Assume it is public and rotate it by emailing support.
 
