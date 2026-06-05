@@ -495,6 +495,149 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'API Authentication',
   'i6shark.hosting.auth.p':
     'API tokens एक shared secret key के साथ HMAC-SHA256 का उपयोग करके generate होते हैं। key generation के लिए input user-agent header है। implementation details के लिए source code में validateAPIToken function देखें।',
+
+  // Plugins
+  'plugins.common.required': 'आवश्यक',
+
+  'plugins.index.intro':
+    'Wyzie Subs उन media apps में सीधे जुड़ जाता है जिनका आप पहले से उपयोग करते हैं। हर plugin उसी `https://sub.wyzie.io/search` endpoint से बात करता है और एक मुफ़्त **Wyzie API key** की ज़रूरत होती है। इसे [store.wyzie.io](https://store.wyzie.io/#plans) पर प्राप्त करें।',
+  'plugins.index.tbl.stremio.for':
+    'desktop, mobile, या TV पर Stremio में देखना',
+  'plugins.index.tbl.stremio.install':
+    'Hosted add-on: अपनी key paste करें, Install पर click करें',
+  'plugins.index.tbl.bazarr.for':
+    'Plex, Jellyfin, Emby, Sonarr, Radarr libraries',
+  'plugins.index.tbl.bazarr.install':
+    'आपके Bazarr instance के लिए drop-in provider',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install':
+    'zip से या Wyzie repository से install करें',
+  'plugins.index.use.stremio':
+    'अगर आप Stremio app के अंदर देखते हैं तो **Stremio** का उपयोग करें।',
+  'plugins.index.use.bazarr':
+    'अगर आप Plex, Jellyfin, या Emby चलाते हैं तो **Bazarr** का उपयोग करें। Bazarr subtitle files को disk पर download करता है और आपका media server उन्हें स्वचालित रूप से उठा लेता है। यह Plex और Jellyfin के लिए भी अनुशंसित रास्ता है; कोई अलग native plugin नहीं है।',
+  'plugins.index.use.kodi':
+    'Android TV, Raspberry Pi, या home theatre PC पर Kodi-native subtitle service के लिए **Kodi** का उपयोग करें।',
+  'plugins.index.shared.sources':
+    '**Sources:** OpenSubtitles, SubDL, और Podnapisi, Wyzie के माध्यम से aggregate किए गए।',
+  'plugins.index.shared.matching':
+    '**Matching:** Wyzie IMDB और TMDB IDs के साथ-साथ season और episode द्वारा संचालित होता है, इसलिए movies और series दोनों के लिए matches सटीक होते हैं।',
+  'plugins.index.shared.quota':
+    '**Quota:** जब आपकी key खत्म हो जाती है, तो plugin चुपचाप fail होने के बजाय [store.wyzie.io](https://store.wyzie.io) से link करने वाला एक मित्रवत संकेत दिखाता है। Top up करें या subscribe करें और आप फिर से काम पर लौट आते हैं।',
+  'plugins.index.shared.languages':
+    '**Languages:** 100+, प्रति plugin चुनने योग्य।',
+  'plugins.index.outro': 'शुरू करने के लिए ऊपर अपना platform चुनें।',
+
+  'plugins.stremio.intro':
+    '[Stremio](https://www.stremio.com/) के लिए एक one-click subtitle add-on। यह OpenSubtitles, SubDL, और Podnapisi को Wyzie के माध्यम से aggregate करता है और movies तथा series दोनों के लिए, हर उस platform पर काम करता है जहाँ Stremio चलता है।',
+  'plugins.stremio.before':
+    'आपको एक मुफ़्त Wyzie API key चाहिए। एक [store.wyzie.io/redeem](https://store.wyzie.io/redeem) पर प्राप्त करें, या [store.wyzie.io](https://store.wyzie.io/#plans) पर Pro key खरीदें या subscribe करें।',
+  'plugins.stremio.install.1':
+    '[stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) खोलें।',
+  'plugins.stremio.install.2': 'अपनी **API key** paste करें।',
+  'plugins.stremio.install.3':
+    'वैकल्पिक: अपनी पसंदीदा **languages** को ISO 639-1 codes के रूप में, comma से अलग करके दर्ज करें (उदाहरण के लिए `en,es,fr`)। सभी languages के लिए खाली छोड़ें।',
+  'plugins.stremio.install.4':
+    'वैकल्पिक: अगर आप **hearing-impaired** subtitles पसंद करते हैं तो उन्हें toggle करें।',
+  'plugins.stremio.install.5':
+    '**Install** पर click करें। Stremio खुलता है और आपसे पुष्टि करने को कहता है; स्वीकार करें, और आपका काम हो गया।',
+  'plugins.stremio.install.after':
+    'आपकी key और preferences add-on में encode हो जाती हैं, इसलिए और कुछ set up करने की ज़रूरत नहीं है। कोई भी movie या episode खोलें और list से एक subtitle चुनें।',
+  'plugins.stremio.cfg.key.f': 'API key',
+  'plugins.stremio.cfg.key.d': 'आपकी Wyzie key. आवश्यक।',
+  'plugins.stremio.cfg.langs.f': 'Languages',
+  'plugins.stremio.cfg.langs.d':
+    'ISO 639-1 codes, comma से अलग किए गए। खाली का मतलब सभी languages।',
+  'plugins.stremio.cfg.hi.f': 'Hearing-impaired',
+  'plugins.stremio.cfg.hi.d':
+    'उपलब्ध होने पर hearing-impaired subtitles को प्राथमिकता दें।',
+  'plugins.stremio.cfg.note':
+    'इनमें से किसी को भी बाद में बदलने के लिए, [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) फिर से खोलें, समायोजित करें, और फिर से install करें।',
+  'plugins.stremio.local':
+    'फिर `http://127.0.0.1:7000/configure` खोलें, अपनी key paste करें, और Stremio में install करें।',
+  'plugins.stremio.quota':
+    'अगर आपकी key अपनी सीमा तक पहुँच जाती है, तो add-on [store.wyzie.io](https://store.wyzie.io) से link करने वाली एक एकल subtitle entry दिखाता है ताकि आप top up या subscribe कर सकें। ऐसा करते ही, subtitles तुरंत लौट आते हैं।',
+  'plugins.stremio.ts.none':
+    '**कोई subtitles नहीं दिखते।** सुनिश्चित करें कि title का Stremio में एक IMDB ID हो (अधिकांश catalog items का होता है) और आपकी चुनी हुई languages में वास्तव में उस title के subtitles हों। सब कुछ देखने के लिए language filter हटाकर देखें।',
+  'plugins.stremio.ts.key':
+    '**अमान्य key, या कुछ load नहीं होता।** configure page फिर से खोलें और अपनी key फिर से paste करें; एक अतिरिक्त space इसे तोड़ देता है। पुष्टि करें कि key [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard) पर काम करती है।',
+  'plugins.stremio.ts.episode':
+    '**Series episode match नहीं हो रहा।** Wyzie season और episode पर match करता है; सुनिश्चित करें कि Stremio सही episode entry चला रहा है, न कि कोई सामान्य series page।',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) **Plex, Jellyfin, Emby, Sonarr, और Radarr** के लिए subtitles को एक ही जगह प्रबंधित करता है। Wyzie को provider के रूप में जोड़ने से उन सभी servers को एक ही key के माध्यम से OpenSubtitles, SubDL, और Podnapisi तक पहुँच मिल जाती है।',
+  'plugins.bazarr.note':
+    'यह Plex और Jellyfin के साथ Wyzie का उपयोग करने का अनुशंसित तरीका है। Bazarr subtitle files को आपके media के बगल में download करता है, और आपका server उन्हें स्वचालित रूप से उठा लेता है, इसलिए किसी अलग native plugin की आवश्यकता नहीं है।',
+  'plugins.bazarr.before':
+    '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) पर एक मुफ़्त Wyzie API key प्राप्त करें, और अपनी Bazarr install files तक पहुँच रखें (विशिष्ट Docker path: `/opt/bazarr/bazarr/`)।',
+  'plugins.bazarr.install.1':
+    '`wyzie.py` को `bazarr/subliminal_patch/providers/wyzie.py` में copy करें।',
+  'plugins.bazarr.install.2':
+    '`bazarr/subliminal_patch/extensions.py` को edit करें और **दोनों** `provider_registry` और `provider_manager` में `wyzie` जोड़ें।',
+  'plugins.bazarr.install.3':
+    '`api_key`, `prefer_hi`, और `sources` settings को expose करने के लिए `bazarr/list_subtitles.py` (या आपके version के आधार पर `bazarr/config.py`) को edit करें। किसी मौजूदा provider जैसे `opensubtitlescom` से pattern copy करें।',
+  'plugins.bazarr.install.4': 'Bazarr को restart करें।',
+  'plugins.bazarr.install.5':
+    '**Settings, Providers, Wyzie** में जाएँ, अपनी API key paste करें, और save करें।',
+  'plugins.bazarr.install.after':
+    'इस provider को Bazarr में upstream करने वाला एक first-class pull request योजनाबद्ध है। तब तक यह एक drop-in file है जिसे आप अपने स्वयं के install में जोड़ते हैं।',
+  'plugins.bazarr.cfg.key': 'आपकी Wyzie key. आवश्यक।',
+  'plugins.bazarr.cfg.hi': 'hearing-impaired subtitles को प्राथमिकता दें।',
+  'plugins.bazarr.cfg.sources':
+    'query करने के लिए providers की comma से अलग सूची, या `all`।',
+  'plugins.bazarr.quota.402':
+    '**402 या 429** (balance खाली या दैनिक सीमा पूरी): Bazarr [store.wyzie.io](https://store.wyzie.io) के link के साथ एक note log करता है और कोई परिणाम नहीं लौटाता, इसलिए यह साफ़-सुथरे ढंग से आपके अन्य providers पर fall back हो जाता है। कुछ भी crash नहीं होता।',
+  'plugins.bazarr.quota.401':
+    '**401** (खराब key): Bazarr एक authentication error दिखाता है ताकि आपको पता चले कि key फिर से दर्ज करनी है।',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie providers सूची में नहीं दिखता।** `extensions.py` को edit करने वाले install step को फिर से जाँचें; entry `provider_registry` और `provider_manager` दोनों में होनी चाहिए, फिर Bazarr को restart करें।',
+  'plugins.bazarr.ts.none':
+    '**कोई subtitles नहीं मिले।** पुष्टि करें कि item का Bazarr में एक IMDB ID हो और जिन languages को आपने enable किया है उनके लिए subtitles मौजूद हों। `sources` को केवल तभी संकीर्ण करें जब आप ऐसा करना चाहते हों।',
+  'plugins.bazarr.ts.settings':
+    '**Settings fields गायब हैं।** आपके Bazarr version के लिए settings step लागू नहीं हुआ; किसी काम करने वाले provider settings block से तुलना करें और restart करें।',
+
+  'plugins.kodi.intro':
+    '**Kodi 19+ (Matrix और बाद के)**, LibreELEC, और CoreELEC के लिए एक subtitle service। यह Kodi के मानक `xbmc.subtitle.module` extension point का उपयोग करता है, इसलिए यह वहाँ दिखता है जहाँ भी Kodi subtitles ढूँढता है।',
+  'plugins.kodi.before':
+    '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) पर एक मुफ़्त Wyzie API key प्राप्त करें।',
+  'plugins.kodi.repo.intro':
+    'repository को एक बार install करने से Kodi आपके लिए add-on को **auto-update** कर सकता है।',
+  'plugins.kodi.repo.1':
+    'repository installer download करें: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip)।',
+  'plugins.kodi.repo.2':
+    'Kodi में: **Settings, Add-ons, Install from zip file**, फिर `repository.wyzie.zip` चुनें। अगर Kodi इसे block करता है, तो पहले **Settings, System, Add-ons, Unknown sources** enable करें।',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install.**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service**, फिर **Wyzie Subs** चुनें।',
+  'plugins.kodi.repo.5':
+    'Wyzie Subs add-on settings खोलें और अपनी **API key** paste करें।',
+  'plugins.kodi.zip.intro':
+    'अगर आप repository नहीं जोड़ना चाहते तो इसका उपयोग करें। ध्यान दें: zip install **auto-update नहीं** होता।',
+  'plugins.kodi.zip.1':
+    'add-on zip प्राप्त करें: `service.subtitles.wyzie-<version>.zip`। अगर आपके पास source है, तो `kodi/` folder को zip करें ताकि zip में अपनी root पर `addon.xml` हो।',
+  'plugins.kodi.zip.2':
+    'Kodi में: **Settings, Add-ons, Install from zip file**, फिर zip चुनें। अगर Kodi इसे block करता है, तो पहले **Settings, System, Add-ons, Unknown sources** enable करें।',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service**, फिर **Wyzie Subs** चुनें।',
+  'plugins.kodi.zip.4':
+    'Wyzie Subs add-on settings खोलें और अपनी **API key** paste करें।',
+  'plugins.kodi.cfg.key': 'आपकी Wyzie key. आवश्यक।',
+  'plugins.kodi.cfg.hi': 'hearing-impaired subtitles को प्राथमिकता दें।',
+  'plugins.kodi.cfg.langs':
+    'Languages को Kodi की चुनी हुई subtitle languages से लिया जाता है और स्वचालित रूप से ISO 639-1 में map किया जाता है।',
+  'plugins.kodi.matching.1':
+    'जब कुछ चल रहा होता है, Kodi IMDB number, season, और episode को expose करता है। add-on उन्हें पढ़ता है, `sub.wyzie.io/search` को query करता है, और मेल खाते subtitles लौटाता है। चूँकि Wyzie ID-संचालित है (IMDB और TMDB), movies और series दोनों के लिए matches सटीक होते हैं।',
+  'plugins.kodi.matching.2':
+    '**Manual search** अभी एक notification दिखाता है और कुछ नहीं करता, क्योंकि Wyzie IDs पर match करता है, titles पर नहीं। title-से-ID lookup roadmap पर है। अभी के लिए, playback के दौरान Kodi को स्वचालित रूप से search करने दें।',
+  'plugins.kodi.quota':
+    '402 या 429 response एक Kodi toast notification दिखाता है जो आपको top up या subscribe करने के लिए [store.wyzie.io](https://store.wyzie.io) की ओर इशारा करता है।',
+  'plugins.kodi.ts.notoffered':
+    '**playback के दौरान Wyzie offer नहीं होता।** पुष्टि करें कि यह **Default subtitle service** के रूप में set है और चल रहे item का एक IMDB ID हो।',
+  'plugins.kodi.ts.key':
+    '**अमान्य key.** add-on settings फिर से खोलें और अपनी key फिर से paste करें।',
+  'plugins.kodi.ts.episode':
+    '**किसी episode के लिए कुछ नहीं।** सुनिश्चित करें कि Kodi के पास file के लिए सही season और episode metadata हो; scrape की गई library items सबसे अच्छा काम करती हैं।',
 };
 
 export default messages;

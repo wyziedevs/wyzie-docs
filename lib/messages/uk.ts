@@ -496,6 +496,150 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'Автентифікація API',
   'i6shark.hosting.auth.p':
     'API-токени генеруються за допомогою HMAC-SHA256 зі спільним секретним ключем. Вхідними даними для генерації ключа є заголовок user-agent. Деталі реалізації — у функції validateAPIToken у вихідному коді.',
+
+  // Plugins
+  'plugins.common.required': "Обов'язково",
+
+  'plugins.index.intro':
+    'Wyzie Subs підключається безпосередньо до медіадодатків, якими ви вже користуєтесь. Кожен плагін звертається до того самого ендпоінту `https://sub.wyzie.io/search` і потребує безкоштовного **ключа API Wyzie**. Отримайте його на [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for':
+    'Перегляд у Stremio на комп’ютері, мобільному пристрої або ТВ',
+  'plugins.index.tbl.stremio.install':
+    'Розміщений додаток: вставте свій ключ, натисніть Install',
+  'plugins.index.tbl.bazarr.for':
+    'Бібліотеки Plex, Jellyfin, Emby, Sonarr, Radarr',
+  'plugins.index.tbl.bazarr.install':
+    'Готовий провайдер для вашого екземпляра Bazarr',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install': 'Встановлення із zip або репозиторію Wyzie',
+  'plugins.index.use.stremio':
+    'Використовуйте **Stremio**, якщо ви дивитесь у додатку Stremio.',
+  'plugins.index.use.bazarr':
+    'Використовуйте **Bazarr**, якщо у вас Plex, Jellyfin або Emby. Bazarr завантажує файли субтитрів на диск, а ваш медіасервер підхоплює їх автоматично. Це також рекомендований шлях для Plex і Jellyfin; окремого нативного плагіна немає.',
+  'plugins.index.use.kodi':
+    'Використовуйте **Kodi** для нативного для Kodi сервісу субтитрів на Android TV, Raspberry Pi або домашньому медіацентрі.',
+  'plugins.index.shared.sources':
+    '**Джерела:** OpenSubtitles, SubDL і Podnapisi, агреговані через Wyzie.',
+  'plugins.index.shared.matching':
+    '**Зіставлення:** Wyzie працює на основі ідентифікаторів IMDB і TMDB, а також сезону й епізоду, тож збіги точні як для фільмів, так і для серіалів.',
+  'plugins.index.shared.quota':
+    '**Квота:** коли ваш ключ вичерпується, плагін показує дружнє повідомлення з посиланням на [store.wyzie.io](https://store.wyzie.io) замість мовчазного збою. Поповніть рахунок або оформіть підписку — і ви знову в строю.',
+  'plugins.index.shared.languages':
+    '**Мови:** 100+, можна обирати в кожному плагіні.',
+  'plugins.index.outro': 'Оберіть свою платформу вище, щоб почати.',
+
+  'plugins.stremio.intro':
+    'Додаток субтитрів в один клік для [Stremio](https://www.stremio.com/). Він агрегує OpenSubtitles, SubDL і Podnapisi через Wyzie та працює як для фільмів, так і для серіалів на всіх платформах, де працює Stremio.',
+  'plugins.stremio.before':
+    'Вам потрібен безкоштовний ключ API Wyzie. Отримайте його на [store.wyzie.io/redeem](https://store.wyzie.io/redeem) або придбайте Pro-ключ чи оформіть підписку на [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'Відкрийте [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'Вставте свій **ключ API**.',
+  'plugins.stremio.install.3':
+    'Необов’язково: вкажіть бажані **мови** як коди ISO 639-1 через кому (наприклад, `en,es,fr`). Залиште порожнім для всіх мов.',
+  'plugins.stremio.install.4':
+    'Необов’язково: увімкніть субтитри для **людей із вадами слуху**, якщо віддаєте їм перевагу.',
+  'plugins.stremio.install.5':
+    'Натисніть **Install**. Stremio відкриється й попросить підтвердження; прийміть — і готово.',
+  'plugins.stremio.install.after':
+    'Ваш ключ і налаштування закодовані в додатку, тож більше нічого налаштовувати не потрібно. Відкрийте будь-який фільм або епізод і виберіть субтитри зі списку.',
+  'plugins.stremio.cfg.key.f': 'Ключ API',
+  'plugins.stremio.cfg.key.d': "Ваш ключ Wyzie. Обов'язково.",
+  'plugins.stremio.cfg.langs.f': 'Мови',
+  'plugins.stremio.cfg.langs.d':
+    'Коди ISO 639-1 через кому. Порожнє означає всі мови.',
+  'plugins.stremio.cfg.hi.f': 'Для людей із вадами слуху',
+  'plugins.stremio.cfg.hi.d':
+    'Віддавати перевагу субтитрам для людей із вадами слуху, коли вони доступні.',
+  'plugins.stremio.cfg.note':
+    'Щоб змінити будь-що з цього пізніше, знову відкрийте [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), внесіть зміни та перевстановіть.',
+  'plugins.stremio.local':
+    'Потім відкрийте `http://127.0.0.1:7000/configure`, вставте свій ключ і встановіть у Stremio.',
+  'plugins.stremio.quota':
+    'Якщо ваш ключ досягає ліміту, додаток показує один запис субтитрів із посиланням на [store.wyzie.io](https://store.wyzie.io), щоб ви могли поповнити рахунок або оформити підписку. Щойно ви це зробите, субтитри повертаються одразу.',
+  'plugins.stremio.ts.none':
+    '**Субтитри не з’являються.** Переконайтесь, що в назви є ідентифікатор IMDB у Stremio (у більшості елементів каталогу він є) і що для обраних вами мов дійсно є субтитри для цієї назви. Спробуйте очистити фільтр мов, щоб побачити все.',
+  'plugins.stremio.ts.key':
+    '**Недійсний ключ або нічого не завантажується.** Знову відкрийте сторінку налаштування й повторно вставте свій ключ; зайвий пробіл його ламає. Перевірте, що ключ працює, на [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**Епізод серіалу не збігається.** Wyzie зіставляє за сезоном і епізодом; переконайтесь, що Stremio відтворює правильний запис епізоду, а не загальну сторінку серіалу.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) керує субтитрами для **Plex, Jellyfin, Emby, Sonarr і Radarr** в одному місці. Додавання Wyzie як провайдера дає всім цим серверам доступ до OpenSubtitles, SubDL і Podnapisi через один ключ.',
+  'plugins.bazarr.note':
+    'Це рекомендований спосіб використання Wyzie з Plex і Jellyfin. Bazarr завантажує файли субтитрів поруч із вашими медіа, а ваш сервер підхоплює їх автоматично, тож окремий нативний плагін не потрібен.',
+  'plugins.bazarr.before':
+    'Отримайте безкоштовний ключ API Wyzie на [store.wyzie.io/redeem](https://store.wyzie.io/redeem) і майте доступ до файлів встановлення Bazarr (типовий шлях Docker: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'Скопіюйте `wyzie.py` у `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'Відредагуйте `bazarr/subliminal_patch/extensions.py` і додайте `wyzie` **до обох** `provider_registry` і `provider_manager`.',
+  'plugins.bazarr.install.3':
+    'Відредагуйте `bazarr/list_subtitles.py` (або `bazarr/config.py`, залежно від вашої версії), щоб відкрити налаштування `api_key`, `prefer_hi` і `sources`. Скопіюйте шаблон з наявного провайдера, наприклад `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'Перезапустіть Bazarr.',
+  'plugins.bazarr.install.5':
+    'Перейдіть до **Settings, Providers, Wyzie**, вставте свій ключ API та збережіть.',
+  'plugins.bazarr.install.after':
+    'Заплановано повноцінний pull request для додавання цього провайдера в апстрим Bazarr. До того часу це готовий файл, який ви додаєте до власного встановлення.',
+  'plugins.bazarr.cfg.key': "Ваш ключ Wyzie. Обов'язково.",
+  'plugins.bazarr.cfg.hi':
+    'Віддавати перевагу субтитрам для людей із вадами слуху.',
+  'plugins.bazarr.cfg.sources':
+    'Список провайдерів для запиту через кому або `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 або 429** (баланс вичерпано або досягнуто денного ліміту): Bazarr записує в журнал нотатку з посиланням на [store.wyzie.io](https://store.wyzie.io) і не повертає результатів, тож він коректно переходить до ваших інших провайдерів. Нічого не падає.',
+  'plugins.bazarr.quota.401':
+    '**401** (неправильний ключ): Bazarr показує помилку автентифікації, тож ви знаєте, що ключ треба ввести повторно.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie не з’являється у списку провайдерів.** Перевірте крок встановлення, що редагує `extensions.py`; запис має бути в обох `provider_registry` і `provider_manager`, після чого перезапустіть Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**Субтитри не знайдено.** Переконайтесь, що елемент має ідентифікатор IMDB у Bazarr і що для увімкнених вами мов є субтитри для нього. Звужуйте `sources` лише якщо ви цього справді хочете.',
+  'plugins.bazarr.ts.settings':
+    '**Поля налаштувань відсутні.** Крок налаштування не застосовано для вашої версії Bazarr; порівняйте з робочим блоком налаштувань провайдера та перезапустіть.',
+
+  'plugins.kodi.intro':
+    'Сервіс субтитрів для **Kodi 19+ (Matrix і новіших)**, LibreELEC і CoreELEC. Він використовує стандартну точку розширення Kodi `xbmc.subtitle.module`, тож з’являється скрізь, де Kodi шукає субтитри.',
+  'plugins.kodi.before':
+    'Отримайте безкоштовний ключ API Wyzie на [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'Одноразове встановлення репозиторію дозволяє Kodi **автоматично оновлювати** додаток за вас.',
+  'plugins.kodi.repo.1':
+    'Завантажте інсталятор репозиторію: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'У Kodi: **Settings, Add-ons, Install from zip file**, потім виберіть `repository.wyzie.zip`. Якщо Kodi блокує його, спершу увімкніть **Settings, System, Add-ons, Unknown sources**.',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install.**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service**, потім виберіть **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'Відкрийте налаштування додатка Wyzie Subs і вставте свій **ключ API**.',
+  'plugins.kodi.zip.intro':
+    'Скористайтесь цим, якщо не хочете додавати репозиторій. Зверніть увагу: встановлення із zip **не** оновлюється автоматично.',
+  'plugins.kodi.zip.1':
+    'Отримайте zip додатка: `service.subtitles.wyzie-<version>.zip`. Якщо у вас є вихідний код, заархівуйте теку `kodi/` так, щоб у zip-архіві `addon.xml` був у його корені.',
+  'plugins.kodi.zip.2':
+    'У Kodi: **Settings, Add-ons, Install from zip file**, потім виберіть zip. Якщо Kodi блокує його, спершу увімкніть **Settings, System, Add-ons, Unknown sources**.',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service**, потім виберіть **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'Відкрийте налаштування додатка Wyzie Subs і вставте свій **ключ API**.',
+  'plugins.kodi.cfg.key': "Ваш ключ Wyzie. Обов'язково.",
+  'plugins.kodi.cfg.hi':
+    'Віддавати перевагу субтитрам для людей із вадами слуху.',
+  'plugins.kodi.cfg.langs':
+    'Мови беруться з обраних у Kodi мов субтитрів і автоматично зіставляються з ISO 639-1.',
+  'plugins.kodi.matching.1':
+    'Під час відтворення Kodi надає номер IMDB, сезон і епізод. Додаток зчитує їх, надсилає запит до `sub.wyzie.io/search` і повертає відповідні субтитри. Оскільки Wyzie працює на основі ідентифікаторів (IMDB і TMDB), збіги точні як для фільмів, так і для серіалів.',
+  'plugins.kodi.matching.2':
+    '**Ручний пошук** наразі показує сповіщення й нічого не робить, бо Wyzie зіставляє за ідентифікаторами, а не за назвами. Пошук ідентифікатора за назвою є в планах. Поки що дозвольте Kodi шукати автоматично під час відтворення.',
+  'plugins.kodi.quota':
+    'Відповідь 402 або 429 показує спливне сповіщення Kodi, яке вказує вам на [store.wyzie.io](https://store.wyzie.io) для поповнення рахунку або оформлення підписки.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie не пропонується під час відтворення.** Переконайтесь, що його встановлено як **Default subtitle service** і що елемент, який відтворюється, має ідентифікатор IMDB.',
+  'plugins.kodi.ts.key':
+    '**Недійсний ключ.** Знову відкрийте налаштування додатка й повторно вставте свій ключ.',
+  'plugins.kodi.ts.episode':
+    '**Нічого для епізоду.** Переконайтесь, що Kodi має правильні метадані сезону та епізоду для файлу; найкраще працюють елементи бібліотеки, отримані скрапером.',
 };
 
 export default messages;

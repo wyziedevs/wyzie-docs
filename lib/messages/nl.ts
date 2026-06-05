@@ -502,6 +502,150 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'API-authenticatie',
   'i6shark.hosting.auth.p':
     'API-tokens worden gegenereerd met HMAC-SHA256 met een gedeelde geheime sleutel. De invoer voor sleutelgeneratie is de user-agent-header. Zie de validateAPIToken-functie in de broncode voor implementatiedetails.',
+
+  // Plugins
+  'plugins.common.required': 'Vereist',
+
+  'plugins.index.intro':
+    'Wyzie Subs sluit rechtstreeks aan op de media-apps die je al gebruikt. Elke plug-in praat met hetzelfde `https://sub.wyzie.io/search`-eindpunt en heeft een gratis **Wyzie API-sleutel** nodig. Haal er een op bij [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for': 'Kijken in Stremio op desktop, mobiel of tv',
+  'plugins.index.tbl.stremio.install':
+    'Gehoste add-on: plak je sleutel, klik op Installeren',
+  'plugins.index.tbl.bazarr.for':
+    'Plex-, Jellyfin-, Emby-, Sonarr-, Radarr-bibliotheken',
+  'plugins.index.tbl.bazarr.install':
+    'Kant-en-klare provider voor je Bazarr-instantie',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install':
+    'Installeer vanuit zip of de Wyzie-repository',
+  'plugins.index.use.stremio':
+    'Gebruik **Stremio** als je binnen de Stremio-app kijkt.',
+  'plugins.index.use.bazarr':
+    'Gebruik **Bazarr** als je Plex, Jellyfin of Emby draait. Bazarr downloadt ondertitelbestanden naar schijf en je mediaserver pikt ze automatisch op. Dit is ook de aanbevolen route voor Plex en Jellyfin; er is geen aparte native plug-in.',
+  'plugins.index.use.kodi':
+    'Gebruik **Kodi** voor een Kodi-native ondertiteldienst op Android TV, een Raspberry Pi of een home-theater-pc.',
+  'plugins.index.shared.sources':
+    '**Bronnen:** OpenSubtitles, SubDL en Podnapisi, samengevoegd via Wyzie.',
+  'plugins.index.shared.matching':
+    '**Matchen:** Wyzie wordt aangestuurd door IMDB- en TMDB-IDs plus seizoen en aflevering, zodat matches nauwkeurig zijn voor zowel films als series.',
+  'plugins.index.shared.quota':
+    '**Quotum:** wanneer je sleutel op is, toont de plug-in een vriendelijke melding met een link naar [store.wyzie.io](https://store.wyzie.io) in plaats van stilletjes te falen. Vul aan of neem een abonnement en je bent weer in bedrijf.',
+  'plugins.index.shared.languages':
+    '**Talen:** 100+, per plug-in selecteerbaar.',
+  'plugins.index.outro': 'Kies hierboven je platform om te beginnen.',
+
+  'plugins.stremio.intro':
+    'Een ondertitel-add-on met één klik voor [Stremio](https://www.stremio.com/). Het voegt OpenSubtitles, SubDL en Podnapisi samen via Wyzie en werkt voor zowel films als series, op elk platform waarop Stremio draait.',
+  'plugins.stremio.before':
+    'Je hebt een gratis Wyzie API-sleutel nodig. Haal er een op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem), of koop een Pro-sleutel of neem een abonnement bij [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'Open [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'Plak je **API-sleutel**.',
+  'plugins.stremio.install.3':
+    "Optioneel: voer je voorkeurs**talen** in als ISO 639-1-codes, gescheiden door komma's (bijvoorbeeld `en,es,fr`). Laat leeg voor alle talen.",
+  'plugins.stremio.install.4':
+    'Optioneel: schakel **slechthorenden**-ondertitels in als je daar de voorkeur aan geeft.',
+  'plugins.stremio.install.5':
+    'Klik op **Installeren**. Stremio opent en vraagt je om te bevestigen; accepteer en je bent klaar.',
+  'plugins.stremio.install.after':
+    'Je sleutel en voorkeuren zijn in de add-on gecodeerd, dus er hoeft niets anders te worden ingesteld. Open een film of aflevering en kies een ondertitel uit de lijst.',
+  'plugins.stremio.cfg.key.f': 'API-sleutel',
+  'plugins.stremio.cfg.key.d': 'Je Wyzie-sleutel. Vereist.',
+  'plugins.stremio.cfg.langs.f': 'Talen',
+  'plugins.stremio.cfg.langs.d':
+    "ISO 639-1-codes, gescheiden door komma's. Leeg betekent alle talen.",
+  'plugins.stremio.cfg.hi.f': 'Slechthorenden',
+  'plugins.stremio.cfg.hi.d':
+    'Geef de voorkeur aan ondertitels voor slechthorenden indien beschikbaar.',
+  'plugins.stremio.cfg.note':
+    'Om deze later te wijzigen, open je [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) opnieuw, pas je het aan en installeer je opnieuw.',
+  'plugins.stremio.local':
+    'Open vervolgens `http://127.0.0.1:7000/configure`, plak je sleutel en installeer in Stremio.',
+  'plugins.stremio.quota':
+    'Als je sleutel zijn limiet bereikt, toont de add-on één ondertitelvermelding met een link naar [store.wyzie.io](https://store.wyzie.io) zodat je kunt aanvullen of een abonnement nemen. Zodra je dat doet, keren de ondertitels onmiddellijk terug.',
+  'plugins.stremio.ts.none':
+    '**Er verschijnen geen ondertitels.** Zorg ervoor dat de titel een IMDB-ID heeft in Stremio (de meeste catalogusitems hebben dat) en dat de door jou gekozen talen daadwerkelijk ondertitels voor die titel hebben. Probeer het taalfilter te wissen om alles te zien.',
+  'plugins.stremio.ts.key':
+    '**Ongeldige sleutel, of er laadt niets.** Open de configuratiepagina opnieuw en plak je sleutel opnieuw; een verdwaalde spatie maakt hem kapot. Bevestig dat de sleutel werkt op [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**Serieaflevering matcht niet.** Wyzie matcht op seizoen en aflevering; zorg ervoor dat Stremio de juiste afleveringsvermelding afspeelt en niet een algemene seriepagina.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) beheert ondertitels voor **Plex, Jellyfin, Emby, Sonarr en Radarr** op één plek. Wyzie als provider toevoegen geeft al die servers toegang tot OpenSubtitles, SubDL en Podnapisi via één sleutel.',
+  'plugins.bazarr.note':
+    'Dit is de aanbevolen manier om Wyzie te gebruiken met Plex en Jellyfin. Bazarr downloadt ondertitelbestanden naast je media en je server pikt ze automatisch op, dus er is geen aparte native plug-in vereist.',
+  'plugins.bazarr.before':
+    'Haal een gratis Wyzie API-sleutel op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem) en zorg dat je toegang hebt tot je Bazarr-installatiebestanden (typisch Docker-pad: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'Kopieer `wyzie.py` naar `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'Bewerk `bazarr/subliminal_patch/extensions.py` en voeg `wyzie` toe aan **zowel** `provider_registry` als `provider_manager`.',
+  'plugins.bazarr.install.3':
+    'Bewerk `bazarr/list_subtitles.py` (of `bazarr/config.py`, afhankelijk van je versie) om de instellingen `api_key`, `prefer_hi` en `sources` beschikbaar te maken. Kopieer het patroon van een bestaande provider zoals `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'Start Bazarr opnieuw.',
+  'plugins.bazarr.install.5':
+    'Ga naar **Settings, Providers, Wyzie**, plak je API-sleutel en sla op.',
+  'plugins.bazarr.install.after':
+    'Een eersteklas pull request om deze provider naar Bazarr upstream te brengen, is gepland. Tot dan is het een kant-en-klaar bestand dat je aan je eigen installatie toevoegt.',
+  'plugins.bazarr.cfg.key': 'Je Wyzie-sleutel. Vereist.',
+  'plugins.bazarr.cfg.hi':
+    'Geef de voorkeur aan ondertitels voor slechthorenden.',
+  'plugins.bazarr.cfg.sources':
+    "Door komma's gescheiden lijst van providers om te bevragen, of `all`.",
+  'plugins.bazarr.quota.402':
+    '**402 of 429** (saldo leeg of dagelijkse limiet bereikt): Bazarr logt een notitie met een link naar [store.wyzie.io](https://store.wyzie.io) en geeft geen resultaten terug, zodat het netjes terugvalt op je andere providers. Er crasht niets.',
+  'plugins.bazarr.quota.401':
+    '**401** (verkeerde sleutel): Bazarr toont een authenticatiefout zodat je weet dat je de sleutel opnieuw moet invoeren.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie verschijnt niet in de providerlijst.** Controleer de installatiestap die `extensions.py` bewerkt opnieuw; de vermelding moet in zowel `provider_registry` als `provider_manager` staan, start daarna Bazarr opnieuw.',
+  'plugins.bazarr.ts.none':
+    '**Geen ondertitels gevonden.** Bevestig dat het item een IMDB-ID heeft in Bazarr en dat de talen die je hebt ingeschakeld er ondertitels voor hebben. Beperk `sources` alleen als je dat van plan bent.',
+  'plugins.bazarr.ts.settings':
+    '**Instellingenvelden ontbreken.** De instellingenstap is niet toegepast voor jouw Bazarr-versie; vergelijk met een werkend providerinstellingenblok en start opnieuw.',
+
+  'plugins.kodi.intro':
+    'Een ondertiteldienst voor **Kodi 19+ (Matrix en later)**, LibreELEC en CoreELEC. Het gebruikt het standaard `xbmc.subtitle.module`-uitbreidingspunt van Kodi, dus het verschijnt overal waar Kodi naar ondertitels zoekt.',
+  'plugins.kodi.before':
+    'Haal een gratis Wyzie API-sleutel op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'De repository één keer installeren laat Kodi de add-on voor je **automatisch bijwerken**.',
+  'plugins.kodi.repo.1':
+    'Download het repository-installatieprogramma: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'In Kodi: **Settings, Add-ons, Install from zip file**, kies daarna `repository.wyzie.zip`. Als Kodi het blokkeert, schakel dan eerst **Settings, System, Add-ons, Unknown sources** in.',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install.**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service**, selecteer daarna **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'Open de instellingen van de Wyzie Subs-add-on en plak je **API-sleutel**.',
+  'plugins.kodi.zip.intro':
+    'Gebruik dit als je liever de repository niet toevoegt. Let op: een zip-installatie werkt **niet** automatisch bij.',
+  'plugins.kodi.zip.1':
+    'Haal de add-on-zip op: `service.subtitles.wyzie-<version>.zip`. Als je de broncode hebt, zip dan de map `kodi/` zodat de zip `addon.xml` in de root bevat.',
+  'plugins.kodi.zip.2':
+    'In Kodi: **Settings, Add-ons, Install from zip file**, kies daarna de zip. Als Kodi het blokkeert, schakel dan eerst **Settings, System, Add-ons, Unknown sources** in.',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service**, selecteer daarna **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'Open de instellingen van de Wyzie Subs-add-on en plak je **API-sleutel**.',
+  'plugins.kodi.cfg.key': 'Je Wyzie-sleutel. Vereist.',
+  'plugins.kodi.cfg.hi':
+    'Geef de voorkeur aan ondertitels voor slechthorenden.',
+  'plugins.kodi.cfg.langs':
+    'Talen worden overgenomen uit de geselecteerde ondertiteltalen van Kodi en automatisch toegewezen aan ISO 639-1.',
+  'plugins.kodi.matching.1':
+    'Terwijl er iets speelt, geeft Kodi het IMDB-nummer, seizoen en aflevering vrij. De add-on leest die, bevraagt `sub.wyzie.io/search` en geeft overeenkomende ondertitels terug. Omdat Wyzie ID-gestuurd is (IMDB en TMDB), zijn matches nauwkeurig voor zowel films als series.',
+  'plugins.kodi.matching.2':
+    '**Handmatig zoeken** toont momenteel een melding en doet niets, omdat Wyzie matcht op IDs, niet op titels. Een opzoeking van titel naar ID staat op de roadmap. Laat Kodi voorlopig automatisch zoeken tijdens het afspelen.',
+  'plugins.kodi.quota':
+    'Een 402- of 429-respons toont een Kodi-toastmelding die je naar [store.wyzie.io](https://store.wyzie.io) verwijst om aan te vullen of een abonnement te nemen.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie wordt niet aangeboden tijdens het afspelen.** Bevestig dat het is ingesteld als de **Default subtitle service** en dat het afgespeelde item een IMDB-ID heeft.',
+  'plugins.kodi.ts.key':
+    '**Ongeldige sleutel.** Open de add-on-instellingen opnieuw en plak je sleutel opnieuw.',
+  'plugins.kodi.ts.episode':
+    '**Niets voor een aflevering.** Zorg ervoor dat Kodi correcte seizoens- en afleveringsmetadata voor het bestand heeft; gescrapete bibliotheekitems werken het best.',
 };
 
 export default messages;

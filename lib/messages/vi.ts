@@ -499,6 +499,148 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'Xác thực API',
   'i6shark.hosting.auth.p':
     'Token API được tạo bằng HMAC-SHA256 với khóa bí mật chia sẻ. Đầu vào để tạo khóa là header user-agent. Xem hàm validateAPIToken trong mã nguồn để biết chi tiết triển khai.',
+
+  // Plugins
+  'plugins.common.required': 'Bắt buộc',
+
+  'plugins.index.intro':
+    'Wyzie Subs kết nối trực tiếp với các ứng dụng media mà bạn đã sử dụng. Mọi plugin đều giao tiếp với cùng một endpoint `https://sub.wyzie.io/search` và cần một **khóa API Wyzie** miễn phí. Nhận khóa tại [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for':
+    'Xem trên Stremio ở máy tính, di động hoặc TV',
+  'plugins.index.tbl.stremio.install':
+    'Add-on được lưu trữ sẵn: dán khóa của bạn, nhấp Cài đặt',
+  'plugins.index.tbl.bazarr.for':
+    'Thư viện Plex, Jellyfin, Emby, Sonarr, Radarr',
+  'plugins.index.tbl.bazarr.install':
+    'Provider cắm-vào-chạy cho phiên bản Bazarr của bạn',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install': 'Cài đặt từ tệp zip hoặc kho lưu trữ Wyzie',
+  'plugins.index.use.stremio':
+    'Dùng **Stremio** nếu bạn xem bên trong ứng dụng Stremio.',
+  'plugins.index.use.bazarr':
+    'Dùng **Bazarr** nếu bạn chạy Plex, Jellyfin hoặc Emby. Bazarr tải các tệp phụ đề về ổ đĩa và máy chủ media của bạn tự động nhận chúng. Đây cũng là cách được khuyến nghị cho Plex và Jellyfin; không có plugin gốc riêng.',
+  'plugins.index.use.kodi':
+    'Dùng **Kodi** để có dịch vụ phụ đề gốc của Kodi trên Android TV, Raspberry Pi hoặc máy tính rạp hát tại nhà.',
+  'plugins.index.shared.sources':
+    '**Nguồn:** OpenSubtitles, SubDL và Podnapisi, được tổng hợp qua Wyzie.',
+  'plugins.index.shared.matching':
+    '**Khớp:** Wyzie được điều khiển bởi ID IMDB và TMDB cùng với mùa và tập, vì vậy việc khớp chính xác cho cả phim lẻ và phim bộ.',
+  'plugins.index.shared.quota':
+    '**Hạn mức:** khi khóa của bạn hết, plugin sẽ hiển thị một thông báo thân thiện liên kết đến [store.wyzie.io](https://store.wyzie.io) thay vì lỗi âm thầm. Nạp thêm hoặc đăng ký và bạn có thể tiếp tục.',
+  'plugins.index.shared.languages':
+    '**Ngôn ngữ:** hơn 100, có thể chọn cho từng plugin.',
+  'plugins.index.outro': 'Chọn nền tảng của bạn ở trên để bắt đầu.',
+
+  'plugins.stremio.intro':
+    'Một add-on phụ đề chỉ với một cú nhấp cho [Stremio](https://www.stremio.com/). Nó tổng hợp OpenSubtitles, SubDL và Podnapisi qua Wyzie và hoạt động cho cả phim lẻ và phim bộ, trên mọi nền tảng mà Stremio chạy.',
+  'plugins.stremio.before':
+    'Bạn cần một khóa API Wyzie miễn phí. Nhận một khóa tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem), hoặc mua khóa Pro hay đăng ký tại [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'Mở [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'Dán **khóa API** của bạn.',
+  'plugins.stremio.install.3':
+    'Tùy chọn: nhập các **ngôn ngữ** ưa thích của bạn dưới dạng mã ISO 639-1, phân cách bằng dấu phẩy (ví dụ `en,es,fr`). Để trống cho tất cả ngôn ngữ.',
+  'plugins.stremio.install.4':
+    'Tùy chọn: bật phụ đề **dành cho người khiếm thính** nếu bạn thích.',
+  'plugins.stremio.install.5':
+    'Nhấp **Install**. Stremio mở ra và yêu cầu bạn xác nhận; chấp nhận, và bạn đã xong.',
+  'plugins.stremio.install.after':
+    'Khóa và tùy chọn của bạn được mã hóa vào add-on, nên không cần thiết lập gì thêm. Mở bất kỳ phim hay tập nào và chọn một phụ đề từ danh sách.',
+  'plugins.stremio.cfg.key.f': 'Khóa API',
+  'plugins.stremio.cfg.key.d': 'Khóa Wyzie của bạn. Bắt buộc.',
+  'plugins.stremio.cfg.langs.f': 'Ngôn ngữ',
+  'plugins.stremio.cfg.langs.d':
+    'Mã ISO 639-1, phân cách bằng dấu phẩy. Để trống nghĩa là tất cả ngôn ngữ.',
+  'plugins.stremio.cfg.hi.f': 'Dành cho người khiếm thính',
+  'plugins.stremio.cfg.hi.d':
+    'Ưu tiên phụ đề dành cho người khiếm thính khi có sẵn.',
+  'plugins.stremio.cfg.note':
+    'Để thay đổi bất kỳ tùy chọn nào sau này, mở lại [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), điều chỉnh và cài đặt lại.',
+  'plugins.stremio.local':
+    'Sau đó mở `http://127.0.0.1:7000/configure`, dán khóa của bạn và cài đặt vào Stremio.',
+  'plugins.stremio.quota':
+    'Nếu khóa của bạn đạt giới hạn, add-on sẽ hiển thị một mục phụ đề duy nhất liên kết đến [store.wyzie.io](https://store.wyzie.io) để bạn có thể nạp thêm hoặc đăng ký. Sau khi làm vậy, phụ đề sẽ trở lại ngay lập tức.',
+  'plugins.stremio.ts.none':
+    '**Không có phụ đề nào xuất hiện.** Đảm bảo tựa đề có ID IMDB trong Stremio (hầu hết các mục danh mục đều có) và rằng các ngôn ngữ bạn chọn thực sự có phụ đề cho tựa đề đó. Thử xóa bộ lọc ngôn ngữ để xem tất cả.',
+  'plugins.stremio.ts.key':
+    '**Khóa không hợp lệ, hoặc không tải được gì.** Mở lại trang cấu hình và dán lại khóa của bạn; một khoảng trắng thừa cũng làm hỏng nó. Xác nhận khóa hoạt động tại [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**Tập phim bộ không khớp.** Wyzie khớp theo mùa và tập; đảm bảo Stremio đang phát đúng mục tập, không phải một trang phim bộ chung chung.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) quản lý phụ đề cho **Plex, Jellyfin, Emby, Sonarr và Radarr** ở một nơi. Thêm Wyzie làm provider giúp tất cả các máy chủ đó truy cập OpenSubtitles, SubDL và Podnapisi thông qua một khóa duy nhất.',
+  'plugins.bazarr.note':
+    'Đây là cách được khuyến nghị để dùng Wyzie với Plex và Jellyfin. Bazarr tải các tệp phụ đề cạnh media của bạn, và máy chủ của bạn tự động nhận chúng, nên không cần plugin gốc riêng.',
+  'plugins.bazarr.before':
+    'Nhận một khóa API Wyzie miễn phí tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem), và có quyền truy cập vào các tệp cài đặt Bazarr của bạn (đường dẫn Docker thông thường: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'Sao chép `wyzie.py` vào `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'Chỉnh sửa `bazarr/subliminal_patch/extensions.py` và thêm `wyzie` vào **cả hai** `provider_registry` và `provider_manager`.',
+  'plugins.bazarr.install.3':
+    'Chỉnh sửa `bazarr/list_subtitles.py` (hoặc `bazarr/config.py`, tùy phiên bản của bạn) để hiển thị các cài đặt `api_key`, `prefer_hi` và `sources`. Sao chép mẫu từ một provider hiện có như `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'Khởi động lại Bazarr.',
+  'plugins.bazarr.install.5':
+    'Vào **Settings, Providers, Wyzie**, dán khóa API của bạn và lưu.',
+  'plugins.bazarr.install.after':
+    'Một pull request hạng nhất để đưa provider này vào chính thức Bazarr đang được lên kế hoạch. Cho đến lúc đó, đây là một tệp cắm-vào-chạy mà bạn thêm vào bản cài đặt của riêng mình.',
+  'plugins.bazarr.cfg.key': 'Khóa Wyzie của bạn. Bắt buộc.',
+  'plugins.bazarr.cfg.hi': 'Ưu tiên phụ đề dành cho người khiếm thính.',
+  'plugins.bazarr.cfg.sources':
+    'Danh sách các provider cần truy vấn, phân cách bằng dấu phẩy, hoặc `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 hoặc 429** (hết số dư hoặc đạt giới hạn hàng ngày): Bazarr ghi một ghi chú kèm liên kết đến [store.wyzie.io](https://store.wyzie.io) và không trả về kết quả, nên nó chuyển sang các provider khác của bạn một cách gọn gàng. Không có gì bị sập.',
+  'plugins.bazarr.quota.401':
+    '**401** (khóa sai): Bazarr hiển thị lỗi xác thực để bạn biết cần nhập lại khóa.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie không xuất hiện trong danh sách provider.** Kiểm tra lại bước cài đặt chỉnh sửa `extensions.py`; mục này phải nằm trong cả `provider_registry` và `provider_manager`, sau đó khởi động lại Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**Không tìm thấy phụ đề nào.** Xác nhận mục có ID IMDB trong Bazarr và rằng các ngôn ngữ bạn đã bật có phụ đề cho nó. Chỉ thu hẹp `sources` nếu bạn cố ý.',
+  'plugins.bazarr.ts.settings':
+    '**Thiếu các trường cài đặt.** Bước cài đặt không được áp dụng cho phiên bản Bazarr của bạn; so sánh với một khối cài đặt provider đang hoạt động và khởi động lại.',
+
+  'plugins.kodi.intro':
+    'Một dịch vụ phụ đề cho **Kodi 19+ (Matrix trở lên)**, LibreELEC và CoreELEC. Nó sử dụng điểm mở rộng `xbmc.subtitle.module` tiêu chuẩn của Kodi, nên nó xuất hiện ở bất cứ đâu Kodi tìm phụ đề.',
+  'plugins.kodi.before':
+    'Nhận một khóa API Wyzie miễn phí tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'Cài đặt kho lưu trữ một lần cho phép Kodi **tự động cập nhật** add-on cho bạn.',
+  'plugins.kodi.repo.1':
+    'Tải trình cài đặt kho lưu trữ: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'Trong Kodi: **Settings, Add-ons, Install from zip file**, sau đó chọn `repository.wyzie.zip`. Nếu Kodi chặn nó, hãy bật **Settings, System, Add-ons, Unknown sources** trước.',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install.**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service**, sau đó chọn **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'Mở cài đặt add-on Wyzie Subs và dán **khóa API** của bạn.',
+  'plugins.kodi.zip.intro':
+    'Dùng cách này nếu bạn không muốn thêm kho lưu trữ. Lưu ý: cài đặt từ zip sẽ **không** tự động cập nhật.',
+  'plugins.kodi.zip.1':
+    'Lấy tệp zip add-on: `service.subtitles.wyzie-<version>.zip`. Nếu bạn có mã nguồn, hãy nén thư mục `kodi/` sao cho tệp zip chứa `addon.xml` ở thư mục gốc của nó.',
+  'plugins.kodi.zip.2':
+    'Trong Kodi: **Settings, Add-ons, Install from zip file**, sau đó chọn tệp zip. Nếu Kodi chặn nó, hãy bật **Settings, System, Add-ons, Unknown sources** trước.',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service**, sau đó chọn **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'Mở cài đặt add-on Wyzie Subs và dán **khóa API** của bạn.',
+  'plugins.kodi.cfg.key': 'Khóa Wyzie của bạn. Bắt buộc.',
+  'plugins.kodi.cfg.hi': 'Ưu tiên phụ đề dành cho người khiếm thính.',
+  'plugins.kodi.cfg.langs':
+    'Ngôn ngữ được lấy từ các ngôn ngữ phụ đề đã chọn của Kodi và tự động ánh xạ sang ISO 639-1.',
+  'plugins.kodi.matching.1':
+    'Trong khi đang phát nội dung, Kodi cung cấp số IMDB, mùa và tập. Add-on đọc những thông tin đó, truy vấn `sub.wyzie.io/search` và trả về phụ đề khớp. Vì Wyzie được điều khiển bởi ID (IMDB và TMDB), việc khớp chính xác cho cả phim lẻ và phim bộ.',
+  'plugins.kodi.matching.2':
+    '**Tìm kiếm thủ công** hiện hiển thị một thông báo và không làm gì, vì Wyzie khớp theo ID, không phải tựa đề. Tra cứu từ tựa đề sang ID nằm trong lộ trình. Hiện tại, hãy để Kodi tìm kiếm tự động trong khi phát.',
+  'plugins.kodi.quota':
+    'Phản hồi 402 hoặc 429 sẽ hiển thị thông báo toast của Kodi hướng bạn đến [store.wyzie.io](https://store.wyzie.io) để nạp thêm hoặc đăng ký.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie không được cung cấp trong khi phát.** Xác nhận nó được đặt làm **Default subtitle service** và rằng mục đang phát có ID IMDB.',
+  'plugins.kodi.ts.key':
+    '**Khóa không hợp lệ.** Mở lại cài đặt add-on và dán lại khóa của bạn.',
+  'plugins.kodi.ts.episode':
+    '**Không có gì cho một tập.** Đảm bảo Kodi có đúng metadata mùa và tập cho tệp; các mục thư viện đã được scrape hoạt động tốt nhất.',
 };
 
 export default messages;

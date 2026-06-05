@@ -3,8 +3,8 @@ import { Note, Important, Caution } from '@neato/guider/client';
 import { useLocale } from './LocaleContext';
 
 function parseInline(text: string): React.ReactNode[] {
-  // Split on links [text](url) and **bold**
-  const tokens = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
+  // Split on links [text](url), **bold**, and `inline code`.
+  const tokens = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|`[^`]+`)/g);
   return tokens.map((tok, i) => {
     const link = tok.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (link)
@@ -19,6 +19,21 @@ function parseInline(text: string): React.ReactNode[] {
       );
     const bold = tok.match(/^\*\*([^*]+)\*\*$/);
     if (bold) return <strong key={i}>{bold[1]}</strong>;
+    const code = tok.match(/^`([^`]+)`$/);
+    if (code)
+      return (
+        <code
+          key={i}
+          style={{
+            background: 'var(--colors-backgroundLightest, #181818)',
+            padding: '0.1em 0.35em',
+            borderRadius: '4px',
+            fontSize: '0.875em',
+          }}
+        >
+          {code[1]}
+        </code>
+      );
     return tok;
   });
 }

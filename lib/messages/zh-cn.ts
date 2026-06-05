@@ -454,6 +454,138 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'API 认证',
   'i6shark.hosting.auth.p':
     'API 令牌使用 HMAC-SHA256 算法和共享密钥生成，密钥生成的输入为 User-Agent 请求头。实现细节请参阅源代码中的 validateAPIToken 函数。',
+
+  // Plugins
+  'plugins.common.required': '必填',
+
+  'plugins.index.intro':
+    'Wyzie Subs 可直接接入你已经在用的媒体应用。每个插件都连接同一个 `https://sub.wyzie.io/search` 接口，并需要一个免费的 **Wyzie API 密钥**。请在 [store.wyzie.io](https://store.wyzie.io/#plans) 获取。',
+  'plugins.index.tbl.stremio.for': '在桌面端、移动端或电视上使用 Stremio 观看',
+  'plugins.index.tbl.stremio.install': '托管式插件：粘贴密钥，点击安装',
+  'plugins.index.tbl.bazarr.for': 'Plex、Jellyfin、Emby、Sonarr、Radarr 媒体库',
+  'plugins.index.tbl.bazarr.install': '可直接接入你的 Bazarr 实例的提供方',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+、LibreELEC、CoreELEC',
+  'plugins.index.tbl.kodi.install': '从 zip 文件或 Wyzie 仓库安装',
+  'plugins.index.use.stremio':
+    '如果你在 Stremio 应用内观看，请使用 **Stremio**。',
+  'plugins.index.use.bazarr':
+    '如果你使用 Plex、Jellyfin 或 Emby，请使用 **Bazarr**。Bazarr 会将字幕文件下载到磁盘，你的媒体服务器会自动识别。这也是 Plex 和 Jellyfin 的推荐方式；没有单独的原生插件。',
+  'plugins.index.use.kodi':
+    '在 Android TV、树莓派或家庭影院电脑上需要 Kodi 原生字幕服务时，请使用 **Kodi**。',
+  'plugins.index.shared.sources':
+    '**字幕来源：** OpenSubtitles、SubDL 和 Podnapisi，通过 Wyzie 聚合。',
+  'plugins.index.shared.matching':
+    '**匹配方式：** Wyzie 基于 IMDB 和 TMDB ID 以及季和集来驱动，因此电影和剧集都能精准匹配。',
+  'plugins.index.shared.quota':
+    '**配额：** 当你的密钥用尽时，插件会显示一个友好的提示，并链接到 [store.wyzie.io](https://store.wyzie.io)，而不是悄无声息地失败。充值或订阅后即可恢复使用。',
+  'plugins.index.shared.languages':
+    '**语言：** 100 多种，可在每个插件中分别选择。',
+  'plugins.index.outro': '在上方选择你的平台即可开始。',
+
+  'plugins.stremio.intro':
+    '一款一键安装的 [Stremio](https://www.stremio.com/) 字幕插件。它通过 Wyzie 聚合 OpenSubtitles、SubDL 和 Podnapisi，适用于电影和剧集，并支持 Stremio 运行的所有平台。',
+  'plugins.stremio.before':
+    '你需要一个免费的 Wyzie API 密钥。在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取，或在 [store.wyzie.io](https://store.wyzie.io/#plans) 购买 Pro 密钥或订阅。',
+  'plugins.stremio.install.1':
+    '打开 [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure)。',
+  'plugins.stremio.install.2': '粘贴你的 **API 密钥**。',
+  'plugins.stremio.install.3':
+    '可选：以 ISO 639-1 代码输入你偏好的**语言**，用逗号分隔（例如 `en,es,fr`）。留空表示所有语言。',
+  'plugins.stremio.install.4': '可选：如果你偏好**听障**字幕，可将其开启。',
+  'plugins.stremio.install.5':
+    '点击**安装**。Stremio 会打开并要求你确认；接受后即完成。',
+  'plugins.stremio.install.after':
+    '你的密钥和偏好设置已编码到插件中，因此无需进行其他设置。打开任意电影或剧集，从列表中选择一条字幕即可。',
+  'plugins.stremio.cfg.key.f': 'API 密钥',
+  'plugins.stremio.cfg.key.d': '你的 Wyzie 密钥。必填。',
+  'plugins.stremio.cfg.langs.f': '语言',
+  'plugins.stremio.cfg.langs.d':
+    'ISO 639-1 代码，用逗号分隔。留空表示所有语言。',
+  'plugins.stremio.cfg.hi.f': '听障',
+  'plugins.stremio.cfg.hi.d': '在可用时优先选择听障字幕。',
+  'plugins.stremio.cfg.note':
+    '若要在之后更改其中任何设置，请重新打开 [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure)，调整后重新安装。',
+  'plugins.stremio.local':
+    '然后打开 `http://127.0.0.1:7000/configure`，粘贴你的密钥，并安装到 Stremio。',
+  'plugins.stremio.quota':
+    '如果你的密钥达到上限，插件会显示一条字幕条目，链接到 [store.wyzie.io](https://store.wyzie.io)，方便你充值或订阅。完成后字幕会立即恢复。',
+  'plugins.stremio.ts.none':
+    '**没有出现任何字幕。** 请确认该影片在 Stremio 中有 IMDB ID（大多数目录项都有），并且你选择的语言确实有该影片的字幕。可尝试清除语言筛选以查看全部。',
+  'plugins.stremio.ts.key':
+    '**密钥无效，或什么都加载不出来。** 重新打开配置页面并重新粘贴你的密钥；多余的空格会导致失效。在 [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard) 确认密钥是否有效。',
+  'plugins.stremio.ts.episode':
+    '**剧集无法匹配。** Wyzie 基于季和集进行匹配；请确认 Stremio 正在播放正确的剧集条目，而不是通用的剧集页面。',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) 可在一处管理 **Plex、Jellyfin、Emby、Sonarr 和 Radarr** 的字幕。将 Wyzie 添加为提供方后，所有这些服务器都能通过单个密钥访问 OpenSubtitles、SubDL 和 Podnapisi。',
+  'plugins.bazarr.note':
+    '这是在 Plex 和 Jellyfin 上使用 Wyzie 的推荐方式。Bazarr 会将字幕文件下载到你的媒体旁边，你的服务器会自动识别，因此无需单独的原生插件。',
+  'plugins.bazarr.before':
+    '在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取免费的 Wyzie API 密钥，并确保你能访问 Bazarr 的安装文件（典型 Docker 路径：`/opt/bazarr/bazarr/`）。',
+  'plugins.bazarr.install.1':
+    '将 `wyzie.py` 复制到 `bazarr/subliminal_patch/providers/wyzie.py`。',
+  'plugins.bazarr.install.2':
+    '编辑 `bazarr/subliminal_patch/extensions.py`，并将 `wyzie` 添加到 `provider_registry` 和 `provider_manager` **两者**中。',
+  'plugins.bazarr.install.3':
+    '编辑 `bazarr/list_subtitles.py`（或 `bazarr/config.py`，取决于你的版本），以暴露 `api_key`、`prefer_hi` 和 `sources` 设置。可参照现有提供方（如 `opensubtitlescom`）的写法。',
+  'plugins.bazarr.install.4': '重启 Bazarr。',
+  'plugins.bazarr.install.5':
+    '进入**设置、提供方、Wyzie**，粘贴你的 API 密钥并保存。',
+  'plugins.bazarr.install.after':
+    '已计划提交一个一流的 pull request，将此提供方上游合并到 Bazarr。在此之前，它是一个可直接添加到你自己安装中的文件。',
+  'plugins.bazarr.cfg.key': '你的 Wyzie 密钥。必填。',
+  'plugins.bazarr.cfg.hi': '优先选择听障字幕。',
+  'plugins.bazarr.cfg.sources': '要查询的提供方列表，用逗号分隔，或填 `all`。',
+  'plugins.bazarr.quota.402':
+    '**402 或 429**（余额耗尽或达到每日上限）：Bazarr 会记录一条带有 [store.wyzie.io](https://store.wyzie.io) 链接的提示并返回空结果，因此会干净地回退到你的其他提供方。不会崩溃。',
+  'plugins.bazarr.quota.401':
+    '**401**（密钥错误）：Bazarr 会显示一个认证错误，让你知道需要重新输入密钥。',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie 没有出现在提供方列表中。** 请重新检查编辑 `extensions.py` 的安装步骤；该条目必须同时存在于 `provider_registry` 和 `provider_manager` 中，然后重启 Bazarr。',
+  'plugins.bazarr.ts.none':
+    '**未找到字幕。** 请确认该项目在 Bazarr 中有 IMDB ID，并且你启用的语言有对应的字幕。除非你有意为之，否则不要缩小 `sources` 范围。',
+  'plugins.bazarr.ts.settings':
+    '**设置字段缺失。** 设置步骤未应用于你的 Bazarr 版本；请与一个可正常工作的提供方设置块进行对比，然后重启。',
+
+  'plugins.kodi.intro':
+    '一款面向 **Kodi 19+（Matrix 及更高版本）**、LibreELEC 和 CoreELEC 的字幕服务。它使用 Kodi 标准的 `xbmc.subtitle.module` 扩展点，因此会在 Kodi 查找字幕的任何位置出现。',
+  'plugins.kodi.before':
+    '在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取免费的 Wyzie API 密钥。',
+  'plugins.kodi.repo.intro':
+    '安装一次仓库后，Kodi 即可为你**自动更新**该插件。',
+  'plugins.kodi.repo.1':
+    '下载仓库安装包：[**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip)。',
+  'plugins.kodi.repo.2':
+    '在 Kodi 中：**设置、插件、从 zip 文件安装**，然后选择 `repository.wyzie.zip`。如果 Kodi 阻止了它，请先启用**设置、系统、插件、未知来源**。',
+  'plugins.kodi.repo.3':
+    '**设置、插件、从仓库安装、Wyzie Repository、字幕服务、Wyzie Subs、安装。**',
+  'plugins.kodi.repo.4':
+    '**设置、播放器、语言、默认字幕服务**，然后选择 **Wyzie Subs**。',
+  'plugins.kodi.repo.5': '打开 Wyzie Subs 插件设置并粘贴你的 **API 密钥**。',
+  'plugins.kodi.zip.intro':
+    '如果你不想添加仓库，可使用此方式。注意：zip 安装**不会**自动更新。',
+  'plugins.kodi.zip.1':
+    '获取插件 zip：`service.subtitles.wyzie-<version>.zip`。如果你有源代码，将 `kodi/` 文件夹压缩成 zip，使其根目录包含 `addon.xml`。',
+  'plugins.kodi.zip.2':
+    '在 Kodi 中：**设置、插件、从 zip 文件安装**，然后选择该 zip。如果 Kodi 阻止了它，请先启用**设置、系统、插件、未知来源**。',
+  'plugins.kodi.zip.3':
+    '**设置、播放器、语言、默认字幕服务**，然后选择 **Wyzie Subs**。',
+  'plugins.kodi.zip.4': '打开 Wyzie Subs 插件设置并粘贴你的 **API 密钥**。',
+  'plugins.kodi.cfg.key': '你的 Wyzie 密钥。必填。',
+  'plugins.kodi.cfg.hi': '优先选择听障字幕。',
+  'plugins.kodi.cfg.langs':
+    '语言取自 Kodi 所选的字幕语言，并自动映射为 ISO 639-1。',
+  'plugins.kodi.matching.1':
+    '在播放内容时，Kodi 会暴露 IMDB 编号、季和集。插件会读取这些信息，查询 `sub.wyzie.io/search`，并返回匹配的字幕。由于 Wyzie 以 ID 驱动（IMDB 和 TMDB），因此电影和剧集都能准确匹配。',
+  'plugins.kodi.matching.2':
+    '**手动搜索**目前会显示一条通知但不执行任何操作，因为 Wyzie 基于 ID 而非标题进行匹配。标题到 ID 的查找已列入路线图。目前请让 Kodi 在播放期间自动搜索。',
+  'plugins.kodi.quota':
+    '402 或 429 响应会显示一条 Kodi 弹出通知，指引你前往 [store.wyzie.io](https://store.wyzie.io) 充值或订阅。',
+  'plugins.kodi.ts.notoffered':
+    '**播放期间未提供 Wyzie。** 请确认它已被设为**默认字幕服务**，并且正在播放的项目有 IMDB ID。',
+  'plugins.kodi.ts.key': '**密钥无效。** 重新打开插件设置并重新粘贴你的密钥。',
+  'plugins.kodi.ts.episode':
+    '**剧集没有任何字幕。** 请确认 Kodi 为该文件提供了正确的季和集元数据；经过刮削的媒体库项目效果最佳。',
 };
 
 export default messages;

@@ -495,6 +495,149 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'Uwierzytelnianie API',
   'i6shark.hosting.auth.p':
     'Tokeny API są generowane przy użyciu HMAC-SHA256 ze współdzielonym kluczem tajnym. Dane wejściowe do generowania klucza to nagłówek user-agent. Szczegóły implementacji znajdziesz w funkcji validateAPIToken w kodzie źródłowym.',
+
+  // Plugins
+  'plugins.common.required': 'Wymagane',
+
+  'plugins.index.intro':
+    'Wyzie Subs integruje się bezpośrednio z aplikacjami multimedialnymi, których już używasz. Każda wtyczka korzysta z tego samego punktu końcowego `https://sub.wyzie.io/search` i wymaga darmowego **klucza API Wyzie**. Pobierz go na [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for':
+    'Oglądanie w Stremio na komputerze, telefonie lub telewizorze',
+  'plugins.index.tbl.stremio.install':
+    'Hostowany dodatek: wklej swój klucz, kliknij Zainstaluj',
+  'plugins.index.tbl.bazarr.for':
+    'Biblioteki Plex, Jellyfin, Emby, Sonarr, Radarr',
+  'plugins.index.tbl.bazarr.install':
+    'Gotowy dostawca dla Twojej instancji Bazarr',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install':
+    'Zainstaluj z pliku zip lub z repozytorium Wyzie',
+  'plugins.index.use.stremio':
+    'Użyj **Stremio**, jeśli oglądasz w aplikacji Stremio.',
+  'plugins.index.use.bazarr':
+    'Użyj **Bazarr**, jeśli korzystasz z Plex, Jellyfin lub Emby. Bazarr pobiera pliki napisów na dysk, a Twój serwer multimedialny automatycznie je wykrywa. Jest to również zalecana metoda dla Plex i Jellyfin; nie ma osobnej natywnej wtyczki.',
+  'plugins.index.use.kodi':
+    'Użyj **Kodi**, aby uzyskać natywną dla Kodi usługę napisów na Android TV, Raspberry Pi lub komputerze kina domowego.',
+  'plugins.index.shared.sources':
+    '**Źródła:** OpenSubtitles, SubDL i Podnapisi, agregowane przez Wyzie.',
+  'plugins.index.shared.matching':
+    '**Dopasowywanie:** Wyzie działa w oparciu o identyfikatory IMDB i TMDB oraz sezon i odcinek, dzięki czemu dopasowania są precyzyjne zarówno dla filmów, jak i seriali.',
+  'plugins.index.shared.quota':
+    '**Limit:** gdy Twój klucz się wyczerpie, wtyczka wyświetla przyjazny komunikat z odnośnikiem do [store.wyzie.io](https://store.wyzie.io) zamiast po cichu zawieść. Doładuj lub wykup subskrypcję, a wrócisz do działania.',
+  'plugins.index.shared.languages':
+    '**Języki:** ponad 100, wybieranych w każdej wtyczce.',
+  'plugins.index.outro': 'Wybierz powyżej swoją platformę, aby zacząć.',
+
+  'plugins.stremio.intro':
+    'Dodatek napisów dla [Stremio](https://www.stremio.com/) instalowany jednym kliknięciem. Agreguje OpenSubtitles, SubDL i Podnapisi przez Wyzie oraz działa zarówno dla filmów, jak i seriali, na każdej platformie, na której działa Stremio.',
+  'plugins.stremio.before':
+    'Potrzebujesz darmowego klucza API Wyzie. Pobierz go na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) albo kup klucz Pro lub wykup subskrypcję na [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'Otwórz [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'Wklej swój **klucz API**.',
+  'plugins.stremio.install.3':
+    'Opcjonalnie: wpisz preferowane **języki** jako kody ISO 639-1, oddzielone przecinkami (na przykład `en,es,fr`). Pozostaw puste, aby uwzględnić wszystkie języki.',
+  'plugins.stremio.install.4':
+    'Opcjonalnie: włącz napisy dla **niesłyszących**, jeśli je preferujesz.',
+  'plugins.stremio.install.5':
+    'Kliknij **Zainstaluj**. Stremio otworzy się i poprosi o potwierdzenie; zaakceptuj i gotowe.',
+  'plugins.stremio.install.after':
+    'Twój klucz i preferencje są zakodowane w dodatku, więc nie ma nic więcej do skonfigurowania. Otwórz dowolny film lub odcinek i wybierz napisy z listy.',
+  'plugins.stremio.cfg.key.f': 'Klucz API',
+  'plugins.stremio.cfg.key.d': 'Twój klucz Wyzie. Wymagany.',
+  'plugins.stremio.cfg.langs.f': 'Języki',
+  'plugins.stremio.cfg.langs.d':
+    'Kody ISO 639-1, oddzielone przecinkami. Puste oznacza wszystkie języki.',
+  'plugins.stremio.cfg.hi.f': 'Dla niesłyszących',
+  'plugins.stremio.cfg.hi.d':
+    'Preferuj napisy dla niesłyszących, gdy są dostępne.',
+  'plugins.stremio.cfg.note':
+    'Aby zmienić którekolwiek z tych ustawień później, otwórz ponownie [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), dostosuj i zainstaluj ponownie.',
+  'plugins.stremio.local':
+    'Następnie otwórz `http://127.0.0.1:7000/configure`, wklej swój klucz i zainstaluj w Stremio.',
+  'plugins.stremio.quota':
+    'Jeśli Twój klucz osiągnie swój limit, dodatek wyświetli pojedynczy wpis napisów z odnośnikiem do [store.wyzie.io](https://store.wyzie.io), abyś mógł doładować lub wykupić subskrypcję. Gdy to zrobisz, napisy wrócą natychmiast.',
+  'plugins.stremio.ts.none':
+    '**Brak napisów.** Upewnij się, że tytuł ma identyfikator IMDB w Stremio (większość pozycji katalogu go ma) oraz że wybrane przez Ciebie języki faktycznie mają napisy dla tego tytułu. Spróbuj wyczyścić filtr języków, aby zobaczyć wszystko.',
+  'plugins.stremio.ts.key':
+    '**Nieprawidłowy klucz lub nic się nie ładuje.** Otwórz ponownie stronę konfiguracji i wklej klucz ponownie; przypadkowa spacja go uszkadza. Sprawdź, czy klucz działa na [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**Odcinek serialu nie pasuje.** Wyzie dopasowuje na podstawie sezonu i odcinka; upewnij się, że Stremio odtwarza właściwy wpis odcinka, a nie ogólną stronę serialu.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) zarządza napisami dla **Plex, Jellyfin, Emby, Sonarr i Radarr** w jednym miejscu. Dodanie Wyzie jako dostawcy daje wszystkim tym serwerom dostęp do OpenSubtitles, SubDL i Podnapisi za pomocą jednego klucza.',
+  'plugins.bazarr.note':
+    'Jest to zalecany sposób korzystania z Wyzie z Plex i Jellyfin. Bazarr pobiera pliki napisów obok Twoich multimediów, a Twój serwer automatycznie je wykrywa, więc nie jest wymagana osobna natywna wtyczka.',
+  'plugins.bazarr.before':
+    'Pobierz darmowy klucz API Wyzie na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) i zapewnij sobie dostęp do plików instalacyjnych Bazarr (typowa ścieżka Docker: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'Skopiuj `wyzie.py` do `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'Edytuj `bazarr/subliminal_patch/extensions.py` i dodaj `wyzie` do **obu** `provider_registry` i `provider_manager`.',
+  'plugins.bazarr.install.3':
+    'Edytuj `bazarr/list_subtitles.py` (lub `bazarr/config.py`, w zależności od Twojej wersji), aby udostępnić ustawienia `api_key`, `prefer_hi` i `sources`. Skopiuj wzorzec z istniejącego dostawcy, takiego jak `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'Uruchom ponownie Bazarr.',
+  'plugins.bazarr.install.5':
+    'Przejdź do **Ustawienia, Dostawcy, Wyzie**, wklej swój klucz API i zapisz.',
+  'plugins.bazarr.install.after':
+    'Planowany jest pełnoprawny pull request integrujący tego dostawcę bezpośrednio z Bazarr. Do tego czasu jest to gotowy plik, który dodajesz do własnej instalacji.',
+  'plugins.bazarr.cfg.key': 'Twój klucz Wyzie. Wymagany.',
+  'plugins.bazarr.cfg.hi': 'Preferuj napisy dla niesłyszących.',
+  'plugins.bazarr.cfg.sources':
+    'Lista dostawców do odpytania oddzielona przecinkami lub `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 lub 429** (saldo wyczerpane lub osiągnięto dzienny limit): Bazarr zapisuje w logach notatkę z odnośnikiem do [store.wyzie.io](https://store.wyzie.io) i nie zwraca wyników, więc czysto przechodzi do innych dostawców. Nic się nie zawiesza.',
+  'plugins.bazarr.quota.401':
+    '**401** (zły klucz): Bazarr zgłasza błąd uwierzytelniania, dzięki czemu wiesz, że trzeba ponownie wpisać klucz.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie nie pojawia się na liście dostawców.** Sprawdź ponownie krok instalacji edytujący `extensions.py`; wpis musi znajdować się zarówno w `provider_registry`, jak i `provider_manager`, a następnie uruchom ponownie Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**Nie znaleziono napisów.** Upewnij się, że pozycja ma identyfikator IMDB w Bazarr oraz że włączone przez Ciebie języki mają dla niej napisy. Zawężaj `sources` tylko wtedy, gdy zamierzasz to zrobić.',
+  'plugins.bazarr.ts.settings':
+    '**Brak pól ustawień.** Krok ustawień nie został zastosowany dla Twojej wersji Bazarr; porównaj z blokiem ustawień działającego dostawcy i uruchom ponownie.',
+
+  'plugins.kodi.intro':
+    'Usługa napisów dla **Kodi 19+ (Matrix i nowsze)**, LibreELEC i CoreELEC. Korzysta ze standardowego punktu rozszerzeń Kodi `xbmc.subtitle.module`, więc pojawia się wszędzie tam, gdzie Kodi szuka napisów.',
+  'plugins.kodi.before':
+    'Pobierz darmowy klucz API Wyzie na [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'Jednorazowa instalacja repozytorium pozwala Kodi **automatycznie aktualizować** dodatek za Ciebie.',
+  'plugins.kodi.repo.1':
+    'Pobierz instalator repozytorium: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'W Kodi: **Ustawienia, Dodatki, Zainstaluj z pliku zip**, a następnie wybierz `repository.wyzie.zip`. Jeśli Kodi to zablokuje, najpierw włącz **Ustawienia, System, Dodatki, Nieznane źródła**.',
+  'plugins.kodi.repo.3':
+    '**Ustawienia, Dodatki, Zainstaluj z repozytorium, Wyzie Repository, Usługi napisów, Wyzie Subs, Zainstaluj.**',
+  'plugins.kodi.repo.4':
+    '**Ustawienia, Odtwarzacz, Język, Domyślna usługa napisów**, a następnie wybierz **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'Otwórz ustawienia dodatku Wyzie Subs i wklej swój **klucz API**.',
+  'plugins.kodi.zip.intro':
+    'Użyj tego, jeśli wolisz nie dodawać repozytorium. Uwaga: instalacja z pliku zip **nie** aktualizuje się automatycznie.',
+  'plugins.kodi.zip.1':
+    'Pobierz plik zip dodatku: `service.subtitles.wyzie-<version>.zip`. Jeśli masz kod źródłowy, spakuj folder `kodi/` do zip tak, aby zip zawierał `addon.xml` w swoim katalogu głównym.',
+  'plugins.kodi.zip.2':
+    'W Kodi: **Ustawienia, Dodatki, Zainstaluj z pliku zip**, a następnie wybierz plik zip. Jeśli Kodi to zablokuje, najpierw włącz **Ustawienia, System, Dodatki, Nieznane źródła**.',
+  'plugins.kodi.zip.3':
+    '**Ustawienia, Odtwarzacz, Język, Domyślna usługa napisów**, a następnie wybierz **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'Otwórz ustawienia dodatku Wyzie Subs i wklej swój **klucz API**.',
+  'plugins.kodi.cfg.key': 'Twój klucz Wyzie. Wymagany.',
+  'plugins.kodi.cfg.hi': 'Preferuj napisy dla niesłyszących.',
+  'plugins.kodi.cfg.langs':
+    'Języki są pobierane z wybranych w Kodi języków napisów i automatycznie mapowane na ISO 639-1.',
+  'plugins.kodi.matching.1':
+    'Podczas odtwarzania Kodi udostępnia numer IMDB, sezon i odcinek. Dodatek odczytuje te dane, odpytuje `sub.wyzie.io/search` i zwraca pasujące napisy. Ponieważ Wyzie działa w oparciu o identyfikatory (IMDB i TMDB), dopasowania są dokładne zarówno dla filmów, jak i seriali.',
+  'plugins.kodi.matching.2':
+    '**Ręczne wyszukiwanie** obecnie wyświetla powiadomienie i nic nie robi, ponieważ Wyzie dopasowuje na podstawie identyfikatorów, a nie tytułów. Wyszukiwanie tytuł-do-identyfikatora jest w planach. Na razie pozwól, aby Kodi wyszukiwało automatycznie podczas odtwarzania.',
+  'plugins.kodi.quota':
+    'Odpowiedź 402 lub 429 wyświetla powiadomienie typu toast w Kodi, kierujące Cię na [store.wyzie.io](https://store.wyzie.io) w celu doładowania lub wykupienia subskrypcji.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie nie jest oferowane podczas odtwarzania.** Upewnij się, że jest ustawione jako **Domyślna usługa napisów** oraz że odtwarzana pozycja ma identyfikator IMDB.',
+  'plugins.kodi.ts.key':
+    '**Nieprawidłowy klucz.** Otwórz ponownie ustawienia dodatku i wklej klucz ponownie.',
+  'plugins.kodi.ts.episode':
+    '**Brak wyników dla odcinka.** Upewnij się, że Kodi ma poprawne metadane sezonu i odcinka dla pliku; najlepiej działają pozycje pobrane do biblioteki przez scraper.',
 };
 
 export default messages;

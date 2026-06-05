@@ -503,6 +503,148 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'Autentikasi API',
   'i6shark.hosting.auth.p':
     'Token API dibuat menggunakan HMAC-SHA256 dengan kunci rahasia bersama. Input untuk pembuatan kunci adalah header user-agent. Lihat fungsi validateAPIToken dalam kode sumber untuk detail implementasi.',
+
+  // Plugins
+  'plugins.common.required': 'Wajib',
+
+  'plugins.index.intro':
+    'Wyzie Subs terhubung langsung ke aplikasi media yang sudah Anda gunakan. Setiap plugin berkomunikasi dengan endpoint `https://sub.wyzie.io/search` yang sama dan memerlukan **Wyzie API key** gratis. Dapatkan satu di [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for':
+    'Menonton di Stremio pada desktop, ponsel, atau TV',
+  'plugins.index.tbl.stremio.install':
+    'Add-on terhosting: tempel kunci Anda, klik Install',
+  'plugins.index.tbl.bazarr.for':
+    'Pustaka Plex, Jellyfin, Emby, Sonarr, Radarr',
+  'plugins.index.tbl.bazarr.install':
+    'Penyedia siap-pakai untuk instansi Bazarr Anda',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install': 'Instal dari zip atau repositori Wyzie',
+  'plugins.index.use.stremio':
+    'Gunakan **Stremio** jika Anda menonton di dalam aplikasi Stremio.',
+  'plugins.index.use.bazarr':
+    'Gunakan **Bazarr** jika Anda menjalankan Plex, Jellyfin, atau Emby. Bazarr mengunduh berkas subtitle ke disk dan server media Anda mengambilnya secara otomatis. Ini juga merupakan jalur yang direkomendasikan untuk Plex dan Jellyfin; tidak ada plugin native terpisah.',
+  'plugins.index.use.kodi':
+    'Gunakan **Kodi** untuk layanan subtitle native Kodi pada Android TV, Raspberry Pi, atau PC home theatre.',
+  'plugins.index.shared.sources':
+    '**Sumber:** OpenSubtitles, SubDL, dan Podnapisi, diagregasi melalui Wyzie.',
+  'plugins.index.shared.matching':
+    '**Pencocokan:** Wyzie didorong oleh ID IMDB dan TMDB plus musim dan episode, sehingga pencocokan akurat untuk film maupun serial.',
+  'plugins.index.shared.quota':
+    '**Kuota:** ketika kunci Anda habis, plugin menampilkan pesan ramah yang menautkan ke [store.wyzie.io](https://store.wyzie.io) alih-alih gagal secara diam-diam. Isi ulang atau berlangganan dan Anda kembali beraksi.',
+  'plugins.index.shared.languages':
+    '**Bahasa:** 100+, dapat dipilih per plugin.',
+  'plugins.index.outro': 'Pilih platform Anda di atas untuk memulai.',
+
+  'plugins.stremio.intro':
+    'Add-on subtitle sekali klik untuk [Stremio](https://www.stremio.com/). Ia mengagregasi OpenSubtitles, SubDL, dan Podnapisi melalui Wyzie dan bekerja untuk film maupun serial, di setiap platform tempat Stremio berjalan.',
+  'plugins.stremio.before':
+    'Anda memerlukan Wyzie API key gratis. Dapatkan satu di [store.wyzie.io/redeem](https://store.wyzie.io/redeem), atau beli kunci Pro atau berlangganan di [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'Buka [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'Tempel **API key** Anda.',
+  'plugins.stremio.install.3':
+    'Opsional: masukkan **bahasa** pilihan Anda sebagai kode ISO 639-1, dipisahkan koma (misalnya `en,es,fr`). Kosongkan untuk semua bahasa.',
+  'plugins.stremio.install.4':
+    'Opsional: aktifkan subtitle **hearing-impaired** jika Anda lebih menyukainya.',
+  'plugins.stremio.install.5':
+    'Klik **Install**. Stremio terbuka dan meminta Anda mengonfirmasi; terima, dan Anda selesai.',
+  'plugins.stremio.install.after':
+    'Kunci dan preferensi Anda dikodekan ke dalam add-on, jadi tidak ada lagi yang perlu disiapkan. Buka film atau episode apa pun dan pilih subtitle dari daftar.',
+  'plugins.stremio.cfg.key.f': 'API key',
+  'plugins.stremio.cfg.key.d': 'Kunci Wyzie Anda. Wajib.',
+  'plugins.stremio.cfg.langs.f': 'Bahasa',
+  'plugins.stremio.cfg.langs.d':
+    'Kode ISO 639-1, dipisahkan koma. Kosong berarti semua bahasa.',
+  'plugins.stremio.cfg.hi.f': 'Hearing-impaired',
+  'plugins.stremio.cfg.hi.d':
+    'Utamakan subtitle hearing-impaired bila tersedia.',
+  'plugins.stremio.cfg.note':
+    'Untuk mengubah salah satu dari ini nanti, buka kembali [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), sesuaikan, dan instal ulang.',
+  'plugins.stremio.local':
+    'Lalu buka `http://127.0.0.1:7000/configure`, tempel kunci Anda, dan instal ke Stremio.',
+  'plugins.stremio.quota':
+    'Jika kunci Anda mencapai batasnya, add-on menampilkan satu entri subtitle yang menautkan ke [store.wyzie.io](https://store.wyzie.io) sehingga Anda dapat mengisi ulang atau berlangganan. Setelah Anda melakukannya, subtitle kembali segera.',
+  'plugins.stremio.ts.none':
+    '**Tidak ada subtitle yang muncul.** Pastikan judul memiliki ID IMDB di Stremio (sebagian besar item katalog memilikinya) dan bahwa bahasa yang Anda pilih benar-benar memiliki subtitle untuk judul tersebut. Coba hapus filter bahasa untuk melihat semuanya.',
+  'plugins.stremio.ts.key':
+    '**Kunci tidak valid, atau tidak ada yang termuat.** Buka kembali halaman configure dan tempel ulang kunci Anda; spasi yang tersesat akan merusaknya. Konfirmasikan kunci berfungsi di [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**Episode serial tidak cocok.** Wyzie mencocokkan berdasarkan musim dan episode; pastikan Stremio memutar entri episode yang benar, bukan halaman serial umum.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) mengelola subtitle untuk **Plex, Jellyfin, Emby, Sonarr, dan Radarr** di satu tempat. Menambahkan Wyzie sebagai penyedia memberi semua server tersebut akses ke OpenSubtitles, SubDL, dan Podnapisi melalui satu kunci.',
+  'plugins.bazarr.note':
+    'Ini adalah cara yang direkomendasikan untuk menggunakan Wyzie dengan Plex dan Jellyfin. Bazarr mengunduh berkas subtitle di samping media Anda, dan server Anda mengambilnya secara otomatis, sehingga tidak diperlukan plugin native terpisah.',
+  'plugins.bazarr.before':
+    'Dapatkan Wyzie API key gratis di [store.wyzie.io/redeem](https://store.wyzie.io/redeem), dan miliki akses ke berkas instalasi Bazarr Anda (jalur Docker tipikal: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'Salin `wyzie.py` ke `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'Edit `bazarr/subliminal_patch/extensions.py` dan tambahkan `wyzie` ke **kedua** `provider_registry` dan `provider_manager`.',
+  'plugins.bazarr.install.3':
+    'Edit `bazarr/list_subtitles.py` (atau `bazarr/config.py`, tergantung versi Anda) untuk mengekspos pengaturan `api_key`, `prefer_hi`, dan `sources`. Salin pola dari penyedia yang sudah ada seperti `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'Mulai ulang Bazarr.',
+  'plugins.bazarr.install.5':
+    'Buka **Settings, Providers, Wyzie**, tempel API key Anda, dan simpan.',
+  'plugins.bazarr.install.after':
+    'Sebuah pull request kelas satu untuk mengirimkan penyedia ini ke hulu Bazarr sedang direncanakan. Sampai saat itu, ini adalah berkas siap-pakai yang Anda tambahkan ke instalasi Anda sendiri.',
+  'plugins.bazarr.cfg.key': 'Kunci Wyzie Anda. Wajib.',
+  'plugins.bazarr.cfg.hi': 'Utamakan subtitle hearing-impaired.',
+  'plugins.bazarr.cfg.sources':
+    'Daftar penyedia yang dipisahkan koma untuk dikueri, atau `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 atau 429** (saldo kosong atau batas harian tercapai): Bazarr mencatat catatan dengan tautan ke [store.wyzie.io](https://store.wyzie.io) dan tidak mengembalikan hasil, sehingga dengan rapi beralih ke penyedia Anda yang lain. Tidak ada yang crash.',
+  'plugins.bazarr.quota.401':
+    '**401** (kunci buruk): Bazarr memunculkan kesalahan autentikasi sehingga Anda tahu untuk memasukkan ulang kunci.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie tidak muncul dalam daftar penyedia.** Periksa kembali langkah instalasi yang mengedit `extensions.py`; entri harus ada di kedua `provider_registry` dan `provider_manager`, lalu mulai ulang Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**Tidak ada subtitle ditemukan.** Konfirmasikan item memiliki ID IMDB di Bazarr dan bahwa bahasa yang telah Anda aktifkan memiliki subtitle untuknya. Hanya persempit `sources` jika Anda bermaksud demikian.',
+  'plugins.bazarr.ts.settings':
+    '**Bidang pengaturan hilang.** Langkah pengaturan tidak diterapkan untuk versi Bazarr Anda; bandingkan dengan blok pengaturan penyedia yang berfungsi dan mulai ulang.',
+
+  'plugins.kodi.intro':
+    'Layanan subtitle untuk **Kodi 19+ (Matrix dan setelahnya)**, LibreELEC, dan CoreELEC. Ia menggunakan titik ekstensi `xbmc.subtitle.module` standar Kodi, sehingga muncul di mana pun Kodi mencari subtitle.',
+  'plugins.kodi.before':
+    'Dapatkan Wyzie API key gratis di [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'Menginstal repositori sekali memungkinkan Kodi **memperbarui otomatis** add-on untuk Anda.',
+  'plugins.kodi.repo.1':
+    'Unduh penginstal repositori: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'Di Kodi: **Settings, Add-ons, Install from zip file**, lalu pilih `repository.wyzie.zip`. Jika Kodi memblokirnya, aktifkan **Settings, System, Add-ons, Unknown sources** terlebih dahulu.',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install.**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service**, lalu pilih **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'Buka pengaturan add-on Wyzie Subs dan tempel **API key** Anda.',
+  'plugins.kodi.zip.intro':
+    'Gunakan ini jika Anda lebih memilih untuk tidak menambahkan repositori. Catatan: instalasi zip **tidak** memperbarui otomatis.',
+  'plugins.kodi.zip.1':
+    'Dapatkan zip add-on: `service.subtitles.wyzie-<version>.zip`. Jika Anda memiliki sumbernya, zip folder `kodi/` sehingga zip berisi `addon.xml` di root-nya.',
+  'plugins.kodi.zip.2':
+    'Di Kodi: **Settings, Add-ons, Install from zip file**, lalu pilih zip-nya. Jika Kodi memblokirnya, aktifkan **Settings, System, Add-ons, Unknown sources** terlebih dahulu.',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service**, lalu pilih **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'Buka pengaturan add-on Wyzie Subs dan tempel **API key** Anda.',
+  'plugins.kodi.cfg.key': 'Kunci Wyzie Anda. Wajib.',
+  'plugins.kodi.cfg.hi': 'Utamakan subtitle hearing-impaired.',
+  'plugins.kodi.cfg.langs':
+    'Bahasa diambil dari bahasa subtitle yang dipilih Kodi dan dipetakan ke ISO 639-1 secara otomatis.',
+  'plugins.kodi.matching.1':
+    'Saat sesuatu sedang diputar, Kodi mengekspos nomor IMDB, musim, dan episode. Add-on membaca itu, mengkueri `sub.wyzie.io/search`, dan mengembalikan subtitle yang cocok. Karena Wyzie didorong oleh ID (IMDB dan TMDB), pencocokan akurat untuk film maupun serial.',
+  'plugins.kodi.matching.2':
+    '**Pencarian manual** saat ini menampilkan notifikasi dan tidak melakukan apa-apa, karena Wyzie mencocokkan berdasarkan ID, bukan judul. Pencarian judul-ke-ID ada dalam roadmap. Untuk saat ini, biarkan Kodi mencari secara otomatis selama pemutaran.',
+  'plugins.kodi.quota':
+    'Respons 402 atau 429 menampilkan notifikasi toast Kodi yang mengarahkan Anda ke [store.wyzie.io](https://store.wyzie.io) untuk mengisi ulang atau berlangganan.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie tidak ditawarkan selama pemutaran.** Konfirmasikan ia diatur sebagai **Default subtitle service** dan bahwa item yang diputar memiliki ID IMDB.',
+  'plugins.kodi.ts.key':
+    '**Kunci tidak valid.** Buka kembali pengaturan add-on dan tempel ulang kunci Anda.',
+  'plugins.kodi.ts.episode':
+    '**Tidak ada apa-apa untuk sebuah episode.** Pastikan Kodi memiliki metadata musim dan episode yang benar untuk berkas tersebut; item pustaka hasil scraping bekerja paling baik.',
 };
 
 export default messages;

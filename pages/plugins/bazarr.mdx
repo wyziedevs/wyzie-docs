@@ -3,57 +3,43 @@ title: 'Bazarr'
 description: 'Add Wyzie as a subtitle provider in Bazarr for Plex, Jellyfin, Emby, Sonarr, and Radarr.'
 ---
 
+import { T, TP, TNote } from '../../components/T';
+
 # Bazarr Provider
 
-[Bazarr](https://www.bazarr.media/) manages subtitles for **Plex, Jellyfin, Emby, Sonarr,
-and Radarr** in one place. Adding Wyzie as a provider gives all of those servers access to
-OpenSubtitles, SubDL, and Podnapisi through a single key.
+<TP id="plugins.bazarr.intro" />
 
-> This is the recommended way to use Wyzie with Plex and Jellyfin. Bazarr downloads
-> subtitle files next to your media, and your server picks them up automatically — no
-> separate native plugin required.
+<TNote id="plugins.bazarr.note" />
 
 ## Before you start
 
-Get a free Wyzie API key at [store.wyzie.io/redeem](https://store.wyzie.io/redeem), and
-have access to your Bazarr install's files (typical Docker path: `/opt/bazarr/bazarr/`).
+<TP id="plugins.bazarr.before" />
 
 ## Install
 
-1. Copy `wyzie.py` to `bazarr/subliminal_patch/providers/wyzie.py`.
-2. Edit `bazarr/subliminal_patch/extensions.py` and add `wyzie` to **both**
-   `provider_registry` and `provider_manager`.
-3. Edit `bazarr/list_subtitles.py` (or `bazarr/config.py`, depending on your version) to
-   expose the `api_key`, `prefer_hi`, and `sources` settings. Copy the pattern from an
-   existing provider such as `opensubtitlescom`.
-4. Restart Bazarr.
-5. Go to **Settings → Providers → Wyzie**, paste your API key, and save.
+1. <T id="plugins.bazarr.install.1" />
+2. <T id="plugins.bazarr.install.2" />
+3. <T id="plugins.bazarr.install.3" />
+4. <T id="plugins.bazarr.install.4" />
+5. <T id="plugins.bazarr.install.5" />
 
-> A first-class PR upstreaming this provider into Bazarr is planned. Until then it's a
-> drop-in file you add to your own install.
+<TP id="plugins.bazarr.install.after" />
 
 ## Configuration
 
 | Field | Default | Description |
 | ----- | ------- | ----------- |
-| `api_key` | — | Your Wyzie key. Required. |
-| `prefer_hi` | `false` | Prefer hearing-impaired subtitles. |
-| `sources` | `all` | Comma-separated list of providers to query, or `all`. |
+| `api_key` | — | <T id="plugins.bazarr.cfg.key" /> |
+| `prefer_hi` | `false` | <T id="plugins.bazarr.cfg.hi" /> |
+| `sources` | `all` | <T id="plugins.bazarr.cfg.sources" /> |
 
 ## When your quota runs out
 
-- **402 / 429** (balance empty or daily cap hit): Bazarr logs a note with a link to
-  [store.wyzie.io](https://store.wyzie.io) and returns no results, so it cleanly falls
-  back to your other providers — nothing crashes.
-- **401** (bad key): Bazarr surfaces an authentication error so you know to re-enter the
-  key.
+- <T id="plugins.bazarr.quota.402" />
+- <T id="plugins.bazarr.quota.401" />
 
 ## Troubleshooting
 
-- **Wyzie doesn't appear in the providers list.** Re-check step 2 — the entry must be in
-  both `provider_registry` and `provider_manager` — then restart Bazarr.
-- **No subtitles found.** Confirm the item has an IMDB ID in Bazarr and that the
-  languages you've enabled in Bazarr have subtitles for it. Narrow `sources` only if you
-  intend to.
-- **Settings fields missing.** Step 3 wasn't applied for your Bazarr version; compare
-  against a working provider's settings block and restart.
+- <T id="plugins.bazarr.ts.missing" />
+- <T id="plugins.bazarr.ts.none" />
+- <T id="plugins.bazarr.ts.settings" />

@@ -3,40 +3,35 @@ title: 'Stremio'
 description: 'Install the Wyzie Subs add-on in Stremio on desktop, mobile, or TV.'
 ---
 
+import { T, TP } from '../../components/T';
+
 # Stremio Add-on
 
-A one-click subtitle add-on for [Stremio](https://www.stremio.com/). It aggregates
-OpenSubtitles, SubDL, and Podnapisi through Wyzie and works for both movies and series,
-on every platform Stremio runs on.
+<TP id="plugins.stremio.intro" />
 
 ## Before you start
 
-You need a free Wyzie API key. Get one at
-[store.wyzie.io/redeem](https://store.wyzie.io/redeem) (or buy a Pro key / subscribe at
-[store.wyzie.io](https://store.wyzie.io/#plans)).
+<TP id="plugins.stremio.before" />
 
 ## Install (hosted)
 
-1. Open **[stremio.wyzie.io/configure](https://stremio.wyzie.io/configure)**.
-2. Paste your **API key**.
-3. (Optional) Enter your preferred **languages** as ISO 639-1 codes, comma-separated
-   (e.g. `en,es,fr`). Leave empty for all languages.
-4. (Optional) Toggle **hearing-impaired** subtitles if you prefer them.
-5. Click **Install**. Stremio opens and asks you to confirm — accept, and you're done.
+1. <T id="plugins.stremio.install.1" />
+2. <T id="plugins.stremio.install.2" />
+3. <T id="plugins.stremio.install.3" />
+4. <T id="plugins.stremio.install.4" />
+5. <T id="plugins.stremio.install.5" />
 
-Your key and preferences are encoded into the add-on, so there's nothing else to set up.
-Open any movie or episode and pick a subtitle from the list.
+<TP id="plugins.stremio.install.after" />
 
 ## Configuration
 
 | Field | Description |
 | ----- | ----------- |
-| **API key** | Your Wyzie key. Required. |
-| **Languages** | ISO 639-1 codes, comma-separated. Empty = all languages. |
-| **Hearing-impaired** | Prefer HI subtitles when available. |
+| **<T id="plugins.stremio.cfg.key.f" />** | <T id="plugins.stremio.cfg.key.d" /> |
+| **<T id="plugins.stremio.cfg.langs.f" />** | <T id="plugins.stremio.cfg.langs.d" /> |
+| **<T id="plugins.stremio.cfg.hi.f" />** | <T id="plugins.stremio.cfg.hi.d" /> |
 
-To change any of these later, re-open
-[stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), adjust, and re-install.
+<TP id="plugins.stremio.cfg.note" />
 
 ## Run it locally (developers)
 
@@ -46,21 +41,14 @@ npm install
 npm start
 ```
 
-Then open `http://127.0.0.1:7000/configure`, paste your key, and install into Stremio.
+<TP id="plugins.stremio.local" />
 
 ## When your quota runs out
 
-If your key hits its limit, the add-on shows a single subtitle entry linking to
-[store.wyzie.io](https://store.wyzie.io) so you can top up or subscribe. Once you do,
-subtitles return immediately.
+<TP id="plugins.stremio.quota" />
 
 ## Troubleshooting
 
-- **No subtitles appear.** Make sure the title has an IMDB ID in Stremio (most catalog
-  items do) and that your chosen languages actually have subtitles for that title. Try
-  clearing the language filter to see everything.
-- **"Invalid key" / nothing loads.** Re-open the configure page and re-paste your key —
-  a stray space breaks it. Confirm the key works at
-  [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).
-- **Series episode not matching.** Wyzie matches on season/episode; make sure Stremio is
-  playing the correct episode entry, not a generic series page.
+- <T id="plugins.stremio.ts.none" />
+- <T id="plugins.stremio.ts.key" />
+- <T id="plugins.stremio.ts.episode" />

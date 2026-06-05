@@ -507,6 +507,148 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'Autenticazione API',
   'i6shark.hosting.auth.p':
     "I token API vengono generati usando HMAC-SHA256 con una chiave segreta condivisa. L'input per la generazione della chiave è l'header user-agent. Consulta la funzione validateAPIToken nel codice sorgente per i dettagli di implementazione.",
+
+  // Plugins
+  'plugins.common.required': 'Obbligatorio',
+
+  'plugins.index.intro':
+    'Wyzie Subs si collega direttamente alle app multimediali che già usi. Ogni plugin comunica con lo stesso endpoint `https://sub.wyzie.io/search` e necessita di una **chiave API Wyzie** gratuita. Ottienine una su [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for':
+    'Guardare in Stremio su desktop, mobile o TV',
+  'plugins.index.tbl.stremio.install':
+    'Add-on ospitato: incolla la tua chiave, clicca Installa',
+  'plugins.index.tbl.bazarr.for':
+    'Librerie Plex, Jellyfin, Emby, Sonarr, Radarr',
+  'plugins.index.tbl.bazarr.install':
+    'Provider pronto all’uso per la tua istanza Bazarr',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install': 'Installa da zip o dal repository Wyzie',
+  'plugins.index.use.stremio':
+    'Usa **Stremio** se guardi dentro l’app Stremio.',
+  'plugins.index.use.bazarr':
+    'Usa **Bazarr** se utilizzi Plex, Jellyfin o Emby. Bazarr scarica i file dei sottotitoli su disco e il tuo media server li rileva automaticamente. Questo è anche il percorso consigliato per Plex e Jellyfin; non esiste un plugin nativo separato.',
+  'plugins.index.use.kodi':
+    'Usa **Kodi** per un servizio di sottotitoli nativo di Kodi su Android TV, un Raspberry Pi o un PC home theatre.',
+  'plugins.index.shared.sources':
+    '**Fonti:** OpenSubtitles, SubDL e Podnapisi, aggregati tramite Wyzie.',
+  'plugins.index.shared.matching':
+    '**Corrispondenza:** Wyzie è guidato dagli ID IMDB e TMDB più stagione ed episodio, quindi le corrispondenze sono precise sia per i film che per le serie.',
+  'plugins.index.shared.quota':
+    '**Quota:** quando la tua chiave si esaurisce, il plugin mostra un messaggio cordiale con un link a [store.wyzie.io](https://store.wyzie.io) invece di fallire silenziosamente. Ricarica o abbonati e sei di nuovo operativo.',
+  'plugins.index.shared.languages':
+    '**Lingue:** oltre 100, selezionabili per ogni plugin.',
+  'plugins.index.outro': 'Scegli la tua piattaforma qui sopra per iniziare.',
+
+  'plugins.stremio.intro':
+    'Un add-on per sottotitoli con installazione a un clic per [Stremio](https://www.stremio.com/). Aggrega OpenSubtitles, SubDL e Podnapisi tramite Wyzie e funziona sia per film che per serie, su ogni piattaforma su cui gira Stremio.',
+  'plugins.stremio.before':
+    'Ti serve una chiave API Wyzie gratuita. Ottienine una su [store.wyzie.io/redeem](https://store.wyzie.io/redeem), oppure acquista una chiave Pro o abbonati su [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'Apri [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'Incolla la tua **chiave API**.',
+  'plugins.stremio.install.3':
+    'Facoltativo: inserisci le tue **lingue** preferite come codici ISO 639-1, separati da virgola (ad esempio `en,es,fr`). Lascia vuoto per tutte le lingue.',
+  'plugins.stremio.install.4':
+    'Facoltativo: attiva i sottotitoli per **non udenti** se li preferisci.',
+  'plugins.stremio.install.5':
+    'Clicca **Installa**. Stremio si apre e ti chiede conferma; accetta e hai finito.',
+  'plugins.stremio.install.after':
+    'La tua chiave e le tue preferenze sono codificate nell’add-on, quindi non c’è altro da configurare. Apri un film o un episodio qualsiasi e scegli un sottotitolo dalla lista.',
+  'plugins.stremio.cfg.key.f': 'Chiave API',
+  'plugins.stremio.cfg.key.d': 'La tua chiave Wyzie. Obbligatoria.',
+  'plugins.stremio.cfg.langs.f': 'Lingue',
+  'plugins.stremio.cfg.langs.d':
+    'Codici ISO 639-1, separati da virgola. Vuoto significa tutte le lingue.',
+  'plugins.stremio.cfg.hi.f': 'Non udenti',
+  'plugins.stremio.cfg.hi.d':
+    'Preferisci i sottotitoli per non udenti quando disponibili.',
+  'plugins.stremio.cfg.note':
+    'Per modificare uno di questi in seguito, riapri [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), regola e reinstalla.',
+  'plugins.stremio.local':
+    'Poi apri `http://127.0.0.1:7000/configure`, incolla la tua chiave e installa in Stremio.',
+  'plugins.stremio.quota':
+    'Se la tua chiave raggiunge il limite, l’add-on mostra una singola voce di sottotitolo con un link a [store.wyzie.io](https://store.wyzie.io) così puoi ricaricare o abbonarti. Una volta fatto, i sottotitoli tornano immediatamente.',
+  'plugins.stremio.ts.none':
+    '**Non compare nessun sottotitolo.** Assicurati che il titolo abbia un ID IMDB in Stremio (la maggior parte degli elementi del catalogo lo ha) e che le lingue scelte abbiano effettivamente sottotitoli per quel titolo. Prova a rimuovere il filtro lingua per vedere tutto.',
+  'plugins.stremio.ts.key':
+    '**Chiave non valida, o non si carica nulla.** Riapri la pagina di configurazione e reincolla la tua chiave; uno spazio di troppo la rende inutilizzabile. Verifica che la chiave funzioni su [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**L’episodio della serie non corrisponde.** Wyzie effettua la corrispondenza su stagione ed episodio; assicurati che Stremio stia riproducendo la voce dell’episodio corretto, non una pagina generica della serie.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) gestisce i sottotitoli per **Plex, Jellyfin, Emby, Sonarr e Radarr** in un unico posto. Aggiungere Wyzie come provider dà a tutti questi server accesso a OpenSubtitles, SubDL e Podnapisi tramite un’unica chiave.',
+  'plugins.bazarr.note':
+    'Questo è il modo consigliato per usare Wyzie con Plex e Jellyfin. Bazarr scarica i file dei sottotitoli accanto ai tuoi media e il tuo server li rileva automaticamente, quindi non è richiesto alcun plugin nativo separato.',
+  'plugins.bazarr.before':
+    'Ottieni una chiave API Wyzie gratuita su [store.wyzie.io/redeem](https://store.wyzie.io/redeem) e assicurati di avere accesso ai file di installazione di Bazarr (percorso Docker tipico: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'Copia `wyzie.py` in `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'Modifica `bazarr/subliminal_patch/extensions.py` e aggiungi `wyzie` a **entrambi** `provider_registry` e `provider_manager`.',
+  'plugins.bazarr.install.3':
+    'Modifica `bazarr/list_subtitles.py` (o `bazarr/config.py`, a seconda della tua versione) per esporre le impostazioni `api_key`, `prefer_hi` e `sources`. Copia lo schema da un provider esistente come `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'Riavvia Bazarr.',
+  'plugins.bazarr.install.5':
+    'Vai su **Impostazioni, Provider, Wyzie**, incolla la tua chiave API e salva.',
+  'plugins.bazarr.install.after':
+    'È prevista una pull request ufficiale per integrare questo provider direttamente in Bazarr. Fino ad allora è un file pronto all’uso che aggiungi alla tua installazione.',
+  'plugins.bazarr.cfg.key': 'La tua chiave Wyzie. Obbligatoria.',
+  'plugins.bazarr.cfg.hi': 'Preferisci i sottotitoli per non udenti.',
+  'plugins.bazarr.cfg.sources':
+    'Elenco separato da virgole dei provider da interrogare, oppure `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 o 429** (saldo esaurito o limite giornaliero raggiunto): Bazarr registra una nota con un link a [store.wyzie.io](https://store.wyzie.io) e non restituisce risultati, quindi ricade in modo pulito sugli altri provider. Niente va in crash.',
+  'plugins.bazarr.quota.401':
+    '**401** (chiave errata): Bazarr mostra un errore di autenticazione così sai di dover reinserire la chiave.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie non compare nella lista dei provider.** Ricontrolla il passaggio di installazione che modifica `extensions.py`; la voce deve essere sia in `provider_registry` sia in `provider_manager`, poi riavvia Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**Nessun sottotitolo trovato.** Verifica che l’elemento abbia un ID IMDB in Bazarr e che le lingue abilitate abbiano sottotitoli per esso. Restringi `sources` solo se è tua intenzione.',
+  'plugins.bazarr.ts.settings':
+    '**Campi delle impostazioni mancanti.** Il passaggio delle impostazioni non è stato applicato per la tua versione di Bazarr; confronta con un blocco di impostazioni di un provider funzionante e riavvia.',
+
+  'plugins.kodi.intro':
+    'Un servizio di sottotitoli per **Kodi 19+ (Matrix e successivi)**, LibreELEC e CoreELEC. Usa il punto di estensione standard di Kodi `xbmc.subtitle.module`, quindi appare ovunque Kodi cerchi i sottotitoli.',
+  'plugins.kodi.before':
+    'Ottieni una chiave API Wyzie gratuita su [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'Installare il repository una volta consente a Kodi di **aggiornare automaticamente** l’add-on per te.',
+  'plugins.kodi.repo.1':
+    'Scarica l’installer del repository: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'In Kodi: **Impostazioni, Add-on, Installa da file zip**, poi scegli `repository.wyzie.zip`. Se Kodi lo blocca, abilita prima **Impostazioni, Sistema, Add-on, Origini sconosciute**.',
+  'plugins.kodi.repo.3':
+    '**Impostazioni, Add-on, Installa dal repository, Wyzie Repository, Servizi sottotitoli, Wyzie Subs, Installa.**',
+  'plugins.kodi.repo.4':
+    '**Impostazioni, Lettore, Lingua, Servizio sottotitoli predefinito**, poi seleziona **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'Apri le impostazioni dell’add-on Wyzie Subs e incolla la tua **chiave API**.',
+  'plugins.kodi.zip.intro':
+    'Usa questo se preferisci non aggiungere il repository. Nota: un’installazione da zip **non** si aggiorna automaticamente.',
+  'plugins.kodi.zip.1':
+    'Ottieni lo zip dell’add-on: `service.subtitles.wyzie-<version>.zip`. Se hai il sorgente, comprimi la cartella `kodi/` così che lo zip contenga `addon.xml` nella sua radice.',
+  'plugins.kodi.zip.2':
+    'In Kodi: **Impostazioni, Add-on, Installa da file zip**, poi scegli lo zip. Se Kodi lo blocca, abilita prima **Impostazioni, Sistema, Add-on, Origini sconosciute**.',
+  'plugins.kodi.zip.3':
+    '**Impostazioni, Lettore, Lingua, Servizio sottotitoli predefinito**, poi seleziona **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'Apri le impostazioni dell’add-on Wyzie Subs e incolla la tua **chiave API**.',
+  'plugins.kodi.cfg.key': 'La tua chiave Wyzie. Obbligatoria.',
+  'plugins.kodi.cfg.hi': 'Preferisci i sottotitoli per non udenti.',
+  'plugins.kodi.cfg.langs':
+    'Le lingue sono prese dalle lingue dei sottotitoli selezionate in Kodi e mappate automaticamente su ISO 639-1.',
+  'plugins.kodi.matching.1':
+    'Mentre qualcosa è in riproduzione, Kodi espone il numero IMDB, la stagione e l’episodio. L’add-on li legge, interroga `sub.wyzie.io/search` e restituisce i sottotitoli corrispondenti. Poiché Wyzie è guidato dagli ID (IMDB e TMDB), le corrispondenze sono accurate sia per i film che per le serie.',
+  'plugins.kodi.matching.2':
+    '**La ricerca manuale** attualmente mostra una notifica e non fa nulla, perché Wyzie effettua la corrispondenza sugli ID, non sui titoli. Una ricerca da titolo a ID è in programma. Per ora, lascia che Kodi cerchi automaticamente durante la riproduzione.',
+  'plugins.kodi.quota':
+    'Una risposta 402 o 429 mostra una notifica toast di Kodi che ti indirizza a [store.wyzie.io](https://store.wyzie.io) per ricaricare o abbonarti.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie non viene offerto durante la riproduzione.** Verifica che sia impostato come **Servizio sottotitoli predefinito** e che l’elemento in riproduzione abbia un ID IMDB.',
+  'plugins.kodi.ts.key':
+    '**Chiave non valida.** Riapri le impostazioni dell’add-on e reincolla la tua chiave.',
+  'plugins.kodi.ts.episode':
+    '**Niente per un episodio.** Assicurati che Kodi abbia i metadati corretti di stagione ed episodio per il file; gli elementi della libreria con scraping funzionano meglio.',
 };
 
 export default messages;

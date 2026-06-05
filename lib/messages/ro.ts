@@ -503,6 +503,151 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'Autentificare API',
   'i6shark.hosting.auth.p':
     'Tokenurile API sunt generate folosind HMAC-SHA256 cu o cheie secretă partajată. Intrarea pentru generarea cheii este antetul user-agent. Vezi funcția validateAPIToken din codul sursă pentru detalii de implementare.',
+
+  // Plugins
+  'plugins.common.required': 'Necesar',
+
+  'plugins.index.intro':
+    'Wyzie Subs se conectează direct la aplicațiile media pe care le folosești deja. Fiecare plugin comunică cu același endpoint `https://sub.wyzie.io/search` și are nevoie de o **cheie API Wyzie** gratuită. Obține una la [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for':
+    'Vizionezi în Stremio pe desktop, mobil sau TV',
+  'plugins.index.tbl.stremio.install':
+    'Add-on găzduit: lipește cheia, apasă Install',
+  'plugins.index.tbl.bazarr.for':
+    'Biblioteci Plex, Jellyfin, Emby, Sonarr, Radarr',
+  'plugins.index.tbl.bazarr.install':
+    'Provider drop-in pentru instanța ta Bazarr',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install':
+    'Instalează din zip sau din depozitul Wyzie',
+  'plugins.index.use.stremio':
+    'Folosește **Stremio** dacă vizionezi în aplicația Stremio.',
+  'plugins.index.use.bazarr':
+    'Folosește **Bazarr** dacă rulezi Plex, Jellyfin sau Emby. Bazarr descarcă fișierele de subtitrare pe disc, iar serverul tău media le preia automat. Aceasta este și calea recomandată pentru Plex și Jellyfin; nu există un plugin nativ separat.',
+  'plugins.index.use.kodi':
+    'Folosește **Kodi** pentru un serviciu de subtitrări nativ Kodi pe Android TV, un Raspberry Pi sau un PC home theatre.',
+  'plugins.index.shared.sources':
+    '**Surse:** OpenSubtitles, SubDL și Podnapisi, agregate prin Wyzie.',
+  'plugins.index.shared.matching':
+    '**Potrivire:** Wyzie este ghidat de ID-uri IMDB și TMDB plus sezon și episod, așa că potrivirile sunt precise atât pentru filme, cât și pentru seriale.',
+  'plugins.index.shared.quota':
+    '**Cotă:** când cheia ta se epuizează, pluginul afișează un mesaj prietenos care trimite către [store.wyzie.io](https://store.wyzie.io) în loc să eșueze în tăcere. Reîncarcă sau abonează-te și ești din nou în activitate.',
+  'plugins.index.shared.languages':
+    '**Limbi:** peste 100, selectabile pentru fiecare plugin.',
+  'plugins.index.outro': 'Alege platforma ta de mai sus pentru a începe.',
+
+  'plugins.stremio.intro':
+    'Un add-on de subtitrări cu un singur clic pentru [Stremio](https://www.stremio.com/). Agregă OpenSubtitles, SubDL și Podnapisi prin Wyzie și funcționează atât pentru filme, cât și pentru seriale, pe fiecare platformă pe care rulează Stremio.',
+  'plugins.stremio.before':
+    'Ai nevoie de o cheie API Wyzie gratuită. Obține una la [store.wyzie.io/redeem](https://store.wyzie.io/redeem), sau cumpără o cheie Pro ori abonează-te la [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'Deschide [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'Lipește **cheia API**.',
+  'plugins.stremio.install.3':
+    'Opțional: introdu **limbile** preferate ca coduri ISO 639-1, separate prin virgulă (de exemplu `en,es,fr`). Lasă gol pentru toate limbile.',
+  'plugins.stremio.install.4':
+    'Opțional: activează subtitrările pentru **persoane cu deficiențe de auz** dacă le preferi.',
+  'plugins.stremio.install.5':
+    'Apasă **Install**. Stremio se deschide și îți cere să confirmi; acceptă și ai terminat.',
+  'plugins.stremio.install.after':
+    'Cheia și preferințele tale sunt codificate în add-on, deci nu mai e nimic altceva de configurat. Deschide orice film sau episod și alege o subtitrare din listă.',
+  'plugins.stremio.cfg.key.f': 'Cheie API',
+  'plugins.stremio.cfg.key.d': 'Cheia ta Wyzie. Necesară.',
+  'plugins.stremio.cfg.langs.f': 'Limbi',
+  'plugins.stremio.cfg.langs.d':
+    'Coduri ISO 639-1, separate prin virgulă. Gol înseamnă toate limbile.',
+  'plugins.stremio.cfg.hi.f': 'Deficiențe de auz',
+  'plugins.stremio.cfg.hi.d':
+    'Preferă subtitrările pentru persoane cu deficiențe de auz când sunt disponibile.',
+  'plugins.stremio.cfg.note':
+    'Pentru a schimba oricare dintre acestea ulterior, redeschide [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), ajustează și reinstalează.',
+  'plugins.stremio.local':
+    'Apoi deschide `http://127.0.0.1:7000/configure`, lipește cheia și instalează în Stremio.',
+  'plugins.stremio.quota':
+    'Dacă cheia ta atinge limita, add-on-ul afișează o singură intrare de subtitrare care trimite către [store.wyzie.io](https://store.wyzie.io) ca să poți reîncărca sau abona. După ce o faci, subtitrările revin imediat.',
+  'plugins.stremio.ts.none':
+    '**Nu apar subtitrări.** Asigură-te că titlul are un ID IMDB în Stremio (majoritatea elementelor din catalog au) și că limbile alese chiar au subtitrări pentru acel titlu. Încearcă să elimini filtrul de limbă ca să vezi tot.',
+  'plugins.stremio.ts.key':
+    '**Cheie invalidă, sau nu se încarcă nimic.** Redeschide pagina de configurare și relipește cheia; un spațiu rătăcit o strică. Confirmă că cheia funcționează la [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**Episodul serialului nu se potrivește.** Wyzie se potrivește pe sezon și episod; asigură-te că Stremio redă intrarea corectă a episodului, nu o pagină generică a serialului.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) gestionează subtitrările pentru **Plex, Jellyfin, Emby, Sonarr și Radarr** într-un singur loc. Adăugarea Wyzie ca provider oferă tuturor acelor servere acces la OpenSubtitles, SubDL și Podnapisi printr-o singură cheie.',
+  'plugins.bazarr.note':
+    'Aceasta este modalitatea recomandată de a folosi Wyzie cu Plex și Jellyfin. Bazarr descarcă fișierele de subtitrare lângă media ta, iar serverul tău le preia automat, deci nu este necesar un plugin nativ separat.',
+  'plugins.bazarr.before':
+    'Obține o cheie API Wyzie gratuită la [store.wyzie.io/redeem](https://store.wyzie.io/redeem) și asigură-te că ai acces la fișierele instalării tale Bazarr (cale Docker tipică: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'Copiază `wyzie.py` în `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'Editează `bazarr/subliminal_patch/extensions.py` și adaugă `wyzie` în **ambele** `provider_registry` și `provider_manager`.',
+  'plugins.bazarr.install.3':
+    'Editează `bazarr/list_subtitles.py` (sau `bazarr/config.py`, în funcție de versiunea ta) pentru a expune setările `api_key`, `prefer_hi` și `sources`. Copiază modelul de la un provider existent precum `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'Repornește Bazarr.',
+  'plugins.bazarr.install.5':
+    'Mergi la **Settings, Providers, Wyzie**, lipește cheia API și salvează.',
+  'plugins.bazarr.install.after':
+    'Este planificat un pull request de calitate care să integreze acest provider în Bazarr. Până atunci, este un fișier drop-in pe care îl adaugi la propria instalare.',
+  'plugins.bazarr.cfg.key': 'Cheia ta Wyzie. Necesară.',
+  'plugins.bazarr.cfg.hi':
+    'Preferă subtitrările pentru persoane cu deficiențe de auz.',
+  'plugins.bazarr.cfg.sources':
+    'Listă de provideri de interogat, separați prin virgulă, sau `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 sau 429** (sold epuizat sau plafon zilnic atins): Bazarr înregistrează o notă cu un link către [store.wyzie.io](https://store.wyzie.io) și nu returnează rezultate, astfel încât revine curat la ceilalți provideri ai tăi. Nimic nu se blochează.',
+  'plugins.bazarr.quota.401':
+    '**401** (cheie greșită): Bazarr afișează o eroare de autentificare ca să știi să reintroduci cheia.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie nu apare în lista de provideri.** Reverifică pasul de instalare care editează `extensions.py`; intrarea trebuie să fie atât în `provider_registry`, cât și în `provider_manager`, apoi repornește Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**Nu s-au găsit subtitrări.** Confirmă că elementul are un ID IMDB în Bazarr și că limbile pe care le-ai activat au subtitrări pentru el. Restrânge `sources` doar dacă intenționezi acest lucru.',
+  'plugins.bazarr.ts.settings':
+    '**Câmpurile de setări lipsesc.** Pasul de setări nu a fost aplicat pentru versiunea ta de Bazarr; compară cu un bloc de setări de provider funcțional și repornește.',
+
+  'plugins.kodi.intro':
+    'Un serviciu de subtitrări pentru **Kodi 19+ (Matrix și mai recent)**, LibreELEC și CoreELEC. Folosește punctul de extensie standard al Kodi `xbmc.subtitle.module`, așa că apare oriunde Kodi caută subtitrări.',
+  'plugins.kodi.before':
+    'Obține o cheie API Wyzie gratuită la [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'Instalarea depozitului o singură dată permite Kodi să **actualizeze automat** add-on-ul pentru tine.',
+  'plugins.kodi.repo.1':
+    'Descarcă instalatorul depozitului: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'În Kodi: **Settings, Add-ons, Install from zip file**, apoi alege `repository.wyzie.zip`. Dacă Kodi îl blochează, activează mai întâi **Settings, System, Add-ons, Unknown sources**.',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install.**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service**, apoi selectează **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'Deschide setările add-on-ului Wyzie Subs și lipește **cheia API**.',
+  'plugins.kodi.zip.intro':
+    'Folosește aceasta dacă preferi să nu adaugi depozitul. Notă: o instalare din zip **nu** se actualizează automat.',
+  'plugins.kodi.zip.1':
+    'Obține zip-ul add-on-ului: `service.subtitles.wyzie-<version>.zip`. Dacă ai sursa, arhivează folderul `kodi/` astfel încât zip-ul să conțină `addon.xml` la rădăcina sa.',
+  'plugins.kodi.zip.2':
+    'În Kodi: **Settings, Add-ons, Install from zip file**, apoi alege zip-ul. Dacă Kodi îl blochează, activează mai întâi **Settings, System, Add-ons, Unknown sources**.',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service**, apoi selectează **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'Deschide setările add-on-ului Wyzie Subs și lipește **cheia API**.',
+  'plugins.kodi.cfg.key': 'Cheia ta Wyzie. Necesară.',
+  'plugins.kodi.cfg.hi':
+    'Preferă subtitrările pentru persoane cu deficiențe de auz.',
+  'plugins.kodi.cfg.langs':
+    'Limbile sunt preluate din limbile de subtitrare selectate în Kodi și mapate automat la ISO 639-1.',
+  'plugins.kodi.matching.1':
+    'În timp ce se redă ceva, Kodi expune numărul IMDB, sezonul și episodul. Add-on-ul le citește, interoghează `sub.wyzie.io/search` și returnează subtitrările potrivite. Deoarece Wyzie este ghidat de ID-uri (IMDB și TMDB), potrivirile sunt precise atât pentru filme, cât și pentru seriale.',
+  'plugins.kodi.matching.2':
+    '**Căutarea manuală** afișează în prezent o notificare și nu face nimic, deoarece Wyzie se potrivește pe ID-uri, nu pe titluri. O căutare titlu-către-ID este pe foaia de parcurs. Deocamdată, lasă Kodi să caute automat în timpul redării.',
+  'plugins.kodi.quota':
+    'Un răspuns 402 sau 429 afișează o notificare toast Kodi care te îndreaptă către [store.wyzie.io](https://store.wyzie.io) pentru a reîncărca sau a te abona.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie nu este oferit în timpul redării.** Confirmă că este setat ca **Default subtitle service** și că elementul redat are un ID IMDB.',
+  'plugins.kodi.ts.key':
+    '**Cheie invalidă.** Redeschide setările add-on-ului și relipește cheia.',
+  'plugins.kodi.ts.episode':
+    '**Nimic pentru un episod.** Asigură-te că Kodi are metadate corecte de sezon și episod pentru fișier; elementele din bibliotecă obținute prin scraping funcționează cel mai bine.',
 };
 
 export default messages;

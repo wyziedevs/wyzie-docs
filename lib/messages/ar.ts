@@ -482,6 +482,146 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'مصادقة API',
   'i6shark.hosting.auth.p':
     'تُولَّد رموز API باستخدام HMAC-SHA256 مع مفتاح سري مشترك. مدخل توليد المفتاح هو ترويسة وكيل المستخدم. راجع دالة validateAPIToken في الكود المصدري لتفاصيل التنفيذ.',
+
+  // Plugins
+  'plugins.common.required': 'مطلوب',
+
+  'plugins.index.intro':
+    'تتكامل Wyzie Subs مباشرةً مع تطبيقات الوسائط التي تستخدمها بالفعل. كل إضافة تتواصل مع نفس نقطة النهاية `https://sub.wyzie.io/search` وتحتاج إلى **مفتاح Wyzie API** مجاني. احصل على واحد من [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for':
+    'المشاهدة في Stremio على سطح المكتب أو الهاتف أو التلفزيون',
+  'plugins.index.tbl.stremio.install':
+    'إضافة مستضافة: الصق مفتاحك، ثم انقر تثبيت',
+  'plugins.index.tbl.bazarr.for': 'مكتبات Plex وJellyfin وEmby وSonarr وRadarr',
+  'plugins.index.tbl.bazarr.install':
+    'موفّر جاهز للاستخدام في نسخة Bazarr الخاصة بك',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+ وLibreELEC وCoreELEC',
+  'plugins.index.tbl.kodi.install': 'التثبيت من ملف مضغوط أو من مستودع Wyzie',
+  'plugins.index.use.stremio':
+    'استخدم **Stremio** إذا كنت تشاهد داخل تطبيق Stremio.',
+  'plugins.index.use.bazarr':
+    'استخدم **Bazarr** إذا كنت تشغّل Plex أو Jellyfin أو Emby. يقوم Bazarr بتنزيل ملفات الترجمة إلى القرص ويلتقطها خادم الوسائط الخاص بك تلقائياً. هذا أيضاً المسار الموصى به لـ Plex وJellyfin؛ ولا توجد إضافة أصلية منفصلة.',
+  'plugins.index.use.kodi':
+    'استخدم **Kodi** للحصول على خدمة ترجمة أصلية لـ Kodi على Android TV أو Raspberry Pi أو حاسوب المسرح المنزلي.',
+  'plugins.index.shared.sources':
+    '**المصادر:** OpenSubtitles وSubDL وPodnapisi، مجمَّعة عبر Wyzie.',
+  'plugins.index.shared.matching':
+    '**المطابقة:** تعتمد Wyzie على معرّفات IMDB وTMDB بالإضافة إلى الموسم والحلقة، لذا تكون المطابقات دقيقة لكل من الأفلام والمسلسلات.',
+  'plugins.index.shared.quota':
+    '**الحصة:** عندما ينفد رصيد مفتاحك، تعرض الإضافة رسالة ودّية مع رابط إلى [store.wyzie.io](https://store.wyzie.io) بدلاً من الفشل بصمت. أعِد الشحن أو اشترك وستعود للعمل.',
+  'plugins.index.shared.languages':
+    '**اللغات:** أكثر من 100، قابلة للاختيار لكل إضافة.',
+  'plugins.index.outro': 'اختر منصّتك أعلاه للبدء.',
+
+  'plugins.stremio.intro':
+    'إضافة ترجمة بنقرة واحدة لـ [Stremio](https://www.stremio.com/). تجمع OpenSubtitles وSubDL وPodnapisi عبر Wyzie وتعمل لكل من الأفلام والمسلسلات، على كل منصة يعمل عليها Stremio.',
+  'plugins.stremio.before':
+    'تحتاج إلى مفتاح Wyzie API مجاني. احصل على واحد من [store.wyzie.io/redeem](https://store.wyzie.io/redeem)، أو اشترِ مفتاح Pro أو اشترك من [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'افتح [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'الصق **مفتاح API** الخاص بك.',
+  'plugins.stremio.install.3':
+    'اختياري: أدخل **اللغات** المفضّلة لديك كرموز ISO 639-1، مفصولة بفواصل (على سبيل المثال `en,es,fr`). اتركه فارغاً لجميع اللغات.',
+  'plugins.stremio.install.4':
+    'اختياري: فعّل ترجمات **ضعاف السمع** إذا كنت تفضّلها.',
+  'plugins.stremio.install.5':
+    'انقر **تثبيت**. سيفتح Stremio ويطلب منك التأكيد؛ وافِق، وبذلك تكون قد انتهيت.',
+  'plugins.stremio.install.after':
+    'يُرمَّز مفتاحك وتفضيلاتك داخل الإضافة، لذا لا يوجد شيء آخر لإعداده. افتح أي فيلم أو حلقة واختر ترجمة من القائمة.',
+  'plugins.stremio.cfg.key.f': 'مفتاح API',
+  'plugins.stremio.cfg.key.d': 'مفتاح Wyzie الخاص بك. مطلوب.',
+  'plugins.stremio.cfg.langs.f': 'اللغات',
+  'plugins.stremio.cfg.langs.d':
+    'رموز ISO 639-1، مفصولة بفواصل. الفراغ يعني جميع اللغات.',
+  'plugins.stremio.cfg.hi.f': 'ضعاف السمع',
+  'plugins.stremio.cfg.hi.d': 'تفضيل ترجمات ضعاف السمع عند توفّرها.',
+  'plugins.stremio.cfg.note':
+    'لتغيير أيٍّ من هذه لاحقاً، أعِد فتح [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure)، وعدّل، ثم أعِد التثبيت.',
+  'plugins.stremio.local':
+    'ثم افتح `http://127.0.0.1:7000/configure`، والصق مفتاحك، وثبّت في Stremio.',
+  'plugins.stremio.quota':
+    'إذا بلغ مفتاحك حدّه، تعرض الإضافة مدخل ترجمة واحداً يرتبط بـ [store.wyzie.io](https://store.wyzie.io) لتتمكن من إعادة الشحن أو الاشتراك. وبمجرد فعل ذلك، تعود الترجمات فوراً.',
+  'plugins.stremio.ts.none':
+    '**لا تظهر أي ترجمات.** تأكد من أن العنوان يحمل معرّف IMDB في Stremio (معظم عناصر الكتالوج تحمله) وأن اللغات التي اخترتها لديها فعلاً ترجمات لذلك العنوان. جرّب إزالة مرشّح اللغة لرؤية كل شيء.',
+  'plugins.stremio.ts.key':
+    '**مفتاح غير صالح، أو لا يتم تحميل أي شيء.** أعِد فتح صفحة الإعداد وأعِد لصق مفتاحك؛ فالمسافة الزائدة تُفسده. تأكد من أن المفتاح يعمل من [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**حلقة مسلسل لا تتطابق.** تطابق Wyzie على أساس الموسم والحلقة؛ تأكد من أن Stremio يشغّل مدخل الحلقة الصحيح، وليس صفحة مسلسل عامة.',
+
+  'plugins.bazarr.intro':
+    'يدير [Bazarr](https://www.bazarr.media/) الترجمات لـ **Plex وJellyfin وEmby وSonarr وRadarr** في مكان واحد. إضافة Wyzie كموفّر تمنح كل تلك الخوادم الوصول إلى OpenSubtitles وSubDL وPodnapisi عبر مفتاح واحد.',
+  'plugins.bazarr.note':
+    'هذه هي الطريقة الموصى بها لاستخدام Wyzie مع Plex وJellyfin. يقوم Bazarr بتنزيل ملفات الترجمة بجوار وسائطك، ويلتقطها خادمك تلقائياً، لذا لا حاجة إلى إضافة أصلية منفصلة.',
+  'plugins.bazarr.before':
+    'احصل على مفتاح Wyzie API مجاني من [store.wyzie.io/redeem](https://store.wyzie.io/redeem)، وتأكد من امتلاكك صلاحية الوصول إلى ملفات تثبيت Bazarr (المسار النموذجي في Docker: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'انسخ `wyzie.py` إلى `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'عدّل `bazarr/subliminal_patch/extensions.py` وأضف `wyzie` إلى **كلٍّ** من `provider_registry` و`provider_manager`.',
+  'plugins.bazarr.install.3':
+    'عدّل `bazarr/list_subtitles.py` (أو `bazarr/config.py`، حسب إصدارك) لإظهار إعدادات `api_key` و`prefer_hi` و`sources`. انسخ النمط من موفّر موجود مثل `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'أعِد تشغيل Bazarr.',
+  'plugins.bazarr.install.5':
+    'انتقل إلى **الإعدادات، الموفّرون، Wyzie**، والصق مفتاح API الخاص بك، ثم احفظ.',
+  'plugins.bazarr.install.after':
+    'هناك خطة لتقديم طلب سحب رسمي لدمج هذا الموفّر في Bazarr رسمياً. حتى ذلك الحين، يبقى ملفاً جاهزاً تضيفه إلى نسختك الخاصة.',
+  'plugins.bazarr.cfg.key': 'مفتاح Wyzie الخاص بك. مطلوب.',
+  'plugins.bazarr.cfg.hi': 'تفضيل ترجمات ضعاف السمع.',
+  'plugins.bazarr.cfg.sources':
+    'قائمة موفّرين مفصولة بفواصل للاستعلام منها، أو `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 أو 429** (نفاد الرصيد أو بلوغ الحد اليومي): يسجّل Bazarr ملاحظة مع رابط إلى [store.wyzie.io](https://store.wyzie.io) ولا يعيد أي نتائج، فيتراجع بسلاسة إلى موفّريك الآخرين. لا شيء ينهار.',
+  'plugins.bazarr.quota.401':
+    '**401** (مفتاح خاطئ): يُظهر Bazarr خطأ مصادقة لتعرف أن عليك إعادة إدخال المفتاح.',
+  'plugins.bazarr.ts.missing':
+    '**لا تظهر Wyzie في قائمة الموفّرين.** أعِد فحص خطوة التثبيت التي تعدّل `extensions.py`؛ يجب أن يكون المدخل في كلٍّ من `provider_registry` و`provider_manager`، ثم أعِد تشغيل Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**لم يتم العثور على ترجمات.** تأكد من أن العنصر يحمل معرّف IMDB في Bazarr وأن اللغات التي فعّلتها لديها ترجمات له. لا تُضيّق `sources` إلا إذا كنت تقصد ذلك.',
+  'plugins.bazarr.ts.settings':
+    '**حقول الإعدادات مفقودة.** لم تُطبَّق خطوة الإعدادات لإصدار Bazarr لديك؛ قارِن مع كتلة إعدادات موفّر يعمل ثم أعِد التشغيل.',
+
+  'plugins.kodi.intro':
+    'خدمة ترجمة لـ **Kodi 19+ (Matrix وما بعده)** وLibreELEC وCoreELEC. تستخدم نقطة الامتداد القياسية `xbmc.subtitle.module` في Kodi، لذا تظهر أينما يبحث Kodi عن ترجمات.',
+  'plugins.kodi.before':
+    'احصل على مفتاح Wyzie API مجاني من [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'تثبيت المستودع مرة واحدة يتيح لـ Kodi **التحديث التلقائي** للإضافة نيابةً عنك.',
+  'plugins.kodi.repo.1':
+    'نزّل مثبّت المستودع: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'في Kodi: **الإعدادات، الإضافات، التثبيت من ملف مضغوط**، ثم اختر `repository.wyzie.zip`. إذا منعه Kodi، فعّل **الإعدادات، النظام، الإضافات، مصادر غير معروفة** أولاً.',
+  'plugins.kodi.repo.3':
+    '**الإعدادات، الإضافات، التثبيت من المستودع، Wyzie Repository، خدمات الترجمة، Wyzie Subs، تثبيت.**',
+  'plugins.kodi.repo.4':
+    '**الإعدادات، المشغّل، اللغة، خدمة الترجمة الافتراضية**، ثم اختر **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'افتح إعدادات إضافة Wyzie Subs والصق **مفتاح API** الخاص بك.',
+  'plugins.kodi.zip.intro':
+    'استخدم هذا إذا كنت تفضّل عدم إضافة المستودع. ملاحظة: التثبيت من ملف مضغوط **لا** يتم تحديثه تلقائياً.',
+  'plugins.kodi.zip.1':
+    'احصل على ملف الإضافة المضغوط: `service.subtitles.wyzie-<version>.zip`. إذا كان لديك الكود المصدري، اضغط مجلد `kodi/` بحيث يحتوي الملف المضغوط على `addon.xml` في جذره.',
+  'plugins.kodi.zip.2':
+    'في Kodi: **الإعدادات، الإضافات، التثبيت من ملف مضغوط**، ثم اختر الملف المضغوط. إذا منعه Kodi، فعّل **الإعدادات، النظام، الإضافات، مصادر غير معروفة** أولاً.',
+  'plugins.kodi.zip.3':
+    '**الإعدادات، المشغّل، اللغة، خدمة الترجمة الافتراضية**، ثم اختر **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'افتح إعدادات إضافة Wyzie Subs والصق **مفتاح API** الخاص بك.',
+  'plugins.kodi.cfg.key': 'مفتاح Wyzie الخاص بك. مطلوب.',
+  'plugins.kodi.cfg.hi': 'تفضيل ترجمات ضعاف السمع.',
+  'plugins.kodi.cfg.langs':
+    'تُؤخذ اللغات من لغات الترجمة المختارة في Kodi وتُربط بـ ISO 639-1 تلقائياً.',
+  'plugins.kodi.matching.1':
+    'أثناء تشغيل شيء ما، يكشف Kodi عن رقم IMDB والموسم والحلقة. تقرأ الإضافة تلك القيم، وتستعلم من `sub.wyzie.io/search`، وتعيد الترجمات المطابقة. ولأن Wyzie تعتمد على المعرّفات (IMDB وTMDB)، تكون المطابقات دقيقة لكل من الأفلام والمسلسلات.',
+  'plugins.kodi.matching.2':
+    '**البحث اليدوي** يعرض حالياً إشعاراً ولا يفعل شيئاً، لأن Wyzie تطابق على المعرّفات وليس العناوين. وهناك خطة لإضافة بحث من العنوان إلى المعرّف في خارطة الطريق. في الوقت الحالي، دع Kodi يبحث تلقائياً أثناء التشغيل.',
+  'plugins.kodi.quota':
+    'تُظهر استجابة 402 أو 429 إشعار Kodi منبثقاً يوجّهك إلى [store.wyzie.io](https://store.wyzie.io) لإعادة الشحن أو الاشتراك.',
+  'plugins.kodi.ts.notoffered':
+    '**لا تُعرض Wyzie أثناء التشغيل.** تأكد من تعيينها كـ **خدمة الترجمة الافتراضية** وأن العنصر قيد التشغيل يحمل معرّف IMDB.',
+  'plugins.kodi.ts.key':
+    '**مفتاح غير صالح.** أعِد فتح إعدادات الإضافة وأعِد لصق مفتاحك.',
+  'plugins.kodi.ts.episode':
+    '**لا شيء لحلقة ما.** تأكد من أن Kodi يملك بيانات وصفية صحيحة للموسم والحلقة للملف؛ عناصر المكتبة المُجمَّعة بالكاشط تعمل بشكل أفضل.',
 };
 
 export default messages;

@@ -494,6 +494,149 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'API 認証',
   'i6shark.hosting.auth.p':
     'API トークンは共有秘密鍵を使用した HMAC-SHA256 で生成されます。キー生成の入力はユーザーエージェントヘッダーです。実装の詳細はソースコードの validateAPIToken 関数をご覧ください。',
+
+  // Plugins
+  'plugins.common.required': '必須',
+
+  'plugins.index.intro':
+    'Wyzie Subs は、お使いのメディアアプリにそのまま組み込めます。すべてのプラグインは同じ `https://sub.wyzie.io/search` エンドポイントと通信し、無料の **Wyzie API キー** が必要です。[store.wyzie.io](https://store.wyzie.io/#plans) で取得してください。',
+  'plugins.index.tbl.stremio.for':
+    'デスクトップ、モバイル、または TV の Stremio で視聴する場合',
+  'plugins.index.tbl.stremio.install':
+    'ホスト型アドオン：キーを貼り付けて Install をクリック',
+  'plugins.index.tbl.bazarr.for':
+    'Plex、Jellyfin、Emby、Sonarr、Radarr のライブラリ',
+  'plugins.index.tbl.bazarr.install':
+    'お使いの Bazarr インスタンスにそのまま追加できるプロバイダー',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+、LibreELEC、CoreELEC',
+  'plugins.index.tbl.kodi.install':
+    'zip または Wyzie リポジトリからインストール',
+  'plugins.index.use.stremio':
+    'Stremio アプリ内で視聴する場合は **Stremio** をお使いください。',
+  'plugins.index.use.bazarr':
+    'Plex、Jellyfin、または Emby を使用している場合は **Bazarr** をお使いください。Bazarr は字幕ファイルをディスクにダウンロードし、メディアサーバーが自動的にそれを取り込みます。これは Plex と Jellyfin で推奨される方法でもあります。別途専用のネイティブプラグインはありません。',
+  'plugins.index.use.kodi':
+    'Android TV、Raspberry Pi、またはホームシアター PC 上で Kodi ネイティブの字幕サービスを利用するには **Kodi** をお使いください。',
+  'plugins.index.shared.sources':
+    '**ソース：** OpenSubtitles、SubDL、Podnapisi を Wyzie 経由で集約しています。',
+  'plugins.index.shared.matching':
+    '**マッチング：** Wyzie は IMDB および TMDB の ID とシーズン・エピソードで動作するため、映画でもシリーズでも正確にマッチします。',
+  'plugins.index.shared.quota':
+    '**クォータ：** キーを使い切ると、プラグインは無言で失敗する代わりに [store.wyzie.io](https://store.wyzie.io) へのリンク付きの分かりやすいメッセージを表示します。チャージまたはサブスクライブすればすぐに再開できます。',
+  'plugins.index.shared.languages':
+    '**言語：** 100 以上、プラグインごとに選択可能です。',
+  'plugins.index.outro': '始めるには上からプラットフォームを選んでください。',
+
+  'plugins.stremio.intro':
+    '[Stremio](https://www.stremio.com/) 向けのワンクリック字幕アドオンです。OpenSubtitles、SubDL、Podnapisi を Wyzie 経由で集約し、映画とシリーズの両方に対応、Stremio が動作するあらゆるプラットフォームで利用できます。',
+  'plugins.stremio.before':
+    '無料の Wyzie API キーが必要です。[store.wyzie.io/redeem](https://store.wyzie.io/redeem) で取得するか、[store.wyzie.io](https://store.wyzie.io/#plans) で Pro キーを購入またはサブスクライブしてください。',
+  'plugins.stremio.install.1':
+    '[stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) を開きます。',
+  'plugins.stremio.install.2': '**API キー** を貼り付けます。',
+  'plugins.stremio.install.3':
+    '任意：希望する **言語** を ISO 639-1 コードでカンマ区切りで入力します（例：`en,es,fr`）。すべての言語にする場合は空欄のままにします。',
+  'plugins.stremio.install.4':
+    '任意：希望する場合は **聴覚障害者向け** 字幕を切り替えます。',
+  'plugins.stremio.install.5':
+    '**Install** をクリックします。Stremio が開いて確認を求めるので、承認すれば完了です。',
+  'plugins.stremio.install.after':
+    'キーと設定はアドオンにエンコードされるため、他に設定する必要はありません。任意の映画やエピソードを開き、リストから字幕を選んでください。',
+  'plugins.stremio.cfg.key.f': 'API キー',
+  'plugins.stremio.cfg.key.d': 'あなたの Wyzie キー。必須です。',
+  'plugins.stremio.cfg.langs.f': '言語',
+  'plugins.stremio.cfg.langs.d':
+    'ISO 639-1 コードをカンマ区切りで指定します。空欄はすべての言語を意味します。',
+  'plugins.stremio.cfg.hi.f': '聴覚障害者向け',
+  'plugins.stremio.cfg.hi.d':
+    '利用可能な場合は聴覚障害者向け字幕を優先します。',
+  'plugins.stremio.cfg.note':
+    '後でこれらを変更するには、[stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) を再度開いて調整し、再インストールしてください。',
+  'plugins.stremio.local':
+    'その後 `http://127.0.0.1:7000/configure` を開いてキーを貼り付け、Stremio にインストールしてください。',
+  'plugins.stremio.quota':
+    'キーが上限に達すると、アドオンは [store.wyzie.io](https://store.wyzie.io) へのリンク付きの字幕エントリを1つ表示し、チャージまたはサブスクライブできるようにします。実行するとすぐに字幕が戻ります。',
+  'plugins.stremio.ts.none':
+    '**字幕が表示されない。** そのタイトルが Stremio に IMDB ID を持っていること（ほとんどのカタログ項目は持っています）、選択した言語に実際にそのタイトルの字幕があることを確認してください。すべてを見るには言語フィルターをクリアしてみてください。',
+  'plugins.stremio.ts.key':
+    '**キーが無効、または何も読み込まれない。** configure ページを再度開いてキーを貼り直してください。余分なスペースが入ると壊れます。キーが [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard) で動作することを確認してください。',
+  'plugins.stremio.ts.episode':
+    '**シリーズのエピソードがマッチしない。** Wyzie はシーズンとエピソードでマッチします。Stremio が一般的なシリーズページではなく正しいエピソード項目を再生していることを確認してください。',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) は **Plex、Jellyfin、Emby、Sonarr、Radarr** の字幕を一元管理します。Wyzie をプロバイダーとして追加すると、それらすべてのサーバーが単一のキーで OpenSubtitles、SubDL、Podnapisi にアクセスできるようになります。',
+  'plugins.bazarr.note':
+    'これは Plex と Jellyfin で Wyzie を使用する推奨方法です。Bazarr は字幕ファイルをメディアの隣にダウンロードし、サーバーが自動的にそれを取り込むため、別途ネイティブプラグインは必要ありません。',
+  'plugins.bazarr.before':
+    '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) で無料の Wyzie API キーを取得し、Bazarr のインストールファイルにアクセスできるようにしてください（一般的な Docker パス：`/opt/bazarr/bazarr/`）。',
+  'plugins.bazarr.install.1':
+    '`wyzie.py` を `bazarr/subliminal_patch/providers/wyzie.py` にコピーします。',
+  'plugins.bazarr.install.2':
+    '`bazarr/subliminal_patch/extensions.py` を編集し、`provider_registry` と `provider_manager` の **両方** に `wyzie` を追加します。',
+  'plugins.bazarr.install.3':
+    '`bazarr/list_subtitles.py`（バージョンによっては `bazarr/config.py`）を編集して `api_key`、`prefer_hi`、`sources` の設定を公開します。`opensubtitlescom` などの既存プロバイダーのパターンをコピーしてください。',
+  'plugins.bazarr.install.4': 'Bazarr を再起動します。',
+  'plugins.bazarr.install.5':
+    '**Settings, Providers, Wyzie** に移動し、API キーを貼り付けて保存します。',
+  'plugins.bazarr.install.after':
+    'このプロバイダーを Bazarr 本体へ取り込む正式なプルリクエストが計画されています。それまでは、自分のインストールに追加するドロップイン形式のファイルです。',
+  'plugins.bazarr.cfg.key': 'あなたの Wyzie キー。必須です。',
+  'plugins.bazarr.cfg.hi': '聴覚障害者向け字幕を優先します。',
+  'plugins.bazarr.cfg.sources':
+    'クエリするプロバイダーのカンマ区切りリスト、または `all`。',
+  'plugins.bazarr.quota.402':
+    '**402 または 429**（残高切れまたは日次上限到達）：Bazarr は [store.wyzie.io](https://store.wyzie.io) へのリンク付きのメモをログに記録し、結果を返さないため、他のプロバイダーへきれいにフォールバックします。クラッシュはしません。',
+  'plugins.bazarr.quota.401':
+    '**401**（キーが不正）：Bazarr は認証エラーを表示するので、キーを再入力すべきだと分かります。',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie がプロバイダーリストに表示されない。** `extensions.py` を編集するインストール手順を再確認してください。エントリは `provider_registry` と `provider_manager` の両方になければなりません。その後 Bazarr を再起動してください。',
+  'plugins.bazarr.ts.none':
+    '**字幕が見つからない。** その項目が Bazarr に IMDB ID を持っていること、有効にした言語にその字幕があることを確認してください。意図がある場合のみ `sources` を絞り込んでください。',
+  'plugins.bazarr.ts.settings':
+    '**設定フィールドが見当たらない。** 設定手順がお使いの Bazarr バージョンに適用されていません。動作するプロバイダーの設定ブロックと比較して、再起動してください。',
+
+  'plugins.kodi.intro':
+    '**Kodi 19+（Matrix 以降）**、LibreELEC、CoreELEC 向けの字幕サービスです。Kodi 標準の `xbmc.subtitle.module` 拡張ポイントを使用するため、Kodi が字幕を探すあらゆる場所に表示されます。',
+  'plugins.kodi.before':
+    '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) で無料の Wyzie API キーを取得してください。',
+  'plugins.kodi.repo.intro':
+    'リポジトリを一度インストールすると、Kodi がアドオンを **自動更新** してくれます。',
+  'plugins.kodi.repo.1':
+    'リポジトリインストーラーをダウンロードします：[**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip)。',
+  'plugins.kodi.repo.2':
+    'Kodi で：**Settings, Add-ons, Install from zip file** を選び、`repository.wyzie.zip` を選択します。Kodi がブロックする場合は、先に **Settings, System, Add-ons, Unknown sources** を有効にしてください。',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install。**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service** を開き、**Wyzie Subs** を選択します。',
+  'plugins.kodi.repo.5':
+    'Wyzie Subs アドオンの設定を開き、**API キー** を貼り付けます。',
+  'plugins.kodi.zip.intro':
+    'リポジトリを追加したくない場合はこちらを使ってください。注意：zip インストールは **自動更新されません**。',
+  'plugins.kodi.zip.1':
+    'アドオンの zip を入手します：`service.subtitles.wyzie-<version>.zip`。ソースをお持ちの場合は、`kodi/` フォルダーを zip にして、zip のルートに `addon.xml` が含まれるようにします。',
+  'plugins.kodi.zip.2':
+    'Kodi で：**Settings, Add-ons, Install from zip file** を選び、その zip を選択します。Kodi がブロックする場合は、先に **Settings, System, Add-ons, Unknown sources** を有効にしてください。',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service** を開き、**Wyzie Subs** を選択します。',
+  'plugins.kodi.zip.4':
+    'Wyzie Subs アドオンの設定を開き、**API キー** を貼り付けます。',
+  'plugins.kodi.cfg.key': 'あなたの Wyzie キー。必須です。',
+  'plugins.kodi.cfg.hi': '聴覚障害者向け字幕を優先します。',
+  'plugins.kodi.cfg.langs':
+    '言語は Kodi で選択された字幕言語から取得され、自動的に ISO 639-1 にマッピングされます。',
+  'plugins.kodi.matching.1':
+    '再生中、Kodi は IMDB 番号、シーズン、エピソードを公開します。アドオンはそれらを読み取って `sub.wyzie.io/search` に問い合わせ、マッチする字幕を返します。Wyzie は ID 駆動（IMDB と TMDB）なので、映画でもシリーズでも正確にマッチします。',
+  'plugins.kodi.matching.2':
+    '**手動検索** は現在、通知を表示するだけで何もしません。Wyzie はタイトルではなく ID でマッチするためです。タイトルから ID への変換はロードマップにあります。当面は、再生中に Kodi が自動検索するに任せてください。',
+  'plugins.kodi.quota':
+    '402 または 429 のレスポンスが返ると、チャージまたはサブスクライブのために [store.wyzie.io](https://store.wyzie.io) を指す Kodi のトースト通知が表示されます。',
+  'plugins.kodi.ts.notoffered':
+    '**再生中に Wyzie が表示されない。** **Default subtitle service** として設定されていること、再生中の項目が IMDB ID を持っていることを確認してください。',
+  'plugins.kodi.ts.key':
+    '**キーが無効。** アドオンの設定を再度開いてキーを貼り直してください。',
+  'plugins.kodi.ts.episode':
+    '**エピソードに対して何も出ない。** Kodi がそのファイルの正しいシーズン・エピソードのメタデータを持っていることを確認してください。スクレイプされたライブラリ項目が最も適しています。',
 };
 
 export default messages;

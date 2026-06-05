@@ -498,6 +498,149 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'API Kimlik Doğrulaması',
   'i6shark.hosting.auth.p':
     "API token'ları, paylaşılan gizli anahtar kullanılarak HMAC-SHA256 ile oluşturulur. Anahtar oluşturma girdisi user-agent başlığıdır. Uygulama ayrıntıları için kaynak kodundaki validateAPIToken fonksiyonuna bakın.",
+
+  // Plugins
+  'plugins.common.required': 'Gerekli',
+
+  'plugins.index.intro':
+    'Wyzie Subs, halihazırda kullandığınız medya uygulamalarına doğrudan bağlanır. Her eklenti aynı `https://sub.wyzie.io/search` uç noktasıyla konuşur ve ücretsiz bir **Wyzie API anahtarı** gerektirir. [store.wyzie.io](https://store.wyzie.io/#plans) adresinden bir tane edinin.',
+  'plugins.index.tbl.stremio.for':
+    'Stremio ile masaüstü, mobil veya TV üzerinde izleme',
+  'plugins.index.tbl.stremio.install':
+    'Barındırılan eklenti: anahtarınızı yapıştırın, Yükle düğmesine tıklayın',
+  'plugins.index.tbl.bazarr.for':
+    'Plex, Jellyfin, Emby, Sonarr, Radarr kütüphaneleri',
+  'plugins.index.tbl.bazarr.install':
+    'Bazarr örneğiniz için tak-çalıştır sağlayıcı',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install':
+    'Zip dosyasından veya Wyzie deposundan yükleyin',
+  'plugins.index.use.stremio':
+    'Stremio uygulamasının içinde izliyorsanız **Stremio** kullanın.',
+  'plugins.index.use.bazarr':
+    'Plex, Jellyfin veya Emby kullanıyorsanız **Bazarr** kullanın. Bazarr altyazı dosyalarını diske indirir ve medya sunucunuz bunları otomatik olarak alır. Bu, Plex ve Jellyfin için de önerilen yoldur; ayrı bir yerel eklenti yoktur.',
+  'plugins.index.use.kodi':
+    'Android TV, Raspberry Pi veya bir ev sinema bilgisayarında Kodi yerel bir altyazı hizmeti için **Kodi** kullanın.',
+  'plugins.index.shared.sources':
+    '**Kaynaklar:** Wyzie üzerinden bir araya getirilen OpenSubtitles, SubDL ve Podnapisi.',
+  'plugins.index.shared.matching':
+    '**Eşleştirme:** Wyzie, IMDB ve TMDB kimlikleri ile sezon ve bölüm bilgisiyle yönlendirilir, bu nedenle hem filmler hem de diziler için eşleşmeler kesindir.',
+  'plugins.index.shared.quota':
+    '**Kota:** anahtarınız tükendiğinde, eklenti sessizce başarısız olmak yerine [store.wyzie.io](https://store.wyzie.io) adresine bağlantı veren dostça bir uyarı gösterir. Yükleme yapın veya abone olun, tekrar iş başındasınız.',
+  'plugins.index.shared.languages':
+    '**Diller:** 100+, eklenti başına seçilebilir.',
+  'plugins.index.outro': 'Başlamak için yukarıdan platformunuzu seçin.',
+
+  'plugins.stremio.intro':
+    '[Stremio](https://www.stremio.com/) için tek tıklamayla altyazı eklentisi. OpenSubtitles, SubDL ve Podnapisi kaynaklarını Wyzie üzerinden bir araya getirir ve Stremio çalışan her platformda hem filmler hem de diziler için çalışır.',
+  'plugins.stremio.before':
+    'Ücretsiz bir Wyzie API anahtarına ihtiyacınız var. [store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden bir tane edinin veya [store.wyzie.io](https://store.wyzie.io/#plans) adresinden bir Pro anahtarı satın alın ya da abone olun.',
+  'plugins.stremio.install.1':
+    '[stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) adresini açın.',
+  'plugins.stremio.install.2': '**API anahtarınızı** yapıştırın.',
+  'plugins.stremio.install.3':
+    'İsteğe bağlı: tercih ettiğiniz **dilleri** ISO 639-1 kodları olarak, virgülle ayrılmış şekilde girin (örneğin `en,es,fr`). Tüm diller için boş bırakın.',
+  'plugins.stremio.install.4':
+    'İsteğe bağlı: tercih ediyorsanız **işitme engelli** altyazılarını açın.',
+  'plugins.stremio.install.5':
+    '**Yükle** düğmesine tıklayın. Stremio açılır ve onaylamanızı ister; kabul edin, işiniz bitti.',
+  'plugins.stremio.install.after':
+    'Anahtarınız ve tercihleriniz eklentiye kodlanır, bu nedenle ayarlanacak başka bir şey yoktur. Herhangi bir filmi veya bölümü açın ve listeden bir altyazı seçin.',
+  'plugins.stremio.cfg.key.f': 'API anahtarı',
+  'plugins.stremio.cfg.key.d': 'Wyzie anahtarınız. Gerekli.',
+  'plugins.stremio.cfg.langs.f': 'Diller',
+  'plugins.stremio.cfg.langs.d':
+    'ISO 639-1 kodları, virgülle ayrılmış. Boş, tüm diller anlamına gelir.',
+  'plugins.stremio.cfg.hi.f': 'İşitme engelli',
+  'plugins.stremio.cfg.hi.d':
+    'Mevcut olduğunda işitme engelli altyazılarını tercih edin.',
+  'plugins.stremio.cfg.note':
+    'Bunlardan herhangi birini daha sonra değiştirmek için [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) adresini yeniden açın, ayarlayın ve yeniden yükleyin.',
+  'plugins.stremio.local':
+    'Ardından `http://127.0.0.1:7000/configure` adresini açın, anahtarınızı yapıştırın ve Stremio içine yükleyin.',
+  'plugins.stremio.quota':
+    'Anahtarınız sınırına ulaşırsa, eklenti [store.wyzie.io](https://store.wyzie.io) adresine bağlantı veren tek bir altyazı girdisi gösterir, böylece yükleme yapabilir veya abone olabilirsiniz. Yaptığınızda altyazılar hemen geri döner.',
+  'plugins.stremio.ts.none':
+    '**Hiç altyazı görünmüyor.** Başlığın Stremio içinde bir IMDB kimliği olduğundan (çoğu katalog öğesinde vardır) ve seçtiğiniz dillerin o başlık için gerçekten altyazıya sahip olduğundan emin olun. Her şeyi görmek için dil filtresini temizlemeyi deneyin.',
+  'plugins.stremio.ts.key':
+    '**Geçersiz anahtar veya hiçbir şey yüklenmiyor.** Yapılandırma sayfasını yeniden açın ve anahtarınızı yeniden yapıştırın; yanlış yere konan bir boşluk onu bozar. Anahtarın [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard) adresinde çalıştığını doğrulayın.',
+  'plugins.stremio.ts.episode':
+    "**Dizi bölümü eşleşmiyor.** Wyzie sezon ve bölüm üzerinden eşleştirir; Stremio'nun genel bir dizi sayfası değil, doğru bölüm girdisini oynattığından emin olun.",
+
+  'plugins.bazarr.intro':
+    "[Bazarr](https://www.bazarr.media/), **Plex, Jellyfin, Emby, Sonarr ve Radarr** için altyazıları tek bir yerde yönetir. Wyzie'yi sağlayıcı olarak eklemek, tüm bu sunuculara tek bir anahtar üzerinden OpenSubtitles, SubDL ve Podnapisi erişimi sağlar.",
+  'plugins.bazarr.note':
+    "Bu, Wyzie'yi Plex ve Jellyfin ile kullanmanın önerilen yoludur. Bazarr altyazı dosyalarını medyanızın yanına indirir ve sunucunuz bunları otomatik olarak alır, bu nedenle ayrı bir yerel eklenti gerekmez.",
+  'plugins.bazarr.before':
+    '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden ücretsiz bir Wyzie API anahtarı edinin ve Bazarr kurulum dosyalarınıza erişiminiz olsun (tipik Docker yolu: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    '`wyzie.py` dosyasını `bazarr/subliminal_patch/providers/wyzie.py` konumuna kopyalayın.',
+  'plugins.bazarr.install.2':
+    '`bazarr/subliminal_patch/extensions.py` dosyasını düzenleyin ve `wyzie` öğesini **hem** `provider_registry` **hem de** `provider_manager` içine ekleyin.',
+  'plugins.bazarr.install.3':
+    '`api_key`, `prefer_hi` ve `sources` ayarlarını açığa çıkarmak için `bazarr/list_subtitles.py` (veya sürümünüze bağlı olarak `bazarr/config.py`) dosyasını düzenleyin. Deseni `opensubtitlescom` gibi mevcut bir sağlayıcıdan kopyalayın.',
+  'plugins.bazarr.install.4': "Bazarr'ı yeniden başlatın.",
+  'plugins.bazarr.install.5':
+    '**Ayarlar, Sağlayıcılar, Wyzie** bölümüne gidin, API anahtarınızı yapıştırın ve kaydedin.',
+  'plugins.bazarr.install.after':
+    "Bu sağlayıcıyı Bazarr'a üst akışa taşıyan birinci sınıf bir pull request planlanıyor. O zamana kadar kendi kurulumunuza eklediğiniz tak-çalıştır bir dosyadır.",
+  'plugins.bazarr.cfg.key': 'Wyzie anahtarınız. Gerekli.',
+  'plugins.bazarr.cfg.hi': 'İşitme engelli altyazılarını tercih edin.',
+  'plugins.bazarr.cfg.sources':
+    'Sorgulanacak sağlayıcıların virgülle ayrılmış listesi veya `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 veya 429** (bakiye boş veya günlük üst sınıra ulaşıldı): Bazarr [store.wyzie.io](https://store.wyzie.io) bağlantısı içeren bir not kaydeder ve sonuç döndürmez, böylece temiz bir şekilde diğer sağlayıcılarınıza geri döner. Hiçbir şey çökmez.',
+  'plugins.bazarr.quota.401':
+    '**401** (hatalı anahtar): Bazarr bir kimlik doğrulama hatası gösterir, böylece anahtarı yeniden girmeniz gerektiğini bilirsiniz.',
+  'plugins.bazarr.ts.missing':
+    "**Wyzie sağlayıcılar listesinde görünmüyor.** `extensions.py` dosyasını düzenleyen kurulum adımını yeniden kontrol edin; girdi hem `provider_registry` hem de `provider_manager` içinde olmalıdır, ardından Bazarr'ı yeniden başlatın.",
+  'plugins.bazarr.ts.none':
+    '**Hiç altyazı bulunamadı.** Öğenin Bazarr içinde bir IMDB kimliği olduğunu ve etkinleştirdiğiniz dillerin onun için altyazıya sahip olduğunu doğrulayın. `sources` öğesini yalnızca bilerek daraltın.',
+  'plugins.bazarr.ts.settings':
+    '**Ayar alanları eksik.** Ayar adımı Bazarr sürümünüz için uygulanmadı; çalışan bir sağlayıcı ayar bloğuyla karşılaştırın ve yeniden başlatın.',
+
+  'plugins.kodi.intro':
+    "**Kodi 19+ (Matrix ve sonrası)**, LibreELEC ve CoreELEC için bir altyazı hizmeti. Kodi'nin standart `xbmc.subtitle.module` uzantı noktasını kullanır, bu nedenle Kodi'nin altyazı aradığı her yerde görünür.",
+  'plugins.kodi.before':
+    '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden ücretsiz bir Wyzie API anahtarı edinin.',
+  'plugins.kodi.repo.intro':
+    "Depoyu bir kez yüklemek, Kodi'nin eklentiyi sizin için **otomatik güncellemesine** olanak tanır.",
+  'plugins.kodi.repo.1':
+    'Depo yükleyicisini indirin: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'Kodi içinde: **Ayarlar, Eklentiler, Zip dosyasından yükle**, ardından `repository.wyzie.zip` seçin. Kodi engellerse, önce **Ayarlar, Sistem, Eklentiler, Bilinmeyen kaynaklar** seçeneğini etkinleştirin.',
+  'plugins.kodi.repo.3':
+    '**Ayarlar, Eklentiler, Depodan yükle, Wyzie Repository, Altyazı hizmetleri, Wyzie Subs, Yükle.**',
+  'plugins.kodi.repo.4':
+    '**Ayarlar, Oynatıcı, Dil, Varsayılan altyazı hizmeti**, ardından **Wyzie Subs** seçin.',
+  'plugins.kodi.repo.5':
+    'Wyzie Subs eklenti ayarlarını açın ve **API anahtarınızı** yapıştırın.',
+  'plugins.kodi.zip.intro':
+    'Depoyu eklemek istemiyorsanız bunu kullanın. Not: zip kurulumu otomatik **güncellenmez**.',
+  'plugins.kodi.zip.1':
+    'Eklenti zip dosyasını edinin: `service.subtitles.wyzie-<version>.zip`. Kaynağa sahipseniz, zip dosyasının kökünde `addon.xml` bulunacak şekilde `kodi/` klasörünü zipleyin.',
+  'plugins.kodi.zip.2':
+    'Kodi içinde: **Ayarlar, Eklentiler, Zip dosyasından yükle**, ardından zip dosyasını seçin. Kodi engellerse, önce **Ayarlar, Sistem, Eklentiler, Bilinmeyen kaynaklar** seçeneğini etkinleştirin.',
+  'plugins.kodi.zip.3':
+    '**Ayarlar, Oynatıcı, Dil, Varsayılan altyazı hizmeti**, ardından **Wyzie Subs** seçin.',
+  'plugins.kodi.zip.4':
+    'Wyzie Subs eklenti ayarlarını açın ve **API anahtarınızı** yapıştırın.',
+  'plugins.kodi.cfg.key': 'Wyzie anahtarınız. Gerekli.',
+  'plugins.kodi.cfg.hi': 'İşitme engelli altyazılarını tercih edin.',
+  'plugins.kodi.cfg.langs':
+    "Diller, Kodi'nin seçili altyazı dillerinden alınır ve otomatik olarak ISO 639-1'e eşlenir.",
+  'plugins.kodi.matching.1':
+    'Bir şey oynatılırken Kodi IMDB numarasını, sezonu ve bölümü açığa çıkarır. Eklenti bunları okur, `sub.wyzie.io/search` adresini sorgular ve eşleşen altyazıları döndürür. Wyzie kimlik tabanlı (IMDB ve TMDB) olduğundan, eşleşmeler hem filmler hem de diziler için doğrudur.',
+  'plugins.kodi.matching.2':
+    "**Manuel arama** şu anda bir bildirim gösterir ve hiçbir şey yapmaz, çünkü Wyzie başlıklar üzerinden değil kimlikler üzerinden eşleştirir. Başlıktan kimliğe arama yol haritasındadır. Şimdilik, oynatma sırasında Kodi'nin otomatik olarak aramasına izin verin.",
+  'plugins.kodi.quota':
+    'Bir 402 veya 429 yanıtı, yükleme yapmanız veya abone olmanız için sizi [store.wyzie.io](https://store.wyzie.io) adresine yönlendiren bir Kodi bildirim balonu gösterir.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie oynatma sırasında sunulmuyor.** **Varsayılan altyazı hizmeti** olarak ayarlandığını ve oynatılan öğenin bir IMDB kimliği olduğunu doğrulayın.',
+  'plugins.kodi.ts.key':
+    '**Geçersiz anahtar.** Eklenti ayarlarını yeniden açın ve anahtarınızı yeniden yapıştırın.',
+  'plugins.kodi.ts.episode':
+    "**Bir bölüm için hiçbir şey yok.** Kodi'nin dosya için doğru sezon ve bölüm meta verilerine sahip olduğundan emin olun; taranmış kütüphane öğeleri en iyi sonucu verir.",
 };
 
 export default messages;

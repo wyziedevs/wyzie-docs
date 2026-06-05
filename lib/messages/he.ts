@@ -468,6 +468,144 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'אימות API',
   'i6shark.hosting.auth.p':
     'אסימוני API נוצרים באמצעות HMAC-SHA256 עם מפתח סוד משותף. הקלט ליצירת המפתח הוא כותרת ה-user-agent. ראה את הפונקציה validateAPIToken בקוד המקור לפרטי מימוש.',
+
+  // Plugins
+  'plugins.common.required': 'נדרש',
+
+  'plugins.index.intro':
+    'Wyzie Subs מתחבר ישירות לאפליקציות המדיה שכבר אתם משתמשים בהן. כל תוסף מדבר עם אותה נקודת קצה `https://sub.wyzie.io/search` וזקוק ל-**מפתח API של Wyzie** חינמי. השיגו אחד בכתובת [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for': 'צפייה ב-Stremio במחשב, בנייד או בטלוויזיה',
+  'plugins.index.tbl.stremio.install':
+    'תוסף מתארח: הדביקו את המפתח שלכם, לחצו על התקנה',
+  'plugins.index.tbl.bazarr.for': 'ספריות Plex, Jellyfin, Emby, Sonarr, Radarr',
+  'plugins.index.tbl.bazarr.install': 'ספק מוכן לשילוב במופע ה-Bazarr שלכם',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install': 'התקנה מקובץ zip או ממאגר Wyzie',
+  'plugins.index.use.stremio':
+    'השתמשו ב-**Stremio** אם אתם צופים בתוך אפליקציית Stremio.',
+  'plugins.index.use.bazarr':
+    'השתמשו ב-**Bazarr** אם אתם מריצים Plex, Jellyfin או Emby. Bazarr מוריד קובצי כתוביות לדיסק ושרת המדיה שלכם קולט אותם אוטומטית. זוהי גם הדרך המומלצת עבור Plex ו-Jellyfin; אין תוסף מקורי נפרד.',
+  'plugins.index.use.kodi':
+    'השתמשו ב-**Kodi** לשירות כתוביות מקורי של Kodi ב-Android TV, ב-Raspberry Pi או במחשב קולנוע ביתי.',
+  'plugins.index.shared.sources':
+    '**מקורות:** OpenSubtitles, SubDL ו-Podnapisi, מאוגדים דרך Wyzie.',
+  'plugins.index.shared.matching':
+    '**התאמה:** Wyzie מונע על ידי מזהי IMDB ו-TMDB בתוספת עונה ופרק, כך שההתאמות מדויקות הן לסרטים והן לסדרות.',
+  'plugins.index.shared.quota':
+    '**מכסה:** כשהמפתח שלכם נגמר, התוסף מציג הודעה ידידותית עם קישור ל-[store.wyzie.io](https://store.wyzie.io) במקום להיכשל בשקט. טענו מחדש או הירשמו וחזרתם לעניינים.',
+  'plugins.index.shared.languages':
+    '**שפות:** יותר מ-100, ניתנות לבחירה לכל תוסף.',
+  'plugins.index.outro': 'בחרו את הפלטפורמה שלכם למעלה כדי להתחיל.',
+
+  'plugins.stremio.intro':
+    'תוסף כתוביות בלחיצה אחת עבור [Stremio](https://www.stremio.com/). הוא מאגד את OpenSubtitles, SubDL ו-Podnapisi דרך Wyzie ועובד הן לסרטים והן לסדרות, בכל פלטפורמה ש-Stremio רץ עליה.',
+  'plugins.stremio.before':
+    'אתם זקוקים למפתח API חינמי של Wyzie. השיגו אחד בכתובת [store.wyzie.io/redeem](https://store.wyzie.io/redeem), או קנו מפתח Pro או הירשמו בכתובת [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'פתחו את [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'הדביקו את **מפתח ה-API** שלכם.',
+  'plugins.stremio.install.3':
+    'אופציונלי: הזינו את ה-**שפות** המועדפות עליכם כקודי ISO 639-1, מופרדים בפסיקים (לדוגמה `en,es,fr`). השאירו ריק לכל השפות.',
+  'plugins.stremio.install.4':
+    'אופציונלי: הפעילו כתוביות **לכבדי שמיעה** אם אתם מעדיפים אותן.',
+  'plugins.stremio.install.5':
+    'לחצו על **התקנה**. Stremio נפתח ומבקש מכם לאשר; אשרו, וסיימתם.',
+  'plugins.stremio.install.after':
+    'המפתח וההעדפות שלכם מקודדים לתוך התוסף, כך שאין דבר נוסף להגדיר. פתחו כל סרט או פרק ובחרו כתובית מהרשימה.',
+  'plugins.stremio.cfg.key.f': 'מפתח API',
+  'plugins.stremio.cfg.key.d': 'מפתח ה-Wyzie שלכם. נדרש.',
+  'plugins.stremio.cfg.langs.f': 'שפות',
+  'plugins.stremio.cfg.langs.d':
+    'קודי ISO 639-1, מופרדים בפסיקים. ריק משמעו כל השפות.',
+  'plugins.stremio.cfg.hi.f': 'כבדי שמיעה',
+  'plugins.stremio.cfg.hi.d': 'העדיפו כתוביות לכבדי שמיעה כשזמינות.',
+  'plugins.stremio.cfg.note':
+    'כדי לשנות כל אחד מאלה מאוחר יותר, פתחו מחדש את [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), התאימו, והתקינו מחדש.',
+  'plugins.stremio.local':
+    'לאחר מכן פתחו את `http://127.0.0.1:7000/configure`, הדביקו את המפתח שלכם, והתקינו ל-Stremio.',
+  'plugins.stremio.quota':
+    'אם המפתח שלכם מגיע למגבלה שלו, התוסף מציג ערך כתובית בודד עם קישור ל-[store.wyzie.io](https://store.wyzie.io) כדי שתוכלו לטעון מחדש או להירשם. ברגע שתעשו זאת, הכתוביות חוזרות מיד.',
+  'plugins.stremio.ts.none':
+    '**לא מופיעות כתוביות.** ודאו שלכותר יש מזהה IMDB ב-Stremio (לרוב פריטי הקטלוג יש) ושלשפות שבחרתם יש בפועל כתוביות לכותר זה. נסו לנקות את מסנן השפות כדי לראות הכול.',
+  'plugins.stremio.ts.key':
+    '**מפתח לא תקין, או ששום דבר לא נטען.** פתחו מחדש את עמוד ההגדרה והדביקו שוב את המפתח שלכם; רווח תועה שובר אותו. ודאו שהמפתח עובד בכתובת [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**פרק סדרה לא מותאם.** Wyzie מתאים לפי עונה ופרק; ודאו ש-Stremio מנגן את ערך הפרק הנכון, ולא עמוד סדרה כללי.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) מנהל כתוביות עבור **Plex, Jellyfin, Emby, Sonarr ו-Radarr** במקום אחד. הוספת Wyzie כספק מעניקה לכל השרתים האלה גישה ל-OpenSubtitles, SubDL ו-Podnapisi דרך מפתח יחיד.',
+  'plugins.bazarr.note':
+    'זוהי הדרך המומלצת להשתמש ב-Wyzie עם Plex ו-Jellyfin. Bazarr מוריד קובצי כתוביות לצד המדיה שלכם, והשרת שלכם קולט אותם אוטומטית, כך שאין צורך בתוסף מקורי נפרד.',
+  'plugins.bazarr.before':
+    'השיגו מפתח API חינמי של Wyzie בכתובת [store.wyzie.io/redeem](https://store.wyzie.io/redeem), ודאגו שיש לכם גישה לקובצי ההתקנה של Bazarr (נתיב Docker טיפוסי: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'העתיקו את `wyzie.py` אל `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'ערכו את `bazarr/subliminal_patch/extensions.py` והוסיפו את `wyzie` ל-**שניהם** `provider_registry` ו-`provider_manager`.',
+  'plugins.bazarr.install.3':
+    'ערכו את `bazarr/list_subtitles.py` (או `bazarr/config.py`, בהתאם לגרסה שלכם) כדי לחשוף את ההגדרות `api_key`, `prefer_hi` ו-`sources`. העתיקו את התבנית מספק קיים כמו `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'הפעילו מחדש את Bazarr.',
+  'plugins.bazarr.install.5':
+    'עברו אל **Settings, Providers, Wyzie**, הדביקו את מפתח ה-API שלכם, ושמרו.',
+  'plugins.bazarr.install.after':
+    'מתוכננת בקשת משיכה מהשורה הראשונה שתשלב ספק זה במעלה הזרם לתוך Bazarr. עד אז זהו קובץ מוכן לשילוב שאתם מוסיפים להתקנה שלכם.',
+  'plugins.bazarr.cfg.key': 'מפתח ה-Wyzie שלכם. נדרש.',
+  'plugins.bazarr.cfg.hi': 'העדיפו כתוביות לכבדי שמיעה.',
+  'plugins.bazarr.cfg.sources':
+    'רשימה מופרדת בפסיקים של ספקים לתשאול, או `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 או 429** (יתרה ריקה או הגעה למכסה היומית): Bazarr רושם הערה עם קישור ל-[store.wyzie.io](https://store.wyzie.io) ולא מחזיר תוצאות, כך שהוא נסוג בנקיות לספקים האחרים שלכם. שום דבר לא קורס.',
+  'plugins.bazarr.quota.401':
+    '**401** (מפתח שגוי): Bazarr מציג שגיאת אימות כך שתדעו להזין מחדש את המפתח.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie לא מופיע ברשימת הספקים.** בדקו מחדש את שלב ההתקנה שעורך את `extensions.py`; הערך חייב להיות בשניהם `provider_registry` ו-`provider_manager`, ולאחר מכן הפעילו מחדש את Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**לא נמצאו כתוביות.** ודאו שלפריט יש מזהה IMDB ב-Bazarr ושלשפות שהפעלתם יש כתוביות עבורו. צמצמו את `sources` רק אם אתם מתכוונים לכך.',
+  'plugins.bazarr.ts.settings':
+    '**שדות הגדרות חסרים.** שלב ההגדרות לא הוחל עבור גרסת ה-Bazarr שלכם; השוו מול בלוק הגדרות של ספק עובד והפעילו מחדש.',
+
+  'plugins.kodi.intro':
+    'שירות כתוביות עבור **Kodi 19+ (Matrix ואילך)**, LibreELEC ו-CoreELEC. הוא משתמש בנקודת ההרחבה הסטנדרטית `xbmc.subtitle.module` של Kodi, כך שהוא מופיע בכל מקום שבו Kodi מחפש כתוביות.',
+  'plugins.kodi.before':
+    'השיגו מפתח API חינמי של Wyzie בכתובת [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'התקנת המאגר פעם אחת מאפשרת ל-Kodi **לעדכן אוטומטית** את התוסף עבורכם.',
+  'plugins.kodi.repo.1':
+    'הורידו את מתקין המאגר: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'ב-Kodi: **Settings, Add-ons, Install from zip file**, ולאחר מכן בחרו `repository.wyzie.zip`. אם Kodi חוסם זאת, הפעילו תחילה **Settings, System, Add-ons, Unknown sources**.',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install.**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service**, ולאחר מכן בחרו **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'פתחו את הגדרות התוסף Wyzie Subs והדביקו את **מפתח ה-API** שלכם.',
+  'plugins.kodi.zip.intro':
+    'השתמשו בזה אם אתם מעדיפים לא להוסיף את המאגר. שימו לב: התקנת zip **אינה** מתעדכנת אוטומטית.',
+  'plugins.kodi.zip.1':
+    'השיגו את ה-zip של התוסף: `service.subtitles.wyzie-<version>.zip`. אם יש לכם את המקור, ארזו את התיקייה `kodi/` כך שה-zip יכיל את `addon.xml` בשורש שלו.',
+  'plugins.kodi.zip.2':
+    'ב-Kodi: **Settings, Add-ons, Install from zip file**, ולאחר מכן בחרו את ה-zip. אם Kodi חוסם זאת, הפעילו תחילה **Settings, System, Add-ons, Unknown sources**.',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service**, ולאחר מכן בחרו **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'פתחו את הגדרות התוסף Wyzie Subs והדביקו את **מפתח ה-API** שלכם.',
+  'plugins.kodi.cfg.key': 'מפתח ה-Wyzie שלכם. נדרש.',
+  'plugins.kodi.cfg.hi': 'העדיפו כתוביות לכבדי שמיעה.',
+  'plugins.kodi.cfg.langs':
+    'השפות נלקחות משפות הכתוביות שנבחרו ב-Kodi וממופות אוטומטית ל-ISO 639-1.',
+  'plugins.kodi.matching.1':
+    'בזמן שמשהו מתנגן, Kodi חושף את מספר ה-IMDB, העונה והפרק. התוסף קורא אותם, מתשאל את `sub.wyzie.io/search`, ומחזיר כתוביות מתאימות. מכיוון ש-Wyzie מונע מזהים (IMDB ו-TMDB), ההתאמות מדויקות הן לסרטים והן לסדרות.',
+  'plugins.kodi.matching.2':
+    '**חיפוש ידני** מציג כרגע התראה ואינו עושה דבר, מכיוון ש-Wyzie מתאים לפי מזהים, לא כותרים. חיפוש מכותר למזהה נמצא במפת הדרכים. בינתיים, תנו ל-Kodi לחפש אוטומטית במהלך ההפעלה.',
+  'plugins.kodi.quota':
+    'תגובת 402 או 429 מציגה התראת toast של Kodi המפנה אתכם ל-[store.wyzie.io](https://store.wyzie.io) כדי לטעון מחדש או להירשם.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie אינו מוצע במהלך ההפעלה.** ודאו שהוא מוגדר כ-**Default subtitle service** ושלפריט המתנגן יש מזהה IMDB.',
+  'plugins.kodi.ts.key':
+    '**מפתח לא תקין.** פתחו מחדש את הגדרות התוסף והדביקו שוב את המפתח שלכם.',
+  'plugins.kodi.ts.episode':
+    '**שום דבר עבור פרק.** ודאו של-Kodi יש מטא-נתונים נכונים של עונה ופרק עבור הקובץ; פריטי ספרייה שנגרדו עובדים הכי טוב.',
 };
 
 export default messages;

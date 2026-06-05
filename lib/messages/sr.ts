@@ -497,6 +497,148 @@ const messages: Record<string, string> = {
   'i6shark.hosting.auth.h2': 'API autentifikacija',
   'i6shark.hosting.auth.p':
     'API tokeni se generišu korišćenjem HMAC-SHA256 sa deljenim tajnim ključem. Ulaz za generisanje ključa je user-agent zaglavlje. Pogledajte funkciju validateAPIToken u izvornom kodu za detalje implementacije.',
+
+  // Plugins
+  'plugins.common.required': 'Obavezno',
+
+  'plugins.index.intro':
+    'Wyzie Subs se direktno povezuje sa medijskim aplikacijama koje već koristite. Svaki dodatak komunicira sa istim `https://sub.wyzie.io/search` endpointom i zahteva besplatan **Wyzie API ključ**. Preuzmite ga na [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.index.tbl.stremio.for':
+    'Gledanje u Stremio na računaru, mobilnom uređaju ili TV-u',
+  'plugins.index.tbl.stremio.install':
+    'Hostovani dodatak: nalepite svoj ključ, kliknite Instaliraj',
+  'plugins.index.tbl.bazarr.for':
+    'Plex, Jellyfin, Emby, Sonarr, Radarr biblioteke',
+  'plugins.index.tbl.bazarr.install':
+    'Drop-in provajder za vašu Bazarr instancu',
+  'plugins.index.tbl.kodi.for': 'Kodi 19+, LibreELEC, CoreELEC',
+  'plugins.index.tbl.kodi.install':
+    'Instalirajte iz zip-a ili Wyzie repozitorijuma',
+  'plugins.index.use.stremio':
+    'Koristite **Stremio** ako gledate unutar Stremio aplikacije.',
+  'plugins.index.use.bazarr':
+    'Koristite **Bazarr** ako koristite Plex, Jellyfin ili Emby. Bazarr preuzima datoteke titlova na disk, a vaš medijski server ih automatski preuzima. Ovo je takođe preporučeni put za Plex i Jellyfin; ne postoji poseban nativni dodatak.',
+  'plugins.index.use.kodi':
+    'Koristite **Kodi** za Kodi-nativni servis titlova na Android TV-u, Raspberry Pi-ju ili kućnom bioskopu (HTPC).',
+  'plugins.index.shared.sources':
+    '**Izvori:** OpenSubtitles, SubDL i Podnapisi, objedinjeni kroz Wyzie.',
+  'plugins.index.shared.matching':
+    '**Uparivanje:** Wyzie se pokreće pomoću IMDB i TMDB ID-jeva plus sezone i epizode, tako da su uparivanja precizna i za filmove i za serije.',
+  'plugins.index.shared.quota':
+    '**Kvota:** kada vašem ključu ponestane, dodatak prikazuje prijateljski podsetnik sa linkom ka [store.wyzie.io](https://store.wyzie.io) umesto da tiho zakaže. Dopunite ili se pretplatite i ponovo ste spremni za rad.',
+  'plugins.index.shared.languages': '**Jezici:** 100+, izbor po dodatku.',
+  'plugins.index.outro': 'Izaberite svoju platformu iznad da biste počeli.',
+
+  'plugins.stremio.intro':
+    'Dodatak za titlove za [Stremio](https://www.stremio.com/) sa instalacijom u jednom kliku. Objedinjuje OpenSubtitles, SubDL i Podnapisi kroz Wyzie i radi i za filmove i za serije, na svakoj platformi na kojoj Stremio radi.',
+  'plugins.stremio.before':
+    'Potreban vam je besplatan Wyzie API ključ. Preuzmite ga na [store.wyzie.io/redeem](https://store.wyzie.io/redeem), ili kupite Pro ključ ili se pretplatite na [store.wyzie.io](https://store.wyzie.io/#plans).',
+  'plugins.stremio.install.1':
+    'Otvorite [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure).',
+  'plugins.stremio.install.2': 'Nalepite svoj **API ključ**.',
+  'plugins.stremio.install.3':
+    'Opciono: unesite željene **jezike** kao ISO 639-1 kodove, razdvojene zarezima (na primer `en,es,fr`). Ostavite prazno za sve jezike.',
+  'plugins.stremio.install.4':
+    'Opciono: uključite titlove za **osobe oštećenog sluha** ako ih preferirate.',
+  'plugins.stremio.install.5':
+    'Kliknite **Instaliraj**. Stremio se otvara i traži da potvrdite; prihvatite i gotovi ste.',
+  'plugins.stremio.install.after':
+    'Vaš ključ i podešavanja su kodirani u dodatak, tako da nema ničeg drugog za podešavanje. Otvorite bilo koji film ili epizodu i izaberite titl sa liste.',
+  'plugins.stremio.cfg.key.f': 'API ključ',
+  'plugins.stremio.cfg.key.d': 'Vaš Wyzie ključ. Obavezno.',
+  'plugins.stremio.cfg.langs.f': 'Jezici',
+  'plugins.stremio.cfg.langs.d':
+    'ISO 639-1 kodovi, razdvojeni zarezima. Prazno znači svi jezici.',
+  'plugins.stremio.cfg.hi.f': 'Osobe oštećenog sluha',
+  'plugins.stremio.cfg.hi.d':
+    'Preferiraj titlove za osobe oštećenog sluha kada su dostupni.',
+  'plugins.stremio.cfg.note':
+    'Da biste kasnije promenili bilo šta od ovoga, ponovo otvorite [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), prilagodite i ponovo instalirajte.',
+  'plugins.stremio.local':
+    'Zatim otvorite `http://127.0.0.1:7000/configure`, nalepite svoj ključ i instalirajte u Stremio.',
+  'plugins.stremio.quota':
+    'Ako vaš ključ dostigne svoj limit, dodatak prikazuje jednu stavku titla sa linkom ka [store.wyzie.io](https://store.wyzie.io) kako biste mogli da dopunite ili se pretplatite. Kada to uradite, titlovi se odmah vraćaju.',
+  'plugins.stremio.ts.none':
+    '**Nema titlova.** Uverite se da naslov ima IMDB ID u Stremio (većina stavki kataloga ima) i da izabrani jezici zaista imaju titlove za taj naslov. Pokušajte da obrišete filter jezika da biste videli sve.',
+  'plugins.stremio.ts.key':
+    '**Nevažeći ključ ili se ništa ne učitava.** Ponovo otvorite stranicu za podešavanje i ponovo nalepite svoj ključ; suvišan razmak ga kvari. Potvrdite da ključ radi na [store.wyzie.io/dashboard](https://store.wyzie.io/dashboard).',
+  'plugins.stremio.ts.episode':
+    '**Epizoda serije se ne uparuje.** Wyzie uparuje po sezoni i epizodi; uverite se da Stremio reprodukuje ispravnu stavku epizode, a ne generičku stranicu serije.',
+
+  'plugins.bazarr.intro':
+    '[Bazarr](https://www.bazarr.media/) upravlja titlovima za **Plex, Jellyfin, Emby, Sonarr i Radarr** na jednom mestu. Dodavanje Wyzie kao provajdera daje svim tim serverima pristup OpenSubtitles, SubDL i Podnapisi kroz jedan ključ.',
+  'plugins.bazarr.note':
+    'Ovo je preporučeni način korišćenja Wyzie sa Plex i Jellyfin. Bazarr preuzima datoteke titlova pored vaših medija, a vaš server ih automatski preuzima, tako da nije potreban poseban nativni dodatak.',
+  'plugins.bazarr.before':
+    'Preuzmite besplatan Wyzie API ključ na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) i obezbedite pristup datotekama vaše Bazarr instalacije (tipična Docker putanja: `/opt/bazarr/bazarr/`).',
+  'plugins.bazarr.install.1':
+    'Kopirajte `wyzie.py` u `bazarr/subliminal_patch/providers/wyzie.py`.',
+  'plugins.bazarr.install.2':
+    'Izmenite `bazarr/subliminal_patch/extensions.py` i dodajte `wyzie` u **oba** `provider_registry` i `provider_manager`.',
+  'plugins.bazarr.install.3':
+    'Izmenite `bazarr/list_subtitles.py` (ili `bazarr/config.py`, u zavisnosti od vaše verzije) da biste izložili podešavanja `api_key`, `prefer_hi` i `sources`. Kopirajte obrazac iz postojećeg provajdera kao što je `opensubtitlescom`.',
+  'plugins.bazarr.install.4': 'Restartujte Bazarr.',
+  'plugins.bazarr.install.5':
+    'Idite na **Settings, Providers, Wyzie**, nalepite svoj API ključ i sačuvajte.',
+  'plugins.bazarr.install.after':
+    'Planiran je prvoklasan pull request koji ovog provajdera uvodi uzvodno u Bazarr. Do tada je to drop-in datoteka koju dodajete u sopstvenu instalaciju.',
+  'plugins.bazarr.cfg.key': 'Vaš Wyzie ključ. Obavezno.',
+  'plugins.bazarr.cfg.hi': 'Preferiraj titlove za osobe oštećenog sluha.',
+  'plugins.bazarr.cfg.sources':
+    'Lista provajdera za upit razdvojena zarezima, ili `all`.',
+  'plugins.bazarr.quota.402':
+    '**402 ili 429** (prazan saldo ili dostignut dnevni limit): Bazarr beleži napomenu sa linkom ka [store.wyzie.io](https://store.wyzie.io) i ne vraća rezultate, tako da se čisto vraća na vaše druge provajdere. Ništa se ne ruši.',
+  'plugins.bazarr.quota.401':
+    '**401** (loš ključ): Bazarr prikazuje grešku autentifikacije kako biste znali da treba ponovo da unesete ključ.',
+  'plugins.bazarr.ts.missing':
+    '**Wyzie se ne pojavljuje na listi provajdera.** Ponovo proverite korak instalacije koji izmenjuje `extensions.py`; stavka mora biti u oba `provider_registry` i `provider_manager`, zatim restartujte Bazarr.',
+  'plugins.bazarr.ts.none':
+    '**Nisu pronađeni titlovi.** Potvrdite da stavka ima IMDB ID u Bazarr i da jezici koje ste omogućili imaju titlove za nju. Sužavajte `sources` samo ako to namerno želite.',
+  'plugins.bazarr.ts.settings':
+    '**Polja podešavanja nedostaju.** Korak podešavanja nije primenjen za vašu verziju Bazarr; uporedite sa blokom podešavanja provajdera koji radi i restartujte.',
+
+  'plugins.kodi.intro':
+    'Servis titlova za **Kodi 19+ (Matrix i noviji)**, LibreELEC i CoreELEC. Koristi standardnu Kodi tačku proširenja `xbmc.subtitle.module`, tako da se pojavljuje svuda gde Kodi traži titlove.',
+  'plugins.kodi.before':
+    'Preuzmite besplatan Wyzie API ključ na [store.wyzie.io/redeem](https://store.wyzie.io/redeem).',
+  'plugins.kodi.repo.intro':
+    'Jednokratna instalacija repozitorijuma omogućava Kodi da za vas **automatski ažurira** dodatak.',
+  'plugins.kodi.repo.1':
+    'Preuzmite instalater repozitorijuma: [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).',
+  'plugins.kodi.repo.2':
+    'U Kodi: **Settings, Add-ons, Install from zip file**, zatim izaberite `repository.wyzie.zip`. Ako ga Kodi blokira, prvo omogućite **Settings, System, Add-ons, Unknown sources**.',
+  'plugins.kodi.repo.3':
+    '**Settings, Add-ons, Install from repository, Wyzie Repository, Subtitle services, Wyzie Subs, Install.**',
+  'plugins.kodi.repo.4':
+    '**Settings, Player, Language, Default subtitle service**, zatim izaberite **Wyzie Subs**.',
+  'plugins.kodi.repo.5':
+    'Otvorite podešavanja Wyzie Subs dodatka i nalepite svoj **API ključ**.',
+  'plugins.kodi.zip.intro':
+    'Koristite ovo ako radije ne biste dodavali repozitorijum. Napomena: zip instalacija se **ne** ažurira automatski.',
+  'plugins.kodi.zip.1':
+    'Preuzmite zip dodatka: `service.subtitles.wyzie-<version>.zip`. Ako imate izvorni kod, zipujte `kodi/` folder tako da zip sadrži `addon.xml` u svom korenu.',
+  'plugins.kodi.zip.2':
+    'U Kodi: **Settings, Add-ons, Install from zip file**, zatim izaberite zip. Ako ga Kodi blokira, prvo omogućite **Settings, System, Add-ons, Unknown sources**.',
+  'plugins.kodi.zip.3':
+    '**Settings, Player, Language, Default subtitle service**, zatim izaberite **Wyzie Subs**.',
+  'plugins.kodi.zip.4':
+    'Otvorite podešavanja Wyzie Subs dodatka i nalepite svoj **API ključ**.',
+  'plugins.kodi.cfg.key': 'Vaš Wyzie ključ. Obavezno.',
+  'plugins.kodi.cfg.hi': 'Preferiraj titlove za osobe oštećenog sluha.',
+  'plugins.kodi.cfg.langs':
+    'Jezici se preuzimaju iz Kodi izabranih jezika titlova i automatski mapiraju na ISO 639-1.',
+  'plugins.kodi.matching.1':
+    'Dok se nešto reprodukuje, Kodi izlaže IMDB broj, sezonu i epizodu. Dodatak ih čita, šalje upit na `sub.wyzie.io/search` i vraća odgovarajuće titlove. Pošto je Wyzie pokretan ID-jevima (IMDB i TMDB), uparivanja su tačna i za filmove i za serije.',
+  'plugins.kodi.matching.2':
+    '**Ručna pretraga** trenutno prikazuje obaveštenje i ne radi ništa, jer Wyzie uparuje po ID-jevima, a ne po naslovima. Pretraga naslov-u-ID je na planu razvoja. Za sada, pustite Kodi da pretražuje automatski tokom reprodukcije.',
+  'plugins.kodi.quota':
+    'Odgovor 402 ili 429 prikazuje Kodi toast obaveštenje koje vas upućuje na [store.wyzie.io](https://store.wyzie.io) da dopunite ili se pretplatite.',
+  'plugins.kodi.ts.notoffered':
+    '**Wyzie se ne nudi tokom reprodukcije.** Potvrdite da je postavljen kao **Default subtitle service** i da reprodukovana stavka ima IMDB ID.',
+  'plugins.kodi.ts.key':
+    '**Nevažeći ključ.** Ponovo otvorite podešavanja dodatka i ponovo nalepite svoj ključ.',
+  'plugins.kodi.ts.episode':
+    '**Ništa za epizodu.** Uverite se da Kodi ima ispravne metapodatke o sezoni i epizodi za datoteku; skenirane stavke biblioteke najbolje funkcionišu.',
 };
 
 export default messages;
