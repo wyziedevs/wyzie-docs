@@ -16,3 +16,14 @@
 .logo:active {
   transform: scale(1.05);
 }
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.picker {
+  padding-left: 0.65rem;
+  padding-bottom: 0.25rem;
+}

@@ -1,15 +1,12 @@
+import { T, TP, TImportant, TCaution } from '../../../components/T';
+
 # Directly Fetching Wyzie Subs
 
-<Caution>
-  I strongly recommend using the [NPM package](package) as it is easier and more
-  reliable.
-</Caution>
+<TCaution id="subs.direct.caution" />
 
-If you have decided against using the NPM package, then let's get started. I will only be going over API parameters and data returned by the API. How you request the API is entirely up to you.
+<TP id="subs.direct.p1" />
 
-<Important>
-  An API key is required for all requests. Get a free key at [store.wyzie.io/redeem](https://store.wyzie.io/redeem) and include it as `&key=YOUR_KEY` in every request. See the [API Keys](api-keys) page for details.
-</Important>
+<TImportant id="subs.direct.important" />
 
 ### Example
 
@@ -53,43 +50,40 @@ If you have decided against using the NPM package, then let's get started. I wil
 
 | Parameter            | Example                                                | Description                                                                                             |
 | -------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
-| **id**               | `/search?id=tt3659388` or `/search?id=286217`         | TMDB or IMDB ID of the show or movie _(required)_.                                                      |
-| **season & episode** | `/search?id=tt0121955&season=1&episode=1`             | Season and episode for TV searches. Both must be present together.                                      |
-| **language**         | `/search?id=tt3659388&language=en,es`                 | Language filter (ISO 639-1 codes). Multiple values are comma-separated.                                 |
-| **format**           | `/search?id=tt3659388&format=srt,ass`                 | Subtitle formats to return. Multiple values allowed.                                                    |
-| **hi**               | `/search?id=tt3659388&hi=true`                        | Whether to prefer hearing-impaired subtitles.                                                           |
-| **encoding**         | `/search?id=tt3659388&encoding=utf-8,latin-1`         | Character encoding filter.                                                                              |
-| **source**           | `/search?id=tt3659388&source=subdl,podnapisi`         | Subtitle providers to query (`all` queries every enabled source; default `opensubtitles`).              |
-| **release**          | `/search?id=tt3659388&release=martian,1080p`          | Release or scene name filters (comma-separated).                                                        |
-| **file/fileName**    | `/search?id=tt3659388&file=proper`                    | Filename filters (aliases: `file`, `filename`, `fileName`).                                             |
-| **origin**           | `/search?id=tt3659388&origin=WEB,BLURAY`              | Content origin filter, comma-separated (e.g., `WEB`, `BLURAY`, `DVD`).                                  |
-| **key**              | `/search?id=tt3659388&key=YOUR_KEY`                   | Your API key _(required)_. Get one free at [store.wyzie.io/redeem](https://store.wyzie.io/redeem).           |
-| **refresh**          | `/search?id=tt3659388&refresh=true`                   | Bypass cache and fetch fresh results. Use when sources may have updated.                                |
+| **id**               | `/search?id=tt3659388` or `/search?id=286217`         | <T id="subs.direct.param.id" />                                                                         |
+| **season & episode** | `/search?id=tt0121955&season=1&episode=1`             | <T id="subs.direct.param.seasonEpisode" />                                                              |
+| **language**         | `/search?id=tt3659388&language=en,es`                 | <T id="subs.direct.param.language" />                                                                   |
+| **format**           | `/search?id=tt3659388&format=srt,ass`                 | <T id="subs.direct.param.format" />                                                                     |
+| **hi**               | `/search?id=tt3659388&hi=true`                        | <T id="subs.direct.param.hi" />                                                                         |
+| **encoding**         | `/search?id=tt3659388&encoding=utf-8,latin-1`         | <T id="subs.direct.param.encoding" />                                                                   |
+| **source**           | `/search?id=tt3659388&source=subdl,podnapisi`         | <T id="subs.direct.param.source" />                                                                     |
+| **release**          | `/search?id=tt3659388&release=martian,1080p`          | <T id="subs.direct.param.release" />                                                                    |
+| **file/fileName**    | `/search?id=tt3659388&file=proper`                    | <T id="subs.direct.param.file" />                                                                       |
+| **origin**           | `/search?id=tt3659388&origin=WEB,BLURAY`              | <T id="subs.direct.param.origin" />                                                                     |
+| **key**              | `/search?id=tt3659388&key=YOUR_KEY`                   | <T id="subs.direct.param.key" />                                                                        |
+| **refresh**          | `/search?id=tt3659388&refresh=true`                   | <T id="subs.direct.param.refresh" />                                                                    |
 
-<Important>
-  When using an IMDB ID, ensure that the first two characters ('tt') are
-  included at the beginning of the ID.
-</Important>
+<TImportant id="subs.direct.important.imdb" />
 
 ### Data Returned
 
 | Object                | Description                                                          |
 | --------------------- | -------------------------------------------------------------------- |
-| **id**                | The ID of the subtitle file.                                         |
-| **url**               | The URL to the subtitle file.                                        |
-| **flagUrl**           | URL to the flag of the language's locale.                            |
-| **format**            | The format of the subtitle file.                                     |
-| **encoding**          | The character encoding of the subtitle file.                         |
-| **display**           | The language of the subtitle, capitalized.                           |
-| **language**          | The ISO 3166-2 code of the language.                                 |
-| **media**             | The name of the media that the subtitles are for.                    |
-| **isHearingImpaired** | Boolean representing if the subtitle is hearing impaired accessible. |
-| **source**            | Which source the subtitle was scraped from.                          |
-| **release**           | Primary release name.                                                |
-| **releases**          | Other release names compatible with the subtitle.                    |
-| **fileName**          | Original filename when available.                                    |
-| **downloadCount**     | Number of downloads on the source platform (if available).           |
-| **origin**            | Content origin (e.g., WEB, BluRay, DVD).                             |
-| **matchedRelease**    | Release value that matched your filter (if provided).                |
-| **matchedFilter**     | The user-supplied filter that matched (if provided).                 |
-| **ai**                | `true` if the entry is an AI-translated subtitle (see [Translate](translate)), `false` for normal scraped subtitles. Use it as a client-side filter when you only want one or the other. |
+| **id**                | <T id="subs.direct.data.id" />                                       |
+| **url**               | <T id="subs.direct.data.url" />                                      |
+| **flagUrl**           | <T id="subs.direct.data.flagUrl" />                                  |
+| **format**            | <T id="subs.direct.data.format" />                                   |
+| **encoding**          | <T id="subs.direct.data.encoding" />                                 |
+| **display**           | <T id="subs.direct.data.display" />                                  |
+| **language**          | <T id="subs.direct.data.language" />                                 |
+| **media**             | <T id="subs.direct.data.media" />                                    |
+| **isHearingImpaired** | <T id="subs.direct.data.isHearingImpaired" />                        |
+| **source**            | <T id="subs.direct.data.source" />                                   |
+| **release**           | <T id="subs.direct.data.release" />                                  |
+| **releases**          | <T id="subs.direct.data.releases" />                                 |
+| **fileName**          | <T id="subs.direct.data.fileName" />                                 |
+| **downloadCount**     | <T id="subs.direct.data.downloadCount" />                            |
+| **origin**            | <T id="subs.direct.data.origin" />                                   |
+| **matchedRelease**    | <T id="subs.direct.data.matchedRelease" />                           |
+| **matchedFilter**     | <T id="subs.direct.data.matchedFilter" />                            |
+| **ai**                | <T id="subs.direct.data.ai" />                                       |

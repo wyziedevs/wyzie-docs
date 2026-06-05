@@ -2,9 +2,11 @@
 title: 'Using the Wyzie NPM Package'
 ---
 
+import { T, TP, TImportant, TNote } from '../../../components/T';
+
 # Using the Wyzie NPM Package
 
-The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) provides a simple and easy-to-use interface for searching and fetching subtitles.
+<TP id="subs.pkg.p1" />
 
 ## Installation
 
@@ -14,9 +16,7 @@ The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) provides a
   <Tabs.Tab>```bash yarn add wyzie-lib ```</Tabs.Tab>
 </Tabs>
 
-<Important>
-  An API key is required for all requests. Get a free key at [store.wyzie.io/redeem](https://store.wyzie.io/redeem) and pass it via the `key` parameter. See the [API Keys](api-keys) page for details.
-</Important>
+<TImportant id="subs.pkg.important" />
 
 ## Usage
 
@@ -64,42 +64,39 @@ The Wyzie Subs [NPM package](https://www.npmjs.com/package/wyzie-lib) provides a
 
 ### Parameters
 
-<Note>
-  For more information (or if you are stuck), please visit the [Wyzie Subs
-  homepage](https://sub.wyzie.io).
-</Note>
+<TNote id="subs.pkg.params.note" />
 
 | Parameter       | Name              | Description                                                                     |
 | --------------- | ----------------- | ------------------------------------------------------------------------------- |
-| **tmdb_id**     | TmdbId            | TMDB ID of the movie or TV show _(tmdb_id or imdb_id is required)_.            |
-| **imdb_id**     | ImdbId            | IMDB ID of the movie or TV show _(imdb_id or tmdb_id is required)_.            |
-| **format**      | format            | File formats to return (e.g., `srt`, `ass`). Accepts a list.                   |
-| **season**      | season            | Season number (requires episode).                                              |
-| **episode**     | episode           | Episode number (requires season).                                              |
-| **language**    | language          | ISO 639-1 codes for subtitle language. Accepts a list.                         |
-| **encoding**    | encoding          | Character encoding filter (e.g., `utf-8`, `latin-1`).                          |
-| **hi**          | isHearingImpaired | Boolean for hearing-impaired subtitles.                                        |
-| **source**      | source            | Subtitle providers to query (`all` for every enabled source).                  |
-| **release**     | release           | Release/scene filters (accepts a list).                                        |
-| **filename**    | filename/file     | Filename filters; aliases `file` and `fileName` are supported.                 |
-| **origin**      | origin            | Content origin filter (e.g., `WEB`, `BLURAY`, `DVD`).                          |
-| **key**         | key               | Your API key _(required)_. Get one free at [store.wyzie.io/redeem](https://store.wyzie.io/redeem).  |
-| **refresh**     | refresh           | Bypass cache and fetch fresh results from sources.                             |
+| **tmdb_id**     | TmdbId            | <T id="subs.pkg.param.tmdb" />            |
+| **imdb_id**     | ImdbId            | <T id="subs.pkg.param.imdb" />            |
+| **format**      | format            | <T id="subs.pkg.param.format" />                   |
+| **season**      | season            | <T id="subs.pkg.param.season" />                                              |
+| **episode**     | episode           | <T id="subs.pkg.param.episode" />                                              |
+| **language**    | language          | <T id="subs.pkg.param.language" />                         |
+| **encoding**    | encoding          | <T id="subs.pkg.param.encoding" />                          |
+| **hi**          | isHearingImpaired | <T id="subs.pkg.param.hi" />                                        |
+| **source**      | source            | <T id="subs.pkg.param.source" />                  |
+| **release**     | release           | <T id="subs.pkg.param.release" />                                        |
+| **filename**    | filename/file     | <T id="subs.pkg.param.filename" />                 |
+| **origin**      | origin            | <T id="subs.pkg.param.origin" />                          |
+| **key**         | key               | <T id="subs.pkg.param.key" />  |
+| **refresh**     | refresh           | <T id="subs.pkg.param.refresh" />                             |
 
-The package also ships lightweight TMDB helpers: `searchTmdb`, `getTvDetails`, and `getSeasonDetails` for quickly finding IDs before hitting `/search`. Additionally, `getSources` can be used to fetch the list of currently enabled subtitle sources.
+<TP id="subs.pkg.helpers" />
 
 ### Types
 
-- **SearchSubtitlesParams**: All valid parameters recognized by the API.
-- **QueryParams**: All parameters (optional and required) available for the wyzie-subs API.
-- **SubtitleData**: All returned values from the API with their respective types.
-- **SourcesResponse**: Response type from the `/sources` endpoint.
+- **SearchSubtitlesParams**: <T id="subs.pkg.type.search" />
+- **QueryParams**: <T id="subs.pkg.type.query" />
+- **SubtitleData**: <T id="subs.pkg.type.subtitle" />
+- **SourcesResponse**: <T id="subs.pkg.type.sources" />
 
-Our types are very simple and well-documented. Check out the types.ts file [here](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts).
+<TP id="subs.pkg.types.end" />
 
 ### Configuration
 
-One user asked on Github for a configurable API hostname (AKA you can change the url the package will request) and I was like bruh that sounds like a good idea so below is the usage. Love ya guys!
+<TP id="subs.pkg.config.p1" />
 
 ```ts
 import { configure, searchSubtitles, parseToVTT } from 'wyzie-lib';

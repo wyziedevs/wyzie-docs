@@ -2,19 +2,19 @@
 title: 'AI Subtitle Translation'
 ---
 
+import { T, TP, TImportant } from '../../../components/T';
+
 # AI Subtitle Translation
 
-<Important>
-  AI translation is a **Pro feature**. Each translation costs **100 requests** from your key's balance, charged on a cache hit as well as a fresh translation. Free keys cannot use it.
-</Important>
+<TImportant id="subs.translate.important" />
 
-Wyzie can translate any subtitle into 80+ languages on the fly. Translations stream back as the model produces them, so playback can start within a second or two instead of waiting for the whole file. Results are cached for 30 days, so the second person who asks for the same translation gets it instantly.
+<TP id="subs.translate.p1" />
 
 ## Two Ways to Use It
 
 ### 1. Pick a Language From a Search Response
 
-Every `/search` response now includes one extra entry per supported language with `"ai": true` and a `url` that points at `/translate`. Just treat the AI rows like any other subtitle row in your UI: when the user clicks one, fetch the URL.
+<TP id="subs.translate.way1.p1" />
 
 ```json
 {
@@ -31,7 +31,7 @@ Every `/search` response now includes one extra entry per supported language wit
 
 The `tk` param is a short-lived signed token derived from the API key you passed to `/search`. It lets the translate endpoint authorise the request without exposing the raw key in the URL. You do not need to compute it yourself; just use the URL as-is.
 
-If you want to hide the AI rows from your UI, filter them out:
+<TP id="subs.translate.filter.p" />
 
 ```js
 const real = results.filter((r) => !r.ai);
@@ -45,36 +45,36 @@ GET https://sub.wyzie.io/translate?id=tt3659388&target=Spanish&key=YOUR_KEY
 
 | Parameter            | Example                                          | Description                                                                                                       |
 | -------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| **id**               | `?id=tt3659388` or `?id=286217`                  | TMDB or IMDB ID _(required)_.                                                                                     |
-| **target**           | `?target=Spanish`                                | Target language as its full English name (e.g. `Spanish`, `Japanese`, `Brazilian Portuguese`) _(required)_.       |
-| **season & episode** | `?season=1&episode=4`                            | For TV. Both must be present together.                                                                            |
-| **key**              | `?key=YOUR_KEY`                                  | Your API key. Use `tk` instead if you got the URL from `/search`.                                                 |
-| **tk**               | `?tk=<signed_token>`                             | Signed token returned by `/search`. Equivalent to `key`, but does not expose the raw key.                         |
+| **id**               | `?id=tt3659388` or `?id=286217`                  | <T id="subs.translate.param.id" />                                                                                |
+| **target**           | `?target=Spanish`                                | <T id="subs.translate.param.target" />                                                                            |
+| **season & episode** | `?season=1&episode=4`                            | <T id="subs.translate.param.seasonEpisode" />                                                                     |
+| **key**              | `?key=YOUR_KEY`                                  | <T id="subs.translate.param.key" />                                                                               |
+| **tk**               | `?tk=<signed_token>`                             | <T id="subs.translate.param.tk" />                                                                                |
 
-The response body is an SRT file streamed as `text/plain; charset=utf-8`. Useful response headers:
+<TP id="subs.translate.headers.p" />
 
-- `X-Cache`: `HIT-REDIS` if served from cache, `MISS` if generated fresh.
-- `X-Source-Language`: language of the subtitle the translator used as input.
-- `X-Target-Language`: echo of your `target` param.
-- `X-Source-Provider`: which scraper supplied the source subtitle.
+- `X-Cache`: <T id="subs.translate.header.xcache" />
+- `X-Source-Language`: <T id="subs.translate.header.xsourcelang" />
+- `X-Target-Language`: <T id="subs.translate.header.xtargetlang" />
+- `X-Source-Provider`: <T id="subs.translate.header.xsourceprovider" />
 
 ## How It Works
 
-1. Wyzie searches normal sources for an SRT subtitle, preferring English when available.
-2. The SRT is split into chunks of 50 cues and translated sequentially. Each chunk is cached individually as it completes.
-3. Output is streamed back to you cue-by-cue. Players that accept a streaming SRT body can start showing the first lines before the rest are done.
-4. The complete translation is cached in Redis for 30 days, keyed by `id`, `season`, `episode`, and `target`.
+1. <TP id="subs.translate.how.step1" />
+2. <TP id="subs.translate.how.step2" />
+3. <TP id="subs.translate.how.step3" />
+4. <TP id="subs.translate.how.step4" />
 
 ## Supported Target Languages
 
-80+ languages including all major European, Asian, African, and Middle Eastern languages. Pass the English name (`Spanish`, not `es`). The list is also returned as `ai: true` rows in any `/search` response, which is the canonical source of truth.
+<TP id="subs.translate.languages.p" />
 
 ## Limitations
 
-- AI translation needs an SRT source. Titles where every available subtitle is `.ass`, `.vtt`, or another format will return `404 No SRT found`.
-- Translation quality depends on the source subtitle. A poorly-timed or mistyped source produces a poorly-timed or mistyped translation.
-- Some users may want to opt out of AI rows entirely. Filter on `ai === false` in your client.
-- Translations are billed on cache hits too. Whether freshly generated or served from the 30-day cache, each `/translate` request costs 100 requests.
+- <T id="subs.translate.limit1" />
+- <T id="subs.translate.limit2" />
+- <T id="subs.translate.limit3" />
+- <T id="subs.translate.limit4" />
 
 ## Example
 

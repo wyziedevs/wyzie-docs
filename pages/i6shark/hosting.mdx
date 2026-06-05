@@ -2,26 +2,28 @@
 title: 'Hosting i6.shark'
 ---
 
+import { T, TP } from '../../components/T';
+
 # Hosting i6.shark
 
-Setting up i6.shark requires a VPS with a /48 IPv6 subnet. Once configured, it runs autonomously with minimal maintenance.
+<TP id="i6shark.hosting.p1" />
 
 ## Steps
 
 <Steps>
   <Steps.Step>
-    Clone the repository to `/opt/i6.shark`:
+    <T id="i6shark.hosting.step1" />
     ```bash
     sudo git clone https://github.com/wyziedevs/i6.shark.git /opt/i6.shark
     cd /opt/i6.shark
     ```
   </Steps.Step>
   <Steps.Step>
-    Configure constants in `src/consts.go`:
+    <T id="i6shark.hosting.step2" />
     ```bash
     sudo nano /opt/i6.shark/src/consts.go
     ```
-    Update `SharedSecret`, `IPv6Prefix`, and `Interface` to match your server:
+    <T id="i6shark.hosting.step2.note" />
     ```go
     const (
       SharedSecret = "your-shared-secret-here"  // Secret between client & server
@@ -34,17 +36,16 @@ Setting up i6.shark requires a VPS with a /48 IPv6 subnet. Once configured, it r
       Debug        = false                        // Enable debug output
     )
     ```
-    The remaining tuning constants (pool sizes, timeouts, concurrency limits) have sensible defaults and typically don't need changes.
   </Steps.Step>
   <Steps.Step>
-    Build the application:
+    <T id="i6shark.hosting.step3" />
     ```bash
     cd /opt/i6.shark
     sudo go build -o i6shark ./src
     ```
   </Steps.Step>
   <Steps.Step>
-    Create the systemd service:
+    <T id="i6shark.hosting.step4" />
     ```bash
     sudo tee /etc/systemd/system/i6shark.service >/dev/null <<'EOF'
     [Unit]
@@ -66,23 +67,23 @@ Setting up i6.shark requires a VPS with a /48 IPv6 subnet. Once configured, it r
     ```
   </Steps.Step>
   <Steps.Step>
-    Enable and start the service:
+    <T id="i6shark.hosting.step5" />
     ```bash
     sudo systemctl daemon-reload
     sudo systemctl enable --now i6shark
     ```
-    Check the status:
+    <T id="i6shark.hosting.step5.check" />
     ```bash
     sudo systemctl status i6shark
     ```
   </Steps.Step>
 </Steps>
 
-The proxy server will now run automatically on boot and restart itself if it crashes.
+<TP id="i6shark.hosting.post" />
 
 ## Daily Restart (Optional)
 
-Add a cron job to restart the server daily at a random time:
+<TP id="i6shark.hosting.daily.p" />
 
 ```bash
 (sudo crontab -l 2>/dev/null; echo "$(shuf -i 0-59 -n 1) $(shuf -i 0-23 -n 1) * * * systemctl restart i6shark") | sudo crontab -
@@ -90,6 +91,4 @@ Add a cron job to restart the server daily at a random time:
 
 ## API Authentication
 
-API tokens are generated using HMAC-SHA256 with a shared secret key. The input for key generation is the user-agent header. See the `validateAPIToken` function in the source code for implementation details.
-
-
+<TP id="i6shark.hosting.auth.p" />

@@ -2,13 +2,13 @@
 title: 'Intro to Wyzie Proxy'
 ---
 
+import { T, TP, TNote } from '../../components/T';
+
 # Intro to Wyzie Proxy
 
-<Note>
-  The production version of Wyzie Subs no longer uses this proxy instead using [i6.shark](https://github.com/wyziedevs/i6.shark).
-</Note>
+<TNote id="proxy.intro.note" />
 
-Wyzie Proxy is a powerful proxy API that allows you to make requests to any website without CORS or other restrictions. Since Wyzie Proxy is made with Nitro, it can be hosted on any of the following platforms: AWS Amplify, Azure, Cloudflare, Netlify, Stormkit, Vercel, Zeabur.
+<TP id="proxy.intro.p1" />
 
 <div
   style={{
@@ -18,6 +18,6 @@ Wyzie Proxy is a powerful proxy API that allows you to make requests to any webs
     gap: '0.5rem',
   }}
 >
-  <Button to="hosting" type="secondary">Hosting</Button>
-  <Button to="https://proxy.wyzie.io" type="secondary">Check it Out</Button>
+  <Button to="hosting" type="secondary"><T id="proxy.intro.btn.hosting" /></Button>
+  <Button to="https://proxy.wyzie.io" type="secondary"><T id="proxy.intro.btn.check" /></Button>
 </div>

@@ -1,0 +1,73 @@
+---
+title: 'Kodi'
+description: 'Install the Wyzie Subs subtitle service in Kodi 19+, LibreELEC, or CoreELEC.'
+---
+
+# Kodi Add-on
+
+A subtitle service for **Kodi 19+ (Matrix and later)**, LibreELEC, and CoreELEC. It uses
+Kodi's standard `xbmc.subtitle.module` extension point, so it shows up wherever Kodi looks
+for subtitles.
+
+## Before you start
+
+Get a free Wyzie API key at [store.wyzie.io/redeem](https://store.wyzie.io/redeem).
+
+## Install via repository (recommended)
+
+Installing the repository once lets Kodi **auto-update** the add-on for you.
+
+1. Download the repository installer:
+   [**repository.wyzie.zip**](https://kodi.wyzie.io/repository.wyzie.zip).
+2. In Kodi: **Settings → Add-ons → Install from zip file**, then choose
+   `repository.wyzie.zip`.
+   - If Kodi blocks it, enable **Settings → System → Add-ons → Unknown sources** first.
+3. **Settings → Add-ons → Install from repository → Wyzie Repository → Subtitle services
+   → Wyzie Subs → Install.**
+4. **Settings → Player → Language → Default subtitle service** → select **Wyzie Subs**.
+5. Open Wyzie Subs' add-on settings and paste your **API key**.
+
+## Install from zip (one-off)
+
+Use this if you'd rather not add the repository. Note: a zip install does **not**
+auto-update.
+
+1. Get the add-on zip: `service.subtitles.wyzie-<version>.zip`. (If you have the source,
+   zip the `kodi/` folder so the zip contains `addon.xml` at its root.)
+2. In Kodi: **Settings → Add-ons → Install from zip file**, then choose the zip.
+   - If Kodi blocks it, enable **Settings → System → Add-ons → Unknown sources** first.
+3. **Settings → Player → Language → Default subtitle service** → select **Wyzie Subs**.
+4. Open Wyzie Subs' add-on settings and paste your **API key**.
+
+## Configuration
+
+| Field | Default | Description |
+| ----- | ------- | ----------- |
+| `api_key` | — | Your Wyzie key. Required. |
+| `prefer_hi` | `false` | Prefer hearing-impaired subtitles. |
+
+Languages are taken from Kodi's selected subtitle languages and mapped to ISO 639-1
+automatically.
+
+## How matching works
+
+While something is playing, Kodi exposes the IMDB number, season, and episode. The add-on
+reads those, queries `sub.wyzie.io/search`, and returns matching subtitles. Because Wyzie
+is ID-driven (IMDB / TMDB), matches are accurate for both movies and series.
+
+**Manual search** currently shows a notification and does nothing — Wyzie matches on IDs,
+not titles. A title→ID lookup is on the roadmap. For now, let Kodi search automatically
+during playback.
+
+## When your quota runs out
+
+A 402 / 429 response surfaces a Kodi toast notification pointing you at
+[store.wyzie.io](https://store.wyzie.io) to top up or subscribe.
+
+## Troubleshooting
+
+- **Wyzie isn't offered during playback.** Confirm it's set as the **Default subtitle
+  service** (step 3) and that the playing item has an IMDB ID.
+- **"Invalid key."** Re-open the add-on settings and re-paste your key.
+- **Nothing for an episode.** Make sure Kodi has correct season/episode metadata for the
+  file (scraped library items work best).

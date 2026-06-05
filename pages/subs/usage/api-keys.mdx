@@ -2,53 +2,53 @@
 title: 'API Keys'
 ---
 
+import { T, TP, TImportant } from '../../../components/T';
+
 # API Keys
 
-Wyzie Subs requires an API key for all requests. A free tier covers most use cases; paid plans handle heavier usage.
+<TP id="subs.keys.p1" />
 
 ## Tiers
 
 | Tier               | What it costs          | Limit                         |
 | ------------------ | ---------------------- | ----------------------------- |
-| **Free**           | Free (Gmail required)  | 1,000 requests / UTC day      |
-| **Pro**            | $5 one-time            | 100,000 requests (currently bumped to 150,000 under a launch promo) |
-| **Top-ups**        | from $1.50 / 25K       | Adds to your paid balance     |
+| **Free**           | <T id="subs.keys.tier.free" />  | <T id="subs.keys.tier.free.limit" /> |
+| **Pro**            | <T id="subs.keys.tier.pro" />   | <T id="subs.keys.tier.pro.limit" /> |
+| **Top-ups**        | <T id="subs.keys.tier.topup" /> | <T id="subs.keys.tier.topup.limit" /> |
 
-Pro and top-ups don't expire and there's no subscription. See [store.wyzie.io](https://store.wyzie.io) for full pricing and the dashboard.
+<TP id="subs.keys.tiers.end" />
 
 ## Getting a Free Key
 
-Visit [store.wyzie.io/redeem](https://store.wyzie.io/redeem):
+<TP id="subs.keys.free.p" />
 
-1. Solve a quick Cloudflare Turnstile captcha.
-2. Enter a **Gmail address** (only Gmail is accepted for the free tier).
-3. Enter the 6-digit code we email you.
-4. You receive an API key that looks like `wyzie-abc123...`.
+1. <T id="subs.keys.free.step1" />
+2. <T id="subs.keys.free.step2" />
+3. <T id="subs.keys.free.step3" />
+4. <T id="subs.keys.free.step4" />
 
-Each Gmail address can only redeem one free key. Already had a free key tied to that email? Verifying again just returns your existing key.
+<TP id="subs.keys.free.gmail" />
 
 ## Upgrading to Pro
 
-Visit [store.wyzie.io](https://store.wyzie.io) and check out with the same email you used for your free key. Your existing `wyzie-...` key is upgraded in place with 100K (currently 150K promo) paid requests added on top.
+<TP id="subs.keys.pro.p1" />
 
-If you check out with a brand new email (no prior key), a fresh `wyzie-...` key is generated and emailed to you.
+<TP id="subs.keys.pro.p2" />
 
 ## Keep Your Key Off the Client
 
-<Important>
-  **Never embed your API key in client-side code.** Browser JavaScript, mobile apps, browser extensions, Electron-style desktop apps, and public Git repositories are all considered client-side. Anything you ship to an end user can be inspected by them, and we have seen real cases where users pasted their key into a streaming site's frontend, only to have a third party scrape the JS bundle and drain the request balance within hours. Quota consumed this way is not refundable.
-</Important>
+<TImportant id="subs.keys.protect.important" />
 
-Two safe ways to use the key from a client app:
+<TP id="subs.keys.protect.p2" />
 
-1. **Use [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker)**: a free Cloudflare Worker proxy that holds your key server-side. Point your client at the Worker URL instead of `sub.wyzie.io`.
-2. **Run your own proxy**: any backend endpoint that appends the key before forwarding to `sub.wyzie.io` works. See the [Intro page](/subs/intro#protecting-your-api-key) for a 10-line example.
+1. <T id="subs.keys.protect.option1" />
+2. <T id="subs.keys.protect.option2" />
 
-If the key shows up in a network tab in DevTools, it is exposed. Assume it is public and rotate it by emailing support.
+<TP id="subs.keys.protect.devtools" />
 
 ## Using Your Key
 
-Append `&key=YOUR_KEY` to every API request:
+<TP id="subs.keys.using.p" />
 
 ```
 https://sub.wyzie.io/search?id=tt3659388&key=YOUR_KEY
@@ -88,19 +88,23 @@ const data = await searchSubtitles({
 
 ## Hitting the Limit
 
-- **Free tier** depleted → API returns `429` with `X-RateLimit-Reset` and `Retry-After` headers. Daily counter resets at UTC midnight.
-- **Paid balance** exhausted → API returns `402`. Top up at [store.wyzie.io/topup](https://store.wyzie.io/topup) or enable **auto top-up** in your dashboard to refill automatically when your balance crosses a threshold you set.
+- <T id="subs.keys.limit.free" />
+- <T id="subs.keys.limit.paid" />
 
 ## FAQ
 
-**I lost my key. Can I get a new one?**
-Visit [store.wyzie.io](https://store.wyzie.io) and use the "forgot key" flow with your registered email; we'll re-send your existing key.
+**<T id="subs.keys.faq.q1" />**
 
-**Can I use one key in multiple projects?**
-Yes. Your key works anywhere you call the API.
+<T id="subs.keys.faq.a1" />
 
-**Will my key ever expire?**
-No. Free and paid keys both have no expiry. Free keys are capped per day; paid balance persists until you use it.
+**<T id="subs.keys.faq.q2" />**
 
-**Is auto top-up safe?**
-You set a monthly spend cap. We never charge above that, and one-click disable is in every confirmation email plus your dashboard.
+<T id="subs.keys.faq.a2" />
+
+**<T id="subs.keys.faq.q3" />**
+
+<T id="subs.keys.faq.a3" />
+
+**<T id="subs.keys.faq.q4" />**
+
+<T id="subs.keys.faq.a4" />

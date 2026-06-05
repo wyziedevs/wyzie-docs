@@ -7,8 +7,10 @@ import {
   Frame,
 } from '@neato/guider/client';
 import logoUrl from '../public/transparent-logo.png';
+import { useLocale } from '../components/LocaleContext';
 
 export default function LandingPage() {
+  const { t } = useLocale();
   return (
     <GuiderLayout meta={{ layout: 'page' }}>
       <Hero>
@@ -30,35 +32,27 @@ export default function LandingPage() {
             </span>
           </div>
         </Hero.Title>
-        <Hero.Subtitle>
-          Wyzie is an open-sourced toolset for scraping subtitles and anything
-          in between.
-        </Hero.Subtitle>
+        <Hero.Subtitle>{t('index.subtitle')}</Hero.Subtitle>
         <Hero.Actions>
-          <Button to="/subs/intro">Get Started</Button>
+          <Button to="/subs/intro">{t('index.cta.start')}</Button>
           <Button to="https://wyzie.io" type="secondary">
-            Check it Out
+            {t('index.cta.store')}
           </Button>
         </Hero.Actions>
       </Hero>
       <Frame plain={true}>
         <CardGrid>
-          <Card icon="mdi:key" title="Free API Keys">
-            Grab a free API key at store.wyzie.io/redeem with a quick Gmail
-            verification. 1,000 requests/day at no cost. Paid plans available
-            for higher usage.
+          <Card icon="mdi:key" title={t('index.card.keys.title')}>
+            {t('index.card.keys.body')}
           </Card>
-          <Card icon="mdi:robot-happy" title="AI Translation">
-            Translate any subtitle into 80+ languages on demand. Streams cue by
-            cue so playback can start in seconds. Available on Pro keys.
+          <Card icon="mdi:robot-happy" title={t('index.card.ai.title')}>
+            {t('index.card.ai.body')}
           </Card>
-          <Card icon="mdi:arm-flex" title="Reliable">
-            We pride ourselves on our consistent uptime and (almost) daily
-            updates as well as fast caching.
+          <Card icon="mdi:arm-flex" title={t('index.card.reliable.title')}>
+            {t('index.card.reliable.body')}
           </Card>
-          <Card icon="mdi:beach" title="Simplicity Redefined">
-            Easy to implement, easy to use. Wyzie is designed to be as simple as
-            possible.
+          <Card icon="mdi:beach" title={t('index.card.simple.title')}>
+            {t('index.card.simple.body')}
           </Card>
         </CardGrid>
       </Frame>

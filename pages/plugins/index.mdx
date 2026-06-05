@@ -1,0 +1,36 @@
+---
+title: 'Plugins'
+description: 'Install Wyzie Subs in Stremio, Bazarr (Plex/Jellyfin/Emby), and Kodi.'
+---
+
+# Plugins
+
+Wyzie Subs plugs straight into the media apps you already use. Every plugin talks to
+the same `https://sub.wyzie.io/search` endpoint and needs a free **Wyzie API key** —
+grab one at [store.wyzie.io](https://store.wyzie.io/#plans).
+
+## Which one do I need?
+
+| Plugin | Best for | How you install it | API key |
+| ------ | -------- | ------------------ | ------- |
+| **[Stremio](/plugins/stremio)** | Watching in Stremio on desktop, mobile, or TV | Hosted add-on — paste your key, click Install | Required |
+| **[Bazarr](/plugins/bazarr)** | Plex, Jellyfin, Emby, Sonarr, Radarr libraries | Drop-in provider for your Bazarr instance | Required |
+| **[Kodi](/plugins/kodi)** | Kodi 19+, LibreELEC, CoreELEC | Install from zip / Wyzie repository | Required |
+
+- Use **Stremio** if you watch inside the Stremio app.
+- Use **Bazarr** if you run Plex / Jellyfin / Emby — Bazarr downloads subtitle files to
+  disk and your media server picks them up automatically. (This is also the recommended
+  path for Plex and Jellyfin; there is no separate native plugin.)
+- Use **Kodi** for a Kodi-native subtitle service on Android TV, a Raspberry Pi, or a HTPC.
+
+## What every plugin shares
+
+- **Sources:** OpenSubtitles, SubDL, and Podnapisi, aggregated through Wyzie.
+- **Matching:** Wyzie is driven by IMDB / TMDB IDs plus season/episode, so matches are
+  precise for both movies and series.
+- **Quota:** when your key runs out, the plugin surfaces a friendly prompt linking to
+  [store.wyzie.io](https://store.wyzie.io) instead of failing silently. Top up or
+  subscribe and you're back in business.
+- **Languages:** 100+, selectable per plugin.
+
+Pick your platform above to get started.

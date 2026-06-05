@@ -96,6 +96,12 @@ export default defineTheme({
               ],
             }),
         ]),
+        group("Plugins", [
+          link("Overview", "/plugins"),
+          link("Stremio", "/plugins/stremio"),
+          link("Bazarr", "/plugins/bazarr"),
+          link("Kodi", "/plugins/kodi"),
+        ]),
         group("Wyzie Proxy", [
           link("Introduction", "/proxy/intro"),
           link("Hosting", "/proxy/hosting"),

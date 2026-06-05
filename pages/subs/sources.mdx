@@ -2,9 +2,11 @@
 title: 'Wyzie Subs Sources'
 ---
 
+import { T, TP, TNote } from '../../components/T';
+
 # Wyzie Subs Sources
 
-Wyzie Subs aggregates subtitles from multiple providers. Source availability can vary depending on provider status or if a source is down. I am always looking for new sources reach out to suggest one.
+<TP id="subs.sources.p1" />
 
 ## Using Sources
 
@@ -16,13 +18,13 @@ Use the `source` parameter to specify which provider(s) to query:
 /search?id=tt3659388&source=all&key=YOUR_KEY
 ```
 
-- Use `source=all` to query all enabled sources simultaneously
-- Default source is `opensubtitles` if not specified
-- Multiple sources can be specified as a comma-separated list
+- <T id="subs.sources.using.bullet1" />
+- <T id="subs.sources.using.bullet2" />
+- <T id="subs.sources.using.bullet3" />
 
 ## API Endpoint
 
-You can programmatically fetch the list of currently enabled sources and their plan tier:
+<TP id="subs.sources.api.p1" />
 
 ```
 GET /sources
@@ -42,19 +44,19 @@ Returns:
 }
 ```
 
-- `free`: sources any key can query, including free keys.
-- `paid`: sources that require a Pro key.
-- `allFree`: when `true`, every enabled source is available to all keys and `paid` is empty.
+- `free`: <T id="subs.sources.api.free" />
+- `paid`: <T id="subs.sources.api.paid" />
+- `allFree`: <T id="subs.sources.api.allFree" />
 
 ### Scoping to a key
 
-Pass your API key to get the sources that key can actually use:
+<TP id="subs.sources.scope.p1" />
 
 ```
 GET /sources?key=YOUR_KEY
 ```
 
-This adds key-specific fields without consuming a request from your quota:
+<TP id="subs.sources.scope.p2" />
 
 ```json
 {
@@ -72,112 +74,110 @@ This adds key-specific fields without consuming a request from your quota:
 }
 ```
 
-- `available`: sources this key can query right now.
-- `restricted`: enabled sources this key cannot query (upgrade to Pro to unlock them).
-- `key.type`: `"free"` or `"paid"`.
-- `key.valid` is `false` when the key is malformed or not found, and `null` when the key could not be verified (in which case `available` and `restricted` are omitted).
+- `available`: <T id="subs.sources.scope.available" />
+- `restricted`: <T id="subs.sources.scope.restricted" />
+- `key.type`: <T id="subs.sources.scope.keyType" />
+- `key.valid` <T id="subs.sources.scope.keyValid" />
 
 You can also view the real-time status of all sources at [sub.wyzie.io/status](https://sub.wyzie.io/status).
 
 ## Source Details
 
 ### opensubtitles
-The largest subtitle database online. Supports movies and TV shows across a wide range of languages. Uses the official OpenSubtitles REST API.
+<TP id="subs.sources.opensubtitles.desc" />
 
-- **Content:** Movies & TV shows
-- **Languages:** Extensive multilingual support
-- **Formats:** SRT, ASS, SSA, VTT, SUB, and more
+- **Content:** <T id="subs.sources.opensubtitles.content" />
+- **Languages:** <T id="subs.sources.opensubtitles.languages" />
+- **Formats:** <T id="subs.sources.opensubtitles.formats" />
 
 ---
 
 ### subdl
-A community-driven subtitle site with a broad selection of movies and TV shows.
+<TP id="subs.sources.subdl.desc" />
 
-- **Content:** Movies & TV shows
-- **Languages:** Extensive multilingual support
-- **Formats:** SRT, ASS, SSA, VTT, SUB, and more
+- **Content:** <T id="subs.sources.subdl.content" />
+- **Languages:** <T id="subs.sources.subdl.languages" />
+- **Formats:** <T id="subs.sources.subdl.formats" />
 
 ---
 
 ### subf2m
-A large subtitle repository with extensive language coverage for movies and TV shows.
+<TP id="subs.sources.subf2m.desc" />
 
-- **Content:** Movies & TV shows
-- **Languages:** Extensive multilingual support
-- **Formats:** SRT, ASS, SSA, VTT, SUB, and more
+- **Content:** <T id="subs.sources.subf2m.content" />
+- **Languages:** <T id="subs.sources.subf2m.languages" />
+- **Formats:** <T id="subs.sources.subf2m.formats" />
 
 ---
 
 ### podnapisi
-One of the oldest subtitle databases. Well-curated collection covering movies and TV shows.
+<TP id="subs.sources.podnapisi.desc" />
 
-- **Content:** Movies & TV shows
-- **Languages:** Extensive multilingual support
-- **Formats:** SRT, ASS, SSA, VTT, SUB, and more
+- **Content:** <T id="subs.sources.podnapisi.content" />
+- **Languages:** <T id="subs.sources.podnapisi.languages" />
+- **Formats:** <T id="subs.sources.podnapisi.formats" />
 
 ---
 
 ### animetosho
-Scrapes anime subtitle attachments directly from torrent releases indexed on AnimeTosho.
+<TP id="subs.sources.animetosho.desc" />
 
-- **Content:** Anime (TV shows)
-- **Languages:** Japanese, English, and others depending on the release
-- **Formats:** ASS, SRT, SSA, and others
+- **Content:** <T id="subs.sources.animetosho.content" />
+- **Languages:** <T id="subs.sources.animetosho.languages" />
+- **Formats:** <T id="subs.sources.animetosho.formats" />
 
-<Note>
-  AnimeTosho is scheduled to shut down in May 2026.
-</Note>
+<TNote id="subs.sources.animetosho.note" />
 
 ---
 
 ### gestdown
-Provides subtitles for TV shows via the Gestdown API with broad language support.
+<TP id="subs.sources.gestdown.desc" />
 
-- **Content:** TV shows only
-- **Languages:** Extensive multilingual support
-- **Formats:** SRT, ASS, and more
+- **Content:** <T id="subs.sources.gestdown.content" />
+- **Languages:** <T id="subs.sources.gestdown.languages" />
+- **Formats:** <T id="subs.sources.gestdown.formats" />
 
 ---
 
 ### jimaku
-Scrapes [jimaku.cc](https://jimaku.cc), a community-maintained repository of anime subtitle files. Matches titles using the TMDB API.
+<TP id="subs.sources.jimaku.desc" />
 
-- **Content:** Anime (movies & TV shows)
-- **Languages:** Primarily Japanese; also English, Chinese, and more depending on available files
-- **Formats:** SRT, ASS, SSA, VTT, SUB, and others
+- **Content:** <T id="subs.sources.jimaku.content" />
+- **Languages:** <T id="subs.sources.jimaku.languages" />
+- **Formats:** <T id="subs.sources.jimaku.formats" />
 
 ---
 
 ### kitsunekko
-Scrapes directory listings from [kitsunekko.net](https://kitsunekko.net), a dedicated anime subtitle repository. Matches titles using the TMDB API.
+<TP id="subs.sources.kitsunekko.desc" />
 
-- **Content:** Anime (TV shows)
-- **Languages:** English and Japanese subtitle directories
-- **Formats:** SRT, ASS, SSA, VTT, SUB, and others
+- **Content:** <T id="subs.sources.kitsunekko.content" />
+- **Languages:** <T id="subs.sources.kitsunekko.languages" />
+- **Formats:** <T id="subs.sources.kitsunekko.formats" />
 
 ---
 
 ### yify
-Scrapes [yifysubtitles.ch](https://yifysubtitles.ch) for subtitles matched by IMDB ID. Movies only.
+<TP id="subs.sources.yify.desc" />
 
-- **Content:** Movies only (TV shows are not supported)
-- **Languages:** Extensive multilingual support (Albanian, Arabic, English, French, Spanish, and many more)
-- **Formats:** SRT (delivered inside a ZIP archive)
+- **Content:** <T id="subs.sources.yify.content" />
+- **Languages:** <T id="subs.sources.yify.languages" />
+- **Formats:** <T id="subs.sources.yify.formats" />
 
 ---
 
 ### ajatttools
-Fetches subtitles from the [Ajatt-Tools/kitsunekko-mirror](https://github.com/Ajatt-Tools/kitsunekko-mirror) GitHub repository, which powers [subtitles.ajatt.top](https://subtitles.ajatt.top). Organized by media type (anime TV, anime movies, drama TV, drama movies). Matches titles using the TMDB API.
+<TP id="subs.sources.ajatttools.desc" />
 
-- **Content:** Anime & drama (TV shows and movies)
-- **Languages:** Primarily Japanese; also English, Chinese, and others depending on available files
-- **Formats:** SRT, ASS, SSA, VTT, SUB, and others
+- **Content:** <T id="subs.sources.ajatttools.content" />
+- **Languages:** <T id="subs.sources.ajatttools.languages" />
+- **Formats:** <T id="subs.sources.ajatttools.formats" />
 
 ---
 
 ### ai
-Not a scraper. AI-translated SRT generated on demand from the best available source subtitle. See the [AI Translation](usage/translate) guide for full details. Entries appear in `/search` responses with `"source": "ai"` and `"ai": true`. They are not affected by the `source` filter, but you can hide them client-side by filtering on the `ai` field.
+<TP id="subs.sources.ai.desc" />
 
-- **Content:** Anything Wyzie can find an SRT for
-- **Languages:** 80+ target languages
-- **Formats:** SRT only
+- **Content:** <T id="subs.sources.ai.content" />
+- **Languages:** <T id="subs.sources.ai.languages" />
+- **Formats:** <T id="subs.sources.ai.formats" />

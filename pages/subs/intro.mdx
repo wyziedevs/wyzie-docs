@@ -2,21 +2,17 @@
 title: 'Intro to Wyzie Subs'
 ---
 
+import { T, TP, TNote, TImportant } from '../../components/T';
+
 # Intro to Wyzie Subs
 
-Wyzie Subs is a free and libre open-subtitles scraping API. There are two ways to make requests to the API: using our NPM package or directly fetching the Wyzie API itself. I recommend using our package, but some may find the types cumbersome. In order to use the API, you must first make that decision.
+<TP id="subs.intro.p1" />
 
-<Note>
-  [AI Translation](/subs/usage/translate) is live for Pro keys. Any title, 80+ target languages, streamed back as the translator works.
-</Note>
+<TNote id="subs.intro.note.ai" />
 
-<Important>
-  An API key is required for all requests. Get a free key at [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (Gmail verification, 1,000 requests/day). For higher usage, [Pro and top-up plans](https://store.wyzie.io) are available. See the [API Keys](/subs/usage/api-keys) page for details.
-</Important>
+<TImportant id="subs.intro.important.apikey" />
 
-<Note>
-  We strongly recommend the NPM package if you are familiar with TypeScript or JavaScript
-</Note>
+<TNote id="subs.intro.note.npm" />
 
 <div
   style={{
@@ -26,29 +22,27 @@ Wyzie Subs is a free and libre open-subtitles scraping API. There are two ways t
     gap: '0.5rem',
   }}
 >
-  <Button to="usage/package" type="secondary">NPM Package</Button>
-  <Button to="usage/direct" type="secondary">Direct Fetching</Button>
+  <Button to="usage/package" type="secondary"><T id="subs.intro.btn.npm" /></Button>
+  <Button to="usage/direct" type="secondary"><T id="subs.intro.btn.direct" /></Button>
 </div>
 
 ## Protecting Your API Key
 
-<Important>
-  **Real incident:** we have seen developers paste their key directly into a streaming site's frontend JavaScript. Within hours, an unrelated party scraped it out of the JS bundle and used it until the daily limit or paid balance was exhausted. Quota lost this way is not refundable and is treated as the key owner's responsibility under our [Terms](https://store.wyzie.io/terms).
-</Important>
+<TImportant id="subs.intro.protect.important" />
 
-Your API key should be kept private and **never** appear in:
+<TP id="subs.intro.protect.p1" />
 
-- Browser JavaScript (anything served to a `<script>` tag)
-- Mobile app binaries (Android/iOS, including obfuscated ones)
-- Browser extensions
-- Electron / desktop apps distributed to end users
-- Public Git repositories, gists, paste sites, or screenshots
+- <T id="subs.intro.protect.item1" />
+- <T id="subs.intro.protect.item2" />
+- <T id="subs.intro.protect.item3" />
+- <T id="subs.intro.protect.item4" />
+- <T id="subs.intro.protect.item5" />
 
-If the key reaches an end user's machine, treat it as public. There are two safe patterns:
+<TP id="subs.intro.protect.p2" />
 
 ### Option 1: Use Wyzie Worker
 
-[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) is a lightweight Cloudflare Worker proxy that injects your API key server-side. Deploy it to Cloudflare Workers and set your key as the `NITRO_API_TOKEN` environment variable. Then point your client requests at your worker URL instead of `sub.wyzie.io` - the worker forwards them with your key attached.
+<TP id="subs.intro.protect.opt1.p1" />
 
 ```
 Client → your-worker.workers.dev/search?id=286217 → sub.wyzie.io/search?id=286217&key=YOUR_KEY
@@ -56,7 +50,7 @@ Client → your-worker.workers.dev/search?id=286217 → sub.wyzie.io/search?id=2
 
 ### Option 2: Build Your Own Proxy
 
-If you'd rather not use Wyzie Worker, you can build a simple server-side proxy in any framework. The idea is the same: your backend receives requests from your client, appends the API key, and forwards them to `sub.wyzie.io`.
+<TP id="subs.intro.protect.opt2.p1" />
 
 ```ts
 // Example: a simple proxy endpoint
