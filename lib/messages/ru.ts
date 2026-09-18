@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Используйте source=all для одновременного запроса всех включённых источников',
   'subs.sources.using.bullet2':
-    'Источник по умолчанию — opensubtitles, если не указан другой',
+    'Источник по умолчанию — charlie, если не указан другой',
   'subs.sources.using.bullet3':
     'Можно указать несколько источников через запятую',
 
@@ -248,7 +248,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': 'Предпочитать ли субтитры для слабослышащих.',
   'subs.direct.param.encoding': 'Фильтр кодировки символов.',
   'subs.direct.param.source':
-    'Провайдеры субтитров для запроса (all запрашивает все включённые источники; по умолчанию opensubtitles).',
+    'Провайдеры субтитров для запроса (all запрашивает все включённые источники; по умолчанию charlie).',
   'subs.direct.param.release':
     'Фильтры по имени релиза или сцены (через запятую).',
   'subs.direct.param.file':
@@ -269,7 +269,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'Формат файла субтитров.',
   'subs.direct.data.encoding': 'Кодировка символов файла субтитров.',
   'subs.direct.data.display': 'Язык субтитров с заглавной буквы.',
-  'subs.direct.data.language': 'Код ISO 3166-2 языка.',
+  'subs.direct.data.language': 'Код ISO 639-1 языка.',
   'subs.direct.data.media': 'Название медиа, к которому относятся субтитры.',
   'subs.direct.data.isHearingImpaired':
     'Boolean, указывающий, доступны ли субтитры для слабослышащих.',

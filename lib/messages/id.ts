@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Gunakan source=all untuk mengkueri semua sumber yang diaktifkan secara bersamaan',
   'subs.sources.using.bullet2':
-    'Sumber default adalah opensubtitles jika tidak ditentukan',
+    'Sumber default adalah charlie jika tidak ditentukan',
   'subs.sources.using.bullet3':
     'Beberapa sumber dapat ditentukan sebagai daftar yang dipisahkan koma',
 
@@ -248,7 +248,7 @@ const messages: Record<string, string> = {
     'Apakah ingin memprioritaskan subtitle untuk pengguna dengan gangguan pendengaran.',
   'subs.direct.param.encoding': 'Filter pengkodean karakter.',
   'subs.direct.param.source':
-    'Penyedia subtitle yang dikueri (all untuk mengkueri setiap sumber yang diaktifkan; default opensubtitles).',
+    'Penyedia subtitle yang dikueri (all untuk mengkueri setiap sumber yang diaktifkan; default charlie).',
   'subs.direct.param.release':
     'Filter rilis atau nama scene (dipisahkan koma).',
   'subs.direct.param.file':
@@ -269,7 +269,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'Format dari file subtitle.',
   'subs.direct.data.encoding': 'Pengkodean karakter dari file subtitle.',
   'subs.direct.data.display': 'Bahasa subtitle, dengan huruf kapital.',
-  'subs.direct.data.language': 'Kode ISO 3166-2 dari bahasa.',
+  'subs.direct.data.language': 'Kode ISO 639-1 dari bahasa.',
   'subs.direct.data.media': 'Nama media yang subtitle-nya tersedia.',
   'subs.direct.data.isHearingImpaired':
     'Boolean yang menunjukkan apakah subtitle dapat diakses oleh pengguna dengan gangguan pendengaran.',

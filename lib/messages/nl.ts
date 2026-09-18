@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Gebruik source=all om alle ingeschakelde bronnen tegelijkertijd te bevragen',
   'subs.sources.using.bullet2':
-    'Standaardbron is opensubtitles als er geen is opgegeven',
+    'Standaardbron is charlie als er geen is opgegeven',
   'subs.sources.using.bullet3':
     "Meerdere bronnen kunnen worden opgegeven als een door komma's gescheiden lijst",
 
@@ -247,7 +247,7 @@ const messages: Record<string, string> = {
     'Of de voorkeur gegeven moet worden aan ondertitels voor slechthorenden.',
   'subs.direct.param.encoding': 'Tekencoderingsfilter.',
   'subs.direct.param.source':
-    'Ondertitelaanbieders om te bevragen (all bevraagt elke ingeschakelde bron; standaard opensubtitles).',
+    'Ondertitelaanbieders om te bevragen (all bevraagt elke ingeschakelde bron; standaard charlie).',
   'subs.direct.param.release':
     'Release- of scenenaamfilters (kommagescheiden).',
   'subs.direct.param.file':
@@ -269,7 +269,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'Het formaat van het ondertitelbestand.',
   'subs.direct.data.encoding': 'De tekencodering van het ondertitelbestand.',
   'subs.direct.data.display': 'De taal van de ondertitel, met hoofdletter.',
-  'subs.direct.data.language': 'De ISO 3166-2-code van de taal.',
+  'subs.direct.data.language': 'De ISO 639-1-code van de taal.',
   'subs.direct.data.media':
     'De naam van de media waarvoor de ondertitels zijn.',
   'subs.direct.data.isHearingImpaired':

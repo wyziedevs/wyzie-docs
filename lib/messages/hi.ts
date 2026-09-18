@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'सभी सक्षम स्रोतों को एक साथ query करने के लिए source=all का उपयोग करें',
   'subs.sources.using.bullet2':
-    'यदि निर्दिष्ट नहीं किया गया तो डिफ़ॉल्ट स्रोत opensubtitles है',
+    'यदि निर्दिष्ट नहीं किया गया तो डिफ़ॉल्ट स्रोत charlie है',
   'subs.sources.using.bullet3':
     'एकाधिक स्रोतों को comma-separated सूची के रूप में निर्दिष्ट किया जा सकता है',
 
@@ -246,7 +246,7 @@ const messages: Record<string, string> = {
     'सुनने में अक्षम सबटाइटल को प्राथमिकता देना है या नहीं।',
   'subs.direct.param.encoding': 'Character encoding filter।',
   'subs.direct.param.source':
-    'Query करने के लिए सबटाइटल providers (all हर सक्षम स्रोत को query करता है; डिफ़ॉल्ट opensubtitles)।',
+    'Query करने के लिए सबटाइटल providers (all हर सक्षम स्रोत को query करता है; डिफ़ॉल्ट charlie)।',
   'subs.direct.param.release':
     'Release या scene name filters (comma-separated)।',
   'subs.direct.param.file':
@@ -267,7 +267,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'सबटाइटल फ़ाइल का format।',
   'subs.direct.data.encoding': 'सबटाइटल फ़ाइल का character encoding।',
   'subs.direct.data.display': 'सबटाइटल की भाषा, बड़े अक्षरों में।',
-  'subs.direct.data.language': 'भाषा का ISO 3166-2 कोड।',
+  'subs.direct.data.language': 'भाषा का ISO 639-1 कोड।',
   'subs.direct.data.media': 'उस मीडिया का नाम जिसके लिए सबटाइटल हैं।',
   'subs.direct.data.isHearingImpaired':
     'Boolean जो दर्शाता है कि सबटाइटल सुनने में अक्षम लोगों के लिए accessible है।',

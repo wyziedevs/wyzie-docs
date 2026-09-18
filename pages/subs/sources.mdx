@@ -13,8 +13,8 @@ import { T, TP, TNote } from '../../components/T';
 Use the `source` parameter to specify which provider(s) to query:
 
 ```
-/search?id=tt3659388&source=subdl&key=YOUR_KEY
-/search?id=tt3659388&source=subdl,subf2m&key=YOUR_KEY
+/search?id=tt3659388&source=charlie&key=YOUR_KEY
+/search?id=tt3659388&source=charlie,lima&key=YOUR_KEY
 /search?id=tt3659388&source=all&key=YOUR_KEY
 ```
 
@@ -33,12 +33,13 @@ GET /sources
 Returns:
 ```json
 {
-  "sources": ["opensubtitles", "subf2m", "kitsunekko", "gestdown", "yify", "tvsubtitles"],
-  "free": ["opensubtitles", "tvsubtitles"],
-  "paid": ["subf2m", "kitsunekko", "gestdown", "yify"],
+  "sources": ["bravo", "charlie", "foxtrot", "india", "juliet", "lima", "mike", "november"],
+  "free": ["charlie", "lima"],
+  "paid": ["bravo", "foxtrot", "india", "juliet", "mike", "november"],
   "tiered": [
-    { "key": "opensubtitles", "name": "OpenSubtitles", "tier": "free" },
-    { "key": "subf2m", "name": "Subf2m", "tier": "paid" }
+    { "key": "bravo", "name": "bravo", "tier": "paid", "tags": [] },
+    { "key": "charlie", "name": "charlie", "tier": "free", "tags": [] },
+    { "key": "foxtrot", "name": "foxtrot", "tier": "paid", "tags": ["anime"] }
   ],
   "allFree": false
 }
@@ -46,6 +47,7 @@ Returns:
 
 - `free`: <T id="subs.sources.api.free" />
 - `paid`: <T id="subs.sources.api.paid" />
+- `tiered`: one entry per enabled source with its `key` (the value to pass as `source`), display `name`, `tier` (`free` or `paid`), and `tags` (for example `anime`). The example above is shortened.
 - `allFree`: <T id="subs.sources.api.allFree" />
 
 ### Scoping to a key
@@ -60,16 +62,16 @@ GET /sources?key=YOUR_KEY
 
 ```json
 {
-  "sources": ["opensubtitles", "subf2m", "kitsunekko", "gestdown", "yify", "tvsubtitles"],
-  "free": ["opensubtitles", "tvsubtitles"],
-  "paid": ["subf2m", "kitsunekko", "gestdown", "yify"],
+  "sources": ["bravo", "charlie", "foxtrot", "india", "juliet", "lima", "mike", "november"],
+  "free": ["charlie", "lima"],
+  "paid": ["bravo", "foxtrot", "india", "juliet", "mike", "november"],
   "tiered": [
-    { "key": "opensubtitles", "name": "OpenSubtitles", "tier": "free", "available": true },
-    { "key": "subf2m", "name": "Subf2m", "tier": "paid", "available": false }
+    { "key": "bravo", "name": "bravo", "tier": "paid", "tags": [], "available": false },
+    { "key": "charlie", "name": "charlie", "tier": "free", "tags": [], "available": true }
   ],
   "key": { "valid": true, "type": "free" },
-  "available": ["opensubtitles", "tvsubtitles"],
-  "restricted": ["subf2m", "kitsunekko", "gestdown", "yify"],
+  "available": ["charlie", "lima"],
+  "restricted": ["bravo", "foxtrot", "india", "juliet", "mike", "november"],
   "allFree": false
 }
 ```
@@ -83,95 +85,18 @@ You can also view the real-time status of all sources at [sub.wyzie.io/status](h
 
 ## Source Details
 
-### opensubtitles
-<TP id="subs.sources.opensubtitles.desc" />
+Sources are exposed under NATO codenames. Pass the codename as the `source` value; `source=all` works for every key and queries each source that key can use. The list below reflects the live `/sources` response and can change, so fetch it at runtime rather than hardcoding it.
 
-- **Content:** <T id="subs.sources.opensubtitles.content" />
-- **Languages:** <T id="subs.sources.opensubtitles.languages" />
-- **Formats:** <T id="subs.sources.opensubtitles.formats" />
-
----
-
-### subdl
-<TP id="subs.sources.subdl.desc" />
-
-- **Content:** <T id="subs.sources.subdl.content" />
-- **Languages:** <T id="subs.sources.subdl.languages" />
-- **Formats:** <T id="subs.sources.subdl.formats" />
-
----
-
-### subf2m
-<TP id="subs.sources.subf2m.desc" />
-
-- **Content:** <T id="subs.sources.subf2m.content" />
-- **Languages:** <T id="subs.sources.subf2m.languages" />
-- **Formats:** <T id="subs.sources.subf2m.formats" />
-
----
-
-### podnapisi
-<TP id="subs.sources.podnapisi.desc" />
-
-- **Content:** <T id="subs.sources.podnapisi.content" />
-- **Languages:** <T id="subs.sources.podnapisi.languages" />
-- **Formats:** <T id="subs.sources.podnapisi.formats" />
-
----
-
-### animetosho
-<TP id="subs.sources.animetosho.desc" />
-
-- **Content:** <T id="subs.sources.animetosho.content" />
-- **Languages:** <T id="subs.sources.animetosho.languages" />
-- **Formats:** <T id="subs.sources.animetosho.formats" />
-
-<TNote id="subs.sources.animetosho.note" />
-
----
-
-### gestdown
-<TP id="subs.sources.gestdown.desc" />
-
-- **Content:** <T id="subs.sources.gestdown.content" />
-- **Languages:** <T id="subs.sources.gestdown.languages" />
-- **Formats:** <T id="subs.sources.gestdown.formats" />
-
----
-
-### jimaku
-<TP id="subs.sources.jimaku.desc" />
-
-- **Content:** <T id="subs.sources.jimaku.content" />
-- **Languages:** <T id="subs.sources.jimaku.languages" />
-- **Formats:** <T id="subs.sources.jimaku.formats" />
-
----
-
-### kitsunekko
-<TP id="subs.sources.kitsunekko.desc" />
-
-- **Content:** <T id="subs.sources.kitsunekko.content" />
-- **Languages:** <T id="subs.sources.kitsunekko.languages" />
-- **Formats:** <T id="subs.sources.kitsunekko.formats" />
-
----
-
-### yify
-<TP id="subs.sources.yify.desc" />
-
-- **Content:** <T id="subs.sources.yify.content" />
-- **Languages:** <T id="subs.sources.yify.languages" />
-- **Formats:** <T id="subs.sources.yify.formats" />
-
----
-
-### ajatttools
-<TP id="subs.sources.ajatttools.desc" />
-
-- **Content:** <T id="subs.sources.ajatttools.content" />
-- **Languages:** <T id="subs.sources.ajatttools.languages" />
-- **Formats:** <T id="subs.sources.ajatttools.formats" />
+| Source       | Tier | Tags  |
+| ------------ | ---- | ----- |
+| **bravo**    | Pro  |       |
+| **charlie**  | Free |       |
+| **foxtrot**  | Pro  | anime |
+| **india**    | Pro  |       |
+| **juliet**   | Pro  | anime |
+| **lima**     | Free |       |
+| **mike**     | Pro  | anime |
+| **november** | Pro  | anime |
 
 ---
 

@@ -73,7 +73,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.h2': 'שימוש במקורות',
   'subs.sources.using.bullet1':
     'השתמש ב-source=all לשאילתת כל המקורות המופעלים בו-זמנית',
-  'subs.sources.using.bullet2': 'מקור ברירת המחדל הוא opensubtitles אם לא צוין',
+  'subs.sources.using.bullet2': 'מקור ברירת המחדל הוא charlie אם לא צוין',
   'subs.sources.using.bullet3': 'ניתן לציין מספר מקורות כרשימה מופרדת בפסיקים',
 
   'subs.sources.api.h2': 'נקודת קצה של API',
@@ -232,7 +232,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': 'האם להעדיף כתוביות לכבדי שמיעה.',
   'subs.direct.param.encoding': 'פילטר קידוד תווים.',
   'subs.direct.param.source':
-    'ספקי כתוביות לשאילתה (all שואל כל מקור מופעל; ברירת מחדל opensubtitles).',
+    'ספקי כתוביות לשאילתה (all שואל כל מקור מופעל; ברירת מחדל charlie).',
   'subs.direct.param.release': 'פילטרי שחרור או שם scene (מופרד בפסיקים).',
   'subs.direct.param.file':
     'פילטרי שם קובץ (כינויים: file, filename, fileName).',
@@ -252,7 +252,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'הפורמט של קובץ הכתובית.',
   'subs.direct.data.encoding': 'קידוד התווים של קובץ הכתובית.',
   'subs.direct.data.display': 'שפת הכתובית, עם אות ראשונה גדולה.',
-  'subs.direct.data.language': 'קוד ISO 3166-2 של השפה.',
+  'subs.direct.data.language': 'קוד ISO 639-1 של השפה.',
   'subs.direct.data.media': 'שם המדיה שהכתוביות שייכות לה.',
   'subs.direct.data.isHearingImpaired':
     'ערך Boolean המייצג אם הכתובית נגישה לכבדי שמיעה.',

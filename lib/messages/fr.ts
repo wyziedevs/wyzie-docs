@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Utilisez source=all pour interroger toutes les sources activées simultanément',
   'subs.sources.using.bullet2':
-    "La source par défaut est opensubtitles si aucune n'est spécifiée",
+    "La source par défaut est charlie si aucune n'est spécifiée",
   'subs.sources.using.bullet3':
     'Plusieurs sources peuvent être spécifiées sous forme de liste séparée par des virgules',
 
@@ -250,7 +250,7 @@ const messages: Record<string, string> = {
     "Indique s'il faut préférer les sous-titres malentendants.",
   'subs.direct.param.encoding': "Filtre d'encodage de caractères.",
   'subs.direct.param.source':
-    'Fournisseurs de sous-titres à interroger (all interroge toutes les sources activées ; par défaut opensubtitles).',
+    'Fournisseurs de sous-titres à interroger (all interroge toutes les sources activées ; par défaut charlie).',
   'subs.direct.param.release':
     'Filtres de release ou de scène (séparés par des virgules).',
   'subs.direct.param.file':
@@ -272,7 +272,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.encoding':
     "L'encodage de caractères du fichier de sous-titres.",
   'subs.direct.data.display': 'La langue des sous-titres, avec majuscule.',
-  'subs.direct.data.language': 'Le code ISO 3166-2 de la langue.',
+  'subs.direct.data.language': 'Le code ISO 639-1 de la langue.',
   'subs.direct.data.media':
     'Le nom du média auquel les sous-titres correspondent.',
   'subs.direct.data.isHearingImpaired':

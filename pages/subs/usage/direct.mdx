@@ -23,10 +23,11 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
       "language": "en",
       "media": "The Martian",
       "isHearingImpaired": false,
-      "source": "opensubtitles",
+      "source": "charlie",
       "release": "The.Martian.2015.1080p.WEB-DL",
       "releases": ["The.Martian.2015.1080p.WEB-DL"],
       "fileName": "the.martian.2015.1080p.web-dl.srt",
+      "downloadCount": 48213,
       "origin": "WEB-DL",
       "matchedRelease": "The.Martian.2015.1080p.WEB-DL",
       "matchedFilter": "martian",
@@ -41,7 +42,7 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
     https://sub.wyzie.io/search?id=tt0121955&season=1&episode=1&key=YOUR_KEY
     https://sub.wyzie.io/search?id=tt3659388&language=en&key=YOUR_KEY
     https://sub.wyzie.io/search?id=tt3659388&format=srt&key=YOUR_KEY
-    https://sub.wyzie.io/search?id=tt3659388&source=subdl&key=YOUR_KEY
+    https://sub.wyzie.io/search?id=tt3659388&source=charlie&key=YOUR_KEY
     ```
   </Tabs.Tab>
 </Tabs>
@@ -56,7 +57,7 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
 | **format**           | `/search?id=tt3659388&format=srt,ass`                 | <T id="subs.direct.param.format" />                                                                     |
 | **hi**               | `/search?id=tt3659388&hi=true`                        | <T id="subs.direct.param.hi" />                                                                         |
 | **encoding**         | `/search?id=tt3659388&encoding=utf-8,latin-1`         | <T id="subs.direct.param.encoding" />                                                                   |
-| **source**           | `/search?id=tt3659388&source=subdl,podnapisi`         | <T id="subs.direct.param.source" />                                                                     |
+| **source**           | `/search?id=tt3659388&source=charlie,lima`            | <T id="subs.direct.param.source" />                                                                     |
 | **release**          | `/search?id=tt3659388&release=martian,1080p`          | <T id="subs.direct.param.release" />                                                                    |
 | **file/fileName**    | `/search?id=tt3659388&file=proper`                    | <T id="subs.direct.param.file" />                                                                       |
 | **origin**           | `/search?id=tt3659388&origin=WEB,BLURAY`              | <T id="subs.direct.param.origin" />                                                                     |
@@ -87,3 +88,22 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
 | **matchedRelease**    | <T id="subs.direct.data.matchedRelease" />                           |
 | **matchedFilter**     | <T id="subs.direct.data.matchedFilter" />                            |
 | **ai**                | <T id="subs.direct.data.ai" />                                       |
+
+### Errors
+
+Errors are returned as JSON with the matching HTTP status:
+
+```json
+{
+  "code": 401,
+  "message": "API key required",
+  "details": "Include a valid API key as the `key` query parameter.",
+  "notice": "https://sub.wyzie.io/notice"
+}
+```
+
+| Status  | Message              | Cause                                                         |
+| ------- | -------------------- | ------------------------------------------------------------- |
+| **401** | `API key required`   | The `key` parameter is missing.                               |
+| **403** | `Invalid API key`    | The `key` parameter was sent but the key is not recognized.   |
+| **400** | `No subtitles found` | The search completed but nothing matched your parameters.     |

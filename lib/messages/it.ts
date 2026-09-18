@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Usa source=all per interrogare tutte le fonti abilitate simultaneamente',
   'subs.sources.using.bullet2':
-    'La fonte predefinita è opensubtitles se non specificata',
+    'La fonte predefinita è charlie se non specificata',
   'subs.sources.using.bullet3':
     'Più fonti possono essere specificate come elenco separato da virgole',
 
@@ -251,7 +251,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': 'Se preferire i sottotitoli per non udenti.',
   'subs.direct.param.encoding': 'Filtro per codifica dei caratteri.',
   'subs.direct.param.source':
-    'Provider di sottotitoli da interrogare (all interroga ogni fonte abilitata; predefinito opensubtitles).',
+    'Provider di sottotitoli da interrogare (all interroga ogni fonte abilitata; predefinito charlie).',
   'subs.direct.param.release':
     'Filtri per release o nome scene (separati da virgola).',
   'subs.direct.param.file':
@@ -274,7 +274,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.encoding':
     'La codifica dei caratteri del file dei sottotitoli.',
   'subs.direct.data.display': 'La lingua del sottotitolo, in maiuscolo.',
-  'subs.direct.data.language': 'Il codice ISO 3166-2 della lingua.',
+  'subs.direct.data.language': 'Il codice ISO 639-1 della lingua.',
   'subs.direct.data.media': 'Il nome del media per cui sono i sottotitoli.',
   'subs.direct.data.isHearingImpaired':
     'Booleano che indica se il sottotitolo è accessibile ai non udenti.',

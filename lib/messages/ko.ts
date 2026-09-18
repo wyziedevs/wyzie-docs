@@ -73,8 +73,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.h2': '소스 사용 방법',
   'subs.sources.using.bullet1':
     'source=all을 사용하면 활성화된 모든 소스를 동시에 쿼리합니다',
-  'subs.sources.using.bullet2':
-    '지정하지 않으면 기본 소스는 opensubtitles입니다',
+  'subs.sources.using.bullet2': '지정하지 않으면 기본 소스는 charlie입니다',
   'subs.sources.using.bullet3':
     '여러 소스를 쉼표로 구분된 목록으로 지정할 수 있습니다',
 
@@ -238,7 +237,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': '청각 장애인 자막 선호 여부.',
   'subs.direct.param.encoding': '문자 인코딩 필터.',
   'subs.direct.param.source':
-    '쿼리할 자막 제공자 (all이면 활성화된 모든 소스 조회; 기본값은 opensubtitles).',
+    '쿼리할 자막 제공자 (all이면 활성화된 모든 소스 조회; 기본값은 charlie).',
   'subs.direct.param.release': '릴리스 또는 씬 이름 필터 (쉼표로 구분).',
   'subs.direct.param.file': '파일명 필터 (별칭: file, filename, fileName).',
   'subs.direct.param.origin':
@@ -257,7 +256,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': '자막 파일의 형식.',
   'subs.direct.data.encoding': '자막 파일의 문자 인코딩.',
   'subs.direct.data.display': '자막 언어명 (대문자로 시작).',
-  'subs.direct.data.language': '언어의 ISO 3166-2 코드.',
+  'subs.direct.data.language': '언어의 ISO 639-1 코드.',
   'subs.direct.data.media': '자막이 속한 미디어의 이름.',
   'subs.direct.data.isHearingImpaired':
     '청각 장애인 접근 가능 자막 여부를 나타내는 불리언.',

@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Koristite source=all da biste istovremeno upitali sve aktivne izvore',
   'subs.sources.using.bullet2':
-    'Podrazumevani izvor je opensubtitles ako nije navedeno drugačije',
+    'Podrazumevani izvor je charlie ako nije navedeno drugačije',
   'subs.sources.using.bullet3':
     'Više izvora može se navesti kao lista razdvojena zarezima',
 
@@ -246,7 +246,7 @@ const messages: Record<string, string> = {
     'Da li preferirati titlove prilagođene osobama oštećenog sluha.',
   'subs.direct.param.encoding': 'Filter kodiranja znakova.',
   'subs.direct.param.source':
-    'Provajderi titlova za upit (all upituje svaki aktivni izvor; podrazumevano opensubtitles).',
+    'Provajderi titlova za upit (all upituje svaki aktivni izvor; podrazumevano charlie).',
   'subs.direct.param.release':
     'Filtri za release ili scene naziv (razdvojeni zarezima).',
   'subs.direct.param.file':
@@ -267,7 +267,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'Format fajla titla.',
   'subs.direct.data.encoding': 'Kodiranje znakova fajla titla.',
   'subs.direct.data.display': 'Jezik titla, napisano velikim početnim slovom.',
-  'subs.direct.data.language': 'ISO 3166-2 kod jezika.',
+  'subs.direct.data.language': 'ISO 639-1 kod jezika.',
   'subs.direct.data.media': 'Naziv medija za koji su titlovi namenjeni.',
   'subs.direct.data.isHearingImpaired':
     'Boolean koji pokazuje da li je titl prilagođen osobama oštećenog sluha.',

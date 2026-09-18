@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Verwende source=all, um alle aktivierten Quellen gleichzeitig abzufragen',
   'subs.sources.using.bullet2':
-    'Standardquelle ist opensubtitles, wenn keine angegeben ist',
+    'Standardquelle ist charlie, wenn keine angegeben ist',
   'subs.sources.using.bullet3':
     'Mehrere Quellen können als kommagetrennte Liste angegeben werden',
 
@@ -251,7 +251,7 @@ const messages: Record<string, string> = {
     'Ob Untertitel für Hörgeschädigte bevorzugt werden sollen.',
   'subs.direct.param.encoding': 'Zeichenkodierungsfilter.',
   'subs.direct.param.source':
-    'Abzufragende Untertitelanbieter (all fragt jede aktivierte Quelle ab; Standard opensubtitles).',
+    'Abzufragende Untertitelanbieter (all fragt jede aktivierte Quelle ab; Standard charlie).',
   'subs.direct.param.release':
     'Release- oder Szenennamen-Filter (kommagetrennt).',
   'subs.direct.param.file':
@@ -272,7 +272,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'Das Format der Untertiteldatei.',
   'subs.direct.data.encoding': 'Die Zeichenkodierung der Untertiteldatei.',
   'subs.direct.data.display': 'Die Sprache des Untertitels, großgeschrieben.',
-  'subs.direct.data.language': 'Der ISO 3166-2-Code der Sprache.',
+  'subs.direct.data.language': 'Der ISO 639-1-Code der Sprache.',
   'subs.direct.data.media':
     'Der Name des Mediums, für das die Untertitel sind.',
   'subs.direct.data.isHearingImpaired':

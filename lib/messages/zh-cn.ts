@@ -70,7 +70,7 @@ const messages: Record<string, string> = {
 
   'subs.sources.using.h2': '使用来源',
   'subs.sources.using.bullet1': '使用 source=all 可同时查询所有已启用的来源',
-  'subs.sources.using.bullet2': '未指定时默认来源为 opensubtitles',
+  'subs.sources.using.bullet2': '未指定时默认来源为 charlie',
   'subs.sources.using.bullet3': '可以逗号分隔列表的形式指定多个来源',
 
   'subs.sources.api.h2': 'API 端点',
@@ -222,7 +222,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': '是否优先返回听障字幕。',
   'subs.direct.param.encoding': '字符编码过滤器。',
   'subs.direct.param.source':
-    '要查询的字幕提供商（all 表示查询所有已启用来源，默认为 opensubtitles）。',
+    '要查询的字幕提供商（all 表示查询所有已启用来源，默认为 charlie）。',
   'subs.direct.param.release': '发布版本或场景名称过滤器（逗号分隔）。',
   'subs.direct.param.file': '文件名过滤器（别名：file、filename、fileName）。',
   'subs.direct.param.origin':
@@ -241,7 +241,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': '字幕文件的格式。',
   'subs.direct.data.encoding': '字幕文件的字符编码。',
   'subs.direct.data.display': '字幕语言名称（首字母大写）。',
-  'subs.direct.data.language': '语言的 ISO 3166-2 代码。',
+  'subs.direct.data.language': '语言的 ISO 639-1 代码。',
   'subs.direct.data.media': '该字幕对应的媒体名称。',
   'subs.direct.data.isHearingImpaired': '布尔值，表示该字幕是否适合听障人士。',
   'subs.direct.data.source': '字幕的抓取来源。',

@@ -74,8 +74,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.h2': 'Using Sources',
   'subs.sources.using.bullet1':
     'Use source=all to query all enabled sources simultaneously',
-  'subs.sources.using.bullet2':
-    'Default source is opensubtitles if not specified',
+  'subs.sources.using.bullet2': 'Default source is charlie if not specified',
   'subs.sources.using.bullet3':
     'Multiple sources can be specified as a comma-separated list',
 
@@ -245,7 +244,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': 'Whether to prefer hearing-impaired subtitles.',
   'subs.direct.param.encoding': 'Character encoding filter.',
   'subs.direct.param.source':
-    'Subtitle providers to query (all queries every enabled source; default opensubtitles).',
+    'Subtitle providers to query (all queries every enabled source; default charlie).',
   'subs.direct.param.release':
     'Release or scene name filters (comma-separated).',
   'subs.direct.param.file':
@@ -266,7 +265,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'The format of the subtitle file.',
   'subs.direct.data.encoding': 'The character encoding of the subtitle file.',
   'subs.direct.data.display': 'The language of the subtitle, capitalized.',
-  'subs.direct.data.language': 'The ISO 3166-2 code of the language.',
+  'subs.direct.data.language': 'The ISO 639-1 code of the language.',
   'subs.direct.data.media': 'The name of the media that the subtitles are for.',
   'subs.direct.data.isHearingImpaired':
     'Boolean representing if the subtitle is hearing impaired accessible.',

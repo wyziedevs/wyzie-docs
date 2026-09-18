@@ -74,8 +74,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.h2': 'Sử dụng nguồn dữ liệu',
   'subs.sources.using.bullet1':
     'Dùng source=all để truy vấn tất cả các nguồn đang kích hoạt cùng lúc',
-  'subs.sources.using.bullet2':
-    'Nguồn mặc định là opensubtitles nếu không chỉ định',
+  'subs.sources.using.bullet2': 'Nguồn mặc định là charlie nếu không chỉ định',
   'subs.sources.using.bullet3':
     'Có thể chỉ định nhiều nguồn dưới dạng danh sách phân cách bằng dấu phẩy',
 
@@ -251,7 +250,7 @@ const messages: Record<string, string> = {
     'Có ưu tiên phụ đề dành cho người khiếm thính hay không.',
   'subs.direct.param.encoding': 'Bộ lọc mã hóa ký tự.',
   'subs.direct.param.source':
-    'Nhà cung cấp phụ đề cần truy vấn (all truy vấn tất cả các nguồn đang kích hoạt; mặc định là opensubtitles).',
+    'Nhà cung cấp phụ đề cần truy vấn (all truy vấn tất cả các nguồn đang kích hoạt; mặc định là charlie).',
   'subs.direct.param.release':
     'Bộ lọc tên release hoặc scene (phân cách bằng dấu phẩy).',
   'subs.direct.param.file':
@@ -272,7 +271,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'Định dạng của file phụ đề.',
   'subs.direct.data.encoding': 'Mã hóa ký tự của file phụ đề.',
   'subs.direct.data.display': 'Ngôn ngữ của phụ đề, viết hoa chữ đầu.',
-  'subs.direct.data.language': 'Mã ISO 3166-2 của ngôn ngữ.',
+  'subs.direct.data.language': 'Mã ISO 639-1 của ngôn ngữ.',
   'subs.direct.data.media': 'Tên phương tiện mà phụ đề dành cho.',
   'subs.direct.data.isHearingImpaired':
     'Boolean cho biết phụ đề có dành cho người khiếm thính hay không.',

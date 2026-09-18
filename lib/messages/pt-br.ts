@@ -74,8 +74,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.h2': 'Usando Fontes',
   'subs.sources.using.bullet1':
     'Use source=all para consultar todas as fontes habilitadas simultaneamente',
-  'subs.sources.using.bullet2':
-    'A fonte padrão é opensubtitles se não especificada',
+  'subs.sources.using.bullet2': 'A fonte padrão é charlie se não especificada',
   'subs.sources.using.bullet3':
     'Várias fontes podem ser especificadas como uma lista separada por vírgulas',
 
@@ -249,7 +248,7 @@ const messages: Record<string, string> = {
     'Se deve preferir legendas para deficientes auditivos.',
   'subs.direct.param.encoding': 'Filtro de codificação de caracteres.',
   'subs.direct.param.source':
-    'Provedores de legenda a consultar (all consulta todas as fontes habilitadas; padrão opensubtitles).',
+    'Provedores de legenda a consultar (all consulta todas as fontes habilitadas; padrão charlie).',
   'subs.direct.param.release':
     'Filtros de release ou nome de cena (separados por vírgula).',
   'subs.direct.param.file':
@@ -272,7 +271,7 @@ const messages: Record<string, string> = {
     'A codificação de caracteres do arquivo de legenda.',
   'subs.direct.data.display':
     'O idioma da legenda, com a primeira letra maiúscula.',
-  'subs.direct.data.language': 'O código ISO 3166-2 do idioma.',
+  'subs.direct.data.language': 'O código ISO 639-1 do idioma.',
   'subs.direct.data.media': 'O nome da mídia à qual as legendas pertencem.',
   'subs.direct.data.isHearingImpaired':
     'Booleano indicando se a legenda é acessível para deficientes auditivos.',

@@ -74,8 +74,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.h2': 'Kaynakları Kullanma',
   'subs.sources.using.bullet1':
     'Tüm etkin kaynakları aynı anda sorgulamak için source=all kullanın',
-  'subs.sources.using.bullet2':
-    "Belirtilmezse varsayılan kaynak opensubtitles'tır",
+  'subs.sources.using.bullet2': "Belirtilmezse varsayılan kaynak charlie'dir",
   'subs.sources.using.bullet3':
     'Birden fazla kaynak virgülle ayrılmış liste olarak belirtilebilir',
 
@@ -247,7 +246,7 @@ const messages: Record<string, string> = {
     'İşitme engelli altyazıların tercih edilip edilmeyeceği.',
   'subs.direct.param.encoding': 'Karakter kodlama filtresi.',
   'subs.direct.param.source':
-    'Sorgulanacak altyazı sağlayıcıları (all her etkin kaynağı sorgular; varsayılan opensubtitles).',
+    'Sorgulanacak altyazı sağlayıcıları (all her etkin kaynağı sorgular; varsayılan charlie).',
   'subs.direct.param.release':
     'Sürüm veya sahne adı filtreleri (virgülle ayrılmış).',
   'subs.direct.param.file':
@@ -268,7 +267,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'Altyazı dosyasının biçimi.',
   'subs.direct.data.encoding': 'Altyazı dosyasının karakter kodlaması.',
   'subs.direct.data.display': 'Altyazının dili, büyük harfle.',
-  'subs.direct.data.language': 'Dilin ISO 3166-2 kodu.',
+  'subs.direct.data.language': 'Dilin ISO 639-1 kodu.',
   'subs.direct.data.media': 'Altyazıların ait olduğu medyanın adı.',
   'subs.direct.data.isHearingImpaired':
     'Altyazının işitme engelliler için erişilebilir olup olmadığını gösteren boolean.',

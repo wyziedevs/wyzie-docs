@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Użyj source=all, aby odpytać wszystkie włączone źródła jednocześnie',
   'subs.sources.using.bullet2':
-    'Domyślnym źródłem jest opensubtitles, jeśli nie podano innego',
+    'Domyślnym źródłem jest charlie, jeśli nie podano innego',
   'subs.sources.using.bullet3':
     'Można podać wiele źródeł jako listę rozdzieloną przecinkami',
 
@@ -244,7 +244,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': 'Czy preferować napisy dla osób niesłyszących.',
   'subs.direct.param.encoding': 'Filtr kodowania znaków.',
   'subs.direct.param.source':
-    'Dostawcy napisów do odpytania (all odpytuje każde włączone źródło; domyślnie opensubtitles).',
+    'Dostawcy napisów do odpytania (all odpytuje każde włączone źródło; domyślnie charlie).',
   'subs.direct.param.release':
     'Filtry nazwy wydania lub sceny (rozdzielone przecinkami).',
   'subs.direct.param.file':
@@ -265,7 +265,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'Format pliku napisów.',
   'subs.direct.data.encoding': 'Kodowanie znaków pliku napisów.',
   'subs.direct.data.display': 'Język napisów, zapisany wielką literą.',
-  'subs.direct.data.language': 'Kod ISO 3166-2 języka.',
+  'subs.direct.data.language': 'Kod ISO 639-1 języka.',
   'subs.direct.data.media': 'Nazwa mediów, do których odnoszą się napisy.',
   'subs.direct.data.isHearingImpaired':
     'Wartość logiczna wskazująca, czy napisy są dostosowane dla osób niesłyszących.',

@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'Folosește source=all pentru a interoga toate sursele activate simultan',
   'subs.sources.using.bullet2':
-    'Sursa implicită este opensubtitles dacă nu este specificată',
+    'Sursa implicită este charlie dacă nu este specificată',
   'subs.sources.using.bullet3':
     'Mai multe surse pot fi specificate ca o listă separată prin virgulă',
 
@@ -251,7 +251,7 @@ const messages: Record<string, string> = {
     'Dacă să se prefere subtitluri pentru persoane cu deficiențe de auz.',
   'subs.direct.param.encoding': 'Filtru de codificare a caracterelor.',
   'subs.direct.param.source':
-    'Furnizori de subtitluri de interogat (all interoghează fiecare sursă activată; implicit opensubtitles).',
+    'Furnizori de subtitluri de interogat (all interoghează fiecare sursă activată; implicit charlie).',
   'subs.direct.param.release':
     'Filtre pentru release sau numele scenei (separate prin virgulă).',
   'subs.direct.param.file':
@@ -273,7 +273,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.encoding':
     'Codificarea caracterelor fișierului de subtitlu.',
   'subs.direct.data.display': 'Limba subtitlului, cu majusculă.',
-  'subs.direct.data.language': 'Codul ISO 3166-2 al limbii.',
+  'subs.direct.data.language': 'Codul ISO 639-1 al limbii.',
   'subs.direct.data.media': 'Numele media pentru care sunt subtitlurile.',
   'subs.direct.data.isHearingImpaired':
     'Boolean care indică dacă subtitlul este accesibil persoanelor cu deficiențe de auz.',

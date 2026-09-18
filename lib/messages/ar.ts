@@ -74,7 +74,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'استخدم source=all للاستعلام عن جميع المصادر الممكّنة في آن واحد',
   'subs.sources.using.bullet2':
-    'المصدر الافتراضي هو opensubtitles إذا لم يُحدَّد غيره',
+    'المصدر الافتراضي هو charlie إذا لم يُحدَّد غيره',
   'subs.sources.using.bullet3': 'يمكن تحديد مصادر متعددة كقائمة مفصولة بفواصل',
 
   'subs.sources.api.h2': 'نقطة نهاية API',
@@ -240,7 +240,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': 'تحديد ما إذا كان يُفضَّل ترجمات ضعاف السمع.',
   'subs.direct.param.encoding': 'فلتر ترميز الأحرف.',
   'subs.direct.param.source':
-    'مزودو الترجمات للاستعلام عنهم (all يستعلم كل المصادر الممكّنة؛ الافتراضي opensubtitles).',
+    'مزودو الترجمات للاستعلام عنهم (all يستعلم كل المصادر الممكّنة؛ الافتراضي charlie).',
   'subs.direct.param.release': 'فلاتر اسم الإصدار أو المشهد (مفصولة بفواصل).',
   'subs.direct.param.file':
     'فلاتر اسم الملف (الأسماء المستعارة: file، filename، fileName).',
@@ -260,7 +260,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': 'صيغة ملف الترجمة.',
   'subs.direct.data.encoding': 'ترميز الأحرف لملف الترجمة.',
   'subs.direct.data.display': 'لغة الترجمة، بحرف كبير.',
-  'subs.direct.data.language': 'رمز ISO 3166-2 للغة.',
+  'subs.direct.data.language': 'رمز ISO 639-1 للغة.',
   'subs.direct.data.media': 'اسم الوسيط الذي تخص الترجمة له.',
   'subs.direct.data.isHearingImpaired':
     'قيمة منطقية تشير إلى ما إذا كانت الترجمة متاحة لضعاف السمع.',

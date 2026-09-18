@@ -75,7 +75,7 @@ const messages: Record<string, string> = {
   'subs.sources.using.bullet1':
     'source=all を使用するとすべての有効なソースに同時にクエリを実行します',
   'subs.sources.using.bullet2':
-    '指定がない場合のデフォルトソースは opensubtitles です',
+    '指定がない場合のデフォルトソースは charlie です',
   'subs.sources.using.bullet3':
     '複数のソースをカンマ区切りのリストで指定できます',
 
@@ -242,7 +242,7 @@ const messages: Record<string, string> = {
   'subs.direct.param.hi': '聴覚障害者向け字幕を優先するかどうか。',
   'subs.direct.param.encoding': '文字エンコードフィルター。',
   'subs.direct.param.source':
-    'クエリする字幕プロバイダー（all ですべての有効なソースをクエリ。デフォルトは opensubtitles）。',
+    'クエリする字幕プロバイダー（all ですべての有効なソースをクエリ。デフォルトは charlie）。',
   'subs.direct.param.release':
     'リリースまたはシーン名フィルター（カンマ区切り）。',
   'subs.direct.param.file':
@@ -263,7 +263,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.format': '字幕ファイルの形式。',
   'subs.direct.data.encoding': '字幕ファイルの文字エンコード。',
   'subs.direct.data.display': '字幕の言語名（先頭大文字）。',
-  'subs.direct.data.language': '言語の ISO 3166-2 コード。',
+  'subs.direct.data.language': '言語の ISO 639-1 コード。',
   'subs.direct.data.media': '字幕が対応するメディアの名前。',
   'subs.direct.data.isHearingImpaired':
     '字幕が聴覚障害者向けかどうかを示すブール値。',
