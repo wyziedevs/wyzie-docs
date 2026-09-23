@@ -33,11 +33,10 @@ GET /sources
 Returns:
 ```json
 {
-  "sources": ["bravo", "charlie", "foxtrot", "india", "juliet", "lima", "mike", "november"],
+  "sources": ["charlie", "foxtrot", "india", "juliet", "lima", "mike", "november"],
   "free": ["charlie", "lima"],
-  "paid": ["bravo", "foxtrot", "india", "juliet", "mike", "november"],
+  "paid": ["foxtrot", "india", "juliet", "mike", "november"],
   "tiered": [
-    { "key": "bravo", "name": "bravo", "tier": "paid", "tags": [] },
     { "key": "charlie", "name": "charlie", "tier": "free", "tags": [] },
     { "key": "foxtrot", "name": "foxtrot", "tier": "paid", "tags": ["anime"] }
   ],
@@ -62,16 +61,15 @@ GET /sources?key=YOUR_KEY
 
 ```json
 {
-  "sources": ["bravo", "charlie", "foxtrot", "india", "juliet", "lima", "mike", "november"],
+  "sources": ["charlie", "foxtrot", "india", "juliet", "lima", "mike", "november"],
   "free": ["charlie", "lima"],
-  "paid": ["bravo", "foxtrot", "india", "juliet", "mike", "november"],
+  "paid": ["foxtrot", "india", "juliet", "mike", "november"],
   "tiered": [
-    { "key": "bravo", "name": "bravo", "tier": "paid", "tags": [], "available": false },
     { "key": "charlie", "name": "charlie", "tier": "free", "tags": [], "available": true }
   ],
   "key": { "valid": true, "type": "free" },
   "available": ["charlie", "lima"],
-  "restricted": ["bravo", "foxtrot", "india", "juliet", "mike", "november"],
+  "restricted": ["foxtrot", "india", "juliet", "mike", "november"],
   "allFree": false
 }
 ```
@@ -89,7 +87,6 @@ Sources are exposed under NATO codenames. Pass the codename as the `source` valu
 
 | Source       | Tier | Tags  |
 | ------------ | ---- | ----- |
-| **bravo**    | Pro  |       |
 | **charlie**  | Free |       |
 | **foxtrot**  | Pro  | anime |
 | **india**    | Pro  |       |
