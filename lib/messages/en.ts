@@ -397,6 +397,12 @@ const messages: Record<string, string> = {
   'subs.keys.limit.paid':
     '**Paid balance** exhausted -> API returns 402. Top up at [store.wyzie.io/topup](https://store.wyzie.io/topup) or enable **auto top-up** in your dashboard to refill automatically when your balance crosses a threshold you set.',
 
+  'subs.keys.files.h2': 'What Is in the Files',
+  'subs.keys.files.adfilter':
+    '**Ad filtering** – every subtitle served through sub.wyzie.io has provider advertising cues stripped (OpenSubtitles banners, betting plugs, "watch free at ..." lines). SRT cues are renumbered so nothing skips. Sources that hand you a direct provider link (charlie) are downloaded straight from the provider and are not filtered.',
+  'subs.keys.files.promo':
+    '**Free and dev keys** get one short cue at the very start of each file (0–6 s) pointing at [store.wyzie.io](https://store.wyzie.io). Paid keys receive clean files with no cue.',
+
   'subs.keys.faq.h2': 'FAQ',
   'subs.keys.faq.q1': 'I lost my key. Can I get a new one?',
   'subs.keys.faq.a1':
