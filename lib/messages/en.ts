@@ -399,7 +399,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.files.h2': 'What Is in the Files',
   'subs.keys.files.adfilter':
-    '**Ad filtering** – every subtitle served through sub.wyzie.io has provider advertising cues stripped (OpenSubtitles banners, betting plugs, "watch free at ..." lines). SRT cues are renumbered so nothing skips. Sources that hand you a direct provider link (charlie) are downloaded straight from the provider and are not filtered.',
+    '**Ad filtering** – every subtitle served through sub.wyzie.io has provider advertising cues stripped (OpenSubtitles banners, betting plugs, "watch free at ..." lines). SRT cues are renumbered so nothing skips. Every provider, OpenSubtitles included, is served through sub.wyzie.io so the filter applies to all of them.',
   'subs.keys.files.promo':
     '**Free and dev keys** get one short cue at the very start of each file (0–6 s) pointing at [store.wyzie.io](https://store.wyzie.io). Paid keys receive clean files with no cue.',
 
