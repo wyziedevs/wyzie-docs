@@ -199,7 +199,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.encoding': 'Filtr kodowania znaków (np. utf-8, latin-1).',
   'subs.pkg.param.hi': 'Wartość logiczna dla napisów dla osób niesłyszących.',
   'subs.pkg.param.source':
-    'Dostawcy napisów do odpytania (all dla każdego włączonego źródła).',
+    'Dostawcy napisów do odpytania, podawani po nazwie kodowej (all dla każdego aktywnego źródła, którego może używać Twój klucz; domyślnie charlie).',
   'subs.pkg.param.release': 'Filtry wydania/sceny (przyjmuje listę).',
   'subs.pkg.param.filename':
     'Filtry nazw plików; obsługiwane są aliasy file i fileName.',
@@ -209,7 +209,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.refresh': 'Pomiń cache i pobierz świeże wyniki ze źródeł.',
 
   'subs.pkg.helpers':
-    'Pakiet zawiera również lekkie helpery TMDB: searchTmdb, getTvDetails i getSeasonDetails do szybkiego znajdowania ID przed odpytaniem /search. Ponadto getSources może być użyte do pobrania listy aktualnie włączonych źródeł napisów.',
+    'Pakiet zawiera również lekkie helpery TMDB: searchTmdb, getTvDetails i getSeasonDetails do szybkiego znajdowania ID przed odpytaniem /search. getSources zwraca nazwy kodowe aktywnych źródeł (źródło wstrzymane przez kontrole stanu jest pomijane, dopóki nie wróci do działania), a getSourcesInfo zwraca pełną odpowiedź /sources z poziomami planów oraz, jeśli podasz klucz, informację, których źródeł ten klucz może używać. withDownloadOptions dodaje opcje pobierania (wyjście WebVTT, poprawki synchronizacji, drugi język i inne) do pola url wyniku.',
   'subs.pkg.types.h3': 'Typy',
   'subs.pkg.type.search':
     'Wszystkie prawidłowe parametry rozpoznawane przez API.',
@@ -218,6 +218,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'Wszystkie wartości zwrócone przez API wraz z ich odpowiednimi typami.',
   'subs.pkg.type.sources': 'Typ odpowiedzi z punktu końcowego /sources.',
+  'subs.pkg.type.download':
+    'Opcje dla withDownloadOptions: to, offset, fps, plain oraz (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Dane wejściowe i wynik syncSubtitle (Wyzie Synced, klucze Pro): które napisy (wynik wyszukiwania, jego url albo tmdb_id/imdb_id z language), wykryte przez detectSpeech fragmenty mowy (speech) lub plik audio/wideo (media) oraz zsynchronizowany link do pobrania z wartościami offset, fps i confidence. Zobacz [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'Nasze typy są bardzo proste i dobrze udokumentowane. Sprawdź plik types.ts zlinkowany w repozytorium GitHub.',
   'subs.pkg.config.h3': 'Konfiguracja',
@@ -255,6 +259,10 @@ const messages: Record<string, string> = {
     'Twój klucz API (wymagany). Pobierz bezpłatnie na store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'Pomiń cache i pobierz świeże wyniki. Użyj, gdy źródła mogły zostać zaktualizowane.',
+  'subs.direct.param.page':
+    'Numer strony do zwrócenia, licząc od 1. Działa tylko razem z limit.',
+  'subs.direct.param.limit':
+    'Liczba wyników na stronę (od 1 do 200). Bez tego parametru wszystkie wyniki są zwracane w jednej odpowiedzi.',
   'subs.direct.important.imdb':
     "Gdy używasz IMDB ID, upewnij się, że pierwsze dwa znaki ('tt') są zawarte na początku ID.",
 
@@ -282,6 +290,33 @@ const messages: Record<string, string> = {
     'Filtr podany przez użytkownika, który pasował (jeśli podano).',
   'subs.direct.data.ai':
     'true, jeśli wpis jest napisem przetłumaczonym przez AI, false dla zwykłych pobranych napisów. Użyj jako filtra po stronie klienta, gdy chcesz tylko jednego lub drugiego.',
+  'subs.direct.download.p':
+    'Każdy url w odpowiedzi /search wskazuje na https://sub.wyzie.io/c/... i zawiera parametr zapytania tok. tok jest zaszyfrowany, więc nie ujawnia Twojego klucza API, i pozostaje ważny przez 60 dni. Używaj adresu URL bez zmian. Wyszukiwanie kosztuje 1 żądanie, a każde pobranie kolejne 1, co obciąża klucz, który wykonał wyszukiwanie. Gdy ten klucz nie może pokryć kosztu pobrania, link zostaje odrzucony:',
+  'subs.direct.dl.p':
+    'Dodaj je do adresu URL pobierania, aby zmienić to, co zwraca. Działają przy każdym pobraniu, z cache czy bez, i nie kosztują nic dodatkowo (z wyjątkiem dual, patrz niżej). Nagłówek odpowiedzi X-Subtitle-Transforms wymienia, co zostało zastosowane, wraz z liczbą zmian.',
+  'subs.direct.dl.param.to':
+    'Format wyjściowy: `srt` lub `vtt`. `vtt` odtwarza się bezpośrednio w elemencie `<track>` przeglądarki. Domyślnie: oryginalny format pliku.',
+  'subs.direct.dl.param.offset':
+    'Przesuwa każdą linię o podaną liczbę sekund (wartość ujemna oznacza wcześniej).',
+  'subs.direct.dl.param.fps':
+    'Koryguje rozjeżdżanie się napisów przygotowanych dla innego wydania: `SUBTITLE_FPS:VIDEO_FPS`, np. `25:23.976` dla napisów PAL do wideo z kinową liczbą klatek na sekundę.',
+  'subs.direct.dl.param.plain':
+    'Czyste, uporządkowane linie: usunięte kody stylów, takie jak `{\\an8}` i `<font>`, pominięte puste i powtórzone linie, linie w kolejności czasowej, przycięte drobne nakładania się.',
+  'subs.direct.dl.param.sdh':
+    'Usuwa tekst dla osób niesłyszących: `[DOOR SLAMS]`, `(sighs)`, etykiety mówców typu `JOHN:` oraz teksty piosenek ♪.',
+  'subs.direct.dl.param.clean':
+    'Maskuje mocne wulgaryzmy, zostawiając pierwszą literę (`f***`). Tylko pliki angielskie.',
+  'subs.direct.dl.param.dual':
+    'Dodaje drugi język (kod ISO 639-1) pod każdą linią, dopasowany do czasów tego pliku. Kosztuje 1 dodatkowe żądanie, tylko gdy zostanie znalezione dopasowanie; w przeciwnym razie plik jest zwracany bez drugiego języka, z `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    'Opcje można łączyć, np. `&to=vtt&sdh=strip&offset=-1.5`. Linki zawierają już `format`, `encoding`, `id` oraz (dla odcinków) `season` i `episode`: pozostaw je bez zmian. `autoUnzip=false` zwraca archiwum w oryginalnej postaci.',
+  'subs.direct.headers.p':
+    'Każda odpowiedź /search zawiera nagłówek X-Total-Count z łączną liczbą wyników. Gdy podasz limit, zawiera również:',
+  'subs.direct.header.xpage': 'zwrócona strona.',
+  'subs.direct.header.xperpage': 'obowiązująca wartość limit.',
+  'subs.direct.header.xtotalpages': 'łączna liczba stron.',
+  'subs.direct.headers.rate':
+    'Odpowiedzi zawierają też nagłówki X-RateLimit-Limit, X-RateLimit-Remaining i X-RateLimit-Reset. Traktuj je jako przybliżone: zużycie jest rozliczane z systemem płatności w krótkich partiach, więc mogą nieco odstawać od Twojego rzeczywistego zużycia.',
 
   // Subs Translate Page
   'subs.translate.title': 'Tłumaczenie napisów przez AI',
@@ -341,6 +376,79 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'Tłumaczenia są naliczane również przy trafieniach w cache. Niezależnie od tego, czy są generowane na nowo, czy serwowane z 30-dniowego cache, każde żądanie /translate kosztuje 100 żądań.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced to **funkcja Pro**: darmowe klucze otrzymują 403 Paid feature. Każda udana synchronizacja kosztuje **1 żądanie**; synchronizacja, która nie znajdzie dopasowania, nie jest naliczana. Pobranie zsynchronizowanego linku liczy się potem jak każde inne pobranie.',
+  'subs.synced.p1':
+    'Napisy znalezione w sieci są często zsynchronizowane z innym wydaniem niż Twoje wideo: zaczynają się kilka sekund za wcześnie lub za późno albo rozjeżdżają się coraz bardziej w miarę trwania filmu, bo tamto wydanie ma inną liczbę klatek na sekundę. Wyzie Synced analizuje ścieżkę dźwiękową Twojej kopii, znajduje miejsca, w których ktoś mówi, i wylicza przesunięcie (offset) oraz korektę liczby klatek (fps), które dopasowują do niej napisy. Otrzymujesz zwykły link do pobrania z zastosowaną poprawką ([opcje pobierania](/subs/usage/direct#download-options) offset i fps).',
+  'subs.synced.web.p':
+    'Najprościej: otwórz [sub.wyzie.io/synced](https://sub.wyzie.io/synced), wpisz swój klucz Pro, wybierz plik wideo i tytuł, a następnie pobierz zsynchronizowane napisy. Dźwięk jest analizowany w Twojej przeglądarce, więc wideo nigdy nie jest wysyłane: przesyłane są tylko czasy mowy. Obsługiwane są MKV, MP4, AVI i większość innych formatów, w tym dźwięk AC3, E-AC3 i DTS.',
+  'subs.synced.api.p':
+    'Wyślij informację, o które napisy chodzi (link do pobrania albo tytuł, aby Wyzie wybrało najlepsze dopasowanie), oraz dźwięk: albo samodzielnie wykryte czasy mowy, albo sam plik audio/wideo.',
+  'subs.synced.param.url':
+    'Link do pobrania z /search (https://sub.wyzie.io/c/…). Pozostałe opcje pobierania zawarte w linku (to, sdh, …) są zachowywane w zsynchronizowanym linku.',
+  'subs.synced.param.id':
+    'Zamiast url: TMDB lub IMDB ID. Wyzie sprawdza 5 najlepszych wyników wśród napisów tekstowych w danym języku i zwraca te, które najlepiej pasują do Twojego dźwięku.',
+  'subs.synced.param.language':
+    'Razem z id: kod ISO 639-1 języka napisów (wymagany).',
+  'subs.synced.param.seasonEpisode':
+    'Razem z id, dla TV. Oba muszą być podane jednocześnie.',
+  'subs.synced.param.key':
+    'Twój klucz API Pro. Bez niego używany jest klucz powiązany z tok w url; linki ze strony pobierania bez klucza wymagają podania key.',
+  'subs.synced.param.speech':
+    'Fragmenty, w których ktoś mówi: [[start, end], …] w sekundach, z dowolnego detektora aktywności głosowej (detectSpeech z wyzie-lib, Silero VAD, webrtcvad). 2-godzinny film to około 2 000 segmentów, czyli ok. 40 KB danych JSON.',
+  'subs.synced.param.media':
+    'Albo sam plik audio/wideo: jako surowa treść żądania (z pozostałymi polami w parametrach zapytania) lub jako pole multipart media. Do 95 MB, więc w przypadku pełnego filmu wyślij samą ścieżkę dźwiękową.',
+  'subs.synced.fields.note':
+    'Pola można przesłać w treści JSON, w formularzu multipart lub w parametrach zapytania (z surową treścią media).',
+  'subs.synced.response.p': 'Odpowiedź 200 ma format JSON:',
+  'subs.synced.field.url':
+    'link do pobrania napisów z poprawką synchronizacji (offset, fps) i nowym tok dla Twojego klucza. Używaj go jak każdego url z /search: każde pobranie kosztuje 1 żądanie.',
+  'subs.synced.field.offset':
+    'sekundy dodawane do każdej linii po korekcie liczby klatek (wartość ujemna oznacza wcześniej).',
+  'subs.synced.field.fps':
+    'korekta liczby klatek w postaci SUBTITLE_FPS:VIDEO_FPS (np. "25:23.976") lub null, gdy nie była potrzebna.',
+  'subs.synced.field.confidence':
+    'od 0 do 1: jak wyraźnie ta synchronizacja wygrywa ze wszystkimi innymi. Każdy zwrócony wynik przeszedł test dopasowania; wyższa wartość oznacza większą pewność.',
+  'subs.synced.field.inSync':
+    'true, gdy napisy były już zsynchronizowane z Twoją kopią.',
+  'subs.synced.field.subtitle':
+    'które napisy zostały użyte (release, fileName, format, source, …). Przy url tylko ich format.',
+  'subs.synced.errors.p':
+    'Błędy są zwracane jako JSON z polami message i details. Odrzucone i nieudane synchronizacje nie są naliczane.',
+  'subs.synced.error.400':
+    'Brakujące lub nieprawidłowe pola: brak napisów, brak dźwięku albo speech, które nie jest listą par [start, end].',
+  'subs.synced.error.401':
+    'Brak klucza albo link do pobrania w url jest nieprawidłowy lub wygasł.',
+  'subs.synced.error.403':
+    'Klucz jest darmowy (Wyzie Synced wymaga Pro), nieprawidłowy lub wstrzymany.',
+  'subs.synced.error.404':
+    'Brak napisów tekstowych w tym języku dla danego tytułu.',
+  'subs.synced.error.413':
+    'Plik multimedialny przekracza 95 MB. Wyślij samą ścieżkę dźwiękową albo przekaż speech.',
+  'subs.synced.error.422':
+    'Napisy nie pasują do dźwięku przy żadnym przesunięciu ani liczbie klatek (prawdopodobnie inna wersja montażowa lub inny odcinek), w dźwięku jest za mało mowy albo nie da się zdekodować pliku.',
+  'subs.synced.error.429':
+    'Klucz nie może pokryć kosztu żądania, tak jak przy każdym innym wywołaniu.',
+  'subs.synced.error.503':
+    'Serwer dekoduje inne przesłane pliki albo wyszukiwanie jest chwilowo niedostępne. Spróbuj ponownie za chwilę lub wyślij speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib udostępnia detectSpeech (ten sam detektor, który strona uruchamia w Twojej przeglądarce) oraz syncSubtitle:',
+  'subs.synced.how.step1':
+    'Mowa: dźwięk jest dekodowany do 8 kHz mono (w miksach 5.1 i 7.1 tylko kanał centralny, w którym znajdują się dialogi), a detektor aktywności głosowej oznacza miejsca, w których ktoś mówi: głośny dźwięk w paśmie mowy, który narasta i opada w rytm sylab.',
+  'subs.synced.how.step2':
+    'Dopasowanie: czasy wyświetlania napisów są poddawane korelacji wzajemnej z tą mową dla każdego przesunięcia w zakresie ±10 minut, z uwzględnieniem typowych rozbieżności liczby klatek (25 vs 23.976, 25 vs 24, 24 vs 23.976 fps).',
+  'subs.synced.how.step3':
+    'Doprecyzowanie: najlepsza synchronizacja jest dopracowywana z dokładnością do 10 ms przez wyrównanie początków linii z początkami mowy.',
+  'subs.synced.how.step4':
+    "Synchronizacja jest zwracana tylko wtedy, gdy wyraźnie przewyższa każde inne przesunięcie, więc napisy do innej wersji montażowej lub innego odcinka dostają 422 Couldn't sync zamiast błędnego przesunięcia.",
+  'subs.synced.limit1':
+    'Wyzie Synced koryguje stałe przesunięcie i różnicę liczby klatek. Napisów do innej wersji montażowej (z dodanymi lub brakującymi scenami) nie da się poprawić jednym przesunięciem, więc są odrzucane.',
+  'subs.synced.limit2':
+    'Potrzebna jest mowa: filmy z niewielką ilością dialogów lub z dźwiękiem złożonym głównie z muzyki mogą się nie zsynchronizować.',
+  'subs.synced.limit3': 'Wykrywane są przesunięcia do ±10 minut.',
+
   // Subs API Keys Page
   'subs.keys.title': 'Klucze API',
   'subs.keys.p1':
@@ -391,10 +499,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'Pakiet NPM',
 
   'subs.keys.limit.h2': 'Osiągnięcie limitu',
+  'subs.keys.limit.p':
+    'Wyszukiwanie kosztuje 1 żądanie i każde pobranie napisów kosztuje 1 żądanie, więc jedno wyszukiwanie i pobranie jednego pliku zużywa 2. Tłumaczenie AI kosztuje 100 żądań za wywołanie.',
   'subs.keys.limit.free':
     '**Darmowy poziom** wyczerpany -> API zwraca 429 z nagłówkami X-RateLimit-Reset i Retry-After. Dzienny licznik resetuje się o północy UTC.',
   'subs.keys.limit.paid':
     '**Płatne saldo** wyczerpane -> API zwraca 402. Doładuj na [store.wyzie.io/topup](https://store.wyzie.io/topup) lub włącz **automatyczne doładowanie** w swoim panelu, aby uzupełniać automatycznie, gdy saldo przekroczy ustalony przez Ciebie próg.',
+  'subs.keys.hold.p1':
+    'Klucze wysyłające bardzo dużą liczbę żądań, głównie z adresów IP centrów danych lub hostingu, są automatycznie wstrzymywane. Wstrzymany klucz otrzymuje 403 Key on hold przy każdym żądaniu, a odpowiedź JSON zawiera link do przywrócenia (https://store.wyzie.io/verify) i link do wsparcia (https://store.wyzie.io/contact).',
+  'subs.keys.hold.p2':
+    'Aby od razu przywrócić klucz, zweryfikuj witrynę, na której go używasz, na [store.wyzie.io/verify](https://store.wyzie.io/verify) za pomocą rekordu DNS TXT lub tagu meta. Klucz ze zweryfikowaną witryną nigdy więcej nie zostanie automatycznie wstrzymany, więc witryny o dużym ruchu mogą przejść weryfikację, zanim w ogóle zostaną wstrzymane.',
+  'subs.keys.hold.p3':
+    'Nie masz witryny, bo używasz klucza na przykład w usłudze backendowej lub aplikacji? [Skontaktuj się ze wsparciem](https://store.wyzie.io/contact), aby przywrócić klucz.',
+
+  'subs.keys.files.h2': 'Co zawierają pliki',
+  'subs.keys.files.adfilter':
+    '**Filtrowanie reklam** – z każdych napisów serwowanych przez sub.wyzie.io usuwane są reklamowe wpisy dostawców (banery OpenSubtitles, reklamy bukmacherów, linie typu "watch free at ..."). Wpisy SRT są numerowane od nowa, więc w numeracji nie ma luk. Każdy dostawca, łącznie z OpenSubtitles, jest serwowany przez sub.wyzie.io, więc filtr obejmuje ich wszystkich.',
+  'subs.keys.files.promo':
+    '**Darmowe i deweloperskie klucze** otrzymują jeden krótki wpis na samym początku każdego pliku (0–6 s) kierujący do [store.wyzie.io](https://store.wyzie.io). Płatne klucze otrzymują czyste pliki bez tego wpisu.',
 
   'subs.keys.faq.h2': 'FAQ',
   'subs.keys.faq.q1': 'Zgubiłem swój klucz. Czy mogę otrzymać nowy?',

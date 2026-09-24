@@ -202,7 +202,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.encoding': 'Bộ lọc mã hóa ký tự (ví dụ: utf-8, latin-1).',
   'subs.pkg.param.hi': 'Boolean cho phụ đề dành cho người khiếm thính.',
   'subs.pkg.param.source':
-    'Nhà cung cấp phụ đề cần truy vấn (all cho tất cả các nguồn đang kích hoạt).',
+    'Nhà cung cấp phụ đề cần truy vấn, theo tên mã (all cho mọi nguồn đang hoạt động mà key của bạn có thể dùng; mặc định là charlie).',
   'subs.pkg.param.release': 'Bộ lọc release/scene (chấp nhận danh sách).',
   'subs.pkg.param.filename':
     'Bộ lọc tên file; các bí danh file và fileName được hỗ trợ.',
@@ -214,7 +214,7 @@ const messages: Record<string, string> = {
     'Bỏ qua bộ nhớ đệm và lấy kết quả mới từ các nguồn.',
 
   'subs.pkg.helpers':
-    'Gói cũng đi kèm các helper TMDB nhẹ: searchTmdb, getTvDetails, và getSeasonDetails để nhanh chóng tìm ID trước khi gọi /search. Ngoài ra, getSources có thể được dùng để lấy danh sách các nguồn phụ đề đang kích hoạt.',
+    'Gói cũng đi kèm các helper TMDB nhẹ: searchTmdb, getTvDetails, và getSeasonDetails để nhanh chóng tìm ID trước khi gọi /search. getSources trả về tên mã của các nguồn đang hoạt động (nguồn bị tạm dừng do kiểm tra tình trạng sẽ bị loại khỏi danh sách cho đến khi hoạt động trở lại), còn getSourcesInfo trả về toàn bộ phản hồi /sources kèm cấp gói, và khi được truyền key, cho biết key đó có thể dùng những nguồn nào. withDownloadOptions thêm các tùy chọn tải xuống (đầu ra WebVTT, sửa thời gian, ngôn ngữ thứ hai, và nhiều hơn nữa) vào url của một kết quả.',
   'subs.pkg.types.h3': 'Kiểu dữ liệu',
   'subs.pkg.type.search': 'Tất cả các tham số hợp lệ được API nhận dạng.',
   'subs.pkg.type.query':
@@ -222,6 +222,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'Tất cả các giá trị được trả về từ API với các kiểu dữ liệu tương ứng.',
   'subs.pkg.type.sources': 'Kiểu dữ liệu phản hồi từ endpoint /sources.',
+  'subs.pkg.type.download':
+    'Các tùy chọn cho withDownloadOptions: to, offset, fps, plain, và (chỉ Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Đầu vào và kết quả của syncSubtitle (Wyzie Synced, key Pro): phụ đề nào (một kết quả, url của nó, hoặc tmdb_id/imdb_id kèm language), speech mà detectSpeech tìm được hoặc file media, và liên kết tải xuống đã đồng bộ kèm offset, fps và confidence. Xem [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'Các kiểu dữ liệu của chúng tôi rất đơn giản và được ghi chép đầy đủ. Xem file types.ts được liên kết trong kho GitHub.',
   'subs.pkg.config.h3': 'Cấu hình',
@@ -261,6 +265,10 @@ const messages: Record<string, string> = {
     'API key của bạn (bắt buộc). Lấy miễn phí tại store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'Bỏ qua bộ nhớ đệm và lấy kết quả mới. Dùng khi các nguồn có thể đã cập nhật.',
+  'subs.direct.param.page':
+    'Trang cần trả về, bắt đầu từ 1. Chỉ được dùng cùng với limit.',
+  'subs.direct.param.limit':
+    'Số kết quả mỗi trang (1 đến 200). Nếu không truyền, mọi kết quả sẽ được trả về trong một phản hồi duy nhất.',
   'subs.direct.important.imdb':
     "Khi sử dụng IMDB ID, hãy đảm bảo rằng hai ký tự đầu ('tt') được bao gồm ở đầu ID.",
 
@@ -288,6 +296,33 @@ const messages: Record<string, string> = {
     'Bộ lọc do người dùng cung cấp đã khớp (nếu được cung cấp).',
   'subs.direct.data.ai':
     'true nếu mục là phụ đề được dịch bởi AI, false cho phụ đề được scrape bình thường. Dùng nó như bộ lọc phía client khi bạn chỉ muốn một trong hai.',
+  'subs.direct.download.p':
+    'Mọi url trong phản hồi /search đều trỏ đến https://sub.wyzie.io/c/... và mang tham số truy vấn tok. tok được mã hóa nên không làm lộ API key của bạn, và có hiệu lực trong 60 ngày. Hãy dùng URL nguyên trạng. Một lần tìm kiếm tốn 1 yêu cầu và mỗi lượt tải xuống tốn thêm 1 yêu cầu, được tính vào key đã thực hiện tìm kiếm. Khi key đó không đủ khả năng chi trả cho một lượt tải xuống, liên kết sẽ bị từ chối:',
+  'subs.direct.dl.p':
+    'Thêm các tham số này vào URL tải xuống để thay đổi nội dung trả về. Chúng hoạt động với mọi lượt tải xuống, dù đã được lưu đệm hay chưa, và không tốn thêm yêu cầu nào (trừ dual, xem bên dưới). Header phản hồi X-Subtitle-Transforms liệt kê những gì đã được áp dụng, kèm số lượng.',
+  'subs.direct.dl.param.to':
+    'Định dạng đầu ra: `srt` hoặc `vtt`. `vtt` phát trực tiếp trong phần tử `<track>` của trình duyệt. Mặc định: định dạng gốc của file.',
+  'subs.direct.dl.param.offset':
+    'Dịch chuyển mọi dòng theo số giây này (giá trị âm là sớm hơn).',
+  'subs.direct.dl.param.fps':
+    'Sửa độ trôi của phụ đề được làm cho bản phát hành khác: `SUBTITLE_FPS:VIDEO_FPS`, ví dụ `25:23.976` cho phụ đề PAL trên video có tốc độ khung hình điện ảnh.',
+  'subs.direct.dl.param.plain':
+    'Các dòng đơn giản, gọn gàng: loại bỏ mã định dạng như `{\\an8}` và `<font>`, bỏ dòng trống và dòng lặp lại, sắp xếp các dòng theo thứ tự thời gian, cắt bớt các chỗ chồng lấn nhỏ.',
+  'subs.direct.dl.param.sdh':
+    'Loại bỏ văn bản dành cho người khiếm thính: `[DOOR SLAMS]`, `(sighs)`, nhãn người nói như `JOHN:` và lời bài hát ♪.',
+  'subs.direct.dl.param.clean':
+    'Che các từ tục tĩu nặng, giữ lại chữ cái đầu (`f***`). Chỉ áp dụng cho file tiếng Anh.',
+  'subs.direct.dl.param.dual':
+    'Thêm ngôn ngữ thứ hai (mã ISO 639-1) bên dưới mỗi dòng, căn khớp với thời gian của file này. Tốn thêm 1 yêu cầu, chỉ khi tìm được bản khớp; nếu không, file được trả về một mình kèm `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    'Các tùy chọn có thể kết hợp, ví dụ `&to=vtt&sdh=strip&offset=-1.5`. Liên kết đã mang sẵn `format`, `encoding`, `id` và (với tập phim) `season` và `episode`: hãy giữ nguyên các tham số đó. `autoUnzip=false` trả về file nén nguyên trạng.',
+  'subs.direct.headers.p':
+    'Mọi phản hồi /search đều bao gồm header X-Total-Count với tổng số kết quả. Khi bạn truyền limit, phản hồi cũng bao gồm:',
+  'subs.direct.header.xpage': 'trang được trả về.',
+  'subs.direct.header.xperpage': 'giá trị limit đang áp dụng.',
+  'subs.direct.header.xtotalpages': 'tổng số trang.',
+  'subs.direct.headers.rate':
+    'Các phản hồi cũng mang X-RateLimit-Limit, X-RateLimit-Remaining và X-RateLimit-Reset. Hãy coi chúng là giá trị gần đúng: mức sử dụng được đối soát với hệ thống thanh toán theo các lô ngắn, nên chúng có thể chậm hơn một chút so với mức sử dụng thực tế của bạn.',
 
   // Subs Translate Page
   'subs.translate.title': 'Dịch thuật phụ đề bằng AI',
@@ -348,6 +383,78 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'Các bản dịch cũng được tính phí khi lấy từ bộ nhớ đệm. Dù được tạo mới hay lấy từ bộ nhớ đệm 30 ngày, mỗi yêu cầu /translate tốn 100 yêu cầu.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced là **tính năng Pro**: key miễn phí nhận 403 Paid feature. Mỗi lần đồng bộ thành công tốn **1 yêu cầu**; lần đồng bộ không tìm thấy bản khớp sẽ không bị tính phí. Sau đó, việc tải xuống liên kết đã đồng bộ được tính như mọi lượt tải xuống khác.',
+  'subs.synced.p1':
+    'Phụ đề tìm thấy trên mạng thường được căn thời gian cho một bản phát hành khác với video bạn đang có: chúng bắt đầu sớm hoặc muộn vài giây, hoặc lệch dần khi phim chạy vì bản phát hành đó dùng tốc độ khung hình khác. Wyzie Synced nghe âm thanh trong bản của bạn, tìm những chỗ có người nói, và tính ra độ lệch cùng mức sửa tốc độ khung hình để khớp phụ đề với âm thanh đó. Bạn nhận được một liên kết tải xuống bình thường đã áp dụng bản sửa (các [tùy chọn tải xuống](/subs/usage/direct#download-options) offset và fps).',
+  'subs.synced.web.p':
+    'Cách dễ nhất: mở [sub.wyzie.io/synced](https://sub.wyzie.io/synced), nhập key Pro của bạn, chọn file video và tiêu đề, rồi tải xuống phụ đề đã đồng bộ. Âm thanh được phân tích ngay trong trình duyệt của bạn, nên video không bao giờ bị tải lên: chỉ có các mốc thời gian lời nói được gửi đi. MKV, MP4, AVI và hầu hết các định dạng khác đều dùng được, kể cả âm thanh AC3, E-AC3 và DTS.',
+  'subs.synced.api.p':
+    'Gửi phụ đề bạn muốn (một liên kết tải xuống, hoặc tiêu đề để Wyzie chọn bản khớp nhất) và âm thanh: hoặc là các mốc thời gian lời nói do bạn tự phát hiện, hoặc chính file âm thanh/video.',
+  'subs.synced.param.url':
+    'Liên kết tải xuống từ /search (https://sub.wyzie.io/c/…). Các tùy chọn tải xuống khác có trên liên kết đó (to, sdh, …) được giữ lại trên liên kết đã đồng bộ.',
+  'subs.synced.param.id':
+    'Thay cho url: TMDB hoặc IMDB ID. Wyzie thử 5 phụ đề dạng văn bản đứng đầu bằng ngôn ngữ đó và trả về phụ đề khớp nhất với âm thanh của bạn.',
+  'subs.synced.param.language':
+    'Dùng với id: mã ISO 639-1 của ngôn ngữ phụ đề (bắt buộc).',
+  'subs.synced.param.seasonEpisode':
+    'Dùng với id, dành cho TV. Cả hai phải có mặt cùng nhau.',
+  'subs.synced.param.key':
+    'API key Pro của bạn. Nếu không có, key đứng sau tok của url sẽ được dùng; liên kết lấy từ trang tải xuống không dùng key thì bắt buộc phải truyền key.',
+  'subs.synced.param.speech':
+    'Những chỗ có người nói: [[start, end], …] tính bằng giây, từ bất kỳ bộ phát hiện hoạt động giọng nói nào (detectSpeech của wyzie-lib, Silero VAD, webrtcvad). Một bộ phim 2 giờ có khoảng 2.000 đoạn, tương đương khoảng 40 KB JSON.',
+  'subs.synced.param.media':
+    'Hoặc chính file âm thanh/video: dưới dạng phần thân yêu cầu thô (các trường khác đặt trong chuỗi truy vấn), hoặc dưới dạng trường multipart media. Tối đa 95 MB, nên với một bộ phim đầy đủ, hãy chỉ tải lên track âm thanh.',
+  'subs.synced.fields.note':
+    'Các trường được đặt trong phần thân JSON, form multipart, hoặc chuỗi truy vấn (kèm phần thân media thô).',
+  'subs.synced.response.p': 'Phản hồi 200 có dạng JSON:',
+  'subs.synced.field.url':
+    'liên kết tải xuống phụ đề đã áp dụng bản sửa thời gian (offset, fps) và một tok mới cho key của bạn. Dùng nó như bất kỳ url nào từ /search: mỗi lượt tải xuống tốn 1 yêu cầu.',
+  'subs.synced.field.offset':
+    'số giây được cộng vào mọi dòng sau khi sửa tốc độ khung hình (giá trị âm là sớm hơn).',
+  'subs.synced.field.fps':
+    'bản sửa tốc độ khung hình dưới dạng SUBTITLE_FPS:VIDEO_FPS (ví dụ "25:23.976"), hoặc null khi không cần sửa.',
+  'subs.synced.field.confidence':
+    '0 đến 1: mức độ rõ rệt mà kết quả thời gian này vượt trội so với mọi phương án khác. Mọi kết quả được trả về đều đã vượt qua bài kiểm tra khớp; giá trị càng cao càng chắc chắn.',
+  'subs.synced.field.inSync': 'true khi phụ đề vốn đã khớp với bản của bạn.',
+  'subs.synced.field.subtitle':
+    'phụ đề nào đã được dùng (release, fileName, format, source, …). Khi dùng url, chỉ có format của nó.',
+  'subs.synced.errors.p':
+    'Lỗi được trả về dưới dạng JSON với message và details. Các lần đồng bộ bị từ chối hoặc thất bại không bị tính phí.',
+  'subs.synced.error.400':
+    'Thiếu trường hoặc trường không hợp lệ: không có phụ đề, không có âm thanh, hoặc speech không phải là các cặp [start, end].',
+  'subs.synced.error.401':
+    'Không có key, hoặc liên kết tải xuống trong url không hợp lệ hoặc đã hết hạn.',
+  'subs.synced.error.403':
+    'Key là key miễn phí (Wyzie Synced cần Pro), không hợp lệ, hoặc đang bị tạm dừng.',
+  'subs.synced.error.404':
+    'Không có phụ đề dạng văn bản bằng ngôn ngữ đó cho tiêu đề này.',
+  'subs.synced.error.413':
+    'File media vượt quá 95 MB. Hãy chỉ tải lên track âm thanh, hoặc gửi speech.',
+  'subs.synced.error.422':
+    'Phụ đề không khớp với âm thanh ở bất kỳ độ lệch hay tốc độ khung hình nào (có thể là một phiên bản dựng hoặc một tập khác), âm thanh có quá ít lời nói, hoặc không thể giải mã file.',
+  'subs.synced.error.429':
+    'Key không đủ khả năng chi trả cho yêu cầu, giống như với mọi lệnh gọi khác.',
+  'subs.synced.error.503':
+    'Đang bận giải mã các file tải lên khác, hoặc tìm kiếm tạm thời không khả dụng. Hãy thử lại sau giây lát, hoặc gửi speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib có detectSpeech (cùng bộ phát hiện mà trang web chạy trong trình duyệt của bạn) và syncSubtitle:',
+  'subs.synced.how.step1':
+    'Lời nói: âm thanh được giải mã thành mono 8 kHz (chỉ lấy kênh trung tâm với các bản mix 5.1 và 7.1, nơi chứa lời thoại), và một bộ phát hiện hoạt động giọng nói đánh dấu những chỗ có người nói: âm thanh lớn, nằm trong dải tần giọng nói, lên xuống theo từng âm tiết.',
+  'subs.synced.how.step2':
+    'Căn chỉnh: thời gian hiển thị trên màn hình của phụ đề được tương quan chéo với lời nói đó tại mọi độ lệch trong phạm vi ±10 phút, cho các trường hợp lệch tốc độ khung hình thường gặp (25 so với 23.976, 25 so với 24, 24 so với 23.976 fps).',
+  'subs.synced.how.step3':
+    'Tinh chỉnh: kết quả thời gian tốt nhất được tinh chỉnh đến 10 ms bằng cách căn điểm bắt đầu của các dòng với điểm bắt đầu của lời nói.',
+  'subs.synced.how.step4':
+    "Một kết quả thời gian chỉ được trả về khi nó vượt trội hẳn so với mọi độ lệch khác, nên phụ đề của một phiên bản dựng hoặc một tập khác sẽ nhận 422 Couldn't sync thay vì bị dịch chuyển sai.",
+  'subs.synced.limit1':
+    'Wyzie Synced sửa độ lệch cố định và chênh lệch tốc độ khung hình. Phụ đề cho một phiên bản dựng khác (có thêm hoặc thiếu cảnh) không thể sửa bằng một lần dịch chuyển duy nhất, và sẽ bị từ chối.',
+  'subs.synced.limit2':
+    'Cần có lời nói: phim ít lời thoại, hoặc âm thanh chủ yếu là nhạc, có thể không đồng bộ được.',
+  'subs.synced.limit3': 'Có thể tìm được độ lệch lên đến ±10 phút.',
+
   // Subs API Keys Page
   'subs.keys.title': 'API Keys',
   'subs.keys.p1':
@@ -397,10 +504,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'Gói NPM',
 
   'subs.keys.limit.h2': 'Đạt giới hạn',
+  'subs.keys.limit.p':
+    'Một lần tìm kiếm tốn 1 yêu cầu và mỗi lượt tải phụ đề tốn 1 yêu cầu, vì vậy tìm kiếm một lần và tải một file sẽ dùng 2 yêu cầu. Dịch thuật AI tốn 100 yêu cầu cho mỗi lần gọi.',
   'subs.keys.limit.free':
     '**Gói miễn phí** đã hết -> API trả về 429 với header X-RateLimit-Reset và Retry-After. Bộ đếm hàng ngày được đặt lại vào lúc nửa đêm UTC.',
   'subs.keys.limit.paid':
     '**Số dư trả phí** đã hết -> API trả về 402. Nạp thêm tại [store.wyzie.io/topup](https://store.wyzie.io/topup) hoặc bật **tự động nạp thêm** trong bảng điều khiển để tự động nạp khi số dư vượt qua ngưỡng bạn đặt.',
+  'subs.keys.hold.p1':
+    'Các key gửi lưu lượng rất lớn, chủ yếu từ IP trung tâm dữ liệu hoặc hosting, sẽ tự động bị tạm dừng. Key bị tạm dừng nhận 403 Key on hold cho mọi yêu cầu, kèm liên kết khôi phục (https://store.wyzie.io/verify) và liên kết hỗ trợ (https://store.wyzie.io/contact) trong JSON.',
+  'subs.keys.hold.p2':
+    'Để khôi phục key ngay lập tức, hãy xác minh trang web bạn dùng key tại [store.wyzie.io/verify](https://store.wyzie.io/verify) bằng bản ghi DNS TXT hoặc thẻ meta. Key có trang web đã xác minh sẽ không bao giờ bị tự động tạm dừng nữa, vì vậy các trang có lưu lượng lớn có thể xác minh trước khi bị tạm dừng.',
+  'subs.keys.hold.p3':
+    'Không có trang web, ví dụ như dịch vụ backend hoặc ứng dụng? [Liên hệ hỗ trợ](https://store.wyzie.io/contact) để được khôi phục key.',
+
+  'subs.keys.files.h2': 'Có gì trong các file',
+  'subs.keys.files.adfilter':
+    '**Lọc quảng cáo** – mọi phụ đề được phục vụ qua sub.wyzie.io đều được loại bỏ các cue quảng cáo của nhà cung cấp (banner OpenSubtitles, quảng cáo cá cược, các dòng kiểu "xem miễn phí tại ..."). Các cue SRT được đánh số lại nên không bị nhảy số. Mọi nhà cung cấp, kể cả OpenSubtitles, đều được phục vụ qua sub.wyzie.io nên bộ lọc áp dụng cho tất cả.',
+  'subs.keys.files.promo':
+    '**Key miễn phí và key dev** nhận một cue ngắn ở ngay đầu mỗi file (0–6 s) trỏ đến [store.wyzie.io](https://store.wyzie.io). Key trả phí nhận file sạch, không có cue.',
 
   'subs.keys.faq.h2': 'Câu hỏi thường gặp',
   'subs.keys.faq.q1': 'Tôi mất key. Có thể lấy lại không?',

@@ -200,7 +200,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.hi':
     'Boolean za titlove prilagođene osobama oštećenog sluha.',
   'subs.pkg.param.source':
-    'Provajderi titlova za upit (all za svaki aktivni izvor).',
+    'Provajderi titlova za upit, navedeni po kodnom imenu (all za svaki aktivni izvor koji vaš ključ može da koristi; podrazumevano charlie).',
   'subs.pkg.param.release': 'Filtri za release/scene (prihvata listu).',
   'subs.pkg.param.filename':
     'Filtri za naziv fajla; pseudonimi file i fileName su podržani.',
@@ -211,7 +211,7 @@ const messages: Record<string, string> = {
     'Zaobiđite keš i preuzmite sveže rezultate iz izvora.',
 
   'subs.pkg.helpers':
-    'Paket takođe dolazi sa laganim TMDB pomoćnim funkcijama: searchTmdb, getTvDetails i getSeasonDetails za brzo pronalaženje ID-ova pre pozivanja /search. Pored toga, getSources se može koristiti za preuzimanje liste trenutno aktivnih izvora titlova.',
+    'Paket takođe dolazi sa laganim TMDB pomoćnim funkcijama: searchTmdb, getTvDetails i getSeasonDetails za brzo pronalaženje ID-ova pre pozivanja /search. getSources vraća kodna imena aktivnih izvora (izvor koji su pauzirale provere stanja izostavlja se dok se ne oporavi), a getSourcesInfo vraća kompletan /sources odgovor sa nivoima i, ako mu prosledite ključ, izvorima koje taj ključ može da koristi. withDownloadOptions dodaje opcije preuzimanja (WebVTT izlaz, ispravke tajminga, drugi jezik i još mnogo toga) na url rezultata.',
   'subs.pkg.types.h3': 'Tipovi',
   'subs.pkg.type.search': 'Svi validni parametri koje API prepoznaje.',
   'subs.pkg.type.query':
@@ -219,6 +219,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'Sve vraćene vrednosti iz API-ja sa njihovim odgovarajućim tipovima.',
   'subs.pkg.type.sources': 'Tip odgovora sa /sources endpointa.',
+  'subs.pkg.type.download':
+    'Opcije za withDownloadOptions: to, offset, fps, plain i (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Ulaz i rezultat funkcije syncSubtitle (Wyzie Synced, Pro ključevi): koji titl (rezultat, njegov url ili tmdb_id/imdb_id uz language), segmenti govora (speech) koje je pronašao detectSpeech ili media fajl, i sinhronizovani link za preuzimanje sa vrednostima offset, fps i confidence. Pogledajte [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'Naši tipovi su vrlo jednostavni i dobro dokumentovani. Pogledajte fajl types.ts u GitHub repozitorijumu.',
   'subs.pkg.config.h3': 'Konfiguracija',
@@ -257,6 +261,10 @@ const messages: Record<string, string> = {
     'Vaš API ključ (obavezno). Nabavite besplatno na store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'Zaobiđite keš i preuzmite sveže rezultate. Koristite kada su se izvori možda ažurirali.',
+  'subs.direct.param.page':
+    'Stranica koja se vraća, počevši od 1. Koristi se samo zajedno sa limit.',
+  'subs.direct.param.limit':
+    'Broj rezultata po stranici (od 1 do 200). Bez njega se svi rezultati vraćaju u jednom odgovoru.',
   'subs.direct.important.imdb':
     "Kada koristite IMDB ID, obavezno uključite prva dva znaka ('tt') na početku ID-a.",
 
@@ -284,6 +292,33 @@ const messages: Record<string, string> = {
     'Filter koji je naveo korisnik i koji se podudarao (ako je naveden).',
   'subs.direct.data.ai':
     'true ako je unos AI-prevedeni titl, false za normalne skrejpovane titlove. Koristite kao filter na strani klijenta kada želite samo jednu od dve opcije.',
+  'subs.direct.download.p':
+    'Svaki url u /search odgovoru pokazuje na https://sub.wyzie.io/c/... i nosi query parametar tok. tok je šifrovan, pa ne otkriva vaš API ključ, i važi 60 dana. Koristite URL onakav kakav jeste. Pretraga košta 1 zahtev, a svako preuzimanje još 1, što se naplaćuje ključu kojim je pretraga izvršena. Kada taj ključ ne može da plati preuzimanje, link se odbija:',
+  'subs.direct.dl.p':
+    'Dodajte ih na URL za preuzimanje da biste promenili ono što vraća. Rade na svakom preuzimanju, iz keša ili ne, i ne koštaju ništa dodatno (osim dual, ispod). Zaglavlje odgovora X-Subtitle-Transforms navodi šta je primenjeno i koliko puta.',
+  'subs.direct.dl.param.to':
+    'Izlazni format: `srt` ili `vtt`. `vtt` se reprodukuje direktno u `<track>` elementu browsera. Podrazumevano: izvorni format fajla.',
+  'subs.direct.dl.param.offset':
+    'Pomera svaki red za zadati broj sekundi (negativna vrednost znači ranije).',
+  'subs.direct.dl.param.fps':
+    'Ispravlja postepeno razilaženje titla napravljenog za drugi reliz: `SUBTITLE_FPS:VIDEO_FPS`, npr. `25:23.976` za PAL titl na videu sa filmskom brzinom kadrova.',
+  'subs.direct.dl.param.plain':
+    'Čisti, uredni redovi: uklanjaju se kodovi stilizovanja kao što su `{\\an8}` i `<font>`, izbacuju prazni i ponovljeni redovi, redovi se ređaju hronološki, a mala preklapanja se skraćuju.',
+  'subs.direct.dl.param.sdh':
+    'Uklanja tekst za osobe oštećenog sluha: `[DOOR SLAMS]`, `(sighs)`, oznake govornika kao što je `JOHN:` i ♪ tekstove pesama.',
+  'subs.direct.dl.param.clean':
+    'Maskira teže psovke, uz zadržavanje prvog slova (`f***`). Samo za fajlove na engleskom.',
+  'subs.direct.dl.param.dual':
+    'Dodaje drugi jezik (ISO 639-1 kod) ispod svakog reda, usklađen sa tajmingom ovog fajla. Košta 1 dodatni zahtev, i to samo kada se pronađe podudaranje; u suprotnom se fajl vraća sam, sa `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    'Opcije se mogu kombinovati, npr. `&to=vtt&sdh=strip&offset=-1.5`. Linkovi već sadrže `format`, `encoding`, `id` i (za epizode) `season` i `episode`: ostavite ih onakve kakvi jesu. `autoUnzip=false` vraća arhivu u izvornom obliku.',
+  'subs.direct.headers.p':
+    'Svaki /search odgovor sadrži zaglavlje X-Total-Count sa ukupnim brojem rezultata. Kada prosledite limit, sadrži i:',
+  'subs.direct.header.xpage': 'vraćena stranica.',
+  'subs.direct.header.xperpage': 'limit koji se primenjuje.',
+  'subs.direct.header.xtotalpages': 'ukupan broj stranica.',
+  'subs.direct.headers.rate':
+    'Odgovori sadrže i X-RateLimit-Limit, X-RateLimit-Remaining i X-RateLimit-Reset. Smatrajte ih približnim: potrošnja se sa naplatom usklađuje u kratkim serijama, pa mogu malo kasniti za vašom stvarnom potrošnjom.',
 
   // Subs Translate Page
   'subs.translate.title': 'AI prevod titlova',
@@ -344,6 +379,78 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'Prevodi se naplaćuju i na pogodke keša. Bez obzira na to da li je sveže generisan ili isporučen iz 30-dnevnog keša, svaki /translate zahtev košta 100 zahteva.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced je **Pro funkcija**: besplatni ključevi dobijaju 403 Paid feature. Svaka uspešna sinhronizacija košta **1 zahtev**; sinhronizacija koja ne pronađe podudaranje se ne naplaćuje. Preuzimanje sinhronizovanog linka se zatim računa kao i svako drugo preuzimanje.',
+  'subs.synced.p1':
+    'Titlovi pronađeni na internetu često su vremenski usklađeni za drugi reliz, a ne za video koji imate: počinju nekoliko sekundi ranije ili kasnije, ili se sve više razilaze kako film odmiče jer taj reliz ima drugačiju brzinu kadrova. Wyzie Synced sluša zvuk vaše kopije, pronalazi delove u kojima ljudi govore i izračunava pomak i ispravku brzine kadrova koji usklađuju titl sa njim. Dobijate običan link za preuzimanje sa primenjenom ispravkom (to su [opcije preuzimanja](/subs/usage/direct#download-options) offset i fps).',
+  'subs.synced.web.p':
+    'Najlakši način: otvorite [sub.wyzie.io/synced](https://sub.wyzie.io/synced), unesite svoj Pro ključ, izaberite video fajl i naslov, i preuzmite sinhronizovani titl. Zvuk se analizira u vašem browseru, tako da se video nikada ne otprema: šalju se samo vremena govora. Podržani su MKV, MP4, AVI i većina drugih formata, uključujući AC3, E-AC3 i DTS zvuk.',
+  'subs.synced.api.p':
+    'Pošaljite koji titl želite (link za preuzimanje ili naslov, pa da Wyzie izabere najbolje podudaranje) i zvuk: ili vremena govora koja ste sami detektovali, ili sam audio/video fajl.',
+  'subs.synced.param.url':
+    'Link za preuzimanje iz /search (https://sub.wyzie.io/c/…). Ostale opcije preuzimanja na njemu (to, sdh, …) zadržavaju se na sinhronizovanom linku.',
+  'subs.synced.param.id':
+    'Umesto url: TMDB ili IMDB ID. Wyzie isprobava 5 najboljih tekstualnih titlova na tom jeziku i vraća onaj koji najbolje odgovara vašem zvuku.',
+  'subs.synced.param.language': 'Uz id: ISO 639-1 kod jezika titla (obavezno).',
+  'subs.synced.param.seasonEpisode':
+    'Uz id, za TV serije. Oba moraju biti prisutna zajedno.',
+  'subs.synced.param.key':
+    'Vaš Pro API ključ. Bez njega se koristi ključ na koji se odnosi tok iz url-a; linkovi sa stranice za preuzimanje bez ključa zahtevaju key.',
+  'subs.synced.param.speech':
+    'Delovi u kojima ljudi govore: [[start, end], …] u sekundama, iz bilo kog detektora glasovne aktivnosti (detectSpeech iz wyzie-lib, Silero VAD, webrtcvad). Film od 2 sata ima otprilike 2.000 segmenata, oko 40 KB JSON-a.',
+  'subs.synced.param.media':
+    'Ili sam audio/video fajl: kao sirovo telo zahteva (sa ostalim poljima u query stringu) ili kao multipart polje media. Do 95 MB, pa za ceo film otpremite samo audio zapis.',
+  'subs.synced.fields.note':
+    'Polja se šalju u JSON telu, multipart formi ili query stringu (uz sirovo media telo).',
+  'subs.synced.response.p': 'Odgovor 200 je JSON:',
+  'subs.synced.field.url':
+    'link za preuzimanje titla sa ispravkom tajminga (offset, fps) i novim tok tokenom za vaš ključ. Koristite ga kao bilo koji url iz /search: svako preuzimanje košta 1 zahtev.',
+  'subs.synced.field.offset':
+    'sekunde dodate svakom redu nakon ispravke brzine kadrova (negativna vrednost znači ranije).',
+  'subs.synced.field.fps':
+    'ispravka brzine kadrova u obliku SUBTITLE_FPS:VIDEO_FPS (npr. "25:23.976"), ili null kada ispravka nije bila potrebna.',
+  'subs.synced.field.confidence':
+    'od 0 do 1: koliko jasno ovaj tajming nadmašuje sve ostale. Sve što je vraćeno prošlo je test podudaranja; veća vrednost znači veću sigurnost.',
+  'subs.synced.field.inSync':
+    'true kada je titl već bio usklađen sa vašom kopijom.',
+  'subs.synced.field.subtitle':
+    'koji je titl korišćen (release, fileName, format, source, …). Uz url, samo njegov format.',
+  'subs.synced.errors.p':
+    'Greške su JSON sa poljima message i details. Odbijene i neuspele sinhronizacije se ne naplaćuju.',
+  'subs.synced.error.400':
+    'Nedostajuća ili neispravna polja: nema titla, nema zvuka ili speech nije u obliku parova [start, end].',
+  'subs.synced.error.401':
+    'Nema ključa ili je link za preuzimanje prosleđen u url neispravan ili istekao.',
+  'subs.synced.error.403':
+    'Ključ je besplatan (Wyzie Synced zahteva Pro), neispravan ili pauziran.',
+  'subs.synced.error.404':
+    'Za taj naslov nema tekstualnih titlova na tom jeziku.',
+  'subs.synced.error.413':
+    'Fajl u polju media je veći od 95 MB. Otpremite samo audio zapis ili pošaljite speech.',
+  'subs.synced.error.422':
+    'Titl se ne poklapa sa zvukom ni pri jednom pomaku ni brzini kadrova (verovatno je u pitanju druga verzija filma ili epizoda), zvuk sadrži premalo govora ili fajl ne može da se dekodira.',
+  'subs.synced.error.429':
+    'Ključ ne može da plati zahtev, kao i kod svakog drugog poziva.',
+  'subs.synced.error.503':
+    'Server je zauzet dekodiranjem drugih otpremljenih fajlova ili je pretraga nakratko nedostupna. Pokušajte ponovo uskoro ili pošaljite speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib sadrži detectSpeech (isti detektor koji sajt pokreće u vašem browseru) i syncSubtitle:',
+  'subs.synced.how.step1':
+    'Govor: zvuk se dekodira u 8 kHz mono (za 5.1 i 7.1 miksove samo centralni kanal, gde se nalazi dijalog), a detektor glasovne aktivnosti označava delove u kojima ljudi govore: glasan zvuk u opsegu govora koji raste i opada sa slogovima.',
+  'subs.synced.how.step2':
+    'Poravnanje: vremena prikaza titla unakrsno se koreliraju sa tim govorom za svaki pomak unutar ±10 minuta, za uobičajena neslaganja brzine kadrova (25 naspram 23,976, 25 naspram 24, 24 naspram 23,976 fps).',
+  'subs.synced.how.step3':
+    'Preciziranje: najbolji tajming se precizira na 10 ms usklađivanjem početaka redova sa počecima govora.',
+  'subs.synced.how.step4':
+    "Tajming se vraća samo kada se jasno izdvaja iznad svih ostalih pomaka, pa titl za drugu verziju filma ili epizodu dobija 422 Couldn't sync umesto pogrešnog pomeranja.",
+  'subs.synced.limit1':
+    'Wyzie Synced ispravlja konstantan pomak i razliku u brzini kadrova. Titl za drugu verziju filma (sa dodatim ili izbačenim scenama) ne može se ispraviti jednim pomeranjem i biva odbijen.',
+  'subs.synced.limit2':
+    'Potreban mu je govor: filmovi sa malo dijaloga ili zvuk koji je uglavnom muzika možda se neće sinhronizovati.',
+  'subs.synced.limit3': 'Pronalaze se pomaci do ±10 minuta.',
+
   // Subs API Keys Page
   'subs.keys.title': 'API ključevi',
   'subs.keys.p1':
@@ -394,10 +501,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'NPM paket',
 
   'subs.keys.limit.h2': 'Dostizanje limita',
+  'subs.keys.limit.p':
+    'Pretraga košta 1 zahtev i svako preuzimanje titla košta 1 zahtev, pa jedna pretraga i preuzimanje jednog fajla troše 2. AI prevod košta 100 zahteva po pozivu.',
   'subs.keys.limit.free':
     '**Besplatni nivo** iscrpljen -> API vraća 429 sa X-RateLimit-Reset i Retry-After zaglavljima. Dnevni brojač se resetuje u ponoć UTC.',
   'subs.keys.limit.paid':
     '**Plaćeno stanje** iscrpljeno -> API vraća 402. Dopunite na [store.wyzie.io/topup](https://store.wyzie.io/topup) ili aktivirajte **automatski top-up** na vašoj kontrolnoj tabli da se automatski dopunjava kada stanje pređe prag koji postavite.',
+  'subs.keys.hold.p1':
+    'Ključevi koji šalju veoma veliki obim zahteva, uglavnom sa IP adresa data centara ili hosting provajdera, automatski se pauziraju. Pauziran ključ dobija 403 Key on hold na svaki zahtev, sa linkom za ponovno aktiviranje (https://store.wyzie.io/verify) i linkom za podršku (https://store.wyzie.io/contact) u JSON-u.',
+  'subs.keys.hold.p2':
+    'Da biste odmah ponovo aktivirali ključ, verifikujte sajt na kom ga koristite na [store.wyzie.io/verify](https://store.wyzie.io/verify) pomoću DNS TXT zapisa ili meta taga. Ključ sa verifikovanim sajtom se više nikada ne pauzira automatski, pa posećeni sajtovi mogu da se verifikuju i pre nego što ikada budu pauzirani.',
+  'subs.keys.hold.p3':
+    'Nemate sajt, na primer koristite backend servis ili aplikaciju? [Kontaktirajte podršku](https://store.wyzie.io/contact) da bi vam ključ bio ponovo aktiviran.',
+
+  'subs.keys.files.h2': 'Šta se nalazi u fajlovima',
+  'subs.keys.files.adfilter':
+    '**Filtriranje reklama** – iz svakog titla koji se isporučuje preko sub.wyzie.io uklanjaju se reklamne stavke provajdera (OpenSubtitles baneri, reklame za klađenje, redovi tipa "watch free at ..."). SRT stavke se prenumerišu tako da se ništa ne preskače. Svaki provajder, uključujući OpenSubtitles, isporučuje se preko sub.wyzie.io, pa se filter primenjuje na sve njih.',
+  'subs.keys.files.promo':
+    '**Besplatni i dev ključevi** dobijaju jednu kratku stavku na samom početku svakog fajla (0–6 s) koja upućuje na [store.wyzie.io](https://store.wyzie.io). Plaćeni ključevi dobijaju čiste fajlove bez te stavke.',
 
   'subs.keys.faq.h2': 'Česta pitanja',
   'subs.keys.faq.q1': 'Izgubio sam ključ. Mogu li dobiti novi?',

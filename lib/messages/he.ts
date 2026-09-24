@@ -190,7 +190,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.language': 'קודי ISO 639-1 לשפת הכתובית. מקבל רשימה.',
   'subs.pkg.param.encoding': 'פילטר קידוד תווים (לדוגמה, utf-8, latin-1).',
   'subs.pkg.param.hi': 'ערך Boolean לכתוביות לכבדי שמיעה.',
-  'subs.pkg.param.source': 'ספקי כתוביות לשאילתה (all לכל מקור מופעל).',
+  'subs.pkg.param.source':
+    'ספקי כתוביות לשאילתה לפי שם קוד (all לכל מקור פעיל שהמפתח שלך יכול להשתמש בו; ברירת מחדל charlie).',
   'subs.pkg.param.release': 'פילטרי שחרור/scene (מקבל רשימה).',
   'subs.pkg.param.filename': 'פילטרי שם קובץ; כינויים file ו-fileName נתמכים.',
   'subs.pkg.param.origin': 'פילטר מקור תוכן (לדוגמה, WEB, BLURAY, DVD).',
@@ -199,7 +200,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.refresh': 'עקוף מטמון ושלוף תוצאות רעננות מהמקורות.',
 
   'subs.pkg.helpers':
-    'החבילה כוללת גם עוזרי TMDB קלים: searchTmdb, getTvDetails ו-getSeasonDetails למציאת מזהים מהירה לפני פנייה ל-/search. בנוסף, ניתן להשתמש ב-getSources לשליפת רשימת מקורות הכתוביות המופעלים כעת.',
+    'החבילה כוללת גם עוזרי TMDB קלים: searchTmdb, getTvDetails ו-getSeasonDetails למציאת מזהים מהירה לפני פנייה ל-/search. getSources מחזיר את שמות הקוד של המקורות הפעילים (מקור שהושהה על ידי בדיקות התקינות שלו מושמט עד שהוא מתאושש), ו-getSourcesInfo מחזיר את תגובת /sources המלאה עם הרמות, ובנוסף, כאשר מועבר מפתח, את המקורות שהמפתח הזה יכול להשתמש בהם. withDownloadOptions מוסיף אפשרויות הורדה (פלט WebVTT, תיקוני תזמון, שפה שנייה ועוד) ל-url של תוצאה.',
   'subs.pkg.types.h3': 'טיפוסים',
   'subs.pkg.type.search': 'כל הפרמטרים החוקיים שה-API מזהה.',
   'subs.pkg.type.query':
@@ -207,6 +208,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'כל הערכים המוחזרים מה-API עם הטיפוסים המתאימים להם.',
   'subs.pkg.type.sources': 'סוג התגובה מנקודת הקצה /sources.',
+  'subs.pkg.type.download':
+    'אפשרויות עבור withDownloadOptions: to, offset, fps ו-plain, וכן sdh, clean ו-dual (Pro).',
+  'subs.pkg.type.sync':
+    'הקלט והתוצאה של syncSubtitle (Wyzie Synced, מפתחות Pro): איזו כתובית (תוצאה, ה-url שלה, או tmdb_id/imdb_id יחד עם language), מקטעי הדיבור (speech) ש-detectSpeech מצא או קובץ המדיה (media), וקישור ההורדה המסונכרן עם ה-offset, ה-fps וה-confidence שלו. ראה [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'הטיפוסים שלנו פשוטים מאוד ומתועדים היטב. עיין בקובץ types.ts המקושר במאגר GitHub.',
   'subs.pkg.config.h3': 'תצורה',
@@ -242,6 +247,9 @@ const messages: Record<string, string> = {
     'מפתח ה-API שלך (נדרש). קבל אחד חינם בכתובת store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'עקוף מטמון ושלוף תוצאות רעננות. השתמש כאשר מקורות עשויים להתעדכן.',
+  'subs.direct.param.page': 'הדף שיוחזר, החל מ-1. משמש רק יחד עם limit.',
+  'subs.direct.param.limit':
+    'תוצאות לכל דף (1 עד 200). בלעדיו, כל התוצאות מוחזרות בתגובה אחת.',
   'subs.direct.important.imdb':
     "בעת שימוש ב-IMDB ID, וודא שהתווים הראשונים ('tt') כלולים בתחילת המזהה.",
 
@@ -266,6 +274,33 @@ const messages: Record<string, string> = {
   'subs.direct.data.matchedFilter': 'הפילטר שסיפק המשתמש שתאם (אם סופק).',
   'subs.direct.data.ai':
     'true אם הרשומה היא כתובית מתורגמת על ידי בינה מלאכותית, false לכתוביות נאספות רגילות. השתמש בזה כפילטר צד-לקוח כאשר אתה רוצה רק אחד מהשניים.',
+  'subs.direct.download.p':
+    'כל url בתגובת /search מצביע ל-https://sub.wyzie.io/c/... ונושא פרמטר שאילתה tok. ה-tok מוצפן, כך שאינו חושף את מפתח ה-API שלך, והוא נשאר תקף למשך 60 יום. השתמש ב-URL כפי שהוא. חיפוש עולה 1 בקשה וכל הורדה עולה 1 נוספת, שמחויבת למפתח שביצע את החיפוש. כאשר מפתח זה אינו יכול לשלם עבור הורדה, הקישור נדחה:',
+  'subs.direct.dl.p':
+    'הוסף אותן ל-URL של הורדה כדי לשנות את מה שהוא מחזיר. הן פועלות על כל הורדה, מהמטמון או לא, ואינן עולות דבר נוסף (מלבד dual, להלן). כותרת התגובה X-Subtitle-Transforms מפרטת מה הוחל, כולל ספירות.',
+  'subs.direct.dl.param.to':
+    'פורמט פלט: `srt` או `vtt`. `vtt` מתנגן ישירות באלמנט `<track>` בדפדפן. ברירת מחדל: הפורמט המקורי של הקובץ.',
+  'subs.direct.dl.param.offset':
+    'מזיז כל שורה במספר זה של שניות (ערך שלילי מקדים).',
+  'subs.direct.dl.param.fps':
+    'מתקן סחיפה בכתובית שנוצרה לשחרור אחר: `SUBTITLE_FPS:VIDEO_FPS`, לדוגמה `25:23.976` לכתובית PAL על וידאו בקצב פריימים קולנועי.',
+  'subs.direct.dl.param.plain':
+    'שורות פשוטות ומסודרות: קודי עיצוב כגון `{\\an8}` ו-`<font>` מוסרים, שורות ריקות וחוזרות מושמטות, השורות מסודרות לפי זמן, וחפיפות קטנות נחתכות.',
+  'subs.direct.dl.param.sdh':
+    'מסיר טקסט לכבדי שמיעה: `[DOOR SLAMS]`, `(sighs)`, תוויות דוברים כמו `JOHN:` ומילות שירים עם ♪.',
+  'subs.direct.dl.param.clean':
+    'מסתיר קללות בוטות, תוך השארת האות הראשונה (`f***`). קבצים באנגלית בלבד.',
+  'subs.direct.dl.param.dual':
+    'מוסיף שפה שנייה (קוד ISO 639-1) מתחת לכל שורה, מיושרת לתזמון של קובץ זה. עולה 1 בקשה נוספת, רק כאשר נמצאה התאמה; אחרת הקובץ מוחזר לבדו עם `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    'ניתן לשלב אפשרויות, לדוגמה `&to=vtt&sdh=strip&offset=-1.5`. הקישורים כבר נושאים את `format`, `encoding` ו-`id`, ובפרקים גם את `season` ו-`episode`: השאר אותם כמו שהם. `autoUnzip=false` מחזיר ארכיון כפי שהוא.',
+  'subs.direct.headers.p':
+    'כל תגובת /search כוללת כותרת X-Total-Count עם המספר הכולל של התוצאות. כאשר אתה מעביר limit, היא כוללת גם:',
+  'subs.direct.header.xpage': 'הדף שהוחזר.',
+  'subs.direct.header.xperpage': 'ערך ה-limit שבתוקף.',
+  'subs.direct.header.xtotalpages': 'המספר הכולל של הדפים.',
+  'subs.direct.headers.rate':
+    'התגובות נושאות גם את X-RateLimit-Limit, X-RateLimit-Remaining ו-X-RateLimit-Reset. התייחס אליהן כמשוערות: השימוש מתקזז מול החיוב באצוות קצרות, כך שהן עשויות לפגר מעט אחרי השימוש האמיתי שלך.',
 
   // Subs Translate Page
   'subs.translate.title': 'תרגום כתוביות בבינה מלאכותית',
@@ -324,6 +359,76 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'תרגומים מחויבים גם על פגיעות במטמון. בין אם נוצר חדש או הוגש מהמטמון בן 30 הימים, כל בקשת /translate עולה 100 בקשות.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced הוא **תכונת Pro**: מפתחות חינמיים מקבלים 403 Paid feature. כל סנכרון מוצלח עולה **1 בקשה**; סנכרון שלא מוצא התאמה אינו מחויב. הורדת הקישור המסונכרן נספרת לאחר מכן כמו כל הורדה אחרת.',
+  'subs.synced.p1':
+    'כתוביות שנמצאות ברשת מתוזמנות לעתים קרובות לשחרור שונה מהווידאו שיש לך: הן מתחילות כמה שניות מוקדם או מאוחר מדי, או סוטות יותר ויותר ככל שהסרט מתקדם כי השחרור ההוא רץ בקצב פריימים אחר. Wyzie Synced מאזין לאודיו של העותק שלך, מוצא היכן אנשים מדברים, ומחשב את ההיסט ואת תיקון קצב הפריימים שמיישרים את הכתובית אליו. אתה מקבל קישור הורדה רגיל עם התיקון מוחל (באמצעות [אפשרויות ההורדה](/subs/usage/direct#download-options) offset ו-fps).',
+  'subs.synced.web.p':
+    'הדרך הקלה ביותר: פתח את [sub.wyzie.io/synced](https://sub.wyzie.io/synced), הזן את מפתח ה-Pro שלך, בחר את קובץ הווידאו ואת הכותר, והורד את הכתובית המסונכרנת. האודיו מנותח בדפדפן שלך, כך שהווידאו לעולם אינו מועלה: רק תזמוני הדיבור נשלחים. MKV, MP4, AVI ורוב הפורמטים האחרים נתמכים, כולל אודיו AC3, E-AC3 ו-DTS.',
+  'subs.synced.api.p':
+    'שלח איזו כתובית אתה רוצה (קישור הורדה, או הכותר כדי ש-Wyzie יבחר את ההתאמה הטובה ביותר) ואת האודיו: או תזמוני דיבור שזיהית בעצמך, או את קובץ האודיו/וידאו עצמו.',
+  'subs.synced.param.url':
+    'קישור הורדה מ-/search (https://sub.wyzie.io/c/…). אפשרויות הורדה אחרות שעליו (to, sdh, …) נשמרות בקישור המסונכרן.',
+  'subs.synced.param.id':
+    'במקום url: TMDB או IMDB ID. Wyzie מנסה את 5 כתוביות הטקסט המובילות בשפה זו ומחזיר את זו שמתאימה הכי טוב לאודיו שלך.',
+  'subs.synced.param.language': 'עם id: קוד ISO 639-1 של שפת הכתובית (נדרש).',
+  'subs.synced.param.seasonEpisode':
+    'עם id, לטלוויזיה. שניהם חייבים להיות נוכחים יחד.',
+  'subs.synced.param.key':
+    'מפתח ה-API מסוג Pro שלך. בלעדיו, נעשה שימוש במפתח שמאחורי ה-tok של ה-url; קישורים מדף ההורדה ללא מפתח דורשים key.',
+  'subs.synced.param.speech':
+    'היכן אנשים מדברים: [[start, end], …] בשניות, מכל גלאי פעילות קולית (detectSpeech של wyzie-lib, Silero VAD, webrtcvad). סרט באורך 2 שעות הוא בערך 2,000 מקטעים, כ-40 KB של JSON.',
+  'subs.synced.param.media':
+    'או קובץ האודיו/וידאו עצמו: כגוף בקשה גולמי (עם שאר השדות במחרוזת השאילתה), או כשדה ה-multipart בשם media. עד 95 MB, כך שעבור סרט מלא העלה את רצועת האודיו בלבד.',
+  'subs.synced.fields.note':
+    'השדות נשלחים בגוף JSON, בטופס multipart, או במחרוזת השאילתה (עם גוף media גולמי).',
+  'subs.synced.response.p': 'תגובת 200 היא JSON:',
+  'subs.synced.field.url':
+    'קישור ההורדה של הכתובית עם תיקון התזמון (offset, fps) ו-tok חדש עבור המפתח שלך. השתמש בו כמו בכל url של /search: כל הורדה עולה 1 בקשה.',
+  'subs.synced.field.offset':
+    'שניות שמתווספות לכל שורה אחרי תיקון קצב הפריימים (ערך שלילי מקדים).',
+  'subs.synced.field.fps':
+    'תיקון קצב הפריימים בתבנית SUBTITLE_FPS:VIDEO_FPS (לדוגמה "25:23.976"), או null כאשר לא נדרש תיקון.',
+  'subs.synced.field.confidence':
+    '0 עד 1: עד כמה בבירור התזמון הזה עדיף על כל האחרים. כל מה שמוחזר עבר את מבחן ההתאמה; ערך גבוה יותר פירושו ודאות רבה יותר.',
+  'subs.synced.field.inSync': 'true כאשר הכתובית כבר תאמה לעותק שלך.',
+  'subs.synced.field.subtitle':
+    'איזו כתובית שימשה (release, fileName, format, source, …). כאשר נשלח url, רק ה-format שלה.',
+  'subs.synced.errors.p':
+    'שגיאות מוחזרות כ-JSON עם message ו-details. סנכרונים שנדחו או נכשלו אינם מחויבים.',
+  'subs.synced.error.400':
+    'שדות חסרים או לא תקינים: אין כתובית, אין אודיו, או speech שאינו זוגות של [start, end].',
+  'subs.synced.error.401':
+    'אין מפתח, או שקישור ההורדה ב-url אינו תקף או שפג תוקפו.',
+  'subs.synced.error.403':
+    'המפתח חינמי (Wyzie Synced דורש Pro), לא תקף, או מושהה.',
+  'subs.synced.error.404': 'אין כתוביות טקסט בשפה זו עבור הכותר.',
+  'subs.synced.error.413':
+    'קובץ המדיה גדול מ-95 MB. העלה את רצועת האודיו בלבד, או שלח speech.',
+  'subs.synced.error.422':
+    'הכתובית אינה מתיישרת עם האודיו בשום היסט או קצב פריימים (כנראה גרסת עריכה או פרק אחרים), יש באודיו מעט מדי דיבור, או שלא ניתן לפענח את הקובץ.',
+  'subs.synced.error.429':
+    'המפתח אינו יכול לשלם עבור הבקשה, כמו בכל קריאה אחרת.',
+  'subs.synced.error.503':
+    'השרת עסוק בפענוח העלאות אחרות, או שהחיפוש אינו זמין לזמן קצר. נסה שוב בעוד רגע, או שלח speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib כולל את detectSpeech (אותו גלאי שהאתר מריץ בדפדפן שלך) ואת syncSubtitle:',
+  'subs.synced.how.step1':
+    'דיבור: האודיו מפוענח למונו ב-8 kHz (הערוץ המרכזי בלבד במיקסים של 5.1 ו-7.1, שם נמצאים הדיאלוגים), וגלאי פעילות קולית מסמן היכן אנשים מדברים: צליל חזק בתחום תדרי הדיבור שעולה ויורד עם ההברות.',
+  'subs.synced.how.step2':
+    'יישור: זמני ההופעה של הכתובית על המסך עוברים קורלציה צולבת עם הדיבור הזה בכל היסט בטווח של ±10 דקות, עבור אי-ההתאמות הנפוצות בקצב הפריימים (25 מול 23.976, 25 מול 24, 24 מול 23.976 fps).',
+  'subs.synced.how.step3':
+    'עידון: התזמון הטוב ביותר מעודן לדיוק של 10 ms על ידי יישור נקודות תחילת השורות עם נקודות תחילת הדיבור.',
+  'subs.synced.how.step4':
+    "תזמון מוחזר רק כאשר הוא בולט הרבה מעל כל היסט אחר, כך שכתובית של גרסת עריכה או פרק אחרים מקבלת 422 Couldn't sync במקום הזזה שגויה.",
+  'subs.synced.limit1':
+    'Wyzie Synced מתקן היסט קבוע והבדל בקצב הפריימים. כתובית של גרסת עריכה שונה (סצנות שנוספו או חסרות) אינה ניתנת לתיקון בהזזה אחת, ולכן נדחית.',
+  'subs.synced.limit2':
+    'הוא זקוק לדיבור: ייתכן שסרטים עם מעט דיאלוג, או אודיו שרובו מוזיקה, לא יסתנכרנו.',
+  'subs.synced.limit3': 'נמצאים היסטים של עד ±10 דקות.',
+
   // Subs API Keys Page
   'subs.keys.title': 'מפתחות API',
   'subs.keys.p1':
@@ -371,10 +476,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'חבילת NPM',
 
   'subs.keys.limit.h2': 'הגעה למגבלה',
+  'subs.keys.limit.p':
+    'חיפוש עולה 1 בקשה וכל הורדת כתובית עולה 1 בקשה, כך שחיפוש אחד והורדת קובץ אחד צורכים 2. תרגום בינה מלאכותית עולה 100 בקשות לכל קריאה.',
   'subs.keys.limit.free':
     '**רמה חינמית** נוצלה -> ה-API מחזיר 429 עם כותרות X-RateLimit-Reset ו-Retry-After. מונה יומי מתאפס בחצות UTC.',
   'subs.keys.limit.paid':
     '**יתרה בתשלום** מוצתה -> ה-API מחזיר 402. הוסף יתרה בכתובת [store.wyzie.io/topup](https://store.wyzie.io/topup) או הפעל **תוספת אוטומטית** בלוח הבקרה שלך לטעינה מחדש אוטומטית כאשר היתרה שלך חוצה סף שאתה מגדיר.',
+  'subs.keys.hold.p1':
+    'מפתחות ששולחים נפח גבוה מאוד, בעיקר מכתובות IP של מרכזי נתונים או אחסון, מושהים אוטומטית. מפתח מושהה מקבל 403 Key on hold בכל בקשה, עם קישור לשחזור (https://store.wyzie.io/verify) וקישור לתמיכה (https://store.wyzie.io/contact) ב-JSON.',
+  'subs.keys.hold.p2':
+    'כדי לשחזר את המפתח מיד, אמת את האתר שבו אתה משתמש בו בכתובת [store.wyzie.io/verify](https://store.wyzie.io/verify) עם רשומת DNS TXT או תג meta. מפתח עם אתר מאומת לעולם לא יושהה אוטומטית שוב, כך שאתרים עמוסים יכולים לאמת עוד לפני שהם מושהים אי פעם.',
+  'subs.keys.hold.p3':
+    'אין אתר, למשל שירות backend או אפליקציה? [צור קשר עם התמיכה](https://store.wyzie.io/contact) כדי לשחזר את המפתח.',
+
+  'subs.keys.files.h2': 'מה יש בקבצים',
+  'subs.keys.files.adfilter':
+    '**סינון פרסומות** – מכל כתובית המוגשת דרך sub.wyzie.io מוסרים קטעי הפרסום של הספקים (באנרים של OpenSubtitles, פרסומות הימורים, שורות "watch free at ..."). קטעי ה-SRT ממוספרים מחדש כך ששום דבר לא מדלג. כל ספק, כולל OpenSubtitles, מוגש דרך sub.wyzie.io כך שהסינון חל על כולם.',
+  'subs.keys.files.promo':
+    '**מפתחות חינמיים ומפתחות פיתוח** מקבלים קטע כתובית קצר אחד ממש בתחילת כל קובץ (0–6 s) המפנה ל-[store.wyzie.io](https://store.wyzie.io). מפתחות בתשלום מקבלים קבצים נקיים ללא קטע כזה.',
 
   'subs.keys.faq.h2': 'שאלות נפוצות',
   'subs.keys.faq.q1': 'איבדתי את המפתח שלי. אפשר לקבל חדש?',

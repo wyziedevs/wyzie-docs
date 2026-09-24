@@ -203,7 +203,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.hi':
     'Boolean pentru subtitluri pentru persoane cu deficiențe de auz.',
   'subs.pkg.param.source':
-    'Furnizori de subtitluri de interogat (all pentru fiecare sursă activată).',
+    'Furnizori de subtitluri de interogat, după numele de cod (all pentru fiecare sursă activă pe care o poate folosi cheia ta; implicit charlie).',
   'subs.pkg.param.release': 'Filtre release/scene (acceptă o listă).',
   'subs.pkg.param.filename':
     'Filtre pentru numele fișierului; aliasurile file și fileName sunt suportate.',
@@ -215,7 +215,7 @@ const messages: Record<string, string> = {
     'Ocolește cache-ul și obține rezultate proaspete din surse.',
 
   'subs.pkg.helpers':
-    'Pachetul include de asemenea ajutoare TMDB ușoare: searchTmdb, getTvDetails și getSeasonDetails pentru găsirea rapidă a ID-urilor înainte de a accesa /search. În plus, getSources poate fi folosit pentru a obține lista surselor de subtitluri activate în prezent.',
+    'Pachetul include de asemenea ajutoare TMDB ușoare: searchTmdb, getTvDetails și getSeasonDetails pentru găsirea rapidă a ID-urilor înainte de a accesa /search. getSources returnează numele de cod ale surselor active (o sursă suspendată de verificările de stare este omisă până își revine), iar getSourcesInfo returnează răspunsul complet /sources cu nivelurile de plan și, dacă primește o cheie, sursele pe care acea cheie le poate folosi. withDownloadOptions adaugă opțiuni de descărcare (ieșire WebVTT, corecții de sincronizare, o a doua limbă și altele) la url-ul unui rezultat.',
   'subs.pkg.types.h3': 'Tipuri',
   'subs.pkg.type.search': 'Toți parametrii valizi recunoscuți de API.',
   'subs.pkg.type.query':
@@ -223,6 +223,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'Toate valorile returnate de API cu tipurile lor respective.',
   'subs.pkg.type.sources': 'Tipul de răspuns de la endpoint-ul /sources.',
+  'subs.pkg.type.download':
+    'Opțiuni pentru withDownloadOptions: to, offset, fps, plain și (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Intrarea și rezultatul pentru syncSubtitle (Wyzie Synced, chei Pro): ce subtitlu (un rezultat, url-ul lui sau tmdb_id/imdb_id cu language), segmentele de vorbire (speech) găsite de detectSpeech sau fișierul media, precum și linkul de descărcare sincronizat, cu valorile offset, fps și confidence. Vezi [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'Tipurile noastre sunt foarte simple și bine documentate. Consultă fișierul types.ts legat în depozitul GitHub.',
   'subs.pkg.config.h3': 'Configurare',
@@ -262,6 +266,10 @@ const messages: Record<string, string> = {
     'Cheia ta API (obligatorie). Obține una gratuită la store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'Ocolește cache-ul și obține rezultate proaspete. Folosește când sursele s-ar putea fi actualizat.',
+  'subs.direct.param.page':
+    'Pagina de returnat, numerotată de la 1. Se folosește doar împreună cu limit.',
+  'subs.direct.param.limit':
+    'Rezultate per pagină (de la 1 la 200). Fără acest parametru, toate rezultatele vin într-un singur răspuns.',
   'subs.direct.important.imdb':
     "Când folosești un ID IMDB, asigură-te că primele două caractere ('tt') sunt incluse la începutul ID-ului.",
 
@@ -291,6 +299,33 @@ const messages: Record<string, string> = {
     'Filtrul furnizat de utilizator care a corespuns (dacă a fost furnizat).',
   'subs.direct.data.ai':
     'true dacă intrarea este un subtitlu tradus de AI, false pentru subtitluri normale extrase. Folosește-l ca filtru pe partea clientului când vrei doar unul sau celălalt.',
+  'subs.direct.download.p':
+    'Fiecare url dintr-un răspuns /search indică spre https://sub.wyzie.io/c/... și conține un parametru de interogare tok. tok este criptat, deci nu dezvăluie cheia ta API, și rămâne valabil 60 de zile. Folosește URL-ul exact așa cum este. O căutare costă 1 cerere și fiecare descărcare costă încă 1, taxate din cheia care a făcut căutarea. Când acea cheie nu poate plăti descărcarea, linkul este refuzat:',
+  'subs.direct.dl.p':
+    'Adaugă-le la un URL de descărcare pentru a schimba ce returnează. Funcționează la fiecare descărcare, din cache sau nu, și nu costă nimic în plus (cu excepția dual, mai jos). Antetul de răspuns X-Subtitle-Transforms enumeră ce s-a aplicat, cu numărul de modificări.',
+  'subs.direct.dl.param.to':
+    'Formatul de ieșire: `srt` sau `vtt`. `vtt` se redă direct într-un element `<track>` din browser. Implicit: formatul propriu al fișierului.',
+  'subs.direct.dl.param.offset':
+    'Decalează fiecare rând cu acest număr de secunde (negativ înseamnă mai devreme).',
+  'subs.direct.dl.param.fps':
+    'Corectează desincronizarea progresivă a unui subtitlu făcut pentru alt release: `SUBTITLE_FPS:VIDEO_FPS`, ex. `25:23.976` pentru un subtitlu PAL pe un video cu rata de cadre de film.',
+  'subs.direct.dl.param.plain':
+    'Rânduri simple și ordonate: codurile de stil precum `{\\an8}` și `<font>` sunt eliminate, rândurile goale și repetate sunt șterse, rândurile sunt puse în ordine cronologică, iar suprapunerile mici sunt tăiate.',
+  'subs.direct.dl.param.sdh':
+    'Elimină textul pentru persoane cu deficiențe de auz: `[DOOR SLAMS]`, `(sighs)`, etichetele de vorbitor de tip `JOHN:` și versurile marcate cu ♪.',
+  'subs.direct.dl.param.clean':
+    'Maschează înjurăturile grosolane, păstrând prima literă (`f***`). Numai fișiere în engleză.',
+  'subs.direct.dl.param.dual':
+    'Adaugă o a doua limbă (cod ISO 639-1) sub fiecare rând, aliniată cu temporizarea acestui fișier. Costă 1 cerere în plus, doar când se găsește o potrivire; altfel fișierul vine singur, cu `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    'Opțiunile se pot combina, ex. `&to=vtt&sdh=strip&offset=-1.5`. Linkurile conțin deja `format`, `encoding`, `id` și (pentru episoade) `season` și `episode`: lasă-le așa cum sunt. `autoUnzip=false` returnează arhiva ca atare.',
+  'subs.direct.headers.p':
+    'Fiecare răspuns /search include un antet X-Total-Count cu numărul total de rezultate. Când transmiți limit, include și:',
+  'subs.direct.header.xpage': 'pagina returnată.',
+  'subs.direct.header.xperpage': 'valoarea limit aplicată.',
+  'subs.direct.header.xtotalpages': 'numărul total de pagini.',
+  'subs.direct.headers.rate':
+    'Răspunsurile includ și X-RateLimit-Limit, X-RateLimit-Remaining și X-RateLimit-Reset. Tratează-le ca aproximative: utilizarea este decontată cu facturarea în loturi scurte, așa că pot rămâne ușor în urma utilizării tale reale.',
 
   // Subs Translate Page
   'subs.translate.title': 'Traducere AI a Subtitlurilor',
@@ -351,6 +386,79 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'Traducerile sunt facturate și la cache hit. Indiferent dacă sunt generate proaspăt sau servite din cache-ul de 30 de zile, fiecare cerere /translate costă 100 de cereri.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced este o **funcție Pro**: cheile gratuite primesc 403 Paid feature. Fiecare sincronizare reușită costă **1 cerere**; o sincronizare care nu găsește o potrivire nu este taxată. Descărcarea linkului sincronizat se contorizează apoi ca orice altă descărcare.',
+  'subs.synced.p1':
+    'Subtitlurile găsite online sunt adesea sincronizate pentru alt release decât videoclipul tău: încep cu câteva secunde prea devreme sau prea târziu, ori se decalează tot mai mult pe parcursul filmului, pentru că acel release rulează la o altă rată de cadre. Wyzie Synced ascultă sunetul copiei tale, găsește unde vorbesc oamenii și calculează decalajul (offset) și corecția ratei de cadre (fps) care aliniază subtitlul cu acesta. Primești un link de descărcare obișnuit cu corecția aplicată ([opțiunile de descărcare](/subs/usage/direct#download-options) offset și fps).',
+  'subs.synced.web.p':
+    'Cea mai simplă cale: deschide [sub.wyzie.io/synced](https://sub.wyzie.io/synced), introdu cheia ta Pro, alege fișierul video și titlul, apoi descarcă subtitlul sincronizat. Sunetul este analizat în browserul tău, deci videoclipul nu este încărcat niciodată: sunt trimise doar momentele în care se vorbește. Funcționează MKV, MP4, AVI și majoritatea celorlalte formate, inclusiv audio AC3, E-AC3 și DTS.',
+  'subs.synced.api.p':
+    'Trimite ce subtitlu vrei (un link de descărcare sau titlul, ca Wyzie să aleagă cea mai bună potrivire) și sunetul: fie momentele de vorbire detectate de tine, fie chiar fișierul audio/video.',
+  'subs.synced.param.url':
+    'Un link de descărcare din /search (https://sub.wyzie.io/c/…). Celelalte opțiuni de descărcare de pe el (to, sdh, …) sunt păstrate pe linkul sincronizat.',
+  'subs.synced.param.id':
+    'În loc de url: ID TMDB sau IMDB. Wyzie încearcă primele 5 subtitluri text în acea limbă și îl returnează pe cel care se potrivește cel mai bine cu sunetul tău.',
+  'subs.synced.param.language':
+    'Cu id: codul ISO 639-1 al limbii subtitlului (obligatoriu).',
+  'subs.synced.param.seasonEpisode':
+    'Cu id, pentru TV. Ambele trebuie să fie prezente împreună.',
+  'subs.synced.param.key':
+    'Cheia ta API Pro. Fără ea, se folosește cheia asociată cu tok din url; linkurile de pe pagina de descărcare fără cheie necesită key.',
+  'subs.synced.param.speech':
+    'Unde vorbesc oamenii: [[start, end], …] în secunde, de la orice detector de activitate vocală (detectSpeech din wyzie-lib, Silero VAD, webrtcvad). Un film de 2 ore are aproximativ 2.000 de segmente, circa 40 KB de JSON.',
+  'subs.synced.param.media':
+    'Sau chiar fișierul audio/video: ca un corp brut al cererii (cu celelalte câmpuri în șirul de interogare) sau ca un câmp multipart media. Până la 95 MB, deci pentru un film întreg încarcă doar pista audio.',
+  'subs.synced.fields.note':
+    'Câmpurile pot fi trimise într-un corp JSON, într-un formular multipart sau în șirul de interogare (cu un corp media brut).',
+  'subs.synced.response.p': 'Un răspuns 200 este în format JSON:',
+  'subs.synced.field.url':
+    'linkul de descărcare al subtitlului cu corecția de sincronizare (offset, fps) și un tok nou pentru cheia ta. Folosește-l ca pe orice url din /search: fiecare descărcare costă 1 cerere.',
+  'subs.synced.field.offset':
+    'secunde adăugate la fiecare rând după corecția ratei de cadre (negativ înseamnă mai devreme).',
+  'subs.synced.field.fps':
+    'corecția ratei de cadre sub forma SUBTITLE_FPS:VIDEO_FPS (ex. "25:23.976") sau null când nu a fost necesară.',
+  'subs.synced.field.confidence':
+    'de la 0 la 1: cât de clar depășește această sincronizare toate celelalte variante. Orice rezultat returnat a trecut testul de potrivire; o valoare mai mare înseamnă mai multă certitudine.',
+  'subs.synced.field.inSync':
+    'true când subtitlul era deja sincronizat cu copia ta.',
+  'subs.synced.field.subtitle':
+    'ce subtitlu a fost folosit (release, fileName, format, source, …). Cu url, doar formatul său.',
+  'subs.synced.errors.p':
+    'Erorile sunt JSON cu message și details. Sincronizările refuzate și eșuate nu sunt taxate.',
+  'subs.synced.error.400':
+    'Câmpuri lipsă sau invalide: niciun subtitlu, niciun audio sau speech care nu este format din perechi [start, end].',
+  'subs.synced.error.401':
+    'Nicio cheie sau linkul de descărcare din url este invalid ori expirat.',
+  'subs.synced.error.403':
+    'Cheia este gratuită (Wyzie Synced necesită Pro), invalidă sau suspendată.',
+  'subs.synced.error.404':
+    'Nu există subtitluri text în acea limbă pentru titlu.',
+  'subs.synced.error.413':
+    'Fișierul media depășește 95 MB. Încarcă doar pista audio sau trimite speech.',
+  'subs.synced.error.422':
+    'Subtitlul nu se aliniază cu sunetul la niciun decalaj sau rată de cadre (probabil altă versiune de montaj sau alt episod), sunetul conține prea puțină vorbire sau fișierul nu poate fi decodat.',
+  'subs.synced.error.429':
+    'Cheia nu poate plăti cererea, la fel ca la orice alt apel.',
+  'subs.synced.error.503':
+    'Serverul este ocupat cu decodarea altor încărcări sau căutarea este temporar indisponibilă. Reîncearcă în scurt timp sau trimite speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib include detectSpeech (același detector pe care site-ul îl rulează în browserul tău) și syncSubtitle:',
+  'subs.synced.how.step1':
+    'Vorbirea: sunetul este decodat la 8 kHz mono (doar canalul central pentru mixajele 5.1 și 7.1, unde se află dialogul), iar un detector de activitate vocală marchează unde vorbesc oamenii: sunet puternic, în banda vocii, care crește și scade odată cu silabele.',
+  'subs.synced.how.step2':
+    'Alinierea: timpii de afișare ai subtitlului sunt corelați încrucișat cu acea vorbire la fiecare decalaj din intervalul ±10 minute, pentru nepotrivirile obișnuite de rată de cadre (25 vs 23.976, 25 vs 24, 24 vs 23.976 fps).',
+  'subs.synced.how.step3':
+    'Rafinarea: cea mai bună sincronizare este rafinată la 10 ms prin alinierea începuturilor rândurilor cu începuturile vorbirii.',
+  'subs.synced.how.step4':
+    "O sincronizare este returnată doar când iese mult în evidență față de orice alt decalaj, astfel încât un subtitlu pentru altă versiune de montaj sau alt episod primește 422 Couldn't sync în loc de un decalaj greșit.",
+  'subs.synced.limit1':
+    'Wyzie Synced corectează un decalaj constant și o diferență de rată de cadre. Un subtitlu pentru altă versiune de montaj (cu scene adăugate sau lipsă) nu poate fi corectat printr-un singur decalaj, așa că este refuzat.',
+  'subs.synced.limit2':
+    'Are nevoie de vorbire: filmele cu puțin dialog sau cu un sunet format în mare parte din muzică s-ar putea să nu se sincronizeze.',
+  'subs.synced.limit3': 'Sunt găsite decalaje de până la ±10 minute.',
+
   // Subs API Keys Page
   'subs.keys.title': 'Chei API',
   'subs.keys.p1':
@@ -401,10 +509,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'Pachet NPM',
 
   'subs.keys.limit.h2': 'Atingerea Limitei',
+  'subs.keys.limit.p':
+    'O căutare costă 1 cerere și fiecare descărcare de subtitlu costă 1 cerere, deci o căutare urmată de descărcarea unui fișier consumă 2. Traducerea AI costă 100 de cereri per apel.',
   'subs.keys.limit.free':
     '**Nivelul gratuit** epuizat -> API returnează 429 cu antetele X-RateLimit-Reset și Retry-After. Contorul zilnic se resetează la miezul nopții UTC.',
   'subs.keys.limit.paid':
     '**Soldul plătit** epuizat -> API returnează 402. Reîncarcă la [store.wyzie.io/topup](https://store.wyzie.io/topup) sau activează **reîncărcarea automată** în tabloul tău de bord pentru a reumple automat când soldul tău trece sub un prag pe care îl setezi.',
+  'subs.keys.hold.p1':
+    'Cheile care trimit un volum foarte mare de cereri, în mare parte de pe IP-uri de datacenter sau de hosting, sunt suspendate automat. O cheie suspendată primește 403 Key on hold la fiecare cerere, cu un link de reactivare (https://store.wyzie.io/verify) și un link de suport (https://store.wyzie.io/contact) în JSON.',
+  'subs.keys.hold.p2':
+    'Pentru a reactiva cheia imediat, verifică site-ul pe care o folosești la [store.wyzie.io/verify](https://store.wyzie.io/verify) cu o înregistrare DNS TXT sau o etichetă meta. O cheie cu un site verificat nu mai este niciodată suspendată automat, așa că site-urile cu trafic mare se pot verifica înainte de a fi suspendate vreodată.',
+  'subs.keys.hold.p3':
+    'Nu ai un site, de exemplu pentru un serviciu backend sau o aplicație? [Contactează suportul](https://store.wyzie.io/contact) pentru a reactiva cheia.',
+
+  'subs.keys.files.h2': 'Ce Conțin Fișierele',
+  'subs.keys.files.adfilter':
+    '**Filtrarea reclamelor** – din fiecare subtitlu servit prin sub.wyzie.io sunt eliminate intrările publicitare ale furnizorilor (bannere OpenSubtitles, reclame la pariuri, rânduri de tip "watch free at ..."). Intrările SRT sunt renumerotate, ca să nu rămână goluri în numerotare. Fiecare furnizor, inclusiv OpenSubtitles, este servit prin sub.wyzie.io, așa că filtrul se aplică tuturor.',
+  'subs.keys.files.promo':
+    '**Cheile gratuite și de dezvoltare** primesc o intrare scurtă chiar la începutul fiecărui fișier (0–6 s) care trimite la [store.wyzie.io](https://store.wyzie.io). Cheile plătite primesc fișiere curate, fără această intrare.',
 
   'subs.keys.faq.h2': 'Întrebări Frecvente',
   'subs.keys.faq.q1': 'Mi-am pierdut cheia. Pot obține una nouă?',

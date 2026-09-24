@@ -200,7 +200,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.encoding': 'Karakter kodlama filtresi (örn. utf-8, latin-1).',
   'subs.pkg.param.hi': 'İşitme engelli altyazılar için boolean.',
   'subs.pkg.param.source':
-    'Sorgulanacak altyazı sağlayıcıları (tüm etkin kaynaklar için all).',
+    'Kod adıyla sorgulanacak altyazı sağlayıcıları (anahtarınızın kullanabileceği tüm etkin kaynaklar için all; varsayılan charlie).',
   'subs.pkg.param.release': 'Sürüm/sahne filtreleri (liste kabul eder).',
   'subs.pkg.param.filename':
     'Dosya adı filtreleri; file ve fileName takma adları desteklenir.',
@@ -211,7 +211,7 @@ const messages: Record<string, string> = {
     'Önbelleği atla ve kaynaklardan taze sonuçlar getir.',
 
   'subs.pkg.helpers':
-    "Paket ayrıca hafif TMDB yardımcıları da içerir: /search'e gitmeden önce ID'leri hızlıca bulmak için searchTmdb, getTvDetails ve getSeasonDetails. Ayrıca getSources, şu anda etkin altyazı kaynaklarının listesini çekmek için kullanılabilir.",
+    "Paket ayrıca hafif TMDB yardımcıları da içerir: /search'e gitmeden önce ID'leri hızlıca bulmak için searchTmdb, getTvDetails ve getSeasonDetails. getSources etkin kaynakların kod adlarını döndürür (sağlık kontrolleri tarafından duraklatılan bir kaynak, düzelene kadar listeye alınmaz); getSourcesInfo ise katmanlarla birlikte /sources yanıtının tamamını ve bir anahtar verildiğinde o anahtarın hangi kaynakları kullanabileceğini döndürür. withDownloadOptions, bir sonucun url'sine indirme seçenekleri (WebVTT çıktısı, zamanlama düzeltmeleri, ikinci bir dil ve daha fazlası) ekler.",
   'subs.pkg.types.h3': 'Türler',
   'subs.pkg.type.search': 'API tarafından tanınan tüm geçerli parametreler.',
   'subs.pkg.type.query':
@@ -219,6 +219,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     "API'den dönen tüm değerler ve bunlara karşılık gelen türler.",
   'subs.pkg.type.sources': '/sources uç noktasından dönen yanıt türü.',
+  'subs.pkg.type.download':
+    'withDownloadOptions seçenekleri: to, offset, fps, plain ve (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    "syncSubtitle'ın girdisi ve sonucu (Wyzie Synced, Pro anahtarlar): hangi altyazı (bir sonuç, onun url'si veya language ile birlikte tmdb_id/imdb_id), detectSpeech'in bulduğu konuşma aralıkları (speech) ya da media dosyası ve offset, fps ve confidence değerleriyle birlikte senkronize indirme bağlantısı. [Wyzie Synced](/subs/usage/synced) sayfasına bakın.",
   'subs.pkg.types.end':
     'Türlerimiz çok basit ve iyi belgelenmiştir. GitHub deposunda bağlantılı types.ts dosyasına göz atın.',
   'subs.pkg.config.h3': 'Yapılandırma',
@@ -257,6 +261,10 @@ const messages: Record<string, string> = {
     'API anahtarınız (gerekli). store.wyzie.io/redeem adresinden ücretsiz alın.',
   'subs.direct.param.refresh':
     'Önbelleği atla ve taze sonuçlar getir. Kaynakların güncellenmiş olabileceği durumlarda kullanın.',
+  'subs.direct.param.page':
+    "Döndürülecek sayfa, 1'den başlar. Yalnızca limit ile birlikte kullanılır.",
+  'subs.direct.param.limit':
+    'Sayfa başına sonuç sayısı (1 ile 200 arası). Belirtilmezse tüm sonuçlar tek bir yanıtta döner.',
   'subs.direct.important.imdb':
     "IMDB ID kullanırken, ID'nin başında ilk iki karakterin ('tt') bulunduğundan emin olun.",
 
@@ -284,6 +292,33 @@ const messages: Record<string, string> = {
     'Eşleşen kullanıcı tarafından sağlanan filtre (sağlandıysa).',
   'subs.direct.data.ai':
     'Giriş AI çevirisi bir altyazıysa true, normal kazınmış altyazılar için false. Yalnızca birini veya diğerini istediğinizde istemci taraflı filtre olarak kullanın.',
+  'subs.direct.download.p':
+    "Bir /search yanıtındaki her url, https://sub.wyzie.io/c/... adresine işaret eder ve bir tok sorgu parametresi taşır. tok şifrelenmiştir, bu yüzden API anahtarınızı açığa çıkarmaz ve 60 gün boyunca geçerli kalır. URL'yi olduğu gibi kullanın. Bir arama 1 istek, her indirme de 1 istek daha harcar ve bunlar aramayı yapan anahtara faturalandırılır. O anahtar bir indirmenin bedelini karşılayamadığında bağlantı reddedilir:",
+  'subs.direct.dl.p':
+    "Döndürülen içeriği değiştirmek için bunları bir indirme URL'sine ekleyin. Önbellekte olsun ya da olmasın her indirmede çalışırlar ve ek bir maliyetleri yoktur (aşağıdaki dual hariç). X-Subtitle-Transforms yanıt başlığı, nelerin uygulandığını sayılarıyla birlikte listeler.",
+  'subs.direct.dl.param.to':
+    'Çıktı biçimi: `srt` veya `vtt`. `vtt` doğrudan bir tarayıcı `<track>` öğesinde oynatılır. Varsayılan: dosyanın kendi biçimi.',
+  'subs.direct.dl.param.offset':
+    'Her satırı bu kadar saniye kaydırır (negatif değer daha erken demektir).',
+  'subs.direct.dl.param.fps':
+    'Başka bir sürüm için hazırlanmış bir altyazıdaki kaymayı düzeltir: `SUBTITLE_FPS:VIDEO_FPS`, örn. film kare hızındaki bir videoda PAL altyazı için `25:23.976`.',
+  'subs.direct.dl.param.plain':
+    'Sade, düzenli satırlar: `{\\an8}` ve `<font>` gibi biçimlendirme kodları kaldırılır, boş ve tekrarlanan satırlar atılır, satırlar zaman sırasına dizilir, küçük çakışmalar kırpılır.',
+  'subs.direct.dl.param.sdh':
+    'İşitme engelliler için eklenen metinleri kaldırır: `[DOOR SLAMS]`, `(sighs)`, `JOHN:` gibi konuşmacı etiketleri ve ♪ şarkı sözleri.',
+  'subs.direct.dl.param.clean':
+    'Ağır küfürleri ilk harfi koruyarak maskeler (`f***`). Yalnızca İngilizce dosyalarda çalışır.',
+  'subs.direct.dl.param.dual':
+    'Her satırın altına, bu dosyanın zamanlamasıyla hizalanmış ikinci bir dil (ISO 639-1 kodu) ekler. Yalnızca eşleşme bulunduğunda 1 ek istek harcar; aksi halde dosya `X-Dual: unavailable` ile tek başına döner.',
+  'subs.direct.dl.after':
+    'Seçenekler birleştirilebilir, örn. `&to=vtt&sdh=strip&offset=-1.5`. Bağlantılar zaten `format`, `encoding`, `id` ve (bölümler için) `season` ile `episode` içerir: bunları olduğu gibi bırakın. `autoUnzip=false` bir arşivi olduğu gibi döndürür.',
+  'subs.direct.headers.p':
+    'Her /search yanıtı, toplam sonuç sayısını gösteren bir X-Total-Count başlığı içerir. limit parametresini geçtiğinizde şunları da içerir:',
+  'subs.direct.header.xpage': 'döndürülen sayfa.',
+  'subs.direct.header.xperpage': 'uygulanan limit değeri.',
+  'subs.direct.header.xtotalpages': 'toplam sayfa sayısı.',
+  'subs.direct.headers.rate':
+    'Yanıtlar ayrıca X-RateLimit-Limit, X-RateLimit-Remaining ve X-RateLimit-Reset başlıklarını da taşır. Bunları yaklaşık değerler olarak kabul edin: kullanım, faturalandırmayla kısa gruplar halinde eşitlendiği için bu değerler gerçek kullanımınızın biraz gerisinde kalabilir.',
 
   // Subs Translate Page
   'subs.translate.title': 'AI Altyazı Çevirisi',
@@ -344,6 +379,77 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'Çeviriler önbellek isabetlerinde de faturalandırılır. Taze oluşturulmuş veya 30 günlük önbellekten sunulmuş olsun, her /translate isteği 100 istek harcar.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced bir **Pro özelliğidir**: ücretsiz anahtarlar 403 Paid feature alır. Her başarılı senkronizasyon **1 istek** harcar; eşleşme bulamayan bir senkronizasyon ücretlendirilmez. Senkronize bağlantının indirilmesi ise diğer tüm indirmeler gibi sayılır.',
+  'subs.synced.p1':
+    'İnternette bulunan altyazılar çoğu zaman elinizdeki videodan farklı bir sürüme göre zamanlanmıştır: birkaç saniye erken ya da geç başlarlar veya o sürüm farklı bir kare hızında çalıştığı için film ilerledikçe giderek daha fazla kayarlar. Wyzie Synced, kopyanızın sesini dinler, insanların konuştuğu yerleri bulur ve altyazıyı sesle hizalayan kaydırmayı ve kare hızı düzeltmesini hesaplar. Düzeltmenin uygulandığı normal bir indirme bağlantısı alırsınız (offset ve fps [indirme seçenekleri](/subs/usage/direct#download-options)).',
+  'subs.synced.web.p':
+    'En kolay yol: [sub.wyzie.io/synced](https://sub.wyzie.io/synced) adresini açın, Pro anahtarınızı girin, video dosyanızı ve ilgili başlığı seçin, ardından senkronize altyazıyı indirin. Ses tarayıcınızda analiz edilir, bu yüzden video hiçbir zaman yüklenmez: yalnızca konuşma zamanlamaları gönderilir. AC3, E-AC3 ve DTS ses dahil olmak üzere MKV, MP4, AVI ve diğer çoğu biçim desteklenir.',
+  'subs.synced.api.p':
+    "Hangi altyazıyı istediğinizi (bir indirme bağlantısı ya da Wyzie'nin en iyi eşleşmeyi seçmesi için başlık) ve sesi gönderin: ya kendiniz tespit ettiğiniz konuşma zamanlamalarını ya da ses/video dosyasının kendisini.",
+  'subs.synced.param.url':
+    "/search'ten alınan bir indirme bağlantısı (https://sub.wyzie.io/c/…). Üzerindeki diğer indirme seçenekleri (to, sdh, …) senkronize bağlantıda korunur.",
+  'subs.synced.param.id':
+    "url yerine: TMDB veya IMDB ID'si. Wyzie o dildeki en iyi 5 metin altyazıyı dener ve sesinize en iyi uyanı döndürür.",
+  'subs.synced.param.language':
+    'id ile: altyazı dilinin ISO 639-1 kodu (gerekli).',
+  'subs.synced.param.seasonEpisode':
+    'id ile, TV için. Her ikisi de birlikte bulunmalıdır.',
+  'subs.synced.param.key':
+    "Pro API anahtarınız. Verilmezse url'deki tok'un ait olduğu anahtar kullanılır; anahtarsız indirme sayfasından gelen bağlantılar key gerektirir.",
+  'subs.synced.param.speech':
+    "İnsanların konuştuğu yerler: saniye cinsinden [[start, end], …], herhangi bir ses etkinliği algılayıcısından (wyzie-lib'in detectSpeech'i, Silero VAD, webrtcvad). 2 saatlik bir film kabaca 2.000 segment, yani yaklaşık 40 KB JSON eder.",
+  'subs.synced.param.media':
+    'Ya da ses/video dosyasının kendisi: ham istek gövdesi olarak (diğer alanlar sorgu dizesinde) veya media multipart alanı olarak. En fazla 95 MB; bu yüzden tam bir film için yalnızca ses parçasını yükleyin.',
+  'subs.synced.fields.note':
+    'Alanlar bir JSON gövdesinde, multipart formda veya sorgu dizesinde (ham bir media gövdesiyle) gönderilir.',
+  'subs.synced.response.p': '200 yanıtı JSON biçimindedir:',
+  'subs.synced.field.url':
+    "zamanlama düzeltmesini (offset, fps) ve anahtarınız için yeni bir tok içeren altyazı indirme bağlantısı. Herhangi bir /search url'si gibi kullanın: her indirme 1 istek harcar.",
+  'subs.synced.field.offset':
+    'kare hızı düzeltmesinden sonra her satıra eklenen saniye (negatif değer daha erken demektir).',
+  'subs.synced.field.fps':
+    'SUBTITLE_FPS:VIDEO_FPS biçiminde kare hızı düzeltmesi (örn. "25:23.976") veya düzeltme gerekmediğinde null.',
+  'subs.synced.field.confidence':
+    '0 ile 1 arası: bu zamanlamanın diğer tüm zamanlamaları ne kadar açık farkla geçtiği. Döndürülen her sonuç eşleşme testini geçmiştir; değer yükseldikçe kesinlik artar.',
+  'subs.synced.field.inSync': 'altyazı kopyanızla zaten uyumluysa true.',
+  'subs.synced.field.subtitle':
+    'hangi altyazının kullanıldığı (release, fileName, format, source, …). url kullanıldığında yalnızca format alanı.',
+  'subs.synced.errors.p':
+    "Hatalar, message ve details alanlarını içeren JSON'dur. Reddedilen ve başarısız senkronizasyonlar ücretlendirilmez.",
+  'subs.synced.error.400':
+    'Eksik veya geçersiz alanlar: altyazı yok, ses yok ya da speech [start, end] çiftlerinden oluşmuyor.',
+  'subs.synced.error.401':
+    "Anahtar yok ya da url'deki indirme bağlantısı geçersiz veya süresi dolmuş.",
+  'subs.synced.error.403':
+    'Anahtar ücretsiz (Wyzie Synced için Pro gerekir), geçersiz veya askıya alınmış.',
+  'subs.synced.error.404': 'Bu başlık için o dilde metin altyazı yok.',
+  'subs.synced.error.413':
+    'Gönderilen media dosyası 95 MB sınırını aşıyor. Yalnızca ses parçasını yükleyin ya da speech gönderin.',
+  'subs.synced.error.422':
+    'Altyazı hiçbir kaydırma veya kare hızında sesle hizalanmıyor (muhtemelen farklı bir kurgu ya da bölüm), seste çok az konuşma var veya dosyanın kodu çözülemiyor.',
+  'subs.synced.error.429':
+    'Anahtar, diğer tüm çağrılarda olduğu gibi isteğin bedelini karşılayamıyor.',
+  'subs.synced.error.503':
+    'Sunucu diğer yüklemelerin kodunu çözmekle meşgul ya da arama kısa süreliğine kullanılamıyor. Biraz sonra yeniden deneyin ya da speech gönderin.',
+  'subs.synced.lib.p':
+    'wyzie-lib, detectSpeech (sitenin tarayıcınızda çalıştırdığı algılayıcının aynısı) ve syncSubtitle içerir:',
+  'subs.synced.how.step1':
+    "Konuşma: sesin kodu çözülerek 8 kHz mono'ya dönüştürülür (5.1 ve 7.1 miksajlarda yalnızca diyaloğun bulunduğu merkez kanal kullanılır) ve bir ses etkinliği algılayıcısı insanların konuştuğu yerleri işaretler: hecelerle yükselip alçalan, konuşma bandındaki yüksek sesler.",
+  'subs.synced.how.step2':
+    'Hizalama: altyazının ekrandaki zamanları, yaygın kare hızı uyumsuzlukları (25 ile 23,976, 25 ile 24, 24 ile 23,976 fps) için ±10 dakika içindeki her kaydırmada o konuşmayla çapraz korelasyona sokulur.',
+  'subs.synced.how.step3':
+    'İnce ayar: satırların başladığı yerler konuşmanın başladığı yerlerle hizalanarak en iyi zamanlama 10 ms hassasiyete kadar iyileştirilir.',
+  'subs.synced.how.step4':
+    "Bir zamanlama yalnızca diğer tüm kaydırmaların çok üzerinde olduğunda döndürülür; böylece başka bir kurgu veya bölüm için hazırlanmış bir altyazı, yanlış bir kaydırma yerine 422 Couldn't sync alır.",
+  'subs.synced.limit1':
+    'Wyzie Synced sabit bir kaydırmayı ve kare hızı farkını düzeltir. Farklı bir kurguya ait bir altyazı (eklenmiş veya eksik sahneler) tek bir kaydırmayla düzeltilemez ve reddedilir.',
+  'subs.synced.limit2':
+    'Konuşma gerektirir: az diyaloglu filmler veya çoğunlukla müzikten oluşan sesler senkronize edilemeyebilir.',
+  'subs.synced.limit3': '±10 dakikaya kadar olan kaymalar bulunur.',
+
   // Subs API Keys Page
   'subs.keys.title': 'API Anahtarları',
   'subs.keys.p1':
@@ -394,10 +500,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'NPM Paketi',
 
   'subs.keys.limit.h2': 'Limite Ulaşma',
+  'subs.keys.limit.p':
+    'Bir arama 1 istek, her altyazı indirmesi de 1 istek harcar; yani bir kez arama yapıp bir dosya indirmek 2 istek kullanır. AI çevirisi çağrı başına 100 istek harcar.',
   'subs.keys.limit.free':
     '**Ücretsiz katman** tükendi -> API, X-RateLimit-Reset ve Retry-After başlıklarıyla 429 döndürür. Günlük sayaç UTC gece yarısı sıfırlanır.',
   'subs.keys.limit.paid':
     "**Ücretli bakiye** tükendi -> API 402 döndürür. [store.wyzie.io/topup](https://store.wyzie.io/topup) adresinden üst doldurun veya belirlediğiniz bir eşiği aştığında bakiyenizi otomatik doldurmak için kontrol panelinizde **otomatik üst doldurma**'yı etkinleştirin.",
+  'subs.keys.hold.p1':
+    "Çoğunlukla veri merkezi veya barındırma IP'lerinden çok yüksek hacimde istek gönderen anahtarlar otomatik olarak askıya alınır. Askıya alınan bir anahtar her istekte 403 Key on hold alır; JSON içinde bir yeniden etkinleştirme bağlantısı (https://store.wyzie.io/verify) ve bir destek bağlantısı (https://store.wyzie.io/contact) bulunur.",
+  'subs.keys.hold.p2':
+    'Anahtarı hemen yeniden etkinleştirmek için, onu kullandığınız web sitesini [store.wyzie.io/verify](https://store.wyzie.io/verify) adresinde bir DNS TXT kaydı veya meta etiketiyle doğrulayın. Doğrulanmış bir sitesi olan anahtar bir daha asla otomatik olarak askıya alınmaz; bu yüzden yoğun trafikli siteler, hiç askıya alınmadan önce doğrulama yapabilir.',
+  'subs.keys.hold.p3':
+    'Web siteniz yok mu, örneğin bir arka uç hizmeti veya uygulama mı kullanıyorsunuz? Anahtarı yeniden etkinleştirmek için [destek ekibiyle iletişime geçin](https://store.wyzie.io/contact).',
+
+  'subs.keys.files.h2': 'Dosyalarda Neler Var',
+  'subs.keys.files.adfilter':
+    '**Reklam filtreleme** – sub.wyzie.io üzerinden sunulan her altyazıdan sağlayıcıların reklam ipuçları çıkarılır (OpenSubtitles banner\'ları, bahis tanıtımları, "watch free at ..." satırları). SRT ipuçları, hiçbir şey atlanmasın diye yeniden numaralandırılır. OpenSubtitles dahil her sağlayıcı sub.wyzie.io üzerinden sunulur, bu nedenle filtre hepsine uygulanır.',
+  'subs.keys.files.promo':
+    '**Ücretsiz ve geliştirici (dev) anahtarları**, her dosyanın en başında (0–6 s) [store.wyzie.io](https://store.wyzie.io) adresine yönlendiren kısa bir ipucu alır. Ücretli anahtarlar ipucu içermeyen temiz dosyalar alır.',
 
   'subs.keys.faq.h2': 'SSS',
   'subs.keys.faq.q1': 'Anahtarımı kaybettim. Yeni bir tane alabilir miyim?',

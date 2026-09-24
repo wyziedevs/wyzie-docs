@@ -183,7 +183,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.language': '字幕语言的 ISO 639-1 代码，支持列表。',
   'subs.pkg.param.encoding': '字符编码过滤器（例如 utf-8、latin-1）。',
   'subs.pkg.param.hi': '布尔值，用于筛选听障字幕。',
-  'subs.pkg.param.source': '要查询的字幕提供商（all 表示查询所有已启用来源）。',
+  'subs.pkg.param.source':
+    '按代号指定要查询的字幕提供商（all 表示你的密钥可用的所有在线来源；默认为 charlie）。',
   'subs.pkg.param.release': '发布版本/场景过滤器（支持列表）。',
   'subs.pkg.param.filename': '文件名过滤器，支持别名 file 和 fileName。',
   'subs.pkg.param.origin': '内容来源过滤器（例如 WEB、BLURAY、DVD）。',
@@ -192,12 +193,16 @@ const messages: Record<string, string> = {
   'subs.pkg.param.refresh': '绕过缓存，从来源获取最新结果。',
 
   'subs.pkg.helpers':
-    '该包还附带轻量级 TMDB 辅助函数：searchTmdb、getTvDetails 和 getSeasonDetails，可在请求 /search 前快速查找 ID。此外，getSources 可用于获取当前已启用的字幕来源列表。',
+    '该包还附带轻量级 TMDB 辅助函数：searchTmdb、getTvDetails 和 getSeasonDetails，可在请求 /search 前快速查找 ID。getSources 返回在线来源的代号（因健康检查而暂停的来源在恢复之前不会列出），getSourcesInfo 返回包含方案等级的完整 /sources 响应，传入密钥时还会返回该密钥可用的来源。withDownloadOptions 可为结果的 url 添加下载选项（WebVTT 输出、时间轴修正、第二语言等）。',
   'subs.pkg.types.h3': '类型',
   'subs.pkg.type.search': 'API 支持的所有有效参数。',
   'subs.pkg.type.query': 'wyzie-subs API 的所有参数（可选和必填）。',
   'subs.pkg.type.subtitle': 'API 返回的所有字段及其对应类型。',
   'subs.pkg.type.sources': '/sources 端点的响应类型。',
+  'subs.pkg.type.download':
+    'withDownloadOptions 的选项：to、offset、fps、plain，以及 Pro 专属的 sdh、clean、dual。',
+  'subs.pkg.type.sync':
+    'syncSubtitle 的输入和结果（Wyzie Synced，需 Pro 密钥）：要使用的字幕（某个结果、其 url，或 tmdb_id/imdb_id 加 language）、detectSpeech 检测到的 speech 或 media 文件，以及同步后的下载链接及其 offset、fps 和 confidence。请参阅 [Wyzie Synced](/subs/usage/synced)。',
   'subs.pkg.types.end':
     '我们的类型定义非常简洁且文档齐全。请查看 GitHub 仓库中链接的 types.ts 文件。',
   'subs.pkg.config.h3': '配置',
@@ -231,6 +236,10 @@ const messages: Record<string, string> = {
     '你的 API 密钥（必填）。在 store.wyzie.io/redeem 免费获取。',
   'subs.direct.param.refresh':
     '绕过缓存获取最新结果，适用于来源可能已更新的情况。',
+  'subs.direct.param.page':
+    '要返回的页码，从 1 开始。仅在与 limit 一起使用时生效。',
+  'subs.direct.param.limit':
+    '每页结果数（1 到 200）。不传入时，所有结果会在同一个响应中返回。',
   'subs.direct.important.imdb':
     "使用 IMDB ID 时，请确保 ID 开头包含前两个字符（'tt'）。",
 
@@ -255,6 +264,32 @@ const messages: Record<string, string> = {
   'subs.direct.data.matchedFilter': '匹配的用户自定义过滤器（如已提供）。',
   'subs.direct.data.ai':
     '若为 AI 翻译字幕则为 true，普通抓取字幕则为 false。当你只需要其中一种时，可在客户端用此字段进行过滤。',
+  'subs.direct.download.p':
+    '/search 响应中的每个 url 都指向 https://sub.wyzie.io/c/...，并带有 tok 查询参数。tok 经过加密，因此不会暴露你的 API 密钥，有效期为 60 天。请原样使用该 URL。每次搜索消耗 1 次请求，每次下载另外消耗 1 次，均计入执行该搜索的密钥。当该密钥无法支付下载费用时，链接会被拒绝：',
+  'subs.direct.dl.p':
+    '将这些参数添加到下载 URL 中，即可改变返回的内容。它们适用于每次下载（无论是否命中缓存），且不额外收费（下文的 dual 除外）。X-Subtitle-Transforms 响应头会列出实际应用的处理及相应数量。',
+  'subs.direct.dl.param.to':
+    '输出格式：`srt` 或 `vtt`。`vtt` 可直接在浏览器的 `<track>` 元素中播放。默认：文件原本的格式。',
+  'subs.direct.dl.param.offset': '将每行字幕平移指定的秒数（负数表示提前）。',
+  'subs.direct.dl.param.fps':
+    '修正为其他发布版本制作的字幕产生的时间漂移：`SUBTITLE_FPS:VIDEO_FPS`，例如 PAL 字幕配电影帧率的视频时使用 `25:23.976`。',
+  'subs.direct.dl.param.plain':
+    '输出简洁整齐的字幕行：移除 `{\\an8}` 和 `<font>` 等样式代码，删除空行和重复行，按时间顺序排列，并修剪轻微的重叠。',
+  'subs.direct.dl.param.sdh':
+    '移除为听障人士添加的文本：`[DOOR SLAMS]`、`(sighs)`、`JOHN:` 等说话人标签以及 ♪ 歌词。',
+  'subs.direct.dl.param.clean':
+    '屏蔽严重的脏话，仅保留首字母（`f***`）。仅适用于英语文件。',
+  'subs.direct.dl.param.dual':
+    '在每行字幕下方添加第二种语言（ISO 639-1 代码），并与本文件的时间轴对齐。仅在找到匹配字幕时额外消耗 1 次请求；否则只返回原文件，并附带 `X-Dual: unavailable`。',
+  'subs.direct.dl.after':
+    '选项可以组合使用，例如 `&to=vtt&sdh=strip&offset=-1.5`。链接中已带有 `format`、`encoding`、`id` 以及（剧集的）`season` 和 `episode`：请保持这些参数不变。`autoUnzip=false` 会原样返回压缩包。',
+  'subs.direct.headers.p':
+    '每个 /search 响应都包含 X-Total-Count 响应头，表示结果总数。当你传入 limit 时，还会包含：',
+  'subs.direct.header.xpage': '返回的页码。',
+  'subs.direct.header.xperpage': '当前生效的 limit。',
+  'subs.direct.header.xtotalpages': '总页数。',
+  'subs.direct.headers.rate':
+    '响应还会携带 X-RateLimit-Limit、X-RateLimit-Remaining 和 X-RateLimit-Reset 响应头。请将其视为近似值：用量会以短批次与计费系统结算，因此这些值可能略微滞后于你的实际用量。',
 
   // Subs Translate Page
   'subs.translate.title': 'AI 字幕翻译',
@@ -311,6 +346,74 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     '缓存命中也会计费。无论是全新生成还是从 30 天缓存中提供，每次 /translate 请求均消耗 100 次请求。',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced 是 **Pro 专属功能**：免费密钥会收到 403 Paid feature。每次成功同步消耗 **1 次请求**；未找到匹配的同步不计费。之后下载同步后的链接时，与其他下载一样计费。',
+  'subs.synced.p1':
+    '网上找到的字幕，时间轴往往是按照与你手中视频不同的发布版本制作的：字幕会提前或延后几秒出现，或者由于该版本的帧率不同，随着影片播放偏差越来越大。Wyzie Synced 会分析你这份视频的音频，找出有人说话的位置，并计算出让字幕与之对齐所需的偏移量和帧率修正。你会得到一个已应用该修正的普通下载链接（即 offset 和 fps [下载选项](/subs/usage/direct#download-options)）。',
+  'subs.synced.web.p':
+    '最简单的方式：打开 [sub.wyzie.io/synced](https://sub.wyzie.io/synced)，输入你的 Pro 密钥，选择视频文件和对应标题，然后下载同步后的字幕。音频在你的浏览器中分析，因此视频永远不会被上传：只会发送语音的时间信息。支持 MKV、MP4、AVI 及大多数其他格式，包括 AC3、E-AC3 和 DTS 音频。',
+  'subs.synced.api.p':
+    '发送你想要的字幕（一个下载链接，或者标题，由 Wyzie 挑选最佳匹配）以及音频：可以是你自己检测出的语音时间段，也可以是音频/视频文件本身。',
+  'subs.synced.param.url':
+    '来自 /search 的下载链接（https://sub.wyzie.io/c/…）。链接上已有的其他下载选项（to、sdh、…）会保留在同步后的链接中。',
+  'subs.synced.param.id':
+    '替代 url：TMDB 或 IMDB ID。Wyzie 会尝试该语言排名前 5 的文本字幕，并返回与你的音频最匹配的那一个。',
+  'subs.synced.param.language':
+    '与 id 一起使用：字幕语言的 ISO 639-1 代码（必填）。',
+  'subs.synced.param.seasonEpisode': '与 id 一起用于电视剧，两者必须同时提供。',
+  'subs.synced.param.key':
+    '你的 Pro API 密钥。不提供时，将使用 url 中 tok 所对应的密钥；来自免密钥下载页面的链接则必须提供 key。',
+  'subs.synced.param.speech':
+    '有人说话的时间段：以秒为单位的 [[start, end], …]，可由任意语音活动检测器生成（wyzie-lib 的 detectSpeech、Silero VAD、webrtcvad）。一部 2 小时的电影大约有 2,000 个片段，约 40 KB 的 JSON。',
+  'subs.synced.param.media':
+    '或者直接提供音频/视频文件本身：作为原始请求体（其他字段放在查询字符串中），或作为 multipart 字段 media。最大 95 MB，因此对于完整的电影，请只上传音轨。',
+  'subs.synced.fields.note':
+    '字段可以放在 JSON 请求体、multipart 表单或查询字符串中（配合原始 media 请求体）。',
+  'subs.synced.response.p': '200 响应为 JSON 格式：',
+  'subs.synced.field.url':
+    '已应用时间轴修正（offset、fps）的字幕下载链接，并带有为你的密钥新生成的 tok。像使用任何 /search 返回的 url 一样使用它：每次下载消耗 1 次请求。',
+  'subs.synced.field.offset':
+    '帧率修正之后为每行字幕增加的秒数（负数表示提前）。',
+  'subs.synced.field.fps':
+    '以 SUBTITLE_FPS:VIDEO_FPS 形式表示的帧率修正（例如 "25:23.976"），无需修正时为 null。',
+  'subs.synced.field.confidence':
+    '0 到 1：该时间轴优于其他所有候选的明显程度。凡是返回的结果都已通过匹配检验；数值越高越可靠。',
+  'subs.synced.field.inSync': '字幕原本就与你的视频对齐时为 true。',
+  'subs.synced.field.subtitle':
+    '所使用的字幕（release、fileName、format、source、…）。使用 url 时，仅包含其 format。',
+  'subs.synced.errors.p':
+    '错误以 JSON 格式返回，包含 message 和 details。被拒绝和失败的同步不计费。',
+  'subs.synced.error.400':
+    '字段缺失或无效：未指定字幕、没有音频，或 speech 不是由 [start, end] 数对组成。',
+  'subs.synced.error.401': '未提供密钥，或 url 中的下载链接无效或已过期。',
+  'subs.synced.error.403':
+    '密钥为免费密钥（Wyzie Synced 需要 Pro）、无效或已被暂停。',
+  'subs.synced.error.404': '该标题没有该语言的文本字幕。',
+  'subs.synced.error.413':
+    'media 文件超过 95 MB。请只上传音轨，或改为发送 speech。',
+  'subs.synced.error.422':
+    '在任何偏移量或帧率下，字幕都无法与音频对齐（可能是其他剪辑版本或其他剧集），音频中的语音太少，或文件无法解码。',
+  'subs.synced.error.429': '与其他任何调用一样，密钥无法支付该请求的费用。',
+  'subs.synced.error.503':
+    '正忙于解码其他上传的文件，或搜索暂时不可用。请稍后重试，或改为发送 speech。',
+  'subs.synced.lib.p':
+    'wyzie-lib 提供 detectSpeech（与网站在你浏览器中运行的检测器相同）和 syncSubtitle：',
+  'subs.synced.how.step1':
+    '语音：音频被解码为 8 kHz 单声道（对于 5.1 和 7.1 混音，只取对白所在的中置声道），然后由语音活动检测器标记出有人说话的位置：即响亮、处于语音频段、并随音节起伏的声音。',
+  'subs.synced.how.step2':
+    '对齐：在 ±10 分钟范围内的每个偏移量上，将字幕的显示时间与这些语音进行互相关计算，并覆盖常见的帧率不匹配情况（25 与 23.976、25 与 24、24 与 23.976 fps）。',
+  'subs.synced.how.step3':
+    '精调：通过将字幕行的起始位置与语音的起始位置对齐，把最佳时间轴精确到 10 ms。',
+  'subs.synced.how.step4':
+    "只有当某个时间轴远远优于其他所有偏移量时才会返回，因此针对其他剪辑版本或剧集的字幕会得到 422 Couldn't sync，而不是错误的平移。",
+  'subs.synced.limit1':
+    'Wyzie Synced 可修正固定的偏移和帧率差异。针对不同剪辑版本（增加或缺少场景）的字幕无法通过单一平移修正，会被拒绝。',
+  'subs.synced.limit2':
+    '它依赖语音：对白很少的影片或以音乐为主的音频可能无法同步。',
+  'subs.synced.limit3': '可检测的偏移最多为 ±10 分钟。',
+
   // Subs API Keys Page
   'subs.keys.title': 'API 密钥',
   'subs.keys.p1':
@@ -358,10 +461,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'NPM 包',
 
   'subs.keys.limit.h2': '达到限额',
+  'subs.keys.limit.p':
+    '每次搜索消耗 1 次请求，每次字幕下载消耗 1 次请求，因此搜索一次并下载一个文件共消耗 2 次。AI 翻译每次调用消耗 100 次请求。',
   'subs.keys.limit.free':
     '**免费版**耗尽 -> API 返回 429，并附带 X-RateLimit-Reset 和 Retry-After 响应头。每日计数器在 UTC 午夜重置。',
   'subs.keys.limit.paid':
     '**付费余额**耗尽 -> API 返回 402。在 [store.wyzie.io/topup](https://store.wyzie.io/topup) 手动补充，或在控制台开启**自动补充**，当余额低于你设定的阈值时自动充值。',
+  'subs.keys.hold.p1':
+    '主要从数据中心或托管服务 IP 发送极大请求量的密钥会被自动暂停。被暂停的密钥在每次请求时都会收到 403 Key on hold，JSON 中包含恢复链接（https://store.wyzie.io/verify）和客服链接（https://store.wyzie.io/contact）。',
+  'subs.keys.hold.p2':
+    '如需立即恢复密钥，请在 [store.wyzie.io/verify](https://store.wyzie.io/verify) 通过 DNS TXT 记录或 meta 标签验证你使用该密钥的网站。拥有已验证网站的密钥将不会再被自动暂停，因此流量大的网站可以在被暂停之前提前验证。',
+  'subs.keys.hold.p3':
+    '没有网站，例如后端服务或应用？请[联系客服](https://store.wyzie.io/contact)以恢复密钥。',
+
+  'subs.keys.files.h2': '文件中包含的内容',
+  'subs.keys.files.adfilter':
+    '**广告过滤** – 通过 sub.wyzie.io 提供的每个字幕都会去除提供商的广告字幕条目（OpenSubtitles 横幅、博彩推广、「在 ... 免费观看」之类的行）。SRT 字幕条目会重新编号，因此不会出现跳号。所有提供商（包括 OpenSubtitles）都通过 sub.wyzie.io 提供，因此过滤适用于所有提供商。',
+  'subs.keys.files.promo':
+    '**免费密钥和开发密钥**获取的每个文件，在最开头（0–6 s）都会带有一条指向 [store.wyzie.io](https://store.wyzie.io) 的简短字幕条目。付费密钥获得的是不含该条目的干净文件。',
 
   'subs.keys.faq.h2': '常见问题',
   'subs.keys.faq.q1': '我丢失了密钥，能重新获取吗？',

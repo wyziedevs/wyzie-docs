@@ -204,7 +204,7 @@ const messages: Record<string, string> = {
     'Filtro per codifica dei caratteri (es., utf-8, latin-1).',
   'subs.pkg.param.hi': 'Booleano per sottotitoli per non udenti.',
   'subs.pkg.param.source':
-    'Provider di sottotitoli da interrogare (all per ogni fonte abilitata).',
+    'Provider di sottotitoli da interrogare per nome in codice (all per ogni fonte attiva che la tua chiave può usare; predefinito charlie).',
   'subs.pkg.param.release': 'Filtri per release/scene (accetta un elenco).',
   'subs.pkg.param.filename':
     'Filtri per nome file; gli alias file e fileName sono supportati.',
@@ -216,7 +216,7 @@ const messages: Record<string, string> = {
     'Ignora la cache e recupera risultati freschi dalle fonti.',
 
   'subs.pkg.helpers':
-    "Il pacchetto include anche helper TMDB leggeri: searchTmdb, getTvDetails e getSeasonDetails per trovare rapidamente gli ID prima di interrogare /search. Inoltre, getSources può essere usato per recuperare l'elenco delle fonti di sottotitoli attualmente abilitate.",
+    "Il pacchetto include anche helper TMDB leggeri: searchTmdb, getTvDetails e getSeasonDetails per trovare rapidamente gli ID prima di interrogare /search. getSources restituisce i nomi in codice delle fonti attive (una fonte messa in pausa dai controlli di stato viene esclusa finché non torna operativa), e getSourcesInfo restituisce la risposta completa di /sources con i livelli e, se passi una chiave, quali fonti quella chiave può usare. withDownloadOptions aggiunge opzioni di download (output WebVTT, correzioni dei tempi, una seconda lingua e altro) all'url di un risultato.",
   'subs.pkg.types.h3': 'Tipi',
   'subs.pkg.type.search': "Tutti i parametri validi riconosciuti dall'API.",
   'subs.pkg.type.query':
@@ -224,6 +224,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     "Tutti i valori restituiti dall'API con i rispettivi tipi.",
   'subs.pkg.type.sources': "Tipo di risposta dall'endpoint /sources.",
+  'subs.pkg.type.download':
+    'Opzioni per withDownloadOptions: to, offset, fps, plain e (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Input e risultato di syncSubtitle (Wyzie Synced, chiavi Pro): quale sottotitolo (un risultato, il suo url, oppure tmdb_id/imdb_id con language), i segmenti di parlato speech trovati da detectSpeech o il file media, e il link di download sincronizzato con i relativi offset, fps e confidence. Consulta [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     "I nostri tipi sono molto semplici e ben documentati. Dai un'occhiata al file types.ts collegato nel repository GitHub.",
   'subs.pkg.config.h3': 'Configurazione',
@@ -262,6 +266,10 @@ const messages: Record<string, string> = {
     'La tua chiave API (obbligatoria). Ottienine una gratuita su store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'Ignora la cache e recupera risultati freschi. Usa quando le fonti potrebbero essersi aggiornate.',
+  'subs.direct.param.page':
+    'Pagina da restituire, a partire da 1. Si usa solo insieme a limit.',
+  'subs.direct.param.limit':
+    "Risultati per pagina (da 1 a 200). Senza questo parametro, tutti i risultati vengono restituiti in un'unica risposta.",
   'subs.direct.important.imdb':
     "Quando usi un ID IMDB, assicurati che i primi due caratteri ('tt') siano inclusi all'inizio dell'ID.",
 
@@ -293,6 +301,33 @@ const messages: Record<string, string> = {
     "Il filtro fornito dall'utente che ha corrisposto (se fornito).",
   'subs.direct.data.ai':
     "true se la voce è un sottotitolo tradotto dall'AI, false per i sottotitoli normali recuperati. Usalo come filtro lato client quando vuoi solo uno o l'altro.",
+  'subs.direct.download.p':
+    "Ogni url in una risposta /search punta a https://sub.wyzie.io/c/... e contiene un parametro di query tok. Il parametro tok è cifrato, quindi non rivela la tua chiave API, e resta valido per 60 giorni. Usa l'URL così com'è. Una ricerca costa 1 richiesta e ogni download ne costa 1 in più, tutto addebitato alla chiave che ha eseguito la ricerca. Quando quella chiave non può pagare un download, il link viene rifiutato:",
+  'subs.direct.dl.p':
+    "Aggiungi questi parametri a un URL di download per modificare ciò che restituisce. Funzionano su ogni download, in cache o no, e non costano nulla in più (tranne dual, vedi sotto). L'header di risposta X-Subtitle-Transforms elenca ciò che è stato applicato, con i relativi conteggi.",
+  'subs.direct.dl.param.to':
+    'Formato di output: `srt` o `vtt`. `vtt` si riproduce direttamente in un elemento `<track>` del browser. Predefinito: il formato originale del file.',
+  'subs.direct.dl.param.offset':
+    'Sposta ogni riga di questo numero di secondi (un valore negativo la anticipa).',
+  'subs.direct.dl.param.fps':
+    "Corregge la deriva di un sottotitolo creato per un'altra release: `SUBTITLE_FPS:VIDEO_FPS`, es. `25:23.976` per un sottotitolo PAL su un video a frame rate cinematografico.",
+  'subs.direct.dl.param.plain':
+    'Righe semplici e pulite: codici di stile come `{\\an8}` e `<font>` rimossi, righe vuote e ripetute eliminate, righe in ordine cronologico, piccole sovrapposizioni tagliate.',
+  'subs.direct.dl.param.sdh':
+    'Rimuove il testo per non udenti: `[DOOR SLAMS]`, `(sighs)`, le etichette di chi parla come `JOHN:` e i testi delle canzoni ♪.',
+  'subs.direct.dl.param.clean':
+    'Maschera le volgarità più pesanti, mantenendo la prima lettera (`f***`). Solo file in inglese.',
+  'subs.direct.dl.param.dual':
+    'Aggiunge una seconda lingua (codice ISO 639-1) sotto ogni riga, allineata ai tempi di questo file. Costa 1 richiesta in più, solo quando viene trovata una corrispondenza; altrimenti il file viene restituito da solo con `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    "Le opzioni si combinano, es. `&to=vtt&sdh=strip&offset=-1.5`. I link contengono già `format`, `encoding`, `id` e (per gli episodi) `season` ed `episode`: lasciali come sono. `autoUnzip=false` restituisce un archivio così com'è.",
+  'subs.direct.headers.p':
+    'Ogni risposta /search include un header X-Total-Count con il numero totale di risultati. Quando passi limit, include anche:',
+  'subs.direct.header.xpage': 'la pagina restituita.',
+  'subs.direct.header.xperpage': 'il valore di limit in vigore.',
+  'subs.direct.header.xtotalpages': 'il numero totale di pagine.',
+  'subs.direct.headers.rate':
+    "Le risposte contengono anche X-RateLimit-Limit, X-RateLimit-Remaining e X-RateLimit-Reset. Considerali approssimativi: l'utilizzo viene registrato nella fatturazione a piccoli blocchi, quindi possono essere leggermente in ritardo rispetto al tuo utilizzo reale.",
 
   // Subs Translate Page
   'subs.translate.title': 'Traduzione AI dei Sottotitoli',
@@ -353,6 +388,79 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'Le traduzioni vengono addebitate anche sulle risposte dalla cache. Che siano generate di fresco o servite dalla cache di 30 giorni, ogni richiesta /translate costa 100 richieste.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced è una **funzionalità Pro**: le chiavi gratuite ricevono 403 Paid feature. Ogni sincronizzazione riuscita costa **1 richiesta**; una sincronizzazione che non trova corrispondenze non viene addebitata. Il download del link sincronizzato conta poi come qualsiasi altro download.',
+  'subs.synced.p1':
+    "I sottotitoli trovati online sono spesso sincronizzati per una release diversa dal video che hai: iniziano qualche secondo prima o dopo, oppure si sfasano sempre di più con l'avanzare del film perché quella release ha un frame rate diverso. Wyzie Synced ascolta l'audio della tua copia, trova i punti in cui si parla e calcola l'offset e la correzione del frame rate che allineano il sottotitolo all'audio. Ottieni un normale link di download con la correzione applicata (le [opzioni di download](/subs/usage/direct#download-options) offset e fps).",
+  'subs.synced.web.p':
+    "Il modo più semplice: apri [sub.wyzie.io/synced](https://sub.wyzie.io/synced), inserisci la tua chiave Pro, scegli il file video e il titolo, e scarica il sottotitolo sincronizzato. L'audio viene analizzato nel tuo browser, quindi il video non viene mai caricato: vengono inviati solo i tempi del parlato. Funzionano MKV, MP4, AVI e la maggior parte degli altri formati, incluso l'audio AC3, E-AC3 e DTS.",
+  'subs.synced.api.p':
+    "Invia il sottotitolo che vuoi (un link di download, oppure il titolo per lasciare che Wyzie scelga la corrispondenza migliore) e l'audio: o i tempi del parlato che hai rilevato tu, o il file audio/video stesso.",
+  'subs.synced.param.url':
+    'Un link di download da /search (https://sub.wyzie.io/c/…). Le altre opzioni di download presenti (to, sdh, …) vengono mantenute sul link sincronizzato.',
+  'subs.synced.param.id':
+    'In alternativa a url: ID TMDB o IMDB. Wyzie prova i primi 5 sottotitoli testuali in quella lingua e restituisce quello che si adatta meglio al tuo audio.',
+  'subs.synced.param.language':
+    'Con id: codice ISO 639-1 della lingua del sottotitolo (obbligatorio).',
+  'subs.synced.param.seasonEpisode':
+    'Con id, per la TV. Entrambi devono essere presenti insieme.',
+  'subs.synced.param.key':
+    'La tua chiave API Pro. Senza, viene usata la chiave legata al tok di url; i link della pagina di download senza chiave richiedono key.',
+  'subs.synced.param.speech':
+    'I punti in cui si parla: [[start, end], …] in secondi, da qualsiasi rilevatore di attività vocale (detectSpeech di wyzie-lib, Silero VAD, webrtcvad). Un film di 2 ore corrisponde a circa 2.000 segmenti, pari a circa 40 KB di JSON.',
+  'subs.synced.param.media':
+    'Oppure il file audio/video stesso: come corpo grezzo della richiesta (con gli altri campi nella query string), o come campo multipart media. Fino a 95 MB, quindi per un film intero carica solo la traccia audio.',
+  'subs.synced.fields.note':
+    'I campi vanno in un corpo JSON, in un form multipart o nella query string (con un corpo media grezzo).',
+  'subs.synced.response.p': 'Una risposta 200 è un JSON:',
+  'subs.synced.field.url':
+    'il link di download del sottotitolo con la correzione dei tempi (offset, fps) e un nuovo tok per la tua chiave. Usalo come qualsiasi url di /search: ogni download costa 1 richiesta.',
+  'subs.synced.field.offset':
+    'secondi aggiunti a ogni riga dopo la correzione del frame rate (un valore negativo la anticipa).',
+  'subs.synced.field.fps':
+    'la correzione del frame rate nel formato SUBTITLE_FPS:VIDEO_FPS (es. "25:23.976"), oppure null se non era necessaria.',
+  'subs.synced.field.confidence':
+    'da 0 a 1: quanto nettamente questo allineamento prevale su tutti gli altri. Tutto ciò che viene restituito ha superato il test di corrispondenza; più è alto, maggiore è la certezza.',
+  'subs.synced.field.inSync':
+    'true se il sottotitolo corrispondeva già alla tua copia.',
+  'subs.synced.field.subtitle':
+    'quale sottotitolo è stato usato (release, fileName, format, source, …). Con url, solo il suo format.',
+  'subs.synced.errors.p':
+    'Gli errori sono in JSON con message e details. Le sincronizzazioni rifiutate o non riuscite non vengono addebitate.',
+  'subs.synced.error.400':
+    'Campi mancanti o non validi: nessun sottotitolo, nessun audio, oppure speech non composto da coppie [start, end].',
+  'subs.synced.error.401':
+    'Nessuna chiave, oppure il link di download in url non è valido o è scaduto.',
+  'subs.synced.error.403':
+    'La chiave è gratuita (Wyzie Synced richiede Pro), non valida o in pausa.',
+  'subs.synced.error.404':
+    'Nessun sottotitolo testuale in quella lingua per il titolo.',
+  'subs.synced.error.413':
+    'Il file media supera i 95 MB. Carica solo la traccia audio, oppure invia speech.',
+  'subs.synced.error.422':
+    "Il sottotitolo non si allinea all'audio con nessun offset né frame rate (probabilmente è di un altro montaggio o di un altro episodio), l'audio contiene troppo poco parlato, oppure il file non può essere decodificato.",
+  'subs.synced.error.429':
+    'La chiave non può pagare la richiesta, come per qualsiasi altra chiamata.',
+  'subs.synced.error.503':
+    'Il server è occupato a decodificare altri upload, oppure la ricerca è temporaneamente non disponibile. Riprova tra poco, oppure invia speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib include detectSpeech (lo stesso rilevatore che il sito esegue nel tuo browser) e syncSubtitle:',
+  'subs.synced.how.step1':
+    "Parlato: l'audio viene decodificato in mono a 8 kHz (solo il canale centrale per i mix 5.1 e 7.1, dove si trovano i dialoghi), e un rilevatore di attività vocale segna i punti in cui si parla: suono forte, nella banda della voce, che sale e scende con le sillabe.",
+  'subs.synced.how.step2':
+    'Allineamento: i tempi a schermo del sottotitolo vengono sottoposti a cross-correlazione con quel parlato per ogni offset entro ±10 minuti, per le differenze di frame rate più comuni (25 vs 23.976, 25 vs 24, 24 vs 23.976 fps).',
+  'subs.synced.how.step3':
+    "Rifinitura: il miglior allineamento viene affinato a 10 ms facendo coincidere l'inizio delle righe con l'inizio del parlato.",
+  'subs.synced.how.step4':
+    "Un allineamento viene restituito solo quando supera nettamente ogni altro offset, così un sottotitolo di un altro montaggio o episodio riceve 422 Couldn't sync invece di uno spostamento sbagliato.",
+  'subs.synced.limit1':
+    'Wyzie Synced corregge un offset costante e una differenza di frame rate. Un sottotitolo per un montaggio diverso (scene aggiunte o mancanti) non può essere corretto con un unico spostamento, e viene rifiutato.',
+  'subs.synced.limit2':
+    'Serve il parlato: i film con pochi dialoghi, o con un audio prevalentemente musicale, potrebbero non sincronizzarsi.',
+  'subs.synced.limit3': 'Vengono rilevati offset fino a ±10 minuti.',
+
   // Subs API Keys Page
   'subs.keys.title': 'Chiavi API',
   'subs.keys.p1':
@@ -404,10 +512,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'Pacchetto NPM',
 
   'subs.keys.limit.h2': 'Raggiungere il Limite',
+  'subs.keys.limit.p':
+    'Una ricerca costa 1 richiesta e ogni download di sottotitoli costa 1 richiesta, quindi cercare una volta e scaricare un file ne consuma 2. La traduzione AI costa 100 richieste per chiamata.',
   'subs.keys.limit.free':
     "**Livello gratuito** esaurito -> L'API restituisce 429 con gli header X-RateLimit-Reset e Retry-After. Il contatore giornaliero si azzera a mezzanotte UTC.",
   'subs.keys.limit.paid':
     "**Saldo a pagamento** esaurito -> L'API restituisce 402. Ricarica su [store.wyzie.io/topup](https://store.wyzie.io/topup) oppure abilita la **ricarica automatica** nel tuo pannello di controllo per rifornire automaticamente quando il saldo scende sotto una soglia che imposti tu.",
+  'subs.keys.hold.p1':
+    'Le chiavi che inviano volumi molto elevati, principalmente da IP di datacenter o di hosting, vengono messe in pausa automaticamente. Una chiave in pausa riceve 403 Key on hold su ogni richiesta, con un link di riattivazione (https://store.wyzie.io/verify) e un link al supporto (https://store.wyzie.io/contact) nel JSON.',
+  'subs.keys.hold.p2':
+    'Per riattivare subito la chiave, verifica il sito web su cui la usi tramite [store.wyzie.io/verify](https://store.wyzie.io/verify) con un record DNS TXT o un meta tag. Una chiave con un sito verificato non viene mai più messa in pausa automaticamente, quindi i siti molto trafficati possono effettuare la verifica prima ancora di essere messi in pausa.',
+  'subs.keys.hold.p3':
+    "Nessun sito web, ad esempio un servizio backend o un'app? [Contatta il supporto](https://store.wyzie.io/contact) per far riattivare la chiave.",
+
+  'subs.keys.files.h2': "Cosa C'è nei File",
+  'subs.keys.files.adfilter':
+    '**Filtro pubblicità** – da ogni sottotitolo servito tramite sub.wyzie.io vengono rimossi i cue pubblicitari dei provider (banner di OpenSubtitles, promozioni di scommesse, righe "watch free at ..."). I cue SRT vengono rinumerati in modo che non ci siano salti. Ogni provider, OpenSubtitles incluso, viene servito tramite sub.wyzie.io, quindi il filtro si applica a tutti.',
+  'subs.keys.files.promo':
+    "**Le chiavi gratuite e di sviluppo** ricevono un breve cue proprio all'inizio di ogni file (0–6 s) che rimanda a [store.wyzie.io](https://store.wyzie.io). Le chiavi a pagamento ricevono file puliti, senza cue.",
 
   'subs.keys.faq.h2': 'FAQ',
   'subs.keys.faq.q1': 'Ho perso la mia chiave. Posso ottenerne una nuova?',

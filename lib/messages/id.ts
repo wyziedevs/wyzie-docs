@@ -203,7 +203,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.hi':
     'Boolean untuk subtitle bagi pengguna dengan gangguan pendengaran.',
   'subs.pkg.param.source':
-    'Penyedia subtitle yang dikueri (all untuk setiap sumber yang diaktifkan).',
+    'Penyedia subtitle yang dikueri berdasarkan nama kode (all untuk setiap sumber aktif yang dapat digunakan kunci Anda; default charlie).',
   'subs.pkg.param.release': 'Filter rilis/scene (menerima daftar).',
   'subs.pkg.param.filename':
     'Filter nama file; alias file dan fileName didukung.',
@@ -213,7 +213,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.refresh': 'Lewati cache dan ambil hasil terbaru dari sumber.',
 
   'subs.pkg.helpers':
-    'Paket ini juga menyertakan helper TMDB ringan: searchTmdb, getTvDetails, dan getSeasonDetails untuk menemukan ID dengan cepat sebelum mengakses /search. Selain itu, getSources dapat digunakan untuk mengambil daftar sumber subtitle yang saat ini diaktifkan.',
+    'Paket ini juga menyertakan helper TMDB ringan: searchTmdb, getTvDetails, dan getSeasonDetails untuk menemukan ID dengan cepat sebelum mengakses /search. getSources mengembalikan nama kode sumber yang sedang aktif (sumber yang dijeda oleh health check-nya tidak disertakan hingga pulih kembali), dan getSourcesInfo mengembalikan respons /sources lengkap beserta tingkatannya, serta, jika diberi kunci, sumber mana saja yang dapat digunakan kunci tersebut. withDownloadOptions menambahkan opsi unduhan (output WebVTT, perbaikan waktu, bahasa kedua, dan lainnya) ke url sebuah hasil.',
   'subs.pkg.types.h3': 'Tipe',
   'subs.pkg.type.search': 'Semua parameter valid yang dikenali oleh API.',
   'subs.pkg.type.query':
@@ -221,6 +221,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'Semua nilai yang dikembalikan dari API beserta tipe masing-masing.',
   'subs.pkg.type.sources': 'Tipe respons dari endpoint /sources.',
+  'subs.pkg.type.download':
+    'Opsi untuk withDownloadOptions: to, offset, fps, plain, dan (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Input dan hasil dari syncSubtitle (Wyzie Synced, kunci Pro): subtitle yang mana (sebuah hasil, url-nya, atau tmdb_id/imdb_id beserta language), speech yang ditemukan detectSpeech atau file media, serta tautan unduhan hasil sinkronisasi beserta offset, fps, dan confidence-nya. Lihat [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'Tipe kami sangat sederhana dan terdokumentasi dengan baik. Lihat file types.ts yang tertaut di repositori GitHub.',
   'subs.pkg.config.h3': 'Konfigurasi',
@@ -259,6 +263,10 @@ const messages: Record<string, string> = {
     'API key Anda (wajib). Dapatkan satu secara gratis di store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'Lewati cache dan ambil hasil terbaru. Gunakan saat sumber mungkin telah diperbarui.',
+  'subs.direct.param.page':
+    'Halaman yang dikembalikan, dimulai dari 1. Hanya digunakan bersama limit.',
+  'subs.direct.param.limit':
+    'Hasil per halaman (1 hingga 200). Tanpa parameter ini, semua hasil dikembalikan dalam satu respons.',
   'subs.direct.important.imdb':
     "Saat menggunakan IMDB ID, pastikan dua karakter pertama ('tt') disertakan di awal ID.",
 
@@ -287,6 +295,33 @@ const messages: Record<string, string> = {
     'Filter yang disediakan pengguna yang cocok (jika disediakan).',
   'subs.direct.data.ai':
     'true jika entri adalah subtitle hasil terjemahan AI, false untuk subtitle yang diambil secara normal. Gunakan sebagai filter sisi klien saat Anda hanya menginginkan salah satunya.',
+  'subs.direct.download.p':
+    'Setiap url dalam respons /search mengarah ke https://sub.wyzie.io/c/... dan membawa parameter query tok. tok dienkripsi, sehingga tidak mengungkapkan API key Anda, dan tetap berlaku selama 60 hari. Gunakan URL apa adanya. Satu pencarian membutuhkan 1 permintaan dan setiap unduhan 1 permintaan lagi, yang ditagihkan ke kunci yang menjalankan pencarian. Jika kunci tersebut tidak dapat membayar sebuah unduhan, tautan akan ditolak:',
+  'subs.direct.dl.p':
+    'Tambahkan opsi ini ke URL unduhan untuk mengubah apa yang dikembalikannya. Opsi ini berlaku di setiap unduhan, baik dari cache maupun tidak, dan tidak dikenakan biaya tambahan (kecuali dual, di bawah). Header respons X-Subtitle-Transforms mencantumkan apa saja yang diterapkan, beserta jumlahnya.',
+  'subs.direct.dl.param.to':
+    'Format output: `srt` atau `vtt`. `vtt` dapat langsung diputar di elemen `<track>` browser. Default: format asli file.',
+  'subs.direct.dl.param.offset':
+    'Geser setiap baris sebanyak detik ini (nilai negatif berarti lebih awal).',
+  'subs.direct.dl.param.fps':
+    'Perbaiki pergeseran bertahap dari subtitle yang dibuat untuk rilis lain: `SUBTITLE_FPS:VIDEO_FPS`, mis. `25:23.976` untuk subtitle PAL pada video dengan frame rate film.',
+  'subs.direct.dl.param.plain':
+    'Baris polos dan rapi: kode gaya seperti `{\\an8}` dan `<font>` dihapus, baris kosong dan berulang dibuang, baris diurutkan menurut waktu, dan tumpang tindih kecil dipangkas.',
+  'subs.direct.dl.param.sdh':
+    'Hapus teks untuk pengguna dengan gangguan pendengaran: `[DOOR SLAMS]`, `(sighs)`, label pembicara `JOHN:`, dan lirik ♪.',
+  'subs.direct.dl.param.clean':
+    'Sensor kata-kata kasar yang berat, dengan mempertahankan huruf pertamanya (`f***`). Hanya untuk file bahasa Inggris.',
+  'subs.direct.dl.param.dual':
+    'Tambahkan bahasa kedua (kode ISO 639-1) di bawah setiap baris, diselaraskan dengan waktu file ini. Membutuhkan 1 permintaan tambahan, hanya jika ditemukan kecocokan; jika tidak, file dikembalikan sendiri dengan `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    'Opsi dapat digabungkan, mis. `&to=vtt&sdh=strip&offset=-1.5`. Tautan sudah membawa `format`, `encoding`, `id`, dan (untuk episode) `season` serta `episode`: biarkan apa adanya. `autoUnzip=false` mengembalikan arsip apa adanya.',
+  'subs.direct.headers.p':
+    'Setiap respons /search menyertakan header X-Total-Count yang berisi jumlah total hasil. Jika Anda menyertakan limit, respons juga menyertakan:',
+  'subs.direct.header.xpage': 'halaman yang dikembalikan.',
+  'subs.direct.header.xperpage': 'limit yang berlaku.',
+  'subs.direct.header.xtotalpages': 'jumlah total halaman.',
+  'subs.direct.headers.rate':
+    'Respons juga membawa X-RateLimit-Limit, X-RateLimit-Remaining, dan X-RateLimit-Reset. Anggap nilainya sebagai perkiraan: penggunaan diperhitungkan ke penagihan dalam batch kecil, sehingga nilainya bisa sedikit tertinggal dari penggunaan Anda yang sebenarnya.',
 
   // Subs Translate Page
   'subs.translate.title': 'Terjemahan Subtitle AI',
@@ -347,6 +382,79 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'Terjemahan ditagih pada cache hit juga. Baik yang baru dibuat maupun yang disajikan dari cache 30 hari, setiap permintaan /translate membutuhkan 100 permintaan.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced adalah **fitur Pro**: kunci gratis mendapatkan 403 Paid feature. Setiap sinkronisasi yang berhasil membutuhkan **1 permintaan**; sinkronisasi yang tidak menemukan kecocokan tidak dikenakan biaya. Mengunduh tautan hasil sinkronisasi kemudian dihitung seperti unduhan lainnya.',
+  'subs.synced.p1':
+    'Subtitle yang ditemukan online sering kali diatur waktunya untuk rilis yang berbeda dari video yang Anda miliki: subtitle dimulai beberapa detik terlalu awal atau terlambat, atau makin bergeser seiring film berjalan karena rilis tersebut berjalan pada frame rate yang berbeda. Wyzie Synced mendengarkan audio salinan Anda, menemukan bagian di mana orang berbicara, lalu menghitung offset dan perbaikan frame rate yang menyelaraskan subtitle dengannya. Anda mendapatkan tautan unduhan biasa dengan perbaikan yang sudah diterapkan (melalui [opsi unduhan](/subs/usage/direct#download-options) offset dan fps).',
+  'subs.synced.web.p':
+    'Cara termudah: buka [sub.wyzie.io/synced](https://sub.wyzie.io/synced), masukkan kunci Pro Anda, pilih file video dan judulnya, lalu unduh subtitle yang sudah disinkronkan. Audio dianalisis di browser Anda, sehingga video tidak pernah diunggah: hanya waktu ucapan yang dikirim. MKV, MP4, AVI, dan sebagian besar format lainnya didukung, termasuk audio AC3, E-AC3, dan DTS.',
+  'subs.synced.api.p':
+    'Kirim subtitle yang Anda inginkan (tautan unduhan, atau judul agar Wyzie memilih yang paling cocok) beserta audionya: baik waktu ucapan yang Anda deteksi sendiri, maupun file audio/video itu sendiri.',
+  'subs.synced.param.url':
+    'Tautan unduhan dari /search (https://sub.wyzie.io/c/…). Opsi unduhan lain di dalamnya (to, sdh, …) tetap dipertahankan pada tautan hasil sinkronisasi.',
+  'subs.synced.param.id':
+    'Sebagai pengganti url: TMDB atau IMDB ID. Wyzie mencoba 5 subtitle teks teratas dalam bahasa tersebut dan mengembalikan yang paling cocok dengan audio Anda.',
+  'subs.synced.param.language':
+    'Dengan id: kode ISO 639-1 untuk bahasa subtitle (wajib).',
+  'subs.synced.param.seasonEpisode':
+    'Dengan id, untuk TV. Keduanya harus ada bersamaan.',
+  'subs.synced.param.key':
+    'API key Pro Anda. Tanpa ini, kunci di balik tok pada url yang digunakan; tautan dari halaman unduhan tanpa kunci memerlukan key.',
+  'subs.synced.param.speech':
+    'Bagian di mana orang berbicara: [[start, end], …] dalam detik, dari detektor aktivitas suara apa pun (detectSpeech dari wyzie-lib, Silero VAD, webrtcvad). Film berdurasi 2 jam kira-kira berisi 2.000 segmen, sekitar 40 KB JSON.',
+  'subs.synced.param.media':
+    'Atau file audio/video itu sendiri: sebagai body permintaan mentah (dengan kolom lainnya di query string), atau sebagai kolom multipart media. Maksimal 95 MB, jadi untuk film penuh, unggah trek audionya saja.',
+  'subs.synced.fields.note':
+    'Kolom dikirim dalam body JSON, form multipart, atau query string (dengan body media mentah).',
+  'subs.synced.response.p': 'Respons 200 berupa JSON:',
+  'subs.synced.field.url':
+    'tautan unduhan subtitle dengan perbaikan waktu (offset, fps) dan tok baru untuk kunci Anda. Gunakan seperti url /search lainnya: setiap unduhan membutuhkan 1 permintaan.',
+  'subs.synced.field.offset':
+    'detik yang ditambahkan ke setiap baris setelah perbaikan frame rate (nilai negatif berarti lebih awal).',
+  'subs.synced.field.fps':
+    'perbaikan frame rate dalam bentuk SUBTITLE_FPS:VIDEO_FPS (mis. "25:23.976"), atau null jika tidak diperlukan.',
+  'subs.synced.field.confidence':
+    '0 hingga 1: seberapa jelas waktu ini mengungguli semua kemungkinan lainnya. Apa pun yang dikembalikan sudah lolos uji kecocokan; makin tinggi, makin pasti.',
+  'subs.synced.field.inSync':
+    'true jika subtitle sudah cocok dengan salinan Anda.',
+  'subs.synced.field.subtitle':
+    'subtitle mana yang digunakan (release, fileName, format, source, …). Dengan url, hanya format-nya.',
+  'subs.synced.errors.p':
+    'Error berupa JSON dengan message dan details. Sinkronisasi yang ditolak atau gagal tidak dikenakan biaya.',
+  'subs.synced.error.400':
+    'Kolom hilang atau tidak valid: tidak ada subtitle, tidak ada audio, atau speech yang bukan berupa pasangan [start, end].',
+  'subs.synced.error.401':
+    'Tidak ada kunci, atau tautan unduhan pada url tidak valid atau sudah kedaluwarsa.',
+  'subs.synced.error.403':
+    'Kunci tersebut gratis (Wyzie Synced memerlukan Pro), tidak valid, atau sedang ditangguhkan.',
+  'subs.synced.error.404':
+    'Tidak ada subtitle teks dalam bahasa tersebut untuk judul ini.',
+  'subs.synced.error.413':
+    'File media lebih dari 95 MB. Unggah trek audionya saja, atau kirim speech.',
+  'subs.synced.error.422':
+    'Subtitle tidak selaras dengan audio pada offset atau frame rate mana pun (kemungkinan versi atau episode lain), audio terlalu sedikit mengandung ucapan, atau file tidak dapat didekode.',
+  'subs.synced.error.429':
+    'Kunci tidak dapat membayar permintaan ini, sama seperti panggilan lainnya.',
+  'subs.synced.error.503':
+    'Sedang sibuk mendekode unggahan lain, atau pencarian sementara tidak tersedia. Coba lagi sebentar lagi, atau kirim speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib memiliki detectSpeech (detektor yang sama dengan yang dijalankan situs di browser Anda) dan syncSubtitle:',
+  'subs.synced.how.step1':
+    'Ucapan: audio didekode menjadi 8 kHz mono (hanya kanal tengah untuk mix 5.1 dan 7.1, tempat dialog berada), dan detektor aktivitas suara menandai bagian di mana orang berbicara: suara keras dalam rentang frekuensi ucapan yang naik turun mengikuti suku kata.',
+  'subs.synced.how.step2':
+    'Penyelarasan: waktu tampil subtitle di layar dikorelasikan silang dengan ucapan tersebut pada setiap offset dalam rentang ±10 menit, untuk ketidakcocokan frame rate yang umum (25 vs 23,976, 25 vs 24, 24 vs 23,976 fps).',
+  'subs.synced.how.step3':
+    'Penyempurnaan: waktu terbaik disempurnakan hingga ketelitian 10 ms dengan menyelaraskan awal baris dengan awal ucapan.',
+  'subs.synced.how.step4':
+    "Suatu waktu hanya dikembalikan jika jauh mengungguli semua offset lainnya, sehingga subtitle untuk versi atau episode lain mendapatkan 422 Couldn't sync alih-alih pergeseran yang salah.",
+  'subs.synced.limit1':
+    'Wyzie Synced memperbaiki offset yang konstan dan perbedaan frame rate. Subtitle untuk versi yang berbeda (ada adegan yang ditambahkan atau hilang) tidak dapat diperbaiki dengan satu pergeseran, sehingga ditolak.',
+  'subs.synced.limit2':
+    'Fitur ini membutuhkan ucapan: film dengan sedikit dialog, atau audio yang sebagian besar berisi musik, mungkin tidak dapat disinkronkan.',
+  'subs.synced.limit3': 'Offset hingga ±10 menit dapat ditemukan.',
+
   // Subs API Keys Page
   'subs.keys.title': 'API Keys',
   'subs.keys.p1':
@@ -399,10 +507,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'Paket NPM',
 
   'subs.keys.limit.h2': 'Mencapai Batas',
+  'subs.keys.limit.p':
+    'Satu pencarian membutuhkan 1 permintaan dan setiap unduhan subtitle membutuhkan 1 permintaan, jadi mencari sekali lalu mengunduh satu file menggunakan 2. Terjemahan AI membutuhkan 100 permintaan per panggilan.',
   'subs.keys.limit.free':
     '**Tingkatan gratis** habis -> API mengembalikan 429 dengan header X-RateLimit-Reset dan Retry-After. Penghitung harian direset pada tengah malam UTC.',
   'subs.keys.limit.paid':
     '**Saldo berbayar** habis -> API mengembalikan 402. Isi ulang di [store.wyzie.io/topup](https://store.wyzie.io/topup) atau aktifkan **auto top-up** di dasbor Anda untuk mengisi ulang secara otomatis saat saldo Anda melewati ambang batas yang Anda tentukan.',
+  'subs.keys.hold.p1':
+    'Kunci yang mengirim volume sangat tinggi, sebagian besar dari IP datacenter atau hosting, dijeda secara otomatis. Kunci yang dijeda mendapatkan 403 Key on hold pada setiap permintaan, dengan tautan pemulihan (https://store.wyzie.io/verify) dan tautan dukungan (https://store.wyzie.io/contact) di dalam JSON.',
+  'subs.keys.hold.p2':
+    'Untuk segera memulihkan kunci, verifikasi situs web tempat Anda menggunakannya di [store.wyzie.io/verify](https://store.wyzie.io/verify) dengan record DNS TXT atau meta tag. Kunci dengan situs terverifikasi tidak akan pernah dijeda otomatis lagi, sehingga situs yang ramai dapat melakukan verifikasi sebelum sempat dijeda.',
+  'subs.keys.hold.p3':
+    'Tidak punya situs web, misalnya layanan backend atau aplikasi? [Hubungi dukungan](https://store.wyzie.io/contact) untuk memulihkan kunci Anda.',
+
+  'subs.keys.files.h2': 'Apa Saja Isi File',
+  'subs.keys.files.adfilter':
+    '**Pemfilteran iklan** – setiap subtitle yang disajikan melalui sub.wyzie.io dibersihkan dari cue iklan penyedia (banner OpenSubtitles, promosi judi, baris "watch free at ..."). Cue SRT diberi nomor ulang sehingga tidak ada yang terlewat. Setiap penyedia, termasuk OpenSubtitles, disajikan melalui sub.wyzie.io sehingga filter berlaku untuk semuanya.',
+  'subs.keys.files.promo':
+    '**Kunci gratis dan dev** mendapatkan satu cue singkat di bagian paling awal setiap file (0–6 s) yang mengarah ke [store.wyzie.io](https://store.wyzie.io). Kunci berbayar menerima file bersih tanpa cue.',
 
   'subs.keys.faq.h2': 'FAQ',
   'subs.keys.faq.q1':

@@ -201,7 +201,7 @@ const messages: Record<string, string> = {
     'Character encoding filter (जैसे, utf-8, latin-1)।',
   'subs.pkg.param.hi': 'सुनने में अक्षम सबटाइटल के लिए Boolean।',
   'subs.pkg.param.source':
-    'Query करने के लिए सबटाइटल providers (हर सक्षम स्रोत के लिए all)।',
+    'Query करने के लिए सबटाइटल providers, उनके codename से (all उन सभी live स्रोतों के लिए जिनका आपकी key उपयोग कर सकती है; डिफ़ॉल्ट charlie)।',
   'subs.pkg.param.release': 'Release/scene filters (एक सूची स्वीकार करता है)।',
   'subs.pkg.param.filename':
     'Filename filters; aliases file और fileName समर्थित हैं।',
@@ -212,13 +212,17 @@ const messages: Record<string, string> = {
     'Cache को bypass करें और स्रोतों से ताज़े परिणाम fetch करें।',
 
   'subs.pkg.helpers':
-    'पैकेज में हल्के TMDB helpers भी शामिल हैं: searchTmdb, getTvDetails, और getSeasonDetails जो /search से पहले IDs खोजने के लिए हैं। इसके अतिरिक्त, getSources का उपयोग वर्तमान में सक्षम सबटाइटल स्रोतों की सूची fetch करने के लिए किया जा सकता है।',
+    'पैकेज में हल्के TMDB helpers भी शामिल हैं: searchTmdb, getTvDetails, और getSeasonDetails, जो /search से पहले जल्दी IDs खोजने के लिए हैं। getSources live स्रोतों के codenames वापस करता है (जिस स्रोत को उसके health checks ने pause कर दिया हो, वह ठीक होने तक सूची से बाहर रहता है), और getSourcesInfo tiers के साथ पूरा /sources response वापस करता है, और key देने पर यह भी बताता है कि वह key किन स्रोतों का उपयोग कर सकती है। withDownloadOptions किसी परिणाम के url में download options (WebVTT output, timing सुधार, दूसरी भाषा, और अधिक) जोड़ता है।',
   'subs.pkg.types.h3': 'Types',
   'subs.pkg.type.search': 'API द्वारा पहचाने जाने वाले सभी valid parameters।',
   'subs.pkg.type.query':
     'wyzie-subs API के लिए उपलब्ध सभी parameters (वैकल्पिक और आवश्यक)।',
   'subs.pkg.type.subtitle': 'API से सभी वापसी मान उनके संबंधित types के साथ।',
   'subs.pkg.type.sources': '/sources endpoint का Response type।',
+  'subs.pkg.type.download':
+    'withDownloadOptions के लिए options: to, offset, fps, plain, और (Pro) sdh, clean, dual।',
+  'subs.pkg.type.sync':
+    'syncSubtitle (Wyzie Synced, Pro keys) का input और परिणाम: कौन सा सबटाइटल (कोई परिणाम, उसका url, या language के साथ tmdb_id/imdb_id), detectSpeech द्वारा पाया गया speech या media फ़ाइल, और synced download link, उसके offset, fps और confidence के साथ। [Wyzie Synced](/subs/usage/synced) देखें।',
   'subs.pkg.types.end':
     'हमारे types बहुत सरल और अच्छी तरह से documented हैं। GitHub repository में linked types.ts फ़ाइल देखें।',
   'subs.pkg.config.h3': 'Configuration',
@@ -257,6 +261,10 @@ const messages: Record<string, string> = {
     'आपकी API key (आवश्यक)। store.wyzie.io/redeem पर एक मुफ्त पाएं।',
   'subs.direct.param.refresh':
     'Cache को bypass करें और ताज़े परिणाम fetch करें। तब उपयोग करें जब स्रोत अपडेट हो सकते हैं।',
+  'subs.direct.param.page':
+    'वापस करने के लिए page, 1 से शुरू। केवल limit के साथ उपयोग होता है।',
+  'subs.direct.param.limit':
+    'प्रति page परिणाम (1 से 200)। इसके बिना, सभी परिणाम एक ही response में वापस आते हैं।',
   'subs.direct.important.imdb':
     "IMDB ID का उपयोग करते समय, सुनिश्चित करें कि पहले दो अक्षर ('tt') ID की शुरुआत में शामिल हैं।",
 
@@ -284,6 +292,33 @@ const messages: Record<string, string> = {
     'उपयोगकर्ता द्वारा दिया गया filter जो मिला (यदि प्रदान किया गया हो)।',
   'subs.direct.data.ai':
     'true यदि entry एक AI-translated सबटाइटल है, सामान्य scraped सबटाइटल के लिए false। इसे client-side filter के रूप में उपयोग करें जब आप केवल एक या दूसरा चाहते हों।',
+  'subs.direct.download.p':
+    '/search response का हर url https://sub.wyzie.io/c/... की ओर point करता है और उसमें एक tok query parameter होता है। tok encrypted होता है, इसलिए यह आपकी API key को उजागर नहीं करता, और यह 60 दिनों तक valid रहता है। URL को जैसा है वैसा ही उपयोग करें। एक search पर 1 request खर्च होती है और हर download पर 1 और, जो उस key पर bill होती है जिसने search चलाया था। जब वह key किसी download का भुगतान नहीं कर सकती, तो link अस्वीकार कर दिया जाता है:',
+  'subs.direct.dl.p':
+    'Download URL जो वापस करता है उसे बदलने के लिए इन्हें उसमें जोड़ें। ये हर download पर काम करते हैं, चाहे वह cached हो या नहीं, और इनका कोई अतिरिक्त खर्च नहीं है (नीचे दिए dual को छोड़कर)। X-Subtitle-Transforms response header बताता है कि क्या-क्या लागू किया गया, गिनती के साथ।',
+  'subs.direct.dl.param.to':
+    'Output format: `srt` या `vtt`। `vtt` browser के `<track>` element में सीधे चलता है। डिफ़ॉल्ट: फ़ाइल का अपना format।',
+  'subs.direct.dl.param.offset':
+    'हर line को इतने सेकंड shift करें (negative मान का अर्थ है पहले)।',
+  'subs.direct.dl.param.fps':
+    'किसी दूसरे release के लिए बने सबटाइटल का drift ठीक करें: `SUBTITLE_FPS:VIDEO_FPS`, जैसे film-rate video पर PAL सबटाइटल के लिए `25:23.976`।',
+  'subs.direct.dl.param.plain':
+    'सादी, साफ़-सुथरी lines: `{\\an8}` और `<font>` जैसे styling codes हटाए जाते हैं, खाली और दोहराई गई lines हटा दी जाती हैं, lines समय के क्रम में रखी जाती हैं, और छोटे overlaps trim किए जाते हैं।',
+  'subs.direct.dl.param.sdh':
+    'सुनने में अक्षम लोगों के लिए text हटाएं: `[DOOR SLAMS]`, `(sighs)`, `JOHN:` जैसे speaker labels और ♪ lyrics।',
+  'subs.direct.dl.param.clean':
+    'तीखी गालियों को mask करें, पहला अक्षर रखते हुए (`f***`)। केवल English फ़ाइलें।',
+  'subs.direct.dl.param.dual':
+    'हर line के नीचे दूसरी भाषा (ISO 639-1 कोड) जोड़ें, इस फ़ाइल की timing के साथ मिलाकर। 1 अतिरिक्त request खर्च होती है, केवल तब जब कोई match मिले; अन्यथा फ़ाइल अकेले `X-Dual: unavailable` के साथ वापस आती है।',
+  'subs.direct.dl.after':
+    'Options को मिलाया जा सकता है, जैसे `&to=vtt&sdh=strip&offset=-1.5`। Links में पहले से `format`, `encoding`, `id` और (episodes के लिए) `season` और `episode` होते हैं: इन्हें वैसे ही रहने दें। `autoUnzip=false` किसी archive को जैसा है वैसा ही वापस करता है।',
+  'subs.direct.headers.p':
+    'हर /search response में एक X-Total-Count header होता है जिसमें परिणामों की कुल संख्या होती है। जब आप limit pass करते हैं, तो इसमें ये भी शामिल होते हैं:',
+  'subs.direct.header.xpage': 'वापस किया गया page।',
+  'subs.direct.header.xperpage': 'लागू limit।',
+  'subs.direct.header.xtotalpages': 'pages की कुल संख्या।',
+  'subs.direct.headers.rate':
+    'Responses में X-RateLimit-Limit, X-RateLimit-Remaining, और X-RateLimit-Reset भी होते हैं। इन्हें अनुमानित मानें: उपयोग का हिसाब billing के साथ छोटे batches में होता है, इसलिए ये आपके वास्तविक उपयोग से थोड़ा पीछे रह सकते हैं।',
 
   // Subs Translate Page
   'subs.translate.title': 'AI सबटाइटल अनुवाद',
@@ -344,6 +379,79 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'अनुवाद cache hits पर भी बिल होते हैं। चाहे ताज़ा generated हो या 30-दिन के cache से serve हो, प्रत्येक /translate request 100 requests खर्च करती है।',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced एक **Pro फीचर** है: मुफ्त keys को 403 Paid feature मिलता है। हर सफल sync पर **1 request** खर्च होती है; जिस sync को कोई match नहीं मिलता, उसका charge नहीं लगता। इसके बाद synced link को download करना किसी भी अन्य download की तरह गिना जाता है।',
+  'subs.synced.p1':
+    'Online मिलने वाले सबटाइटल अक्सर आपके video से अलग किसी release के लिए timed होते हैं: वे कुछ सेकंड पहले या देर से शुरू होते हैं, या फिल्म आगे बढ़ने के साथ और ज़्यादा खिसकते जाते हैं क्योंकि वह release किसी दूसरे frame rate पर चलता है। Wyzie Synced आपकी copy का audio सुनता है, पता लगाता है कि लोग कहाँ बोल रहे हैं, और वह offset और frame-rate सुधार निकालता है जो सबटाइटल को उसके साथ मिला दे। आपको सुधार लागू किया हुआ एक सामान्य download link मिलता है (offset और fps [download options](/subs/usage/direct#download-options))।',
+  'subs.synced.web.p':
+    'सबसे आसान तरीका: [sub.wyzie.io/synced](https://sub.wyzie.io/synced) खोलें, अपनी Pro key दर्ज करें, अपनी video फ़ाइल और शीर्षक चुनें, और synced सबटाइटल download करें। Audio का विश्लेषण आपके browser में ही होता है, इसलिए video कभी upload नहीं होता: केवल speech timings भेजी जाती हैं। MKV, MP4, AVI और अधिकांश अन्य formats काम करते हैं, जिनमें AC3, E-AC3 और DTS audio भी शामिल हैं।',
+  'subs.synced.api.p':
+    'बताएं कि आपको कौन सा सबटाइटल चाहिए (एक download link, या शीर्षक ताकि Wyzie सबसे अच्छा match चुन सके) और audio भेजें: या तो आपके द्वारा खुद detect की गई speech timings, या स्वयं audio/video फ़ाइल।',
+  'subs.synced.param.url':
+    '/search से मिला download link (https://sub.wyzie.io/c/…)। उस पर लगे अन्य download options (to, sdh, …) synced link पर बने रहते हैं।',
+  'subs.synced.param.id':
+    'url के बजाय: TMDB या IMDB ID। Wyzie उस भाषा के शीर्ष 5 text सबटाइटल आज़माता है और वह वापस करता है जो आपके audio पर सबसे अच्छा बैठता है।',
+  'subs.synced.param.language':
+    'id के साथ: सबटाइटल भाषा का ISO 639-1 कोड (आवश्यक)।',
+  'subs.synced.param.seasonEpisode':
+    'id के साथ, TV के लिए। दोनों एक साथ मौजूद होने चाहिए।',
+  'subs.synced.param.key':
+    'आपकी Pro API key। इसके बिना, url के tok के पीछे वाली key का उपयोग होता है; बिना key वाले download page के links के लिए key आवश्यक है।',
+  'subs.synced.param.speech':
+    'लोग कहाँ बोलते हैं: सेकंड में [[start, end], …], किसी भी voice activity detector से (wyzie-lib का detectSpeech, Silero VAD, webrtcvad)। 2 घंटे की फिल्म में लगभग 2,000 segments होते हैं, यानी करीब 40 KB JSON।',
+  'subs.synced.param.media':
+    'या स्वयं audio/video फ़ाइल: raw request body के रूप में (बाकी fields query string में), या multipart field media के रूप में। अधिकतम 95 MB, इसलिए पूरी फिल्म के लिए केवल audio track upload करें।',
+  'subs.synced.fields.note':
+    'Fields को JSON body, multipart form, या query string (raw media body के साथ) में भेजें।',
+  'subs.synced.response.p': '200 response JSON होता है:',
+  'subs.synced.field.url':
+    'timing सुधार (offset, fps) और आपकी key के लिए नए tok के साथ सबटाइटल का download link। इसे किसी भी /search url की तरह उपयोग करें: हर download पर 1 request खर्च होती है।',
+  'subs.synced.field.offset':
+    'frame-rate सुधार के बाद हर line में जोड़े गए सेकंड (negative मान का अर्थ है पहले)।',
+  'subs.synced.field.fps':
+    'frame-rate सुधार, SUBTITLE_FPS:VIDEO_FPS के रूप में (जैसे "25:23.976"), या null जब किसी सुधार की ज़रूरत न हो।',
+  'subs.synced.field.confidence':
+    '0 से 1: यह timing बाकी सभी से कितनी स्पष्ट रूप से बेहतर है। जो कुछ भी वापस आता है वह match test पास कर चुका है; मान जितना अधिक, उतना निश्चित।',
+  'subs.synced.field.inSync':
+    'true जब सबटाइटल पहले से ही आपकी copy से मेल खाता था।',
+  'subs.synced.field.subtitle':
+    'कौन सा सबटाइटल उपयोग हुआ (release, fileName, format, source, …)। url के साथ, केवल उसका format।',
+  'subs.synced.errors.p':
+    'Errors message और details के साथ JSON होते हैं। अस्वीकृत और विफल syncs का charge नहीं लगता।',
+  'subs.synced.error.400':
+    'Fields गायब या अमान्य हैं: कोई सबटाइटल नहीं, कोई audio नहीं, या ऐसा speech जो [start, end] जोड़ियों में नहीं है।',
+  'subs.synced.error.401':
+    'कोई key नहीं, या url का download link अमान्य या expired है।',
+  'subs.synced.error.403':
+    'Key मुफ्त है (Wyzie Synced के लिए Pro आवश्यक है), अमान्य है, या hold पर है।',
+  'subs.synced.error.404':
+    'उस शीर्षक के लिए उस भाषा में कोई text सबटाइटल नहीं है।',
+  'subs.synced.error.413':
+    'media फ़ाइल 95 MB से बड़ी है। केवल audio track upload करें, या speech भेजें।',
+  'subs.synced.error.422':
+    'सबटाइटल किसी भी offset या frame rate पर audio से मेल नहीं खाता (शायद कोई दूसरा cut या episode है), audio में बहुत कम speech है, या फ़ाइल decode नहीं हो सकती।',
+  'subs.synced.error.429':
+    'Key request का भुगतान नहीं कर सकती, ठीक किसी भी अन्य call की तरह।',
+  'subs.synced.error.503':
+    'अन्य uploads को decode करने में व्यस्त है, या search कुछ समय के लिए अनुपलब्ध है। थोड़ी देर बाद फिर से प्रयास करें, या speech भेजें।',
+  'subs.synced.lib.p':
+    'wyzie-lib में detectSpeech (वही detector जो साइट आपके browser में चलाती है) और syncSubtitle हैं:',
+  'subs.synced.how.step1':
+    'Speech: audio को 8 kHz mono में decode किया जाता है (5.1 और 7.1 mixes के लिए केवल centre channel, जहाँ संवाद होते हैं), और एक voice activity detector चिह्नित करता है कि लोग कहाँ बोलते हैं: तेज़, speech-band ध्वनि जो syllables के साथ उठती और गिरती है।',
+  'subs.synced.how.step2':
+    'Alignment: सबटाइटल के on-screen समय को ±10 मिनट के भीतर हर offset पर उस speech के साथ cross-correlate किया जाता है, सामान्य frame-rate mismatches के लिए (25 vs 23.976, 25 vs 24, 24 vs 23.976 fps)।',
+  'subs.synced.how.step3':
+    'Refinement: lines जहाँ शुरू होती हैं उसे speech के शुरू होने की जगह से मिलाकर सबसे अच्छी timing को 10 ms तक सटीक किया जाता है।',
+  'subs.synced.how.step4':
+    "कोई timing तभी वापस की जाती है जब वह बाकी हर offset से काफ़ी ऊपर हो, इसलिए किसी दूसरे cut या episode के सबटाइटल को गलत shift के बजाय 422 Couldn't sync मिलता है।",
+  'subs.synced.limit1':
+    'Wyzie Synced एक स्थिर offset और frame-rate के अंतर को ठीक करता है। किसी अलग cut (जोड़े गए या गायब scenes) के सबटाइटल को एक shift से ठीक नहीं किया जा सकता, और उसे अस्वीकार कर दिया जाता है।',
+  'subs.synced.limit2':
+    'इसे speech की आवश्यकता है: कम संवाद वाली फिल्में, या ज़्यादातर संगीत वाला audio, शायद sync न हो।',
+  'subs.synced.limit3': '±10 मिनट तक के offsets खोजे जाते हैं।',
+
   // Subs API Keys Page
   'subs.keys.title': 'API Keys',
   'subs.keys.p1':
@@ -393,10 +501,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'NPM पैकेज',
 
   'subs.keys.limit.h2': 'सीमा तक पहुँचना',
+  'subs.keys.limit.p':
+    'एक search पर 1 request खर्च होती है और हर सबटाइटल download पर 1 request, इसलिए एक बार search करके एक फ़ाइल download करने में 2 खर्च होती हैं। AI अनुवाद में प्रति call 100 requests खर्च होती हैं।',
   'subs.keys.limit.free':
     '**मुफ्त tier** समाप्त -> API X-RateLimit-Reset और Retry-After headers के साथ 429 वापस करती है। दैनिक counter UTC midnight पर reset होता है।',
   'subs.keys.limit.paid':
     '**Paid balance** समाप्त -> API 402 वापस करती है। [store.wyzie.io/topup](https://store.wyzie.io/topup) पर top up करें या अपने dashboard में **auto top-up** सक्षम करें ताकि जब आपका balance आपकी निर्धारित threshold से नीचे जाए तो स्वचालित रूप से refill हो।',
+  'subs.keys.hold.p1':
+    'जो keys ज़्यादातर datacenter या hosting IPs से बहुत अधिक volume भेजती हैं, उन्हें स्वचालित रूप से pause कर दिया जाता है। Pause की गई key को हर request पर 403 Key on hold मिलता है, और JSON में एक reinstate link (https://store.wyzie.io/verify) और एक support link (https://store.wyzie.io/contact) होता है।',
+  'subs.keys.hold.p2':
+    'Key को तुरंत reinstate करने के लिए, जिस website पर आप इसका उपयोग करते हैं उसे [store.wyzie.io/verify](https://store.wyzie.io/verify) पर DNS TXT record या meta tag से verify करें। Verified साइट वाली key फिर कभी auto-pause नहीं होती, इसलिए व्यस्त साइटें pause होने से पहले ही verify कर सकती हैं।',
+  'subs.keys.hold.p3':
+    'कोई website नहीं है, जैसे backend service या app? Key reinstate करवाने के लिए [support से संपर्क करें](https://store.wyzie.io/contact)।',
+
+  'subs.keys.files.h2': 'फ़ाइलों में क्या है',
+  'subs.keys.files.adfilter':
+    '**विज्ञापन filtering** – sub.wyzie.io के माध्यम से serve होने वाले हर सबटाइटल से provider के विज्ञापन cues हटा दिए जाते हैं (OpenSubtitles banners, betting के प्रचार, "watch free at ..." जैसी lines)। SRT cues को फिर से number किया जाता है ताकि कुछ भी skip न हो। हर provider, OpenSubtitles सहित, sub.wyzie.io के माध्यम से serve होता है, इसलिए filter उन सभी पर लागू होता है।',
+  'subs.keys.files.promo':
+    '**मुफ्त और dev keys** को हर फ़ाइल की बिल्कुल शुरुआत में (0–6 s) एक छोटा cue मिलता है जो [store.wyzie.io](https://store.wyzie.io) की ओर इशारा करता है। Paid keys को बिना किसी cue के साफ़ फ़ाइलें मिलती हैं।',
 
   'subs.keys.faq.h2': 'FAQ',
   'subs.keys.faq.q1': 'मेरी key खो गई। क्या मुझे नई मिल सकती है?',

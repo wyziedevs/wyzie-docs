@@ -201,7 +201,7 @@ const messages: Record<string, string> = {
     'Filtro de codificação de caracteres (ex.: utf-8, latin-1).',
   'subs.pkg.param.hi': 'Booleano para legendas para deficientes auditivos.',
   'subs.pkg.param.source':
-    'Provedores de legenda a consultar (all para todas as fontes habilitadas).',
+    'Provedores de legenda a consultar pelo codinome (all para todas as fontes ativas que sua chave pode usar; padrão charlie).',
   'subs.pkg.param.release': 'Filtros de release/cena (aceita uma lista).',
   'subs.pkg.param.filename':
     'Filtros de nome de arquivo; os aliases file e fileName são suportados.',
@@ -213,7 +213,7 @@ const messages: Record<string, string> = {
     'Ignora o cache e busca resultados frescos das fontes.',
 
   'subs.pkg.helpers':
-    'O pacote também inclui helpers leves para o TMDB: searchTmdb, getTvDetails e getSeasonDetails para encontrar IDs rapidamente antes de chamar /search. Além disso, getSources pode ser usado para buscar a lista de fontes de legendas habilitadas atualmente.',
+    'O pacote também inclui helpers leves para o TMDB: searchTmdb, getTvDetails e getSeasonDetails para encontrar IDs rapidamente antes de chamar /search. getSources retorna os codinomes das fontes ativas (uma fonte pausada pelas verificações de saúde fica de fora até se recuperar), e getSourcesInfo retorna a resposta completa de /sources com os níveis de plano e, se você passar uma chave, quais fontes essa chave pode usar. withDownloadOptions adiciona opções de download (saída WebVTT, correções de tempo, um segundo idioma e mais) à url de um resultado.',
   'subs.pkg.types.h3': 'Tipos',
   'subs.pkg.type.search': 'Todos os parâmetros válidos reconhecidos pela API.',
   'subs.pkg.type.query':
@@ -221,6 +221,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'Todos os valores retornados pela API com seus respectivos tipos.',
   'subs.pkg.type.sources': 'Tipo de resposta do endpoint /sources.',
+  'subs.pkg.type.download':
+    'Opções para withDownloadOptions: to, offset, fps, plain e (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Entrada e resultado de syncSubtitle (Wyzie Synced, chaves Pro): qual legenda (um resultado, sua url, ou tmdb_id/imdb_id com language), os trechos de fala (speech) que o detectSpeech encontrou ou o arquivo de mídia (media), e o link de download sincronizado com seu offset, fps e confidence. Veja [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'Nossos tipos são muito simples e bem documentados. Confira o arquivo types.ts vinculado no repositório do GitHub.',
   'subs.pkg.config.h3': 'Configuração',
@@ -259,6 +263,10 @@ const messages: Record<string, string> = {
     'Sua chave de API (obrigatória). Obtenha uma gratuitamente em store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'Ignora o cache e busca resultados frescos. Use quando as fontes podem ter sido atualizadas.',
+  'subs.direct.param.page':
+    'Página a retornar, começando em 1. Usado apenas junto com limit.',
+  'subs.direct.param.limit':
+    'Resultados por página (de 1 a 200). Sem ele, todos os resultados vêm em uma única resposta.',
   'subs.direct.important.imdb':
     "Ao usar um IMDB ID, certifique-se de que os dois primeiros caracteres ('tt') estejam incluídos no início do ID.",
 
@@ -289,6 +297,33 @@ const messages: Record<string, string> = {
     'O filtro fornecido pelo usuário que correspondeu (se fornecido).',
   'subs.direct.data.ai':
     'true se a entrada for uma legenda traduzida por IA, false para legendas extraídas normalmente. Use como filtro no lado do cliente quando quiser apenas um ou outro.',
+  'subs.direct.download.p':
+    'Toda url em uma resposta de /search aponta para https://sub.wyzie.io/c/... e carrega um parâmetro de consulta tok. O tok é criptografado, então não revela sua chave de API, e continua válido por 60 dias. Use a URL como está. Uma busca custa 1 requisição e cada download custa mais 1, cobradas da chave que fez a busca. Quando essa chave não consegue pagar por um download, o link é recusado:',
+  'subs.direct.dl.p':
+    'Adicione estes parâmetros a uma URL de download para mudar o que ela retorna. Eles funcionam em todo download, em cache ou não, e não custam nada a mais (exceto dual, abaixo). O cabeçalho de resposta X-Subtitle-Transforms lista o que foi aplicado, com contagens.',
+  'subs.direct.dl.param.to':
+    'Formato de saída: `srt` ou `vtt`. `vtt` é reproduzido diretamente em um elemento `<track>` do navegador. Padrão: o formato original do arquivo.',
+  'subs.direct.dl.param.offset':
+    'Desloca todas as linhas por esta quantidade de segundos (valores negativos adiantam).',
+  'subs.direct.dl.param.fps':
+    'Corrige o desvio gradual de uma legenda feita para outro release: `SUBTITLE_FPS:VIDEO_FPS`, ex.: `25:23.976` para uma legenda PAL em um vídeo na taxa de quadros de cinema.',
+  'subs.direct.dl.param.plain':
+    'Linhas simples e limpas: códigos de estilo como `{\\an8}` e `<font>` removidos, linhas vazias e repetidas descartadas, linhas em ordem cronológica, pequenas sobreposições cortadas.',
+  'subs.direct.dl.param.sdh':
+    'Remove o texto para deficientes auditivos: `[DOOR SLAMS]`, `(sighs)`, rótulos de falante como `JOHN:` e letras de música com ♪.',
+  'subs.direct.dl.param.clean':
+    'Mascara palavrões pesados, mantendo a primeira letra (`f***`). Apenas arquivos em inglês.',
+  'subs.direct.dl.param.dual':
+    'Adiciona um segundo idioma (código ISO 639-1) abaixo de cada linha, alinhado com a marcação de tempo deste arquivo. Custa 1 requisição extra, apenas quando uma correspondência é encontrada; caso contrário, o arquivo volta sem o segundo idioma, com `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    'As opções podem ser combinadas, ex.: `&to=vtt&sdh=strip&offset=-1.5`. Os links já trazem `format`, `encoding`, `id` e (para episódios) `season` e `episode`: deixe-os como estão. `autoUnzip=false` retorna um arquivo compactado como está.',
+  'subs.direct.headers.p':
+    'Toda resposta de /search inclui um cabeçalho X-Total-Count com o número total de resultados. Quando você passa limit, ela também inclui:',
+  'subs.direct.header.xpage': 'a página retornada.',
+  'subs.direct.header.xperpage': 'o limit em vigor.',
+  'subs.direct.header.xtotalpages': 'o número total de páginas.',
+  'subs.direct.headers.rate':
+    'As respostas também trazem X-RateLimit-Limit, X-RateLimit-Remaining e X-RateLimit-Reset. Considere-os aproximados: o uso é consolidado com o faturamento em pequenos lotes, então eles podem ficar um pouco atrás do seu uso real.',
 
   // Subs Translate Page
   'subs.translate.title': 'Tradução de Legendas com IA',
@@ -350,6 +385,79 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'As traduções são cobradas mesmo em acertos de cache. Seja gerada recentemente ou servida do cache de 30 dias, cada requisição /translate custa 100 requisições.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced é um **recurso Pro**: chaves gratuitas recebem 403 Paid feature. Cada sincronização bem-sucedida custa **1 requisição**; uma sincronização que não encontra correspondência não é cobrada. Baixar o link sincronizado depois conta como qualquer outro download.',
+  'subs.synced.p1':
+    'Legendas encontradas na internet muitas vezes são sincronizadas para um release diferente do vídeo que você tem: começam alguns segundos antes ou depois, ou vão se afastando à medida que o filme avança porque aquele release roda em outra taxa de quadros. O Wyzie Synced escuta o áudio da sua cópia, encontra onde as pessoas falam e calcula o deslocamento (offset) e a correção de taxa de quadros que alinham a legenda com ele. Você recebe um link de download normal com a correção aplicada (as [opções de download](/subs/usage/direct#download-options) offset e fps).',
+  'subs.synced.web.p':
+    'O jeito mais fácil: abra [sub.wyzie.io/synced](https://sub.wyzie.io/synced), insira sua chave Pro, escolha o arquivo de vídeo e o título, e baixe a legenda sincronizada. O áudio é analisado no seu navegador, então o vídeo nunca é enviado: só os tempos de fala são transmitidos. MKV, MP4, AVI e a maioria dos outros formatos funcionam, incluindo áudio AC3, E-AC3 e DTS.',
+  'subs.synced.api.p':
+    'Envie qual legenda você quer (um link de download, ou o título para deixar o Wyzie escolher a melhor correspondência) e o áudio: ou os tempos de fala que você mesmo detectou, ou o próprio arquivo de áudio/vídeo.',
+  'subs.synced.param.url':
+    'Um link de download do /search (https://sub.wyzie.io/c/…). Outras opções de download presentes nele (to, sdh, …) são mantidas no link sincronizado.',
+  'subs.synced.param.id':
+    'Em vez de url: ID TMDB ou IMDB. O Wyzie testa as 5 melhores legendas de texto nesse idioma e retorna a que melhor se ajusta ao seu áudio.',
+  'subs.synced.param.language':
+    'Com id: código ISO 639-1 do idioma da legenda (obrigatório).',
+  'subs.synced.param.seasonEpisode':
+    'Com id, para séries. Ambos devem estar presentes juntos.',
+  'subs.synced.param.key':
+    'Sua chave de API Pro. Sem ela, é usada a chave por trás do tok da url; links da página de download sem chave precisam de key.',
+  'subs.synced.param.speech':
+    'Onde as pessoas falam: [[start, end], …] em segundos, de qualquer detector de atividade de voz (detectSpeech do wyzie-lib, Silero VAD, webrtcvad). Um filme de 2 horas tem cerca de 2.000 segmentos, uns 40 KB de JSON.',
+  'subs.synced.param.media':
+    'Ou o próprio arquivo de áudio/vídeo: como corpo bruto da requisição (com os outros campos na query string), ou como o campo multipart media. Até 95 MB, então para um filme inteiro envie só a faixa de áudio.',
+  'subs.synced.fields.note':
+    'Os campos vão em um corpo JSON, um formulário multipart ou na query string (com media bruto no corpo).',
+  'subs.synced.response.p': 'Uma resposta 200 é JSON:',
+  'subs.synced.field.url':
+    'o link de download da legenda com a correção de tempo (offset, fps) e um tok novo para sua chave. Use-o como qualquer url do /search: cada download custa 1 requisição.',
+  'subs.synced.field.offset':
+    'segundos adicionados a cada linha após a correção de taxa de quadros (valores negativos adiantam).',
+  'subs.synced.field.fps':
+    'a correção de taxa de quadros como SUBTITLE_FPS:VIDEO_FPS (ex.: "25:23.976"), ou null quando nenhuma foi necessária.',
+  'subs.synced.field.confidence':
+    'de 0 a 1: com que clareza este ajuste de tempo supera todos os outros. Tudo o que é retornado já passou no teste de correspondência; quanto maior, mais certeza.',
+  'subs.synced.field.inSync':
+    'true quando a legenda já estava sincronizada com a sua cópia.',
+  'subs.synced.field.subtitle':
+    'qual legenda foi usada (release, fileName, format, source, …). Com url, apenas o format.',
+  'subs.synced.errors.p':
+    'Erros são JSON com message e details. Sincronizações recusadas e com falha não são cobradas.',
+  'subs.synced.error.400':
+    'Campos ausentes ou inválidos: sem legenda, sem áudio, ou speech que não seja formado por pares [start, end].',
+  'subs.synced.error.401':
+    'Sem chave, ou o link de download da url é inválido ou expirou.',
+  'subs.synced.error.403':
+    'A chave é gratuita (o Wyzie Synced requer Pro), inválida ou está pausada.',
+  'subs.synced.error.404':
+    'Não há legendas de texto nesse idioma para o título.',
+  'subs.synced.error.413':
+    'O arquivo media tem mais de 95 MB. Envie só a faixa de áudio ou mande speech.',
+  'subs.synced.error.422':
+    'A legenda não se alinha com o áudio em nenhum deslocamento ou taxa de quadros (provavelmente é de outra versão ou episódio), o áudio tem pouca fala, ou o arquivo não pode ser decodificado.',
+  'subs.synced.error.429':
+    'A chave não consegue pagar pela requisição, como em qualquer outra chamada.',
+  'subs.synced.error.503':
+    'O servidor está ocupado decodificando outros uploads, ou a busca está temporariamente indisponível. Tente novamente em breve ou envie speech.',
+  'subs.synced.lib.p':
+    'O wyzie-lib tem detectSpeech (o mesmo detector que o site executa no seu navegador) e syncSubtitle:',
+  'subs.synced.how.step1':
+    'Fala: o áudio é decodificado para 8 kHz mono (apenas o canal central em mixagens 5.1 e 7.1, onde fica o diálogo), e um detector de atividade de voz marca onde as pessoas falam: som alto, na faixa de frequência da voz, que sobe e desce com as sílabas.',
+  'subs.synced.how.step2':
+    'Alinhamento: os tempos de exibição da legenda são correlacionados cruzadamente com essa fala em cada deslocamento dentro de ±10 minutos, para as diferenças de taxa de quadros mais comuns (25 vs 23.976, 25 vs 24, 24 vs 23.976 fps).',
+  'subs.synced.how.step3':
+    'Refinamento: o melhor ajuste é refinado até 10 ms, alinhando onde as linhas começam com onde a fala começa.',
+  'subs.synced.how.step4':
+    "Um ajuste só é retornado quando se destaca muito acima de qualquer outro deslocamento, então uma legenda de outra versão ou episódio recebe 422 Couldn't sync em vez de um deslocamento errado.",
+  'subs.synced.limit1':
+    'O Wyzie Synced corrige um deslocamento constante e uma diferença de taxa de quadros. Uma legenda de outra versão (com cenas adicionadas ou removidas) não pode ser corrigida com um único deslocamento, e é recusada.',
+  'subs.synced.limit2':
+    'Ele precisa de fala: filmes com pouco diálogo, ou com áudio que é principalmente música, podem não sincronizar.',
+  'subs.synced.limit3': 'São encontrados deslocamentos de até ±10 minutos.',
+
   // Subs API Keys Page
   'subs.keys.title': 'Chaves de API',
   'subs.keys.p1':
@@ -401,10 +509,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'Pacote NPM',
 
   'subs.keys.limit.h2': 'Atingindo o Limite',
+  'subs.keys.limit.p':
+    'Uma busca custa 1 requisição e cada download de legenda custa 1 requisição, então buscar uma vez e baixar um arquivo usa 2. A tradução com IA custa 100 requisições por chamada.',
   'subs.keys.limit.free':
     '**Plano gratuito** esgotado -> A API retorna 429 com os cabeçalhos X-RateLimit-Reset e Retry-After. O contador diário é zerado à meia-noite UTC.',
   'subs.keys.limit.paid':
     '**Saldo pago** esgotado -> A API retorna 402. Recarregue em [store.wyzie.io/topup](https://store.wyzie.io/topup) ou habilite a **recarga automática** no seu painel para reabastecer automaticamente quando o saldo cruzar um limite que você definir.',
+  'subs.keys.hold.p1':
+    'Chaves que enviam um volume muito alto, principalmente a partir de IPs de datacenter ou hospedagem, são pausadas automaticamente. Uma chave pausada recebe 403 Key on hold em toda requisição, com um link de reativação (https://store.wyzie.io/verify) e um link de suporte (https://store.wyzie.io/contact) no JSON.',
+  'subs.keys.hold.p2':
+    'Para reativar a chave na hora, verifique o site onde você a usa em [store.wyzie.io/verify](https://store.wyzie.io/verify) com um registro DNS TXT ou uma meta tag. Uma chave com um site verificado nunca mais é pausada automaticamente, então sites movimentados podem se verificar antes mesmo de serem pausados.',
+  'subs.keys.hold.p3':
+    'Não tem site, por exemplo, um serviço de backend ou um app? [Fale com o suporte](https://store.wyzie.io/contact) para reativar a chave.',
+
+  'subs.keys.files.h2': 'O Que Há nos Arquivos',
+  'subs.keys.files.adfilter':
+    '**Filtragem de anúncios** – toda legenda servida por sub.wyzie.io tem os cues de publicidade dos provedores removidos (banners do OpenSubtitles, propaganda de apostas, linhas do tipo "assista grátis em ..."). Os cues SRT são renumerados para que a numeração não pule nenhum. Todos os provedores, incluindo o OpenSubtitles, são servidos por sub.wyzie.io, então o filtro se aplica a todos eles.',
+  'subs.keys.files.promo':
+    '**Chaves gratuitas e de desenvolvimento** recebem um cue curto bem no início de cada arquivo (0–6 s) apontando para [store.wyzie.io](https://store.wyzie.io). Chaves pagas recebem arquivos limpos, sem cue.',
 
   'subs.keys.faq.h2': 'Perguntas Frequentes',
   'subs.keys.faq.q1': 'Perdi minha chave. Posso obter uma nova?',

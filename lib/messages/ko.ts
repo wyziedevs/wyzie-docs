@@ -195,7 +195,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.encoding': '문자 인코딩 필터 (예: utf-8, latin-1).',
   'subs.pkg.param.hi': '청각 장애인 자막 여부를 나타내는 불리언.',
   'subs.pkg.param.source':
-    '쿼리할 자막 제공자 (all이면 활성화된 모든 소스 조회).',
+    '코드명으로 지정하는 쿼리할 자막 제공자 (all이면 키가 사용할 수 있는 가동 중인 모든 소스 조회; 기본값은 charlie).',
   'subs.pkg.param.release': '릴리스/씬 필터 (목록을 허용합니다).',
   'subs.pkg.param.filename': '파일명 필터; file 및 fileName 별칭이 지원됩니다.',
   'subs.pkg.param.origin': '콘텐츠 출처 필터 (예: WEB, BLURAY, DVD).',
@@ -205,13 +205,17 @@ const messages: Record<string, string> = {
     '캐시를 우회하고 소스에서 새로운 결과를 가져옵니다.',
 
   'subs.pkg.helpers':
-    '패키지에는 경량 TMDB 헬퍼도 포함됩니다: /search 호출 전 ID를 빠르게 찾기 위한 searchTmdb, getTvDetails, getSeasonDetails. 또한 getSources를 사용하면 현재 활성화된 자막 소스 목록을 가져올 수 있습니다.',
+    '패키지에는 경량 TMDB 헬퍼도 포함됩니다: /search 호출 전 ID를 빠르게 찾기 위한 searchTmdb, getTvDetails, getSeasonDetails. getSources는 가동 중인 소스의 코드명을 반환하며 (상태 점검으로 일시 중지된 소스는 복구될 때까지 제외됩니다), getSourcesInfo는 등급 정보가 포함된 전체 /sources 응답을 반환하고, 키를 전달하면 해당 키가 사용할 수 있는 소스도 함께 반환합니다. withDownloadOptions는 결과의 url에 다운로드 옵션 (WebVTT 출력, 타이밍 보정, 두 번째 언어 등)을 추가합니다.',
   'subs.pkg.types.h3': '타입',
   'subs.pkg.type.search': 'API가 인식하는 모든 유효한 파라미터.',
   'subs.pkg.type.query':
     'wyzie-subs API에서 사용 가능한 모든 파라미터 (선택 및 필수).',
   'subs.pkg.type.subtitle': 'API에서 반환되는 모든 값과 해당 타입.',
   'subs.pkg.type.sources': '/sources 엔드포인트의 응답 타입.',
+  'subs.pkg.type.download':
+    'withDownloadOptions의 옵션: to, offset, fps, plain, 그리고 Pro 전용 sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'syncSubtitle의 입력과 결과 (Wyzie Synced, Pro 키): 사용할 자막 (검색 결과, 그 url, 또는 tmdb_id/imdb_id와 language), detectSpeech가 찾은 speech 또는 media 파일, 그리고 offset, fps, confidence가 포함된 동기화된 다운로드 링크. [Wyzie Synced](/subs/usage/synced)를 참고하세요.',
   'subs.pkg.types.end':
     '타입은 매우 간결하고 잘 문서화되어 있습니다. GitHub 저장소에 링크된 types.ts 파일을 확인하세요.',
   'subs.pkg.config.h3': '설정',
@@ -246,6 +250,10 @@ const messages: Record<string, string> = {
     'API 키 (필수). store.wyzie.io/redeem에서 무료로 받으세요.',
   'subs.direct.param.refresh':
     '캐시를 우회하고 새로운 결과를 가져옵니다. 소스가 업데이트되었을 가능성이 있을 때 사용하세요.',
+  'subs.direct.param.page':
+    '반환할 페이지 (1부터 시작). limit과 함께 사용할 때만 적용됩니다.',
+  'subs.direct.param.limit':
+    '페이지당 결과 수 (1~200). 지정하지 않으면 모든 결과가 하나의 응답으로 반환됩니다.',
   'subs.direct.important.imdb':
     "IMDB ID를 사용할 때는 ID 앞에 처음 두 문자('tt')가 포함되어 있는지 확인하세요.",
 
@@ -273,6 +281,33 @@ const messages: Record<string, string> = {
     '매칭된 사용자 지정 필터 (필터가 제공된 경우).',
   'subs.direct.data.ai':
     'AI 번역 자막이면 true, 일반 스크래핑 자막이면 false. 어느 한 쪽만 원할 때 클라이언트 측 필터로 사용하세요.',
+  'subs.direct.download.p':
+    '/search 응답의 모든 url은 https://sub.wyzie.io/c/... 주소를 가리키며 tok 쿼리 파라미터를 포함합니다. tok은 암호화되어 있어 API 키를 노출하지 않으며, 60일 동안 유효합니다. URL을 그대로 사용하세요. 검색은 1회 요청, 각 다운로드는 추가로 1회 요청이 차감되며, 검색을 실행한 키에 청구됩니다. 해당 키로 다운로드 비용을 지불할 수 없으면 링크가 거부됩니다:',
+  'subs.direct.dl.p':
+    '다운로드 URL에 다음 옵션을 추가하면 반환되는 내용을 바꿀 수 있습니다. 캐시 여부와 관계없이 모든 다운로드에서 작동하며, 추가 비용이 들지 않습니다 (아래 dual 제외). X-Subtitle-Transforms 응답 헤더에 적용된 항목과 그 횟수가 표시됩니다.',
+  'subs.direct.dl.param.to':
+    '출력 형식: `srt` 또는 `vtt`. `vtt`는 브라우저 `<track>` 요소에서 바로 재생됩니다. 기본값: 파일의 원래 형식.',
+  'subs.direct.dl.param.offset':
+    '모든 줄을 지정한 초만큼 이동합니다 (음수이면 앞당겨집니다).',
+  'subs.direct.dl.param.fps':
+    '다른 릴리스용으로 만들어진 자막에서 점점 벌어지는 싱크를 보정합니다: `SUBTITLE_FPS:VIDEO_FPS` (예: 필름 프레임 레이트 영상에 PAL 자막을 맞추는 경우 `25:23.976`).',
+  'subs.direct.dl.param.plain':
+    '깔끔한 일반 텍스트 줄: `{\\an8}`, `<font>` 같은 스타일 코드를 제거하고, 빈 줄과 반복되는 줄을 삭제하며, 줄을 시간순으로 정렬하고, 작은 겹침을 잘라냅니다.',
+  'subs.direct.dl.param.sdh':
+    '청각 장애인용 텍스트를 제거합니다: `[DOOR SLAMS]`, `(sighs)`, `JOHN:` 같은 화자 표시, ♪ 가사.',
+  'subs.direct.dl.param.clean':
+    '심한 욕설을 첫 글자만 남기고 가립니다 (`f***`). 영어 파일에만 적용됩니다.',
+  'subs.direct.dl.param.dual':
+    '각 줄 아래에 두 번째 언어 (ISO 639-1 코드)를 이 파일의 타이밍에 맞춰 추가합니다. 일치하는 자막을 찾은 경우에만 1회 요청이 추가로 차감되며, 찾지 못하면 `X-Dual: unavailable`과 함께 원래 파일만 반환됩니다.',
+  'subs.direct.dl.after':
+    '옵션은 조합할 수 있습니다 (예: `&to=vtt&sdh=strip&offset=-1.5`). 링크에는 이미 `format`, `encoding`, `id`, 그리고 (에피소드의 경우) `season`과 `episode`가 포함되어 있으니 그대로 두세요. `autoUnzip=false`를 사용하면 아카이브가 그대로 반환됩니다.',
+  'subs.direct.headers.p':
+    '모든 /search 응답에는 전체 결과 수를 나타내는 X-Total-Count 헤더가 포함됩니다. limit을 전달하면 다음도 포함됩니다:',
+  'subs.direct.header.xpage': '반환된 페이지.',
+  'subs.direct.header.xperpage': '적용된 limit 값.',
+  'subs.direct.header.xtotalpages': '전체 페이지 수.',
+  'subs.direct.headers.rate':
+    '응답에는 X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset도 포함됩니다. 이 값은 근사치로 취급하세요: 사용량은 짧은 배치 단위로 청구와 정산되므로 실제 사용량보다 약간 늦게 반영될 수 있습니다.',
 
   // Subs Translate Page
   'subs.translate.title': 'AI 자막 번역',
@@ -329,6 +364,77 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     '번역은 캐시 적중 시에도 요금이 부과됩니다. 새로 생성되든 30일 캐시에서 제공되든 /translate 요청 한 번에 100회 요청이 차감됩니다.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced는 **Pro 기능**입니다. 무료 키는 403 Paid feature를 받습니다. 동기화에 성공할 때마다 **1회 요청**이 차감되며, 일치 항목을 찾지 못한 동기화는 차감되지 않습니다. 이후 동기화된 링크를 다운로드하면 다른 다운로드와 동일하게 계산됩니다.',
+  'subs.synced.p1':
+    '온라인에서 찾은 자막은 가지고 있는 영상과 다른 릴리스에 맞춰 타이밍이 잡혀 있는 경우가 많습니다: 몇 초 일찍 또는 늦게 시작하거나, 해당 릴리스의 프레임 레이트가 달라 영화가 진행될수록 점점 더 어긋납니다. Wyzie Synced는 여러분이 가진 영상의 오디오를 듣고 사람이 말하는 구간을 찾아, 자막을 그에 맞추는 오프셋과 프레임 레이트 보정값을 계산합니다. 보정이 적용된 일반 다운로드 링크를 받게 됩니다 (offset 및 fps [다운로드 옵션](/subs/usage/direct#download-options)).',
+  'subs.synced.web.p':
+    '가장 쉬운 방법: [sub.wyzie.io/synced](https://sub.wyzie.io/synced)를 열고, Pro 키를 입력한 뒤, 영상 파일과 제목을 선택하고 동기화된 자막을 다운로드하세요. 오디오는 브라우저에서 분석되므로 영상은 업로드되지 않습니다: 발화 타이밍만 전송됩니다. MKV, MP4, AVI를 비롯한 대부분의 형식이 지원되며, AC3, E-AC3, DTS 오디오도 지원됩니다.',
+  'subs.synced.api.p':
+    '원하는 자막 (다운로드 링크, 또는 Wyzie가 가장 잘 맞는 자막을 고르도록 할 제목)과 오디오를 보내세요. 오디오는 직접 감지한 발화 타이밍이나 오디오/비디오 파일 자체 중 하나입니다.',
+  'subs.synced.param.url':
+    '/search에서 받은 다운로드 링크 (https://sub.wyzie.io/c/…). 링크에 붙어 있는 다른 다운로드 옵션 (to, sdh 등)은 동기화된 링크에도 유지됩니다.',
+  'subs.synced.param.id':
+    'url 대신 사용하는 TMDB 또는 IMDB ID. Wyzie가 해당 언어의 상위 5개 텍스트 자막을 시도해 오디오에 가장 잘 맞는 것을 반환합니다.',
+  'subs.synced.param.language':
+    'id와 함께 사용: 자막 언어의 ISO 639-1 코드 (필수).',
+  'subs.synced.param.seasonEpisode':
+    'id와 함께, TV용. 두 값 모두 함께 있어야 합니다.',
+  'subs.synced.param.key':
+    'Pro API 키. 생략하면 url의 tok에 연결된 키가 사용됩니다. 키 없이 이용하는 다운로드 페이지의 링크에는 key가 필요합니다.',
+  'subs.synced.param.speech':
+    '사람이 말하는 구간: 초 단위의 [[start, end], …]. 어떤 음성 활동 감지기 (wyzie-lib의 detectSpeech, Silero VAD, webrtcvad)의 결과든 사용할 수 있습니다. 2시간짜리 영화는 약 2,000개 구간, JSON으로 약 40 KB입니다.',
+  'subs.synced.param.media':
+    '또는 오디오/비디오 파일 자체: 원시 요청 본문으로 보내거나 (이 경우 다른 필드는 쿼리 문자열에 넣습니다), multipart 필드 media로 보냅니다. 최대 95 MB이므로 영화 전체라면 오디오 트랙만 업로드하세요.',
+  'subs.synced.fields.note':
+    '필드는 JSON 본문, multipart 폼, 또는 쿼리 문자열 (원시 media 본문을 보내는 경우)에 넣습니다.',
+  'subs.synced.response.p': '200 응답은 JSON입니다:',
+  'subs.synced.field.url':
+    '타이밍 보정 (offset, fps)과 키용 새 tok이 포함된 자막 다운로드 링크. 다른 /search url과 동일하게 사용하세요: 다운로드마다 1회 요청이 차감됩니다.',
+  'subs.synced.field.offset':
+    '프레임 레이트 보정 후 모든 줄에 더해지는 초 (음수이면 앞당겨짐).',
+  'subs.synced.field.fps':
+    'SUBTITLE_FPS:VIDEO_FPS 형식의 프레임 레이트 보정값 (예: "25:23.976"). 보정이 필요 없었으면 null.',
+  'subs.synced.field.confidence':
+    '0~1: 이 타이밍이 다른 모든 후보보다 얼마나 뚜렷하게 앞서는지 나타냅니다. 반환된 결과는 모두 일치 검사를 통과한 것이며, 값이 높을수록 더 확실합니다.',
+  'subs.synced.field.inSync': '자막이 이미 가지고 있는 영상과 일치했으면 true.',
+  'subs.synced.field.subtitle':
+    '사용된 자막 (release, fileName, format, source 등). url을 사용한 경우 format만 포함됩니다.',
+  'subs.synced.errors.p':
+    '오류는 message와 details가 포함된 JSON으로 반환됩니다. 거부되거나 실패한 동기화는 차감되지 않습니다.',
+  'subs.synced.error.400':
+    '필드가 누락되었거나 잘못되었습니다: 자막이나 오디오가 없거나, speech가 [start, end] 쌍 형식이 아닙니다.',
+  'subs.synced.error.401':
+    '키가 없거나, url의 다운로드 링크가 잘못되었거나 만료되었습니다.',
+  'subs.synced.error.403':
+    '키가 무료 키이거나 (Wyzie Synced는 Pro 필요), 잘못되었거나, 일시 중지 상태입니다.',
+  'subs.synced.error.404': '해당 제목에 그 언어의 텍스트 자막이 없습니다.',
+  'subs.synced.error.413':
+    'media 파일이 95 MB를 초과합니다. 오디오 트랙만 업로드하거나 speech를 보내세요.',
+  'subs.synced.error.422':
+    '어떤 오프셋이나 프레임 레이트에서도 자막이 오디오와 맞지 않거나 (다른 편집본이나 에피소드일 가능성이 높음), 오디오에 발화가 너무 적거나, 파일을 디코딩할 수 없습니다.',
+  'subs.synced.error.429':
+    '다른 호출과 마찬가지로, 키로 요청 비용을 지불할 수 없습니다.',
+  'subs.synced.error.503':
+    '다른 업로드를 디코딩하느라 바쁘거나, 검색을 잠시 사용할 수 없습니다. 잠시 후 다시 시도하거나 speech를 보내세요.',
+  'subs.synced.lib.p':
+    'wyzie-lib에는 detectSpeech (사이트가 브라우저에서 실행하는 것과 동일한 감지기)와 syncSubtitle이 있습니다:',
+  'subs.synced.how.step1':
+    '발화 감지: 오디오를 8 kHz 모노로 디코딩하고 (5.1 및 7.1 믹스에서는 대사가 담긴 센터 채널만 사용), 음성 활동 감지기가 사람이 말하는 구간을 표시합니다: 음절에 따라 오르내리는, 음성 대역의 큰 소리입니다.',
+  'subs.synced.how.step2':
+    '정렬: 일반적인 프레임 레이트 불일치 (25 대 23.976, 25 대 24, 24 대 23.976 fps) 각각에 대해, ±10분 이내의 모든 오프셋에서 자막의 화면 표시 시간과 해당 발화의 교차 상관을 계산합니다.',
+  'subs.synced.how.step3':
+    '세부 조정: 각 줄이 시작하는 지점을 발화가 시작하는 지점에 맞춰, 최적의 타이밍을 10 ms 단위까지 다듬습니다.',
+  'subs.synced.how.step4':
+    "타이밍은 다른 모든 오프셋보다 월등히 두드러질 때만 반환되므로, 다른 편집본이나 에피소드용 자막은 잘못 이동되는 대신 422 Couldn't sync를 받습니다.",
+  'subs.synced.limit1':
+    'Wyzie Synced는 일정한 오프셋과 프레임 레이트 차이를 보정합니다. 다른 편집본 (장면이 추가되거나 빠진 버전)용 자막은 한 번의 이동으로 보정할 수 없으므로 거부됩니다.',
+  'subs.synced.limit2':
+    '발화가 필요합니다: 대사가 적은 영화나 대부분이 음악인 오디오는 동기화되지 않을 수 있습니다.',
+  'subs.synced.limit3': '최대 ±10분까지의 오프셋을 찾을 수 있습니다.',
+
   // Subs API Keys Page
   'subs.keys.title': 'API 키',
   'subs.keys.p1':
@@ -378,10 +484,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'NPM 패키지',
 
   'subs.keys.limit.h2': '한도 초과 시',
+  'subs.keys.limit.p':
+    '검색은 1회 요청, 자막 다운로드는 건당 1회 요청이 차감되므로, 한 번 검색하고 파일 하나를 다운로드하면 2회를 사용합니다. AI 번역은 호출당 100회 요청이 차감됩니다.',
   'subs.keys.limit.free':
     '**무료 등급** 소진 -> API가 X-RateLimit-Reset 및 Retry-After 헤더와 함께 429를 반환합니다. 일일 카운터는 UTC 자정에 초기화됩니다.',
   'subs.keys.limit.paid':
     '**유료 잔액** 소진 -> API가 402를 반환합니다. [store.wyzie.io/topup](https://store.wyzie.io/topup)에서 충전하거나, 대시보드에서 **자동 충전**을 활성화하면 잔액이 설정한 임계값 아래로 떨어질 때 자동으로 충전됩니다.',
+  'subs.keys.hold.p1':
+    '주로 데이터센터나 호스팅 IP에서 매우 많은 양의 요청을 보내는 키는 자동으로 일시 중지됩니다. 일시 중지된 키는 모든 요청에서 403 Key on hold를 받으며, JSON에는 복구 링크 (https://store.wyzie.io/verify)와 지원 링크 (https://store.wyzie.io/contact)가 포함됩니다.',
+  'subs.keys.hold.p2':
+    '키를 즉시 복구하려면 키를 사용하는 웹사이트를 [store.wyzie.io/verify](https://store.wyzie.io/verify)에서 DNS TXT 레코드 또는 meta 태그로 인증하세요. 인증된 사이트가 있는 키는 다시는 자동으로 일시 중지되지 않으므로, 트래픽이 많은 사이트는 일시 중지되기 전에 미리 인증해 둘 수 있습니다.',
+  'subs.keys.hold.p3':
+    '백엔드 서비스나 앱처럼 웹사이트가 없나요? [지원팀에 문의](https://store.wyzie.io/contact)하여 키를 복구하세요.',
+
+  'subs.keys.files.h2': '파일에 포함되는 내용',
+  'subs.keys.files.adfilter':
+    '**광고 필터링**: sub.wyzie.io를 통해 제공되는 모든 자막에서 제공자의 광고 큐 (OpenSubtitles 배너, 도박 홍보, "...에서 무료 시청" 같은 줄)가 제거됩니다. SRT 큐는 번호가 다시 매겨지므로 건너뛰는 번호가 없습니다. OpenSubtitles를 포함한 모든 제공자가 sub.wyzie.io를 통해 제공되므로 필터는 모든 제공자에 적용됩니다.',
+  'subs.keys.files.promo':
+    '**무료 및 개발용 키**는 각 파일의 맨 처음 (0–6 s)에 [store.wyzie.io](https://store.wyzie.io)를 안내하는 짧은 큐 하나가 들어갑니다. 유료 키는 큐가 없는 깨끗한 파일을 받습니다.',
 
   'subs.keys.faq.h2': '자주 묻는 질문',
   'subs.keys.faq.q1': '키를 잃어버렸습니다. 새 키를 받을 수 있나요?',

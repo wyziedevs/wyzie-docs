@@ -197,7 +197,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.encoding': '文字エンコードフィルター（例：utf-8、latin-1）。',
   'subs.pkg.param.hi': '聴覚障害者向け字幕を示すブール値。',
   'subs.pkg.param.source':
-    'クエリする字幕プロバイダー（all ですべての有効なソースを対象）。',
+    'クエリする字幕プロバイダーのコードネーム（all でキーが使用できる稼働中のすべてのソースを対象。デフォルトは charlie）。',
   'subs.pkg.param.release':
     'リリース/シーンフィルター（リストを受け付けます）。',
   'subs.pkg.param.filename':
@@ -210,13 +210,17 @@ const messages: Record<string, string> = {
     'キャッシュをバイパスしてソースから新しい結果を取得します。',
 
   'subs.pkg.helpers':
-    'このパッケージには軽量な TMDB ヘルパーも同梱されています：/search を呼び出す前に ID をすばやく見つけるための searchTmdb、getTvDetails、getSeasonDetails です。また、getSources を使用して現在有効な字幕ソースの一覧を取得することもできます。',
+    'このパッケージには軽量な TMDB ヘルパーも同梱されています：/search を呼び出す前に ID をすばやく見つけるための searchTmdb、getTvDetails、getSeasonDetails です。getSources は稼働中のソースのコードネームを返し（ヘルスチェックによって一時停止されたソースは、復旧するまで除外されます）、getSourcesInfo はティアを含む /sources の完全なレスポンスを返します。キーを渡すと、そのキーが使用できるソースも返します。withDownloadOptions は、結果の url にダウンロードオプション（WebVTT 出力、タイミング補正、2 つ目の言語など）を追加します。',
   'subs.pkg.types.h3': '型定義',
   'subs.pkg.type.search': 'API が認識するすべての有効なパラメータ。',
   'subs.pkg.type.query':
     'wyzie-subs API で使用可能なすべてのパラメータ（任意および必須）。',
   'subs.pkg.type.subtitle': 'API から返されるすべての値とその型。',
   'subs.pkg.type.sources': '/sources エンドポイントのレスポンス型。',
+  'subs.pkg.type.download':
+    'withDownloadOptions のオプション：to、offset、fps、plain、および Pro 専用の sdh、clean、dual。',
+  'subs.pkg.type.sync':
+    'syncSubtitle の入力と結果（Wyzie Synced、Pro キー）：使用する字幕（検索結果、その url、または tmdb_id/imdb_id と language）、detectSpeech が検出した speech または media ファイル、そして offset、fps、confidence を含む同期済みのダウンロードリンク。詳細は [Wyzie Synced](/subs/usage/synced) をご覧ください。',
   'subs.pkg.types.end':
     '型定義は非常にシンプルで充実したドキュメントが付いています。GitHub リポジトリにリンクされている types.ts ファイルをご確認ください。',
   'subs.pkg.config.h3': '設定',
@@ -253,6 +257,10 @@ const messages: Record<string, string> = {
     'API キー（必須）。store.wyzie.io/redeem で無料取得できます。',
   'subs.direct.param.refresh':
     'キャッシュをバイパスして新しい結果を取得します。ソースが更新された可能性がある場合に使用します。',
+  'subs.direct.param.page':
+    '返すページ（1 から開始）。limit と併用した場合のみ使用されます。',
+  'subs.direct.param.limit':
+    '1 ページあたりの結果数（1〜200）。指定しない場合、すべての結果が 1 つのレスポンスで返されます。',
   'subs.direct.important.imdb':
     "IMDB ID を使用する場合、ID の先頭に最初の 2 文字（'tt'）が含まれていることを確認してください。",
 
@@ -280,6 +288,33 @@ const messages: Record<string, string> = {
     '一致したユーザー指定のフィルター（指定された場合）。',
   'subs.direct.data.ai':
     'AI 翻訳字幕の場合は true、通常のスクレイピング字幕の場合は false。どちらか一方のみが必要な場合のクライアントサイドフィルターとして使用できます。',
+  'subs.direct.download.p':
+    '/search レスポンスに含まれるすべての url は https://sub.wyzie.io/c/... を指し、tok クエリパラメータが付いています。tok は暗号化されているため API キーが露出することはなく、60 日間有効です。URL はそのまま使用してください。検索には 1 リクエスト、各ダウンロードにはさらに 1 リクエストかかり、検索を実行したキーに課金されます。そのキーでダウンロード分を支払えない場合、リンクは拒否されます：',
+  'subs.direct.dl.p':
+    'ダウンロード URL にこれらを追加すると、返される内容を変更できます。キャッシュの有無にかかわらずすべてのダウンロードで機能し、追加コストはかかりません（下記の dual を除く）。X-Subtitle-Transforms レスポンスヘッダーには、適用された処理が件数とともに一覧表示されます。',
+  'subs.direct.dl.param.to':
+    '出力形式：`srt` または `vtt`。`vtt` はブラウザの `<track>` 要素で直接再生できます。デフォルト：ファイル本来の形式。',
+  'subs.direct.dl.param.offset':
+    'すべての行を指定した秒数だけずらします（負の値で早めます）。',
+  'subs.direct.dl.param.fps':
+    '別のリリース向けに作られた字幕の、徐々に大きくなるずれを補正します：`SUBTITLE_FPS:VIDEO_FPS`（例：フィルムレートの動画に PAL の字幕を合わせる場合は `25:23.976`）。',
+  'subs.direct.dl.param.plain':
+    'プレーンで整った行にします：`{\\an8}` や `<font>` などのスタイルコードを除去し、空行と重複行を削除し、行を時間順に並べ、わずかな重なりを切り詰めます。',
+  'subs.direct.dl.param.sdh':
+    '聴覚障害者向けのテキストを除去します：`[DOOR SLAMS]`、`(sighs)`、`JOHN:` などの話者ラベル、♪ の歌詞。',
+  'subs.direct.dl.param.clean':
+    '強い卑語を、頭文字だけ残して伏せ字にします（`f***`）。英語のファイルのみ対応。',
+  'subs.direct.dl.param.dual':
+    '各行の下に 2 つ目の言語（ISO 639-1 コード）を、このファイルのタイミングに合わせて追加します。一致する字幕が見つかった場合のみ、1 リクエストが追加で消費されます。見つからない場合は、`X-Dual: unavailable` とともに元のファイルだけが返されます。',
+  'subs.direct.dl.after':
+    'オプションは組み合わせて使用できます（例：`&to=vtt&sdh=strip&offset=-1.5`）。リンクにはすでに `format`、`encoding`、`id`、および（エピソードの場合）`season` と `episode` が含まれているので、これらはそのままにしてください。`autoUnzip=false` を指定すると、アーカイブがそのまま返されます。',
+  'subs.direct.headers.p':
+    'すべての /search レスポンスには、結果の総数を示す X-Total-Count ヘッダーが含まれます。limit を渡した場合は、以下も含まれます：',
+  'subs.direct.header.xpage': '返されたページ。',
+  'subs.direct.header.xperpage': '適用されている limit。',
+  'subs.direct.header.xtotalpages': 'ページの総数。',
+  'subs.direct.headers.rate':
+    'レスポンスには X-RateLimit-Limit、X-RateLimit-Remaining、X-RateLimit-Reset も含まれます。これらは概算値として扱ってください。使用量は短いバッチ単位で課金と照合されるため、実際の使用量よりわずかに遅れて反映されることがあります。',
 
   // Subs Translate Page
   'subs.translate.title': 'AI 字幕翻訳',
@@ -338,6 +373,79 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     '翻訳はキャッシュヒット時も課金されます。新たに生成された場合でも 30 日間のキャッシュから提供された場合でも、各 /translate リクエストは 100 リクエストを消費します。',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced は **Pro 機能**です。無料キーでは 403 Paid feature が返されます。同期が成功するごとに **1 リクエスト**が消費され、一致が見つからなかった同期は課金されません。その後、同期済みリンクのダウンロードは他のダウンロードと同様にカウントされます。',
+  'subs.synced.p1':
+    'オンラインで見つかる字幕は、手元の動画とは別のリリースに合わせてタイミングが作られていることがよくあります。数秒早く、または遅く始まったり、そのリリースのフレームレートが異なるために、映画が進むにつれてずれが大きくなったりします。Wyzie Synced は手元の動画の音声を聞き取って人が話している箇所を見つけ、字幕をそれに合わせるためのオフセットとフレームレートの補正を算出します。補正が適用された通常のダウンロードリンク（offset と fps の[ダウンロードオプション](/subs/usage/direct#download-options)）が得られます。',
+  'subs.synced.web.p':
+    '最も簡単な方法：[sub.wyzie.io/synced](https://sub.wyzie.io/synced) を開き、Pro キーを入力し、動画ファイルとタイトルを選んで、同期済みの字幕をダウンロードします。音声はブラウザ内で解析されるため、動画がアップロードされることはありません。送信されるのは発話のタイミングだけです。MKV、MP4、AVI をはじめほとんどの形式に対応しており、AC3、E-AC3、DTS の音声も扱えます。',
+  'subs.synced.api.p':
+    '使用する字幕（ダウンロードリンク、または Wyzie に最適なものを選ばせる場合はタイトル）と音声を送信します。音声には、自分で検出した発話タイミングか、音声/動画ファイルそのもののいずれかを指定します。',
+  'subs.synced.param.url':
+    '/search から取得したダウンロードリンク（https://sub.wyzie.io/c/…）。リンクに付いている他のダウンロードオプション（to、sdh など）は、同期済みリンクにも引き継がれます。',
+  'subs.synced.param.id':
+    'url の代わりに使う TMDB または IMDB ID。Wyzie はその言語の上位 5 件のテキスト字幕を試し、音声に最もよく合うものを返します。',
+  'subs.synced.param.language':
+    'id と併用：字幕言語の ISO 639-1 コード（必須）。',
+  'subs.synced.param.seasonEpisode':
+    'id と併用、テレビ番組用。両方同時に指定する必要があります。',
+  'subs.synced.param.key':
+    'Pro API キー。省略した場合は、url の tok に紐付いたキーが使用されます。キー不要のダウンロードページから取得したリンクには key が必要です。',
+  'subs.synced.param.speech':
+    '人が話している区間：秒単位の [[start, end], …]。任意の音声区間検出器（wyzie-lib の detectSpeech、Silero VAD、webrtcvad）の出力を使用できます。2 時間の映画でおよそ 2,000 セグメント、JSON で約 40 KB になります。',
+  'subs.synced.param.media':
+    'または音声/動画ファイルそのもの：生のリクエストボディとして（その他のフィールドはクエリ文字列で指定）、または multipart フィールド media として送信します。上限は 95 MB なので、映画全体の場合は音声トラックだけをアップロードしてください。',
+  'subs.synced.fields.note':
+    'フィールドは JSON ボディ、multipart フォーム、またはクエリ文字列（生の media ボディを送る場合）で指定します。',
+  'subs.synced.response.p': '200 レスポンスは JSON です：',
+  'subs.synced.field.url':
+    'タイミング補正（offset、fps）と、キー用の新しい tok が付いた字幕のダウンロードリンク。他の /search の url と同じように使用します。各ダウンロードで 1 リクエストを消費します。',
+  'subs.synced.field.offset':
+    'フレームレート補正の後、すべての行に加算される秒数（負の値は早める方向）。',
+  'subs.synced.field.fps':
+    'SUBTITLE_FPS:VIDEO_FPS 形式のフレームレート補正（例："25:23.976"）。補正が不要だった場合は null。',
+  'subs.synced.field.confidence':
+    '0〜1：このタイミングが他のすべての候補をどれだけ明確に上回っているかを示します。返される結果はすべて一致判定に合格しており、値が高いほど確実です。',
+  'subs.synced.field.inSync':
+    '字幕がすでに手元の動画と一致していた場合は true。',
+  'subs.synced.field.subtitle':
+    '使用された字幕（release、fileName、format、source など）。url を指定した場合は format のみ。',
+  'subs.synced.errors.p':
+    'エラーは message と details を含む JSON で返されます。拒否された同期や失敗した同期は課金されません。',
+  'subs.synced.error.400':
+    'フィールドが欠落しているか無効です：字幕の指定がない、音声がない、または speech が [start, end] のペアになっていません。',
+  'subs.synced.error.401':
+    'キーがない、または url のダウンロードリンクが無効か期限切れです。',
+  'subs.synced.error.403':
+    'キーが無料キー（Wyzie Synced には Pro が必要）、無効、または一時停止中です。',
+  'subs.synced.error.404':
+    'そのタイトルには、指定した言語のテキスト字幕がありません。',
+  'subs.synced.error.413':
+    'media ファイルが 95 MB を超えています。音声トラックだけをアップロードするか、speech を送信してください。',
+  'subs.synced.error.422':
+    'どのオフセットやフレームレートでも字幕が音声と一致しない（別の編集版やエピソードの可能性が高い）、音声に含まれる発話が少なすぎる、またはファイルをデコードできません。',
+  'subs.synced.error.429':
+    '他の呼び出しと同様に、キーでこのリクエスト分を支払えません。',
+  'subs.synced.error.503':
+    '他のアップロードのデコードで混雑しているか、検索が一時的に利用できません。しばらくしてから再試行するか、speech を送信してください。',
+  'subs.synced.lib.p':
+    'wyzie-lib には detectSpeech（サイトがブラウザ内で実行しているのと同じ検出器）と syncSubtitle があります：',
+  'subs.synced.how.step1':
+    '発話検出：音声は 8 kHz モノラルにデコードされ（5.1 および 7.1 ミックスでは、セリフが収められたセンターチャンネルのみ）、音声区間検出器が人の話している箇所をマークします。ここでいう発話とは、音節に合わせて上下する、音声帯域の大きな音のことです。',
+  'subs.synced.how.step2':
+    '位置合わせ：一般的なフレームレートの不一致（25 と 23.976、25 と 24、24 と 23.976 fps）それぞれについて、±10 分以内のすべてのオフセットで、字幕の表示時間とその発話との相互相関をとります。',
+  'subs.synced.how.step3':
+    '微調整：各行の開始位置を発話の開始位置に合わせることで、最適なタイミングを 10 ms の精度まで高めます。',
+  'subs.synced.how.step4':
+    "タイミングは、他のどのオフセットよりも突出して優れている場合にのみ返されます。そのため、別の編集版やエピソード用の字幕には、誤ったずらしではなく 422 Couldn't sync が返されます。",
+  'subs.synced.limit1':
+    'Wyzie Synced が補正するのは、一定のオフセットとフレームレートの違いです。別の編集版（シーンの追加や欠落があるもの）用の字幕は 1 回のずらしでは補正できないため、拒否されます。',
+  'subs.synced.limit2':
+    '発話が必要です。セリフの少ない映画や、大部分が音楽の音声は同期できない場合があります。',
+  'subs.synced.limit3': '検出できるオフセットは最大 ±10 分です。',
+
   // Subs API Keys Page
   'subs.keys.title': 'API キー',
   'subs.keys.p1':
@@ -390,10 +498,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'NPM パッケージ',
 
   'subs.keys.limit.h2': '制限に達した場合',
+  'subs.keys.limit.p':
+    '検索は 1 リクエスト、字幕のダウンロードは 1 回ごとに 1 リクエストを消費するため、1 回検索して 1 ファイルをダウンロードすると 2 リクエストを使用します。AI 翻訳は 1 回の呼び出しにつき 100 リクエストを消費します。',
   'subs.keys.limit.free':
     '**無料ティア**が枯渇した場合 -> API は X-RateLimit-Reset および Retry-After ヘッダーとともに 429 を返します。日次カウンターは UTC 深夜にリセットされます。',
   'subs.keys.limit.paid':
     '**有料残高**が枯渇した場合 -> API は 402 を返します。[store.wyzie.io/topup](https://store.wyzie.io/topup) でトップアップするか、ダッシュボードで **自動トップアップ** を有効にして残高が設定したしきい値を下回ったときに自動的に補充されるようにしてください。',
+  'subs.keys.hold.p1':
+    '主にデータセンターやホスティングの IP から非常に大量のリクエストを送信するキーは、自動的に一時停止されます。一時停止されたキーはすべてのリクエストで 403 Key on hold を受け取り、JSON には復旧用リンク（https://store.wyzie.io/verify）とサポートリンク（https://store.wyzie.io/contact）が含まれます。',
+  'subs.keys.hold.p2':
+    'キーをすぐに復旧するには、キーを使用しているウェブサイトを [store.wyzie.io/verify](https://store.wyzie.io/verify) で DNS TXT レコードまたは meta タグを使って認証してください。認証済みのサイトがあるキーは二度と自動停止されないため、トラフィックの多いサイトは、一時停止される前にあらかじめ認証しておくことができます。',
+  'subs.keys.hold.p3':
+    'バックエンドサービスやアプリなど、ウェブサイトがない場合は、[サポートに連絡](https://store.wyzie.io/contact)してキーを復旧してもらってください。',
+
+  'subs.keys.files.h2': 'ファイルの内容',
+  'subs.keys.files.adfilter':
+    '**広告フィルタリング**：sub.wyzie.io を通じて配信されるすべての字幕から、プロバイダーの広告キュー（OpenSubtitles のバナー、賭博サイトの宣伝、「... で無料視聴」といった行）が除去されます。SRT のキューは番号が振り直されるため、欠番は生じません。OpenSubtitles を含むすべてのプロバイダーが sub.wyzie.io を通じて配信されるため、フィルターはそのすべてに適用されます。',
+  'subs.keys.files.promo':
+    '**無料キーと開発用キー**では、各ファイルの冒頭（0–6 s）に [store.wyzie.io](https://store.wyzie.io) を案内する短いキューが 1 つ挿入されます。有料キーには、キューのないクリーンなファイルが提供されます。',
 
   'subs.keys.faq.h2': 'よくある質問',
   'subs.keys.faq.q1': 'キーを紛失しました。新しいキーをもらえますか？',

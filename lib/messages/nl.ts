@@ -201,7 +201,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.encoding': 'Tekencoderingsfilter (bijv. utf-8, latin-1).',
   'subs.pkg.param.hi': 'Boolean voor ondertitels voor slechthorenden.',
   'subs.pkg.param.source':
-    'Ondertitelaanbieders om te bevragen (all voor elke ingeschakelde bron).',
+    'Ondertitelaanbieders om te bevragen op codenaam (all voor elke actieve bron die je sleutel kan gebruiken; standaard charlie).',
   'subs.pkg.param.release': 'Release/scene-filters (accepteert een lijst).',
   'subs.pkg.param.filename':
     'Bestandsnaamfilters; aliassen file en fileName worden ondersteund.',
@@ -212,7 +212,7 @@ const messages: Record<string, string> = {
     'Cache omzeilen en verse resultaten ophalen van bronnen.',
 
   'subs.pkg.helpers':
-    "Het pakket bevat ook lichtgewicht TMDB-hulpfuncties: searchTmdb, getTvDetails en getSeasonDetails voor het snel vinden van ID's voordat je /search aanroept. Daarnaast kan getSources worden gebruikt om de lijst met momenteel ingeschakelde ondertitelbronnen op te halen.",
+    "Het pakket bevat ook lichtgewicht TMDB-hulpfuncties: searchTmdb, getTvDetails en getSeasonDetails voor het snel vinden van ID's voordat je /search aanroept. getSources geeft de codenamen van de actieve bronnen terug (een bron die door zijn statuscontroles is gepauzeerd, wordt weggelaten totdat hij hersteld is), en getSourcesInfo geeft het volledige /sources-antwoord terug met de abonnementsniveaus en, als je een sleutel meegeeft, welke bronnen die sleutel kan gebruiken. withDownloadOptions voegt downloadopties (WebVTT-uitvoer, timingcorrecties, een tweede taal en meer) toe aan de url van een resultaat.",
   'subs.pkg.types.h3': 'Types',
   'subs.pkg.type.search': 'Alle geldige parameters die de API herkent.',
   'subs.pkg.type.query':
@@ -220,6 +220,10 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'Alle teruggegeven waarden van de API met hun respectievelijke types.',
   'subs.pkg.type.sources': 'Antwoordtype van het /sources-eindpunt.',
+  'subs.pkg.type.download':
+    'Opties voor withDownloadOptions: to, offset, fps, plain en (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Invoer en resultaat van syncSubtitle (Wyzie Synced, Pro-sleutels): welke ondertitel (een resultaat, de url ervan, of tmdb_id/imdb_id met language), de spraakfragmenten (speech) die detectSpeech heeft gevonden of het media-bestand, en de gesynchroniseerde downloadlink met offset, fps en confidence. Zie [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'Onze types zijn heel eenvoudig en goed gedocumenteerd. Bekijk het types.ts-bestand dat is gelinkt in de GitHub-repository.',
   'subs.pkg.config.h3': 'Configuratie',
@@ -258,6 +262,10 @@ const messages: Record<string, string> = {
     'Je API-sleutel (vereist). Haal er gratis een op bij store.wyzie.io/redeem.',
   'subs.direct.param.refresh':
     'Cache omzeilen en verse resultaten ophalen. Gebruik dit wanneer bronnen mogelijk zijn bijgewerkt.',
+  'subs.direct.param.page':
+    'Terug te geven pagina, beginnend bij 1. Wordt alleen samen met limit gebruikt.',
+  'subs.direct.param.limit':
+    'Resultaten per pagina (1 tot 200). Zonder deze parameter komen alle resultaten in één antwoord terug.',
   'subs.direct.important.imdb':
     "Wanneer je een IMDB-ID gebruikt, zorg er dan voor dat de eerste twee tekens ('tt') aan het begin van het ID zijn opgenomen.",
 
@@ -289,6 +297,33 @@ const messages: Record<string, string> = {
     'Het door de gebruiker opgegeven filter dat overeenkwam (indien opgegeven).',
   'subs.direct.data.ai':
     'true als het item een AI-vertaalde ondertitel is, false voor normale gescrapte ondertitels. Gebruik het als een filter aan de clientzijde als je alleen het een of het ander wilt.',
+  'subs.direct.download.p':
+    'Elke url in een /search-antwoord verwijst naar https://sub.wyzie.io/c/... en bevat een tok-queryparameter. tok is versleuteld, zodat het je API-sleutel niet prijsgeeft, en blijft 60 dagen geldig. Gebruik de URL ongewijzigd. Een zoekopdracht kost 1 verzoek en elke download kost er 1 extra, in rekening gebracht bij de sleutel die de zoekopdracht uitvoerde. Als die sleutel een download niet kan betalen, wordt de link geweigerd:',
+  'subs.direct.dl.p':
+    'Voeg deze toe aan een download-URL om te wijzigen wat die teruggeeft. Ze werken bij elke download, gecached of niet, en kosten niets extra (behalve dual, zie hieronder). De antwoordheader X-Subtitle-Transforms vermeldt wat er is toegepast, met aantallen.',
+  'subs.direct.dl.param.to':
+    'Uitvoerformaat: `srt` of `vtt`. `vtt` speelt direct af in een `<track>`-element in de browser. Standaard: het eigen formaat van het bestand.',
+  'subs.direct.dl.param.offset':
+    'Verschuif elke regel met dit aantal seconden (negatief is eerder).',
+  'subs.direct.dl.param.fps':
+    'Corrigeer drift bij een ondertitel die voor een andere release is gemaakt: `SUBTITLE_FPS:VIDEO_FPS`, bijv. `25:23.976` voor een PAL-ondertitel bij een video met filmframerate.',
+  'subs.direct.dl.param.plain':
+    'Eenvoudige, nette regels: opmaakcodes zoals `{\\an8}` en `<font>` verwijderd, lege en herhaalde regels weggelaten, regels op tijdsvolgorde, kleine overlappingen ingekort.',
+  'subs.direct.dl.param.sdh':
+    'Verwijder tekst voor slechthorenden: `[DOOR SLAMS]`, `(sighs)`, sprekerlabels zoals `JOHN:` en ♪-songteksten.',
+  'subs.direct.dl.param.clean':
+    'Maskeer grove scheldwoorden, met behoud van de eerste letter (`f***`). Alleen Engelse bestanden.',
+  'subs.direct.dl.param.dual':
+    'Voeg onder elke regel een tweede taal (ISO 639-1-code) toe, afgestemd op de timing van dit bestand. Kost 1 extra verzoek, alleen als er een match wordt gevonden; anders komt alleen het bestand zelf terug, met `X-Dual: unavailable`.',
+  'subs.direct.dl.after':
+    'Opties zijn te combineren, bijv. `&to=vtt&sdh=strip&offset=-1.5`. Links bevatten al `format`, `encoding`, `id` en (voor afleveringen) `season` en `episode`: laat die zoals ze zijn. `autoUnzip=false` geeft een archief ongewijzigd terug.',
+  'subs.direct.headers.p':
+    'Elk /search-antwoord bevat een X-Total-Count-header met het totale aantal resultaten. Als je limit meegeeft, bevat het ook:',
+  'subs.direct.header.xpage': 'de teruggegeven pagina.',
+  'subs.direct.header.xperpage': 'de geldende limit-waarde.',
+  'subs.direct.header.xtotalpages': "het totale aantal pagina's.",
+  'subs.direct.headers.rate':
+    'Antwoorden bevatten ook X-RateLimit-Limit, X-RateLimit-Remaining en X-RateLimit-Reset. Beschouw ze als een benadering: het gebruik wordt in korte batches met de facturering verrekend, dus ze kunnen iets achterlopen op je werkelijke gebruik.',
 
   // Subs Translate Page
   'subs.translate.title': 'AI-ondertitelvertaling',
@@ -349,6 +384,78 @@ const messages: Record<string, string> = {
   'subs.translate.limit4':
     'Vertalingen worden ook bij cache-hits in rekening gebracht. Of ze nu vers worden gegenereerd of geleverd vanuit de 30-daagse cache, elk /translate-verzoek kost 100 verzoeken.',
 
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced is een **Pro-functie**: gratis sleutels krijgen 403 Paid feature. Elke geslaagde synchronisatie kost **1 verzoek**; een synchronisatie zonder match wordt niet in rekening gebracht. Het downloaden van de gesynchroniseerde link telt daarna als elke andere download.',
+  'subs.synced.p1':
+    'Online gevonden ondertitels zijn vaak getimed voor een andere release dan de video die je hebt: ze beginnen een paar seconden te vroeg of te laat, of lopen naarmate de film vordert steeds verder uit de pas omdat die release op een andere framerate draait. Wyzie Synced luistert naar de audio van jouw kopie, bepaalt waar er gesproken wordt en berekent de verschuiving en framerate-correctie waarmee de ondertitel daarop aansluit. Je krijgt een normale downloadlink met de correctie toegepast (via de [downloadopties](/subs/usage/direct#download-options) offset en fps).',
+  'subs.synced.web.p':
+    'De makkelijkste manier: open [sub.wyzie.io/synced](https://sub.wyzie.io/synced), voer je Pro-sleutel in, kies je videobestand en de titel, en download de gesynchroniseerde ondertitel. De audio wordt in je browser geanalyseerd, dus de video wordt nooit geüpload: alleen de spraaktimings worden verstuurd. MKV, MP4, AVI en de meeste andere formaten werken, inclusief AC3-, E-AC3- en DTS-audio.',
+  'subs.synced.api.p':
+    'Stuur welke ondertitel je wilt (een downloadlink, of de titel zodat Wyzie de beste match kiest) en de audio: ofwel spraaktimings die je zelf hebt gedetecteerd, ofwel het audio-/videobestand zelf.',
+  'subs.synced.param.url':
+    'Een downloadlink van /search (https://sub.wyzie.io/c/…). Andere downloadopties daarop (to, sdh, …) blijven behouden op de gesynchroniseerde link.',
+  'subs.synced.param.id':
+    'In plaats van url: TMDB- of IMDB-ID. Wyzie probeert de 5 beste tekstondertitels in die taal en geeft degene terug die het best bij je audio past.',
+  'subs.synced.param.language':
+    'Met id: ISO 639-1-code van de ondertiteltaal (vereist).',
+  'subs.synced.param.seasonEpisode':
+    'Met id, voor tv. Beide moeten tegelijk aanwezig zijn.',
+  'subs.synced.param.key':
+    'Je Pro-API-sleutel. Zonder deze wordt de sleutel achter de tok van url gebruikt; links van de downloadpagina zonder sleutel hebben key nodig.',
+  'subs.synced.param.speech':
+    "Waar er gesproken wordt: [[start, end], …] in seconden, van een willekeurige spraakactiviteitsdetector (detectSpeech van wyzie-lib, Silero VAD, webrtcvad). Een film van 2 uur is ongeveer 2.000 segmenten, zo'n 40 KB JSON.",
+  'subs.synced.param.media':
+    'Of het audio-/videobestand zelf: als ruwe verzoekbody (met de andere velden in de querystring), of als multipart-veld media. Tot 95 MB, dus upload voor een volledige film alleen het audiospoor.',
+  'subs.synced.fields.note':
+    'Velden gaan in een JSON-body, een multipart-formulier of de querystring (bij een ruwe media-body).',
+  'subs.synced.response.p': 'Een 200-antwoord is JSON:',
+  'subs.synced.field.url':
+    'de downloadlink van de ondertitel met de timingcorrectie (offset, fps) en een verse tok voor je sleutel. Gebruik hem zoals elke url van /search: elke download kost 1 verzoek.',
+  'subs.synced.field.offset':
+    'seconden die na de framerate-correctie bij elke regel worden opgeteld (negatief is eerder).',
+  'subs.synced.field.fps':
+    'de framerate-correctie als SUBTITLE_FPS:VIDEO_FPS (bijv. "25:23.976"), of null als er geen nodig was.',
+  'subs.synced.field.confidence':
+    '0 tot 1: hoe duidelijk deze timing alle andere verslaat. Alles wat wordt teruggegeven, heeft de matchtest doorstaan; hoger is zekerder.',
+  'subs.synced.field.inSync':
+    'true als de ondertitel al overeenkwam met je kopie.',
+  'subs.synced.field.subtitle':
+    'welke ondertitel is gebruikt (release, fileName, format, source, …). Met url alleen het format ervan.',
+  'subs.synced.errors.p':
+    'Fouten zijn JSON met message en details. Geweigerde en mislukte synchronisaties worden niet in rekening gebracht.',
+  'subs.synced.error.400':
+    'Ontbrekende of ongeldige velden: geen ondertitel, geen audio, of speech die niet uit [start, end]-paren bestaat.',
+  'subs.synced.error.401':
+    'Geen sleutel, of de downloadlink in url is ongeldig of verlopen.',
+  'subs.synced.error.403':
+    'De sleutel is gratis (Wyzie Synced vereist Pro), ongeldig of gepauzeerd.',
+  'subs.synced.error.404': 'Geen tekstondertitels in die taal voor deze titel.',
+  'subs.synced.error.413':
+    'Het media-bestand is groter dan 95 MB. Upload alleen het audiospoor, of stuur speech.',
+  'subs.synced.error.422':
+    'De ondertitel sluit bij geen enkele verschuiving of framerate aan op de audio (waarschijnlijk een andere versie of aflevering), de audio bevat te weinig spraak, of het bestand kan niet worden gedecodeerd.',
+  'subs.synced.error.429':
+    'De sleutel kan het verzoek niet betalen, net als bij elke andere aanroep.',
+  'subs.synced.error.503':
+    'Bezig met het decoderen van andere uploads, of zoeken is even niet beschikbaar. Probeer het zo opnieuw, of stuur speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib heeft detectSpeech (dezelfde detector die de site in je browser draait) en syncSubtitle:',
+  'subs.synced.how.step1':
+    'Spraak: de audio wordt gedecodeerd naar 8 kHz mono (bij 5.1- en 7.1-mixen alleen het centerkanaal, waar de dialoog zit), en een spraakactiviteitsdetector markeert waar er gesproken wordt: luid geluid in de spraakband dat met de lettergrepen aanzwelt en wegebt.',
+  'subs.synced.how.step2':
+    'Uitlijning: de weergavetijden van de ondertitel worden bij elke verschuiving binnen ±10 minuten gekruiscorreleerd met die spraak, voor de gebruikelijke framerate-verschillen (25 vs. 23.976, 25 vs. 24, 24 vs. 23.976 fps).',
+  'subs.synced.how.step3':
+    'Verfijning: de beste timing wordt tot op 10 ms verfijnd door de beginpunten van regels uit te lijnen met de beginpunten van spraak.',
+  'subs.synced.how.step4':
+    "Een timing wordt alleen teruggegeven als die ver boven elke andere verschuiving uitsteekt, zodat een ondertitel voor een andere versie of aflevering 422 Couldn't sync krijgt in plaats van een verkeerde verschuiving.",
+  'subs.synced.limit1':
+    'Wyzie Synced corrigeert een constante verschuiving en een verschil in framerate. Een ondertitel voor een andere versie (toegevoegde of ontbrekende scènes) is niet met één verschuiving te corrigeren en wordt geweigerd.',
+  'subs.synced.limit2':
+    'Er is spraak nodig: films met weinig dialoog, of audio die grotendeels uit muziek bestaat, synchroniseren mogelijk niet.',
+  'subs.synced.limit3': 'Verschuivingen tot ±10 minuten worden gevonden.',
+
   // Subs API Keys Page
   'subs.keys.title': 'API-sleutels',
   'subs.keys.p1':
@@ -399,10 +506,24 @@ const messages: Record<string, string> = {
   'subs.keys.using.npm.h3': 'NPM-pakket',
 
   'subs.keys.limit.h2': 'De limiet bereiken',
+  'subs.keys.limit.p':
+    'Een zoekopdracht kost 1 verzoek en elke ondertiteldownload kost 1 verzoek, dus één keer zoeken en één bestand downloaden verbruikt er 2. AI-vertaling kost 100 verzoeken per aanroep.',
   'subs.keys.limit.free':
     '**Gratis abonnement** uitgeput -> API geeft 429 terug met X-RateLimit-Reset- en Retry-After-headers. Dagteller reset om middernacht UTC.',
   'subs.keys.limit.paid':
     '**Betaald saldo** uitgeput -> API geeft 402 terug. Waardeer op bij [store.wyzie.io/topup](https://store.wyzie.io/topup) of schakel **automatisch opwaarderen** in je dashboard in om automatisch bij te vullen wanneer je saldo een door jou ingestelde drempel bereikt.',
+  'subs.keys.hold.p1':
+    "Sleutels die een zeer hoog volume versturen, grotendeels vanaf datacenter- of hosting-IP's, worden automatisch gepauzeerd. Een gepauzeerde sleutel krijgt bij elk verzoek 403 Key on hold, met een heractiveringslink (https://store.wyzie.io/verify) en een supportlink (https://store.wyzie.io/contact) in de JSON.",
+  'subs.keys.hold.p2':
+    'Om de sleutel meteen te heractiveren, verifieer je de website waarop je hem gebruikt via [store.wyzie.io/verify](https://store.wyzie.io/verify) met een DNS-TXT-record of een metatag. Een sleutel met een geverifieerde site wordt nooit meer automatisch gepauzeerd, dus drukbezochte sites kunnen zich verifiëren voordat ze ooit gepauzeerd worden.',
+  'subs.keys.hold.p3':
+    'Geen website, bijvoorbeeld een backendservice of een app? [Neem contact op met support](https://store.wyzie.io/contact) om de sleutel te laten heractiveren.',
+
+  'subs.keys.files.h2': 'Wat er in de bestanden zit',
+  'subs.keys.files.adfilter':
+    '**Advertentiefilter** – bij elke ondertitel die via sub.wyzie.io wordt geleverd, worden advertentiecues van aanbieders verwijderd (OpenSubtitles-banners, gokreclame, regels als "watch free at ..."). SRT-cues worden opnieuw genummerd zodat er niets wordt overgeslagen. Elke aanbieder, OpenSubtitles inbegrepen, wordt via sub.wyzie.io geleverd, zodat het filter voor allemaal geldt.',
+  'subs.keys.files.promo':
+    '**Gratis en dev-sleutels** krijgen helemaal aan het begin van elk bestand (0–6 s) één korte cue die verwijst naar [store.wyzie.io](https://store.wyzie.io). Betaalde sleutels krijgen schone bestanden zonder cue.',
 
   'subs.keys.faq.h2': 'Veelgestelde vragen',
   'subs.keys.faq.q1':
