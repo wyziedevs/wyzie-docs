@@ -99,8 +99,26 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
 | ------- | ------------------------------------------------------------------------------------------------------- |
 | **402** | The Pro balance is exhausted. The JSON includes a `topup` link.                                         |
 | **429** | A free key is over its daily cap of 1,000 requests. The JSON includes `reset_at`, plus a `Retry-After` header. |
-| **403** | The key is invalid, or it is on hold (see [API Keys](/subs/usage/api-keys)).                           |
+| **403** | The key is invalid, or it is on hold (see [API Keys](/subs/usage/api-keys)). Also `"Paid feature"`: a Pro-only download option on a free key (not billed). |
 | **401** | The `tok` parameter is missing or expired.                                                              |
+| **400** | A download option has an invalid value, or `dual` is used on a link without the title `id` (search again). Not billed. |
+| **422** | Download options were used on a file with no timed lines (an image-based subtitle or plain text).      |
+
+#### Download Options
+
+<TP id="subs.direct.dl.p" />
+
+| Parameter  | Example           | Plan | Description                             |
+| ---------- | ----------------- | ---- | --------------------------------------- |
+| **to**     | `&to=vtt`         | All  | <T id="subs.direct.dl.param.to" />      |
+| **offset** | `&offset=-1.5`    | All  | <T id="subs.direct.dl.param.offset" />  |
+| **fps**    | `&fps=25:23.976`  | All  | <T id="subs.direct.dl.param.fps" />     |
+| **plain**  | `&plain=1`        | All  | <T id="subs.direct.dl.param.plain" />   |
+| **sdh**    | `&sdh=strip`      | Pro  | <T id="subs.direct.dl.param.sdh" />     |
+| **clean**  | `&clean=1`        | Pro  | <T id="subs.direct.dl.param.clean" />   |
+| **dual**   | `&dual=ja`        | Pro  | <T id="subs.direct.dl.param.dual" />    |
+
+<TP id="subs.direct.dl.after" />
 
 ### Pagination and Headers
 

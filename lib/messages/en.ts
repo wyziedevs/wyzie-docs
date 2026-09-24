@@ -211,7 +211,7 @@ const messages: Record<string, string> = {
     'Bypass cache and fetch fresh results from sources.',
 
   'subs.pkg.helpers':
-    'The package also ships lightweight TMDB helpers: searchTmdb, getTvDetails, and getSeasonDetails for quickly finding IDs before hitting /search. getSources returns the codenames of the live sources (a source paused by its health checks is left out until it recovers), and getSourcesInfo returns the full /sources response with tiers, and, given a key, which sources that key can use.',
+    "The package also ships lightweight TMDB helpers: searchTmdb, getTvDetails, and getSeasonDetails for quickly finding IDs before hitting /search. getSources returns the codenames of the live sources (a source paused by its health checks is left out until it recovers), and getSourcesInfo returns the full /sources response with tiers, and, given a key, which sources that key can use. withDownloadOptions adds download options (WebVTT output, timing fixes, a second language, and more) to a result's url.",
   'subs.pkg.types.h3': 'Types',
   'subs.pkg.type.search': 'All valid parameters recognized by the API.',
   'subs.pkg.type.query':
@@ -219,6 +219,8 @@ const messages: Record<string, string> = {
   'subs.pkg.type.subtitle':
     'All returned values from the API with their respective types.',
   'subs.pkg.type.sources': 'Response type from the /sources endpoint.',
+  'subs.pkg.type.download':
+    'Options for withDownloadOptions: to, offset, fps, plain, and (Pro) sdh, clean, dual.',
   'subs.pkg.types.end':
     'Our types are very simple and well-documented. See [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) in the wyzie-lib repository.',
   'subs.pkg.config.h3': 'Configuration',
@@ -292,6 +294,24 @@ const messages: Record<string, string> = {
     'true if the entry is an AI-translated subtitle, false for normal scraped subtitles. Use it as a client-side filter when you only want one or the other.',
   'subs.direct.download.p':
     'Every url in a /search response points to https://sub.wyzie.io/c/... and carries a tok query parameter. tok is encrypted, so it does not reveal your API key, and it stays valid for 60 days. Use the URL as-is. A search costs 1 request and each download costs 1 more, billed to the key that ran the search. When that key cannot pay for a download, the link is refused:',
+  'subs.direct.dl.p':
+    'Add these to a download URL to change what it returns. They work on every download, cached or not, and cost nothing extra (except dual, below). The X-Subtitle-Transforms response header lists what was applied, with counts.',
+  'subs.direct.dl.param.to':
+    "Output format: `srt` or `vtt`. `vtt` plays directly in a browser `<track>` element. Default: the file's own format.",
+  'subs.direct.dl.param.offset':
+    'Shift every line by this many seconds (negative is earlier).',
+  'subs.direct.dl.param.fps':
+    'Fix drift from a subtitle made for another release: `SUBTITLE_FPS:VIDEO_FPS`, e.g. `25:23.976` for a PAL subtitle on a film-rate video.',
+  'subs.direct.dl.param.plain':
+    'Plain, tidy lines: styling codes such as `{\\an8}` and `<font>` removed, empty and repeated lines dropped, lines in time order, small overlaps trimmed.',
+  'subs.direct.dl.param.sdh':
+    'Remove hearing-impaired text: `[DOOR SLAMS]`, `(sighs)`, `JOHN:` speaker labels and ♪ lyrics.',
+  'subs.direct.dl.param.clean':
+    'Mask strong profanity, keeping the first letter (`f***`). English files only.',
+  'subs.direct.dl.param.dual':
+    "Add a second language (ISO 639-1 code) under each line, lined up with this file's timing. Costs 1 extra request, only when a match is found; otherwise the file comes back alone with `X-Dual: unavailable`.",
+  'subs.direct.dl.after':
+    'Options combine, e.g. `&to=vtt&sdh=strip&offset=-1.5`. Links already carry `format`, `encoding`, `id` and (for episodes) `season` and `episode`: leave those as they are. `autoUnzip=false` returns an archive as-is.',
   'subs.direct.headers.p':
     'Every /search response includes an X-Total-Count header with the total number of results. When you pass limit, it also includes:',
   'subs.direct.header.xpage': 'the page returned.',

@@ -20,7 +20,7 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 
 ## Usage
 
-<Tabs items={["Fetching Subtitles", "VTT Parser", "Get Sources", "Handling Errors"]}>
+<Tabs items={["Fetching Subtitles", "VTT Parser", "Download Options", "Get Sources", "Handling Errors"]}>
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
@@ -47,6 +47,21 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 
     const vttContent = await parseToVTT(data[0].url);
     console.log(vttContent);
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+    import { type SubtitleData, searchSubtitles, withDownloadOptions } from "wyzie-lib";
+
+
+    const data: SubtitleData[] = await searchSubtitles({ tmdb_id: 286217, key: "YOUR_KEY" });
+
+    // WebVTT for a <track> element, 1.5 s earlier
+    const vttUrl = withDownloadOptions(data[0], { to: "vtt", offset: -1.5 });
+
+    // Pro keys: hearing-impaired text removed, Japanese under each line
+    const studyUrl = withDownloadOptions(data[0], { sdh: true, dual: "ja" });
     ```
 
   </Tabs.Tab>
@@ -118,7 +133,7 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 - `apiMessage` and `details`: the API's own message, e.g. `"Key on hold"`
 - `body`: the full JSON error, with extras such as `topup`, `reset_at`, `reinstate`, or `offline` (the paused sources)
 
-`parseToVTT`, the TMDB helpers, `getSources`, and `getSourcesInfo` reject with a `WyzieError` the same way. Invalid parameters (no ID, or a season without an episode) and network failures reject with a plain `Error`. `parseToVTT` converts SRT to WebVTT and returns files that are already WebVTT unchanged.
+`parseToVTT`, the TMDB helpers, `getSources`, and `getSourcesInfo` reject with a `WyzieError` the same way. Invalid parameters (no ID, or a season without an episode) and network failures reject with a plain `Error`. `parseToVTT` asks the server for WebVTT on Wyzie download links (every format converts), converts other SRT itself, and returns files that are already WebVTT unchanged. `withDownloadOptions` adds [download options](/subs/usage/direct#download-options) to a result's `url`; a Pro-only option on a free key makes the download reject with a 403 `"Paid feature"`.
 
 ### Types
 
@@ -126,6 +141,7 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 - **QueryParams**: <T id="subs.pkg.type.query" />
 - **SubtitleData**: <T id="subs.pkg.type.subtitle" />
 - **SourcesResponse**: <T id="subs.pkg.type.sources" />
+- **DownloadOptions**: <T id="subs.pkg.type.download" />
 
 <TP id="subs.pkg.types.end" />
 
