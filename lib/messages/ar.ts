@@ -3,18 +3,17 @@ const messages: Record<string, string> = {
   'nav.language': 'اللغة',
 
   // Index / Landing Page
-  'index.subtitle':
-    'Wyzie هي مجموعة أدوات مفتوحة المصدر لاستخراج الترجمات وكل ما يتعلق بها.',
+  'index.subtitle': 'Wyzie هي مجموعة أدوات لاستخراج الترجمات وكل ما يتعلق بها.',
   'index.cta.start': 'ابدأ الآن',
   'index.cta.store': 'اطلع عليه',
 
   'index.card.keys.title': 'مفاتيح API مجانية',
   'index.card.keys.body':
-    'احصل على مفتاح API مجاني في store.wyzie.io/redeem مع التحقق السريع عبر Gmail. 1,000 طلب/يوم مجاناً. خطط مدفوعة متاحة للاستخدام الأكثر.',
+    'احصل على مفتاح API مجاني في store.wyzie.io/redeem مع تحقق سريع عبر البريد الإلكتروني (Gmail وOutlook وYahoo وiCloud وProton وغيرها من المزودين الرئيسيين). 1,000 طلب/يوم مجاناً. خطط مدفوعة متاحة للاستخدام الأكثر.',
 
   'index.card.ai.title': 'ترجمة بالذكاء الاصطناعي',
   'index.card.ai.body':
-    'ترجم أي ترجمة إلى أكثر من 80 لغة عند الطلب. تُبث الترجمة قيداً بقيد حتى يمكن بدء التشغيل في ثوانٍ. متاحة لمفاتيح Pro.',
+    'ترجم أي ترجمة إلى أكثر من 80 لغة عند الطلب. يُبث ملف SRT بالترتيب مع اكتمال الدفعات، لذا تصل الأسطر الأولى بسرعة. متاحة لمفاتيح Pro.',
 
   'index.card.reliable.title': 'موثوقية عالية',
   'index.card.reliable.body':
@@ -33,11 +32,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'مقدمة إلى Wyzie Subs',
   'subs.intro.p1':
-    'Wyzie Subs هي واجهة برمجية مجانية ومفتوحة المصدر لاستخراج الترجمات. هناك طريقتان لتقديم الطلبات إلى API: استخدام حزمة NPM الخاصة بنا أو جلب واجهة Wyzie API مباشرةً. أنصح باستخدام حزمتنا، غير أن بعضهم قد يجد الأنواع مُرهِقة. لاستخدام API، يجب عليك أولاً اتخاذ هذا القرار.',
+    'Wyzie Subs هي واجهة برمجية لاستخراج الترجمات تتضمن فئة مجانية. هناك طريقتان لتقديم الطلبات إلى API: استخدام حزمة NPM الخاصة بنا أو جلب واجهة Wyzie API مباشرةً. أنصح باستخدام حزمتنا، غير أن بعضهم قد يجد الأنواع مُرهِقة. لاستخدام API، يجب عليك أولاً اتخاذ هذا القرار.',
   'subs.intro.note.ai':
-    'ترجمة الذكاء الاصطناعي متاحة الآن لمفاتيح Pro. أي عنوان، أكثر من 80 لغة هدف، تُبث أثناء عمل المترجم.',
+    'ترجمة الذكاء الاصطناعي متاحة الآن لمفاتيح Pro. أي عنوان، أكثر من 80 لغة هدف، تُبث بترتيب أسطر الترجمة مع اكتمال الدفعات.',
   'subs.intro.important.apikey':
-    'مفتاح API مطلوب لجميع الطلبات. احصل على مفتاح مجاني في [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (التحقق عبر Gmail، 1,000 طلب/يوم). للاستخدام الأكثر، تتوفر [خطط Pro والشحن](https://store.wyzie.io). راجع صفحة مفاتيح API للتفاصيل.',
+    'مفتاح API مطلوب لجميع الطلبات. احصل على مفتاح مجاني في [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (التحقق عبر البريد الإلكتروني، 1,000 طلب/يوم). للاستخدام الأكثر، تتوفر [خطط Pro والشحن](https://store.wyzie.io). راجع صفحة مفاتيح API للتفاصيل.',
   'subs.intro.note.npm':
     'نوصي بشدة باستخدام حزمة NPM إذا كنت على دراية بـ TypeScript أو JavaScript',
   'subs.intro.btn.npm': 'حزمة NPM',
@@ -60,7 +59,7 @@ const messages: Record<string, string> = {
     'إذا وصل المفتاح إلى جهاز المستخدم النهائي، اعتبره عاماً. هناك نمطان آمنان:',
   'subs.intro.protect.opt1.h3': 'الخيار 1: استخدام Wyzie Worker',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker هو وسيط خفيف الوزن على Cloudflare Worker يُضيف مفتاح API الخاص بك على جانب الخادم. انشره على Cloudflare Workers واضبط مفتاحك كمتغير بيئة NITRO_API_TOKEN. ثم وجّه طلبات العميل إلى رابط Worker الخاص بك بدلاً من sub.wyzie.io - يُعيد الـ Worker توجيهها مع إرفاق مفتاحك.',
+    'Wyzie Worker هو وسيط خفيف الوزن على Cloudflare Worker يُضيف مفتاح API الخاص بك على جانب الخادم. انشره على Cloudflare Workers واضبط سرّين: `NITRO_API_TOKEN` (مفتاح Wyzie API الخاص بك) و`NITRO_WORKER_KEY` (سرّ تختاره بنفسك). يجب أن يُرسل كل طلب إلى الـ Worker `Authorization: Bearer <NITRO_WORKER_KEY>`؛ وبدونه يُجيب الـ Worker بـ 401، وإذا لم يُضبط `NITRO_WORKER_KEY` فإنه يرفض كل طلب بـ 503. يجب أن يبقى مفتاح الـ Worker على جانب الخادم أيضاً، لذا استدعِ الـ Worker من خادمك الخلفي، وليس أبداً من كود المتصفح أو التطبيق. يُعيد الـ Worker توجيه كل طلب إلى sub.wyzie.io مع إرفاق مفتاح API الخاص بك.',
   'subs.intro.protect.opt2.h3': 'الخيار 2: بناء وسيطك الخاص',
   'subs.intro.protect.opt2.p1':
     'إذا كنت تفضّل عدم استخدام Wyzie Worker، يمكنك بناء وسيط بسيط على جانب الخادم بأي إطار عمل. الفكرة ذاتها: يستقبل خادمك الطلبات من العميل، يُضيف مفتاح API، ويُعيد توجيهها إلى sub.wyzie.io.',
@@ -168,8 +167,8 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT، ASS، SSA، VTT، SUB، وغيرها',
 
   'subs.sources.ai.desc':
-    'ليس أداة استخراج. SRT مُترجَم بالذكاء الاصطناعي يُولَّد عند الطلب من أفضل ترجمة مصدر متاحة. راجع دليل ترجمة الذكاء الاصطناعي للتفاصيل الكاملة.',
-  'subs.sources.ai.content': 'أي محتوى يمكن لـ Wyzie العثور على SRT له',
+    'ليس أداة استخراج. SRT مُترجَم بالذكاء الاصطناعي يُولَّد عند الطلب من أفضل ترجمة مصدر متاحة. لمفاتيح Pro فقط. راجع دليل ترجمة الذكاء الاصطناعي للتفاصيل الكاملة.',
+  'subs.sources.ai.content': 'أي محتوى يمكن لـ Wyzie العثور على ترجمة نصية له',
   'subs.sources.ai.languages': 'أكثر من 80 لغة هدف',
   'subs.sources.ai.formats': 'SRT فقط',
 
@@ -195,7 +194,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.episode': 'رقم الحلقة (يتطلب الموسم).',
   'subs.pkg.param.language': 'رموز ISO 639-1 للغة الترجمة. يقبل قائمة.',
   'subs.pkg.param.encoding': 'فلتر ترميز الأحرف (مثل utf-8، latin-1).',
-  'subs.pkg.param.hi': 'قيمة منطقية لترجمات ضعاف السمع.',
+  'subs.pkg.param.hi':
+    'عندما تكون قيمته true، تُرجَع ترجمات ضعاف السمع فقط. المصادر التي لا تُميّز ترجمات ضعاف السمع لا تُرجع شيئاً.',
   'subs.pkg.param.source':
     'مزودو الترجمات للاستعلام عنهم بأسمائهم الرمزية (all لكل مصدر نشط يمكن لمفتاحك استخدامه؛ الافتراضي charlie).',
   'subs.pkg.param.release': 'فلاتر الإصدار/المشهد (تقبل قائمة).',
@@ -220,7 +220,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'مُدخلات syncSubtitle ونتيجتها (Wyzie Synced، مفاتيح Pro): أي ترجمة (نتيجة، أو url الخاص بها، أو tmdb_id/imdb_id مع language)، ومقاطع الكلام (speech) التي رصدتها detectSpeech أو ملف الوسائط (media)، ورابط التنزيل المُزامَن مع offset وfps وconfidence الخاصة به. راجع [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
-    'أنواعنا بسيطة جداً وموثّقة توثيقاً جيداً. اطلع على ملف types.ts المرتبط في مستودع GitHub.',
+    'أنواعنا بسيطة جداً وموثّقة توثيقاً جيداً. راجع [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) في مستودع wyzie-lib.',
   'subs.pkg.config.h3': 'الإعداد',
   'subs.pkg.config.p1':
     'طلب مني أحد المستخدمين على Github اسم مضيف API قابل للتكوين، وكنت مثل: يا صاحبي، هذه فكرة جيدة! فالاستخدام أدناه. أحبكم يا رفاق!',
@@ -241,10 +241,11 @@ const messages: Record<string, string> = {
   'subs.direct.param.language':
     'فلتر اللغة (رموز ISO 639-1). القيم المتعددة مفصولة بفواصل.',
   'subs.direct.param.format': 'صيغ الترجمة المراد إرجاعها. تُقبل قيم متعددة.',
-  'subs.direct.param.hi': 'تحديد ما إذا كان يُفضَّل ترجمات ضعاف السمع.',
+  'subs.direct.param.hi':
+    'عندما تكون قيمته true، تُرجَع ترجمات ضعاف السمع فقط (فهو فلتر وليس تفضيلاً). المصادر التي لا تُميّز ترجمات ضعاف السمع لا تُرجع شيئاً.',
   'subs.direct.param.encoding': 'فلتر ترميز الأحرف.',
   'subs.direct.param.source':
-    'مزودو الترجمات للاستعلام عنهم (all يستعلم كل المصادر الممكّنة؛ الافتراضي charlie).',
+    'مزودو الترجمات للاستعلام عنهم (all يستعلم كل مصدر يمكن لمفتاحك استخدامه؛ الافتراضي charlie).',
   'subs.direct.param.release': 'فلاتر اسم الإصدار أو المشهد (مفصولة بفواصل).',
   'subs.direct.param.file':
     'فلاتر اسم الملف (الأسماء المستعارة: file، filename، fileName).',
@@ -263,7 +264,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'البيانات المُرجَعة',
   'subs.direct.data.id': 'معرّف ملف الترجمة.',
-  'subs.direct.data.url': 'الرابط إلى ملف الترجمة.',
+  'subs.direct.data.url':
+    'رابط تنزيل على https://sub.wyzie.io/c/... يحمل معامل tok مُشفَّراً. يكلف كل تنزيل 1 طلب؛ راجع قسم تنزيل الترجمات أدناه.',
   'subs.direct.data.flagUrl': 'رابط علم اللغة المحلية.',
   'subs.direct.data.format': 'صيغة ملف الترجمة.',
   'subs.direct.data.encoding': 'ترميز الأحرف لملف الترجمة.',
@@ -315,26 +317,26 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'ترجمة الترجمات بالذكاء الاصطناعي',
   'subs.translate.important':
-    'ترجمة الذكاء الاصطناعي **ميزة Pro**. تكلف كل ترجمة **100 طلب** من رصيد مفتاحك، تُحسب على الاستجابة من الذاكرة المؤقتة أيضاً وعلى الترجمة الجديدة. المفاتيح المجانية لا يمكنها استخدامها.',
+    'ترجمة الذكاء الاصطناعي **ميزة Pro**؛ تحصل المفاتيح المجانية على 403 Upgrade required. يكلف كل استدعاء **100 طلب** من رصيد مفتاحك، بما في ذلك الاستدعاءات التي تُقدَّم من الذاكرة المؤقتة. إذا فشل الاستدعاء قبل إخراج أي شيء (عدم العثور على ترجمة، أو فشل في البحث أو التنزيل، أو انشغال الخادم)، تُسترَدّ الطلبات الـ 100 تلقائياً.',
   'subs.translate.p1':
-    'يمكن لـ Wyzie ترجمة أي ترجمة إلى أكثر من 80 لغة بشكل فوري. تُبث الترجمات عودةً أثناء إنتاج النموذج لها، بحيث يمكن بدء التشغيل في ثانية أو ثانيتين بدلاً من انتظار الملف بأكمله. تُخزَّن النتائج مؤقتاً لمدة 30 يوماً، لذا يحصل الشخص الثاني الذي يطلب الترجمة ذاتها عليها على الفور.',
+    'يمكن لـ Wyzie ترجمة أي ترجمة إلى أكثر من 80 لغة بشكل فوري. يُبث ملف SRT المُترجَم بالترتيب مع اكتمال الدفعات، لذا تصل القيود الأولى بسرعة بدلاً من وصولها بعد اكتمال الملف بأكمله. تُخزَّن الترجمة الكاملة مؤقتاً لمدة 30 يوماً، لذا تُقدَّم الطلبات اللاحقة للعنوان والحلقة واللغة الهدف نفسها من الذاكرة المؤقتة.',
 
   'subs.translate.ways.h2': 'طريقتان للاستخدام',
   'subs.translate.way1.h3': '1. اختر لغة من استجابة البحث',
   'subs.translate.way1.p1':
-    'تتضمن الآن كل استجابة /search إدخالاً إضافياً لكل لغة مدعومة بـ "ai": true ورابطاً يُشير إلى /translate. فقط تعامل مع صفوف AI كأي صف ترجمة آخر في واجهتك: عندما يضغط المستخدم على أحدها، اجلب الرابط.',
+    'بالنسبة لمفاتيح Pro، تتضمن كل استجابة /search أيضاً صفوف ترجمة بالذكاء الاصطناعي تحمل "ai": true وurl يُشير إلى /translate: صف واحد لكل لغة مدعومة، أو للغات الموجودة في فلتر language= الخاص بك فقط. لا تحصل المفاتيح المجانية على هذه الصفوف أبداً. تعامل مع صفوف AI كأي صف ترجمة آخر في واجهتك: عندما يضغط المستخدم على أحدها، اجلب الرابط.',
   'subs.translate.way1.filter': 'إذا أردت إخفاء صفوف AI من واجهتك، صفّها:',
   'subs.translate.way2.h3': '2. استدعاء /translate مباشرةً',
 
   'subs.translate.param.id': 'معرّف TMDB أو IMDB (مطلوب).',
   'subs.translate.param.target':
-    'اللغة الهدف باسمها الإنجليزي الكامل (مثل Spanish، Japanese، Brazilian Portuguese) (مطلوب).',
+    'اللغة الهدف (مطلوب): اسم من القائمة المدعومة (مثل Spanish، Japanese، Portuguese (Brazil)) أو رمزها (مثل es، ja، pt-BR).',
   'subs.translate.param.seasonEpisode':
     'للمسلسلات التلفزيونية. يجب أن يكونا معاً.',
   'subs.translate.param.key':
     'مفتاح API الخاص بك. استخدم tk بدلاً منه إذا حصلت على الرابط من /search.',
   'subs.translate.param.tk':
-    'رمز موقّع تُرجعه /search. مكافئ لـ key، لكنه لا يكشف المفتاح الخام.',
+    'رمز مُشفَّر من روابط صفوف AI في /search. يعمل مثل key، ولا يكشف مفتاح API الخاص بك، ويبقى صالحاً لمدة 60 يوماً.',
 
   'subs.translate.headers.p':
     'جسم الاستجابة هو ملف SRT مبثوث بصيغة text/plain; charset=utf-8. ترويسات استجابة مفيدة:',
@@ -348,27 +350,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'كيف تعمل',
   'subs.translate.how.step1':
-    'يبحث Wyzie في المصادر العادية عن ترجمة SRT، ويفضّل الإنجليزية عند توفرها.',
+    'يبحث Wyzie في المصادر العادية عن ترجمة نصية، ويفضّل ملف SRT باللغة الإنجليزية عند توفره. تُحوَّل ملفات VTT وASS وSSA وSUB إلى SRT أولاً.',
   'subs.translate.how.step2':
-    'يُقسَّم SRT إلى مجموعات من 50 قيداً ويُترجَم بالتسلسل. تُخزَّن كل مجموعة بشكل فردي فور اكتمالها.',
+    'يُقسَّم ملف SRT إلى دفعات يصل حجم كل منها إلى نحو 3,800 حرف، ويُترجَم باستخدام Google Translate بمعدل 4 دفعات في المرة الواحدة.',
   'subs.translate.how.step3':
-    'يُبثّ الناتج إليك قيداً بقيد. يمكن للمشغّلات التي تقبل جسم SRT مبثوثاً عرض الأسطر الأولى قبل اكتمال البقية.',
+    'يُبث الناتج إليك بترتيب SRT مع اكتمال الدفعات، لذا تصل القيود الأولى بسرعة. يمكن للمشغّلات التي تقبل جسم SRT مبثوثاً عرض الأسطر الأولى قبل اكتمال البقية.',
   'subs.translate.how.step4':
     'تُخزَّن الترجمة الكاملة في Redis لمدة 30 يوماً، مفهرسةً بـ id والموسم والحلقة والهدف.',
 
   'subs.translate.languages.h2': 'اللغات الهدف المدعومة',
   'subs.translate.languages.p':
-    'أكثر من 80 لغة تشمل جميع اللغات الأوروبية والآسيوية والأفريقية والشرق أوسطية الرئيسية. مرّر الاسم الإنجليزي (Spanish، وليس es). تُرجَع القائمة أيضاً كصفوف ai: true في أي استجابة /search، وهي المصدر الرسمي للحقيقة.',
+    'أكثر من 80 لغة تشمل جميع اللغات الأوروبية والآسيوية والأفريقية والشرق أوسطية الرئيسية. مرّر اسماً من القائمة (Spanish، Portuguese (Brazil)) أو رمزه (es، pt-BR). بالنسبة لمفاتيح Pro، تُرجَع القائمة الكاملة أيضاً كصفوف ai: true في أي استجابة /search دون فلتر language=، وهي المصدر الرسمي للحقيقة.',
 
   'subs.translate.limitations.h2': 'القيود',
   'subs.translate.limit1':
-    'تحتاج ترجمة الذكاء الاصطناعي إلى مصدر SRT. العناوين التي تكون كل ترجماتها المتاحة بصيغة .ass أو .vtt أو غيرها ستُرجع 404 No SRT found.',
+    'تحتاج ترجمة الذكاء الاصطناعي إلى ترجمة نصية تبدأ منها. تُحوَّل مصادر VTT وASS وSSA وSUB إلى SRT أولاً؛ وإذا لم توجد أي ترجمة نصية، يُرجع الاستدعاء 404 No subtitle found وتُسترَدّ الطلبات الـ 100.',
   'subs.translate.limit2':
     'تعتمد جودة الترجمة على الترجمة المصدر. يُنتج المصدر ذو التوقيت السيء أو الأخطاء الإملائية ترجمةً سيئة التوقيت أو بها أخطاء.',
   'subs.translate.limit3':
     'قد يرغب بعض المستخدمين في إخفاء صفوف AI كلياً. صفّ على ai === false في عميلك.',
   'subs.translate.limit4':
-    'تُحسب الترجمات على استجابات الذاكرة المؤقتة أيضاً. سواء وُلِّدت حديثاً أو جُلبت من الذاكرة المؤقتة لمدة 30 يوماً، يكلف كل طلب /translate 100 طلب.',
+    'تُحسب الترجمات على استجابات الذاكرة المؤقتة أيضاً. سواء وُلِّدت حديثاً أو قُدِّمت من الذاكرة المؤقتة التي تحتفظ بها لمدة 30 يوماً، يكلف كل استدعاء /translate 100 طلب. لا تُسترَدّ إلا الاستدعاءات التي تفشل قبل إخراج أي شيء.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -446,7 +448,7 @@ const messages: Record<string, string> = {
     'يتطلب Wyzie Subs مفتاح API لجميع الطلبات. تغطي الفئة المجانية معظم حالات الاستخدام؛ تتعامل الخطط المدفوعة مع الاستخدام الأكثر.',
 
   'subs.keys.tiers.h2': 'الفئات',
-  'subs.keys.tier.free': 'مجاني (يتطلب Gmail)',
+  'subs.keys.tier.free': 'مجاني (التحقق عبر البريد الإلكتروني)',
   'subs.keys.tier.free.limit': '1,000 طلب / يوم بتوقيت UTC',
   'subs.keys.tier.pro': '5 دولارات دفعة واحدة',
   'subs.keys.tier.pro.limit': '400,000 طلب',
@@ -459,12 +461,13 @@ const messages: Record<string, string> = {
   'subs.keys.free.p':
     'زر [store.wyzie.io/redeem](https://store.wyzie.io/redeem):',
   'subs.keys.free.step1': 'حلّ اختبار Cloudflare Turnstile السريع.',
-  'subs.keys.free.step2': 'أدخل عنوان Gmail (يُقبل Gmail فقط للفئة المجانية).',
+  'subs.keys.free.step2':
+    'أدخل عنواناً من أحد مزودي البريد الإلكتروني الشخصي الرئيسيين (Gmail وOutlook/Hotmail وYahoo وiCloud وAOL وProton وغيرها). تُرفض نطاقات البريد الإلكتروني المؤقت.',
   'subs.keys.free.step3':
     'أدخل الرمز المكوّن من 6 أرقام الذي أرسلناه إليك بالبريد الإلكتروني.',
   'subs.keys.free.step4': 'ستحصل على مفتاح API يبدو مثل wyzie-abc123...',
   'subs.keys.free.gmail':
-    'يمكن لكل عنوان Gmail استرداد مفتاح مجاني واحد فقط. هل كان لديك مفتاح مجاني مرتبط بهذا البريد الإلكتروني؟ التحقق مرة أخرى يُعيد فقط مفتاحك الحالي.',
+    'يمكن لكل عنوان بريد إلكتروني ولكل شبكة المطالبة بمفتاح مجاني واحد؛ ويُرجع الطلب الثاني 409. فقدت مفتاحك؟ استخدم زر "Forgot key" (نسيت المفتاح) في [لوحة التحكم](https://store.wyzie.io/dashboard) لإعادة إرساله إليك.',
 
   'subs.keys.pro.h2': 'الترقية إلى Pro',
   'subs.keys.pro.p1':
@@ -477,11 +480,11 @@ const messages: Record<string, string> = {
     '**لا تضمّ مفتاح API أبداً في كود جانب العميل.** تُعدّ JavaScript في المتصفح، وتطبيقات الجوال، وإضافات المتصفح، وتطبيقات سطح المكتب بأسلوب Electron، ومستودعات Git العامة كلها جانب عميل. أي شيء تُشحنه إلى مستخدم نهائي يمكنه فحصه، وقد رأينا حالات حقيقية حيث لصق مستخدمون مفتاحهم في الواجهة الأمامية لموقع بث، ليستخرجه طرف ثالث من حزمة JS ويستنفد رصيد الطلبات في غضون ساعات. الحصة المُستهلكة بهذه الطريقة غير قابلة للاسترداد.',
   'subs.keys.protect.p2': 'طريقتان آمنتان لاستخدام المفتاح من تطبيق عميل:',
   'subs.keys.protect.option1':
-    'استخدم [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): وسيط Cloudflare Worker مجاني يحتفظ بمفتاحك على جانب الخادم. وجّه عميلك إلى رابط Worker بدلاً من sub.wyzie.io.',
+    'استخدم [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): وسيط Cloudflare Worker مجاني يحتفظ بمفتاح API الخاص بك كسرّ باسم `NITRO_API_TOKEN`. يجب أن يُرسل كل استدعاء إليه `Authorization: Bearer <NITRO_WORKER_KEY>`، وهو سرّ ثانٍ تضبطه بنفسك، لذا مرّر طلبات عميلك عبر خادمك الخلفي واحتفظ بمفتاح الـ Worker على جانب الخادم أيضاً.',
   'subs.keys.protect.option2':
     'شغّل وسيطك الخاص: أي نقطة نهاية في الخادم تُضيف المفتاح قبل إعادة التوجيه إلى sub.wyzie.io تعمل. راجع صفحة المقدمة للاطلاع على مثال من 10 أسطر.',
   'subs.keys.protect.devtools':
-    'إذا ظهر المفتاح في علامة تبويب الشبكة في DevTools، فهو مكشوف. اعتبره عاماً وقم بتدويره عبر مراسلة الدعم.',
+    'إذا ظهر المفتاح في علامة تبويب الشبكة في DevTools، فهو مكشوف. اعتبره عاماً وقم بتدويره من [لوحة التحكم](https://store.wyzie.io/dashboard) الخاصة بك.',
 
   'subs.keys.using.h2': 'استخدام مفتاحك',
   'subs.keys.using.p': 'أضف &key=YOUR_KEY إلى كل طلب API:',
@@ -491,9 +494,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'يكلف البحث 1 طلب ويكلف كل تنزيل ترجمة 1 طلب، لذا فإن البحث مرة واحدة وتنزيل ملف واحد يستهلكان 2 طلب. تكلف ترجمة الذكاء الاصطناعي 100 طلب لكل استدعاء.',
   'subs.keys.limit.free':
-    '**الفئة المجانية** مُستنفَدة -> تُرجع API الخطأ 429 مع ترويسات X-RateLimit-Reset وRetry-After. يُعاد ضبط العداد اليومي عند منتصف الليل بتوقيت UTC.',
+    '**الفئة المجانية** مُستنفَدة -> تُرجع عمليات البحث وروابط التنزيل 429 Daily request limit reached، مع reset_at في JSON وترويسة Retry-After. يُعاد ضبط الحد اليومي البالغ 1,000 طلب عند منتصف الليل بتوقيت UTC.',
   'subs.keys.limit.paid':
-    '**الرصيد المدفوع** مُستنفَد -> تُرجع API الخطأ 402. اشحن في [store.wyzie.io/topup](https://store.wyzie.io/topup) أو فعّل **الشحن التلقائي** في لوحة التحكم للشحن تلقائياً عندما يعبر رصيدك عتبةً تحددها.',
+    '**الرصيد المدفوع** مُستنفَد -> تُرجع عمليات البحث وروابط التنزيل 402 مع رابط للشحن في JSON. اشحن في [store.wyzie.io/topup](https://store.wyzie.io/topup) أو فعّل **الشحن التلقائي** في لوحة التحكم للشحن تلقائياً عندما يعبر رصيدك عتبةً تحددها.',
   'subs.keys.hold.p1':
     'تُعلَّق تلقائياً المفاتيح التي ترسل حجماً كبيراً جداً من الطلبات معظمه من عناوين IP لمراكز البيانات أو الاستضافة. يتلقى المفتاح المعلّق 403 Key on hold في كل طلب، مع رابط لإعادة التفعيل (https://store.wyzie.io/verify) ورابط للدعم (https://store.wyzie.io/contact) في JSON.',
   'subs.keys.hold.p2':
@@ -510,7 +513,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': 'الأسئلة الشائعة',
   'subs.keys.faq.q1': 'فقدت مفتاحي. هل يمكنني الحصول على مفتاح جديد؟',
   'subs.keys.faq.a1':
-    'زر [store.wyzie.io](https://store.wyzie.io) واستخدم تدفق "نسيت المفتاح" ببريدك الإلكتروني المسجّل؛ سنُعيد إرسال مفتاحك الحالي.',
+    'افتح [لوحة التحكم](https://store.wyzie.io/dashboard) واستخدم زر "Forgot key" (نسيت المفتاح) مع بريدك الإلكتروني المسجّل؛ سنُعيد إرسال مفتاحك الحالي. إذا كنت تظن أن المفتاح قد تسرّب، فقم بتدويره من لوحة التحكم بدلاً من ذلك.',
   'subs.keys.faq.q2': 'هل يمكنني استخدام مفتاح واحد في مشاريع متعددة؟',
   'subs.keys.faq.a2': 'نعم. مفتاحك يعمل في أي مكان تستدعي فيه API.',
   'subs.keys.faq.q3': 'هل سينتهي صلاحية مفتاحي؟',
@@ -568,7 +571,7 @@ const messages: Record<string, string> = {
     '**وضع تصحيح الأخطاء**: تسجيل مفصّل للاستكشاف والمراقبة',
 
   'i6shark.intro.requirements.h2': 'المتطلبات',
-  'i6shark.intro.req1': 'Go 1.20 أو أحدث',
+  'i6shark.intro.req1': 'Go 1.22 أو أحدث',
   'i6shark.intro.req2': 'نظام Linux/Unix مع دعم IPv6 (يُفضَّل Ubuntu)',
   'i6shark.intro.req3': 'صلاحيات الجذر (لربط المنفذ 80 والتعامل مع IPv6)',
   'i6shark.intro.req4': 'تخصيص شبكة فرعية IPv6 /48 من مزود الاستضافة',
@@ -623,17 +626,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'استخدم **Kodi** للحصول على خدمة ترجمة أصلية لـ Kodi على Android TV أو Raspberry Pi أو حاسوب المسرح المنزلي.',
   'plugins.index.shared.sources':
-    '**المصادر:** OpenSubtitles وSubDL وPodnapisi، مجمَّعة عبر Wyzie.',
+    '**المصادر:** كل مصدر يمكن لمفتاحك استخدامه (`source=all`): charlie وlima على المفتاح المجاني، والمصادر السبعة كلها على مفتاح Pro.',
   'plugins.index.shared.matching':
     '**المطابقة:** تعتمد Wyzie على معرّفات IMDB وTMDB بالإضافة إلى الموسم والحلقة، لذا تكون المطابقات دقيقة لكل من الأفلام والمسلسلات.',
   'plugins.index.shared.quota':
     '**الحصة:** عندما ينفد رصيد مفتاحك، تعرض الإضافة رسالة ودّية مع رابط إلى [store.wyzie.io](https://store.wyzie.io) بدلاً من الفشل بصمت. أعِد الشحن أو اشترك وستعود للعمل.',
   'plugins.index.shared.languages':
     '**اللغات:** أكثر من 100، قابلة للاختيار لكل إضافة.',
-  'plugins.index.outro': 'اختر منصّتك أعلاه للبدء.',
+  'plugins.index.outro':
+    'اختر منصّتك أعلاه للبدء. الكود المصدري لكل إضافة موجود في [مستودع wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins).',
 
   'plugins.stremio.intro':
-    'إضافة ترجمة بنقرة واحدة لـ [Stremio](https://www.stremio.com/). تجمع OpenSubtitles وSubDL وPodnapisi عبر Wyzie وتعمل لكل من الأفلام والمسلسلات، على كل منصة يعمل عليها Stremio.',
+    'إضافة ترجمة بنقرة واحدة لـ [Stremio](https://www.stremio.com/). تستعلم من كل مصدر في Wyzie يمكن لمفتاحك استخدامه وتعمل لكل من الأفلام والمسلسلات، على كل منصة يعمل عليها Stremio.',
   'plugins.stremio.before':
     'تحتاج إلى مفتاح Wyzie API مجاني. احصل على واحد من [store.wyzie.io/redeem](https://store.wyzie.io/redeem)، أو اشترِ مفتاح Pro أو اشترك من [store.wyzie.io](https://store.wyzie.io/#plans).',
   'plugins.stremio.install.1':
@@ -642,7 +646,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     'اختياري: أدخل **اللغات** المفضّلة لديك كرموز ISO 639-1، مفصولة بفواصل (على سبيل المثال `en,es,fr`). اتركه فارغاً لجميع اللغات.',
   'plugins.stremio.install.4':
-    'اختياري: فعّل ترجمات **ضعاف السمع** إذا كنت تفضّلها.',
+    'اختياري: فعّل خيار **ضعاف السمع** للحصول على ترجمات ضعاف السمع فقط. اتركه معطّلاً لرؤية كل شيء؛ فالمصادر التي لا تُميّز ترجمات ضعاف السمع لا تُرجع شيئاً أثناء تفعيله.',
   'plugins.stremio.install.5':
     'انقر **تثبيت**. سيفتح Stremio ويطلب منك التأكيد؛ وافِق، وبذلك تكون قد انتهيت.',
   'plugins.stremio.install.after':
@@ -653,7 +657,8 @@ const messages: Record<string, string> = {
   'plugins.stremio.cfg.langs.d':
     'رموز ISO 639-1، مفصولة بفواصل. الفراغ يعني جميع اللغات.',
   'plugins.stremio.cfg.hi.f': 'ضعاف السمع',
-  'plugins.stremio.cfg.hi.d': 'تفضيل ترجمات ضعاف السمع عند توفّرها.',
+  'plugins.stremio.cfg.hi.d':
+    'إرجاع ترجمات ضعاف السمع فقط (يُرسل hi=true). معطّل افتراضياً.',
   'plugins.stremio.cfg.note':
     'لتغيير أيٍّ من هذه لاحقاً، أعِد فتح [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure)، وعدّل، ثم أعِد التثبيت.',
   'plugins.stremio.local':
@@ -668,13 +673,13 @@ const messages: Record<string, string> = {
     '**حلقة مسلسل لا تتطابق.** تطابق Wyzie على أساس الموسم والحلقة؛ تأكد من أن Stremio يشغّل مدخل الحلقة الصحيح، وليس صفحة مسلسل عامة.',
 
   'plugins.bazarr.intro':
-    'يدير [Bazarr](https://www.bazarr.media/) الترجمات لـ **Plex وJellyfin وEmby وSonarr وRadarr** في مكان واحد. إضافة Wyzie كموفّر تمنح كل تلك الخوادم الوصول إلى OpenSubtitles وSubDL وPodnapisi عبر مفتاح واحد.',
+    'يدير [Bazarr](https://www.bazarr.media/) الترجمات لـ **Plex وJellyfin وEmby وSonarr وRadarr** في مكان واحد. إضافة Wyzie كموفّر تمنح كل تلك الخوادم الوصول إلى كل مصدر في Wyzie يمكن لمفتاحك استخدامه، عبر مفتاح واحد.',
   'plugins.bazarr.note':
     'هذه هي الطريقة الموصى بها لاستخدام Wyzie مع Plex وJellyfin. يقوم Bazarr بتنزيل ملفات الترجمة بجوار وسائطك، ويلتقطها خادمك تلقائياً، لذا لا حاجة إلى إضافة أصلية منفصلة.',
   'plugins.bazarr.before':
     'احصل على مفتاح Wyzie API مجاني من [store.wyzie.io/redeem](https://store.wyzie.io/redeem)، وتأكد من امتلاكك صلاحية الوصول إلى ملفات تثبيت Bazarr (المسار النموذجي في Docker: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    'انسخ `wyzie.py` إلى `bazarr/subliminal_patch/providers/wyzie.py`.',
+    'نزّل [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) من [مستودع wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (أو `git clone https://github.com/wyziedevs/wyzie-plugins.git`) وانسخه إلى `bazarr/subliminal_patch/providers/wyzie.py`.',
   'plugins.bazarr.install.2':
     'عدّل `bazarr/subliminal_patch/extensions.py` وأضف `wyzie` إلى **كلٍّ** من `provider_registry` و`provider_manager`.',
   'plugins.bazarr.install.3':
@@ -685,13 +690,13 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     'هناك خطة لتقديم طلب سحب رسمي لدمج هذا الموفّر في Bazarr رسمياً. حتى ذلك الحين، يبقى ملفاً جاهزاً تضيفه إلى نسختك الخاصة.',
   'plugins.bazarr.cfg.key': 'مفتاح Wyzie الخاص بك. مطلوب.',
-  'plugins.bazarr.cfg.hi': 'تفضيل ترجمات ضعاف السمع.',
+  'plugins.bazarr.cfg.hi': 'إرجاع ترجمات ضعاف السمع فقط (يُرسل hi=true).',
   'plugins.bazarr.cfg.sources':
     'قائمة موفّرين مفصولة بفواصل للاستعلام منها، أو `all`.',
   'plugins.bazarr.quota.402':
     '**402 أو 429** (نفاد الرصيد أو بلوغ الحد اليومي): يسجّل Bazarr ملاحظة مع رابط إلى [store.wyzie.io](https://store.wyzie.io) ولا يعيد أي نتائج، فيتراجع بسلاسة إلى موفّريك الآخرين. لا شيء ينهار.',
   'plugins.bazarr.quota.401':
-    '**401** (مفتاح خاطئ): يُظهر Bazarr خطأ مصادقة لتعرف أن عليك إعادة إدخال المفتاح.',
+    '**401** (مفتاح مفقود) أو **403** (مفتاح غير معروف، أو مفتاح معلّق): يُظهر Bazarr خطأ مصادقة لتعرف أن عليك التحقق من المفتاح أو إعادة إدخاله.',
   'plugins.bazarr.ts.missing':
     '**لا تظهر Wyzie في قائمة الموفّرين.** أعِد فحص خطوة التثبيت التي تعدّل `extensions.py`؛ يجب أن يكون المدخل في كلٍّ من `provider_registry` و`provider_manager`، ثم أعِد تشغيل Bazarr.',
   'plugins.bazarr.ts.none':
@@ -718,7 +723,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'استخدم هذا إذا كنت تفضّل عدم إضافة المستودع. ملاحظة: التثبيت من ملف مضغوط **لا** يتم تحديثه تلقائياً.',
   'plugins.kodi.zip.1':
-    'احصل على ملف الإضافة المضغوط: `service.subtitles.wyzie-<version>.zip`. إذا كان لديك الكود المصدري، اضغط مجلد `kodi/` بحيث يحتوي الملف المضغوط على `addon.xml` في جذره.',
+    'احصل على ملف الإضافة المضغوط: `service.subtitles.wyzie-<version>.zip`. لبنائه بنفسك، استنسخ [مستودع wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) واضغط مجلد `kodi/` الخاص به بحيث يحتوي الملف المضغوط على `addon.xml` في جذره.',
   'plugins.kodi.zip.2':
     'في Kodi: **الإعدادات، الإضافات، التثبيت من ملف مضغوط**، ثم اختر الملف المضغوط. إذا منعه Kodi، فعّل **الإعدادات، النظام، الإضافات، مصادر غير معروفة** أولاً.',
   'plugins.kodi.zip.3':
@@ -726,7 +731,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'افتح إعدادات إضافة Wyzie Subs والصق **مفتاح API** الخاص بك.',
   'plugins.kodi.cfg.key': 'مفتاح Wyzie الخاص بك. مطلوب.',
-  'plugins.kodi.cfg.hi': 'تفضيل ترجمات ضعاف السمع.',
+  'plugins.kodi.cfg.hi': 'إرجاع ترجمات ضعاف السمع فقط (يُرسل hi=true).',
   'plugins.kodi.cfg.langs':
     'تُؤخذ اللغات من لغات الترجمة المختارة في Kodi وتُربط بـ ISO 639-1 تلقائياً.',
   'plugins.kodi.matching.1':

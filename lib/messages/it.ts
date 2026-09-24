@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie è un insieme di strumenti open-source per il recupero di sottotitoli e tutto ciò che ne deriva.',
+    'Wyzie è un insieme di strumenti per il recupero di sottotitoli e tutto ciò che ne deriva.',
   'index.cta.start': 'Inizia',
   'index.cta.store': "Dai un'occhiata",
 
   'index.card.keys.title': 'Chiavi API Gratuite',
   'index.card.keys.body':
-    'Ottieni una chiave API gratuita su store.wyzie.io/redeem con una rapida verifica Gmail. 1.000 richieste/giorno senza costi. Piani a pagamento disponibili per utilizzi più intensi.',
+    'Ottieni una chiave API gratuita su store.wyzie.io/redeem con una rapida verifica via email (Gmail, Outlook, Yahoo, iCloud, Proton e altri provider principali). 1.000 richieste/giorno senza costi. Piani a pagamento disponibili per utilizzi più intensi.',
 
   'index.card.ai.title': 'Traduzione AI',
   'index.card.ai.body':
-    'Traduci qualsiasi sottotitolo in 80+ lingue su richiesta. Trasmette cue per cue così la riproduzione può iniziare in pochi secondi. Disponibile con chiavi Pro.',
+    "Traduci qualsiasi sottotitolo in 80+ lingue su richiesta. L'SRT viene trasmesso in ordine man mano che i blocchi vengono completati, così le prime righe arrivano rapidamente. Disponibile con chiavi Pro.",
 
   'index.card.reliable.title': 'Affidabile',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Introduzione a Wyzie Subs',
   'subs.intro.p1':
-    "Wyzie Subs è un'API gratuita e libera per il recupero di sottotitoli open-source. Ci sono due modi per fare richieste all'API: usando il nostro pacchetto NPM o recuperando direttamente l'API di Wyzie. Consiglio di usare il nostro pacchetto, ma alcuni potrebbero trovare i tipi scomodi. Per utilizzare l'API, devi prima prendere questa decisione.",
+    "Wyzie Subs è un'API per il recupero di sottotitoli con un livello gratuito. Ci sono due modi per fare richieste all'API: usando il nostro pacchetto NPM o recuperando direttamente l'API di Wyzie. Consiglio di usare il nostro pacchetto, ma alcuni potrebbero trovare i tipi scomodi. Per utilizzare l'API, devi prima prendere questa decisione.",
   'subs.intro.note.ai':
-    'La Traduzione AI è attiva per le chiavi Pro. Qualsiasi titolo, 80+ lingue di destinazione, trasmessa mentre il traduttore lavora.',
+    "La Traduzione AI è attiva per le chiavi Pro. Qualsiasi titolo, 80+ lingue di destinazione, trasmessa nell'ordine dei sottotitoli man mano che i blocchi vengono completati.",
   'subs.intro.important.apikey':
-    'Una chiave API è richiesta per tutte le richieste. Ottieni una chiave gratuita su [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifica Gmail, 1.000 richieste/giorno). Per utilizzi più intensi, sono disponibili [piani Pro e ricariche](https://store.wyzie.io). Consulta la pagina Chiavi API per i dettagli.',
+    'Una chiave API è richiesta per tutte le richieste. Ottieni una chiave gratuita su [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifica via email, 1.000 richieste/giorno). Per utilizzi più intensi, sono disponibili [piani Pro e ricariche](https://store.wyzie.io). Consulta la pagina Chiavi API per i dettagli.',
   'subs.intro.note.npm':
     'Consigliamo vivamente il pacchetto NPM se hai familiarità con TypeScript o JavaScript',
   'subs.intro.btn.npm': 'Pacchetto NPM',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'Se la chiave raggiunge il dispositivo di un utente finale, trattala come pubblica. Esistono due approcci sicuri:',
   'subs.intro.protect.opt1.h3': 'Opzione 1: Usa Wyzie Worker',
   'subs.intro.protect.opt1.p1':
-    "Wyzie Worker è un proxy Cloudflare Worker leggero che inietta la tua chiave API lato server. Distribuiscilo su Cloudflare Workers e imposta la tua chiave come variabile d'ambiente NITRO_API_TOKEN. Poi punta le richieste del tuo client all'URL del worker invece di sub.wyzie.io — il worker le inoltra con la tua chiave allegata.",
+    "Wyzie Worker è un proxy Cloudflare Worker leggero che inietta la tua chiave API lato server. Distribuiscilo su Cloudflare Workers e imposta due segreti: `NITRO_API_TOKEN` (la tua chiave API Wyzie) e `NITRO_WORKER_KEY` (un segreto a tua scelta). Ogni richiesta al worker deve inviare `Authorization: Bearer <NITRO_WORKER_KEY>`; senza di esso il worker risponde 401, e se `NITRO_WORKER_KEY` non è impostato rifiuta ogni richiesta con 503. Anche la chiave del worker deve restare lato server, quindi chiama il worker dal tuo backend, mai dal codice del browser o dell'app. Il worker inoltra ogni richiesta a sub.wyzie.io con la tua chiave API allegata.",
   'subs.intro.protect.opt2.h3': 'Opzione 2: Costruisci il Tuo Proxy',
   'subs.intro.protect.opt2.p1':
     "Se preferisci non usare Wyzie Worker, puoi costruire un semplice proxy lato server in qualsiasi framework. L'idea è la stessa: il tuo backend riceve le richieste dal client, aggiunge la chiave API e le inoltra a sub.wyzie.io.",
@@ -172,9 +172,9 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT, ASS, SSA, VTT, SUB e altri',
 
   'subs.sources.ai.desc':
-    "Non è uno scraper. SRT tradotto dall'AI generato su richiesta dalla migliore fonte di sottotitoli disponibile. Consulta la guida alla Traduzione AI per tutti i dettagli.",
+    "Non è uno scraper. SRT tradotto dall'AI generato su richiesta dalla migliore fonte di sottotitoli disponibile. Solo chiavi Pro. Consulta la guida alla Traduzione AI per tutti i dettagli.",
   'subs.sources.ai.content':
-    'Qualsiasi cosa per cui Wyzie riesca a trovare un SRT',
+    'Qualsiasi cosa per cui Wyzie riesca a trovare un sottotitolo testuale',
   'subs.sources.ai.languages': '80+ lingue di destinazione',
   'subs.sources.ai.formats': 'Solo SRT',
 
@@ -202,7 +202,8 @@ const messages: Record<string, string> = {
     'Codici ISO 639-1 per la lingua dei sottotitoli. Accetta un elenco.',
   'subs.pkg.param.encoding':
     'Filtro per codifica dei caratteri (es., utf-8, latin-1).',
-  'subs.pkg.param.hi': 'Booleano per sottotitoli per non udenti.',
+  'subs.pkg.param.hi':
+    'Quando è true, restituisce solo i sottotitoli per non udenti. Le fonti che non contrassegnano i sottotitoli per non udenti non restituiscono nulla.',
   'subs.pkg.param.source':
     'Provider di sottotitoli da interrogare per nome in codice (all per ogni fonte attiva che la tua chiave può usare; predefinito charlie).',
   'subs.pkg.param.release': 'Filtri per release/scene (accetta un elenco).',
@@ -229,7 +230,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'Input e risultato di syncSubtitle (Wyzie Synced, chiavi Pro): quale sottotitolo (un risultato, il suo url, oppure tmdb_id/imdb_id con language), i segmenti di parlato speech trovati da detectSpeech o il file media, e il link di download sincronizzato con i relativi offset, fps e confidence. Consulta [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
-    "I nostri tipi sono molto semplici e ben documentati. Dai un'occhiata al file types.ts collegato nel repository GitHub.",
+    'I nostri tipi sono molto semplici e ben documentati. Consulta [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) nel repository wyzie-lib.',
   'subs.pkg.config.h3': 'Configurazione',
   'subs.pkg.config.p1':
     "Un utente ha chiesto su Github un hostname API configurabile e mi sono detto che era una buona idea, quindi qui sotto c'è l'utilizzo. Vi voglio bene!",
@@ -252,10 +253,11 @@ const messages: Record<string, string> = {
     'Filtro per lingua (codici ISO 639-1). Più valori separati da virgola.',
   'subs.direct.param.format':
     'Formati di sottotitoli da restituire. Più valori consentiti.',
-  'subs.direct.param.hi': 'Se preferire i sottotitoli per non udenti.',
+  'subs.direct.param.hi':
+    'Quando è true, restituisce solo i sottotitoli per non udenti (è un filtro, non una preferenza). Le fonti che non contrassegnano i sottotitoli per non udenti non restituiscono nulla.',
   'subs.direct.param.encoding': 'Filtro per codifica dei caratteri.',
   'subs.direct.param.source':
-    'Provider di sottotitoli da interrogare (all interroga ogni fonte abilitata; predefinito charlie).',
+    'Provider di sottotitoli da interrogare (all interroga ogni fonte che la tua chiave può usare; predefinito charlie).',
   'subs.direct.param.release':
     'Filtri per release o nome scene (separati da virgola).',
   'subs.direct.param.file':
@@ -275,7 +277,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'Dati Restituiti',
   'subs.direct.data.id': "L'ID del file dei sottotitoli.",
-  'subs.direct.data.url': "L'URL del file dei sottotitoli.",
+  'subs.direct.data.url':
+    'Link di download su https://sub.wyzie.io/c/... che contiene un parametro tok cifrato. Ogni download costa 1 richiesta; vedi la sezione sul download dei sottotitoli più sotto.',
   'subs.direct.data.flagUrl':
     'URL alla bandiera della localizzazione della lingua.',
   'subs.direct.data.format': 'Il formato del file dei sottotitoli.',
@@ -332,27 +335,27 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Traduzione AI dei Sottotitoli',
   'subs.translate.important':
-    'La traduzione AI è una **funzionalità Pro**. Ogni traduzione costa **100 richieste** dal saldo della tua chiave, addebitato sia per una risposta dalla cache che per una traduzione nuova. Le chiavi gratuite non possono usarla.',
+    'La traduzione AI è una **funzionalità Pro**: le chiavi gratuite ricevono 403 Upgrade required. Ogni chiamata costa **100 richieste** dal saldo della tua chiave, risposte dalla cache incluse. Se una chiamata fallisce prima di produrre output (nessun sottotitolo trovato, un errore di ricerca o di download, oppure il server è occupato), le 100 richieste vengono rimborsate automaticamente.',
   'subs.translate.p1':
-    "Wyzie può tradurre qualsiasi sottotitolo in 80+ lingue al volo. Le traduzioni vengono trasmesse mentre il modello le produce, così la riproduzione può iniziare in uno o due secondi invece di attendere l'intero file. I risultati vengono memorizzati nella cache per 30 giorni, quindi la seconda persona che richiede la stessa traduzione la riceve istantaneamente.",
+    "Wyzie può tradurre qualsiasi sottotitolo in 80+ lingue al volo. L'SRT tradotto viene trasmesso in ordine man mano che i blocchi vengono completati, così i primi cue arrivano rapidamente invece che dopo il completamento dell'intero file. La traduzione completa viene memorizzata nella cache per 30 giorni, quindi le richieste successive per lo stesso titolo, episodio e lingua di destinazione vengono servite dalla cache.",
 
   'subs.translate.ways.h2': 'Due Modi per Usarla',
   'subs.translate.way1.h3': '1. Scegli una Lingua da una Risposta di Ricerca',
   'subs.translate.way1.p1':
-    'Ogni risposta /search include ora una voce extra per ogni lingua supportata con "ai": true e un url che punta a /translate. Tratta le righe AI come qualsiasi altra riga di sottotitoli nella tua UI: quando l\'utente fa clic su una, recupera l\'URL.',
+    'Per le chiavi Pro, ogni risposta /search include anche righe di traduzione AI con "ai": true e un url che punta a /translate: una per ogni lingua supportata, oppure solo le lingue del tuo filtro language=. Le chiavi gratuite non ricevono mai queste righe. Tratta le righe AI come qualsiasi altra riga di sottotitoli nella tua UI: quando l\'utente fa clic su una, recupera l\'URL.',
   'subs.translate.way1.filter':
     'Se vuoi nascondere le righe AI dalla tua UI, filtrile:',
   'subs.translate.way2.h3': '2. Chiama /translate Direttamente',
 
   'subs.translate.param.id': 'ID TMDB o IMDB (obbligatorio).',
   'subs.translate.param.target':
-    'Lingua di destinazione come nome completo in inglese (es. Spanish, Japanese, Brazilian Portuguese) (obbligatorio).',
+    "Lingua di destinazione (obbligatoria): un nome dall'elenco supportato (ad esempio Spanish, Japanese, Portuguese (Brazil)) oppure il suo codice (ad esempio es, ja, pt-BR).",
   'subs.translate.param.seasonEpisode':
     'Per la TV. Entrambi devono essere presenti insieme.',
   'subs.translate.param.key':
     "La tua chiave API. Usa tk al suo posto se hai ottenuto l'URL da /search.",
   'subs.translate.param.tk':
-    'Token firmato restituito da /search. Equivalente a key, ma non espone la chiave grezza.',
+    'Token cifrato presente negli URL delle righe AI di /search. Funziona come key, non rivela la tua chiave API e resta valido per 60 giorni.',
 
   'subs.translate.headers.p':
     'Il corpo della risposta è un file SRT trasmesso come text/plain; charset=utf-8. Header di risposta utili:',
@@ -366,27 +369,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'Come Funziona',
   'subs.translate.how.step1':
-    "Wyzie cerca nelle fonti normali un sottotitolo SRT, preferendo l'inglese quando disponibile.",
+    'Wyzie cerca nelle fonti normali un sottotitolo testuale, preferendo un SRT in inglese quando disponibile. I file VTT, ASS, SSA e SUB vengono prima convertiti in SRT.',
   'subs.translate.how.step2':
-    "L'SRT viene diviso in blocchi di 50 cue e tradotto sequenzialmente. Ogni blocco viene memorizzato nella cache individualmente man mano che viene completato.",
+    "L'SRT viene diviso in blocchi fino a circa 3.800 caratteri e tradotto con Google Translate, 4 blocchi alla volta.",
   'subs.translate.how.step3':
-    "L'output viene trasmesso a te cue per cue. I player che accettano un corpo SRT in streaming possono iniziare a mostrare le prime righe prima che il resto sia terminato.",
+    "L'output viene trasmesso nell'ordine dell'SRT man mano che i blocchi vengono completati, così i primi cue arrivano rapidamente. I player che accettano un corpo SRT in streaming possono iniziare a mostrare le prime righe prima che il resto sia terminato.",
   'subs.translate.how.step4':
     'La traduzione completa viene memorizzata nella cache in Redis per 30 giorni, indicizzata per id, stagione, episodio e destinazione.',
 
   'subs.translate.languages.h2': 'Lingue di Destinazione Supportate',
   'subs.translate.languages.p':
-    "80+ lingue incluse tutte le principali lingue europee, asiatiche, africane e del Medio Oriente. Passa il nome in inglese (Spanish, non es). L'elenco è restituito anche come righe ai: true in qualsiasi risposta /search, che è la fonte autorevole.",
+    "80+ lingue incluse tutte le principali lingue europee, asiatiche, africane e del Medio Oriente. Passa un nome dall'elenco (Spanish, Portuguese (Brazil)) oppure il suo codice (es, pt-BR). Per le chiavi Pro, l'elenco completo è restituito anche come righe ai: true in qualsiasi risposta /search senza filtro language=, che è la fonte autorevole.",
 
   'subs.translate.limitations.h2': 'Limitazioni',
   'subs.translate.limit1':
-    'La traduzione AI necessita di una fonte SRT. I titoli per cui ogni sottotitolo disponibile è in formato .ass, .vtt o altro restituiranno 404 Nessun SRT trovato.',
+    'La traduzione AI necessita di un sottotitolo testuale da cui partire. Le fonti VTT, ASS, SSA e SUB vengono prima convertite in SRT; se non esiste alcun sottotitolo testuale, la chiamata restituisce 404 No subtitle found e le 100 richieste vengono rimborsate.',
   'subs.translate.limit2':
     'La qualità della traduzione dipende dal sottotitolo sorgente. Una fonte con tempi sbagliati o errori di battitura produce una traduzione con gli stessi problemi.',
   'subs.translate.limit3':
     'Alcuni utenti potrebbero voler escludere completamente le righe AI. Filtra su ai === false nel tuo client.',
   'subs.translate.limit4':
-    'Le traduzioni vengono addebitate anche sulle risposte dalla cache. Che siano generate di fresco o servite dalla cache di 30 giorni, ogni richiesta /translate costa 100 richieste.',
+    'Le traduzioni vengono addebitate anche sulle risposte dalla cache. Che siano generate di fresco o servite dalla cache di 30 giorni, ogni chiamata /translate costa 100 richieste. Vengono rimborsate solo le chiamate che falliscono prima di produrre output.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -467,7 +470,7 @@ const messages: Record<string, string> = {
     "Wyzie Subs richiede una chiave API per tutte le richieste. Il livello gratuito copre la maggior parte dei casi d'uso; i piani a pagamento gestiscono utilizzi più intensi.",
 
   'subs.keys.tiers.h2': 'Livelli',
-  'subs.keys.tier.free': 'Gratuito (Gmail richiesta)',
+  'subs.keys.tier.free': 'Gratuito (verifica via email)',
   'subs.keys.tier.free.limit': '1.000 richieste / giorno UTC',
   'subs.keys.tier.pro': '$5 una tantum',
   'subs.keys.tier.pro.limit': '400.000 richieste',
@@ -481,13 +484,13 @@ const messages: Record<string, string> = {
     'Visita [store.wyzie.io/redeem](https://store.wyzie.io/redeem):',
   'subs.keys.free.step1': 'Risolvi un rapido captcha Cloudflare Turnstile.',
   'subs.keys.free.step2':
-    'Inserisci un indirizzo Gmail (solo Gmail è accettato per il livello gratuito).',
+    'Inserisci un indirizzo di uno dei principali provider di email personale (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton e altri). I domini email usa e getta vengono rifiutati.',
   'subs.keys.free.step3':
     'Inserisci il codice a 6 cifre che ti inviamo via email.',
   'subs.keys.free.step4':
     'Ricevi una chiave API che assomiglia a wyzie-abc123...',
   'subs.keys.free.gmail':
-    'Ogni indirizzo Gmail può riscattare solo una chiave gratuita. Hai già una chiave gratuita collegata a quella email? La nuova verifica restituisce semplicemente la tua chiave esistente.',
+    'Ogni indirizzo email e ogni rete possono ottenere una sola chiave gratuita; una seconda richiesta restituisce 409. Hai perso la tua chiave? Usa "Forgot key" nel [pannello di controllo](https://store.wyzie.io/dashboard) per fartela reinviare.',
 
   'subs.keys.pro.h2': 'Passare a Pro',
   'subs.keys.pro.p1':
@@ -501,11 +504,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     "Due modi sicuri per usare la chiave da un'app client:",
   'subs.keys.protect.option1':
-    "Usa [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): un proxy Cloudflare Worker gratuito che mantiene la tua chiave lato server. Punta il tuo client all'URL del Worker invece di sub.wyzie.io.",
+    'Usa [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): un proxy Cloudflare Worker gratuito che conserva la tua chiave API come segreto `NITRO_API_TOKEN`. Ogni chiamata al proxy deve inviare `Authorization: Bearer <NITRO_WORKER_KEY>`, un secondo segreto che imposti tu, quindi fai passare il tuo client attraverso il tuo backend e mantieni anche la chiave del worker lato server.',
   'subs.keys.protect.option2':
     'Esegui il tuo proxy: qualsiasi endpoint backend che aggiunge la chiave prima di inoltrarla a sub.wyzie.io funziona. Consulta la pagina Intro per un esempio di 10 righe.',
   'subs.keys.protect.devtools':
-    "Se la chiave appare nella scheda di rete in DevTools, è esposta. Considerala pubblica e ruotala inviando un'email al supporto.",
+    'Se la chiave appare nella scheda di rete in DevTools, è esposta. Considerala pubblica e ruotala dal tuo [pannello di controllo](https://store.wyzie.io/dashboard).',
 
   'subs.keys.using.h2': 'Usare la Tua Chiave',
   'subs.keys.using.p': 'Aggiungi &key=YOUR_KEY a ogni richiesta API:',
@@ -515,9 +518,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'Una ricerca costa 1 richiesta e ogni download di sottotitoli costa 1 richiesta, quindi cercare una volta e scaricare un file ne consuma 2. La traduzione AI costa 100 richieste per chiamata.',
   'subs.keys.limit.free':
-    "**Livello gratuito** esaurito -> L'API restituisce 429 con gli header X-RateLimit-Reset e Retry-After. Il contatore giornaliero si azzera a mezzanotte UTC.",
+    '**Livello gratuito** esaurito -> le ricerche e i link di download restituiscono 429 Daily request limit reached, con reset_at nel JSON e un header Retry-After. Il limite giornaliero di 1.000 richieste si azzera a mezzanotte UTC.',
   'subs.keys.limit.paid':
-    "**Saldo a pagamento** esaurito -> L'API restituisce 402. Ricarica su [store.wyzie.io/topup](https://store.wyzie.io/topup) oppure abilita la **ricarica automatica** nel tuo pannello di controllo per rifornire automaticamente quando il saldo scende sotto una soglia che imposti tu.",
+    '**Saldo a pagamento** esaurito -> le ricerche e i link di download restituiscono 402 con un link di ricarica nel JSON. Ricarica su [store.wyzie.io/topup](https://store.wyzie.io/topup) oppure abilita la **ricarica automatica** nel tuo pannello di controllo per rifornire automaticamente quando il saldo scende sotto una soglia che imposti tu.',
   'subs.keys.hold.p1':
     'Le chiavi che inviano volumi molto elevati, principalmente da IP di datacenter o di hosting, vengono messe in pausa automaticamente. Una chiave in pausa riceve 403 Key on hold su ogni richiesta, con un link di riattivazione (https://store.wyzie.io/verify) e un link al supporto (https://store.wyzie.io/contact) nel JSON.',
   'subs.keys.hold.p2':
@@ -534,7 +537,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': 'FAQ',
   'subs.keys.faq.q1': 'Ho perso la mia chiave. Posso ottenerne una nuova?',
   'subs.keys.faq.a1':
-    'Visita [store.wyzie.io](https://store.wyzie.io) e usa il flusso "chiave dimenticata" con la tua email registrata; ti reinvieremo la tua chiave esistente.',
+    'Apri il [pannello di controllo](https://store.wyzie.io/dashboard) e usa "Forgot key" con la tua email registrata; ti reinvieremo la tua chiave esistente. Se pensi che la chiave sia trapelata, ruotala invece dal pannello di controllo.',
   'subs.keys.faq.q2': 'Posso usare una chiave in più progetti?',
   'subs.keys.faq.a2': "Sì. La tua chiave funziona ovunque chiami l'API.",
   'subs.keys.faq.q3': 'La mia chiave scadrà mai?',
@@ -593,7 +596,7 @@ const messages: Record<string, string> = {
     '**Modalità Debug**: Registrazione dettagliata per il troubleshooting e il monitoraggio',
 
   'i6shark.intro.requirements.h2': 'Requisiti',
-  'i6shark.intro.req1': 'Go 1.20 o superiore',
+  'i6shark.intro.req1': 'Go 1.22 o superiore',
   'i6shark.intro.req2':
     'Sistema Linux/Unix con supporto IPv6 (preferibilmente Ubuntu)',
   'i6shark.intro.req3':
@@ -652,17 +655,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Usa **Kodi** per un servizio di sottotitoli nativo di Kodi su Android TV, un Raspberry Pi o un PC home theatre.',
   'plugins.index.shared.sources':
-    '**Fonti:** OpenSubtitles, SubDL e Podnapisi, aggregati tramite Wyzie.',
+    '**Fonti:** ogni fonte che la tua chiave può usare (`source=all`): charlie e lima con una chiave gratuita, tutte e sette con una chiave Pro.',
   'plugins.index.shared.matching':
     '**Corrispondenza:** Wyzie è guidato dagli ID IMDB e TMDB più stagione ed episodio, quindi le corrispondenze sono precise sia per i film che per le serie.',
   'plugins.index.shared.quota':
     '**Quota:** quando la tua chiave si esaurisce, il plugin mostra un messaggio cordiale con un link a [store.wyzie.io](https://store.wyzie.io) invece di fallire silenziosamente. Ricarica o abbonati e sei di nuovo operativo.',
   'plugins.index.shared.languages':
     '**Lingue:** oltre 100, selezionabili per ogni plugin.',
-  'plugins.index.outro': 'Scegli la tua piattaforma qui sopra per iniziare.',
+  'plugins.index.outro':
+    'Scegli la tua piattaforma qui sopra per iniziare. Il codice sorgente di ogni plugin si trova nel [repository wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins).',
 
   'plugins.stremio.intro':
-    'Un add-on per sottotitoli con installazione a un clic per [Stremio](https://www.stremio.com/). Aggrega OpenSubtitles, SubDL e Podnapisi tramite Wyzie e funziona sia per film che per serie, su ogni piattaforma su cui gira Stremio.',
+    'Un add-on per sottotitoli con installazione a un clic per [Stremio](https://www.stremio.com/). Interroga ogni fonte Wyzie che la tua chiave può usare e funziona sia per film che per serie, su ogni piattaforma su cui gira Stremio.',
   'plugins.stremio.before':
     'Ti serve una chiave API Wyzie gratuita. Ottienine una su [store.wyzie.io/redeem](https://store.wyzie.io/redeem), oppure acquista una chiave Pro o abbonati su [store.wyzie.io](https://store.wyzie.io/#plans).',
   'plugins.stremio.install.1':
@@ -671,7 +675,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     'Facoltativo: inserisci le tue **lingue** preferite come codici ISO 639-1, separati da virgola (ad esempio `en,es,fr`). Lascia vuoto per tutte le lingue.',
   'plugins.stremio.install.4':
-    'Facoltativo: attiva i sottotitoli per **non udenti** se li preferisci.',
+    'Facoltativo: attiva l’opzione **non udenti** per ottenere solo i sottotitoli per non udenti. Lasciala disattivata per vedere tutto; le fonti che non contrassegnano i sottotitoli per non udenti non restituiscono nulla mentre è attiva.',
   'plugins.stremio.install.5':
     'Clicca **Installa**. Stremio si apre e ti chiede conferma; accetta e hai finito.',
   'plugins.stremio.install.after':
@@ -683,7 +687,7 @@ const messages: Record<string, string> = {
     'Codici ISO 639-1, separati da virgola. Vuoto significa tutte le lingue.',
   'plugins.stremio.cfg.hi.f': 'Non udenti',
   'plugins.stremio.cfg.hi.d':
-    'Preferisci i sottotitoli per non udenti quando disponibili.',
+    'Restituisce solo i sottotitoli per non udenti (invia hi=true). Disattivato per impostazione predefinita.',
   'plugins.stremio.cfg.note':
     'Per modificare uno di questi in seguito, riapri [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), regola e reinstalla.',
   'plugins.stremio.local':
@@ -698,13 +702,13 @@ const messages: Record<string, string> = {
     '**L’episodio della serie non corrisponde.** Wyzie effettua la corrispondenza su stagione ed episodio; assicurati che Stremio stia riproducendo la voce dell’episodio corretto, non una pagina generica della serie.',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) gestisce i sottotitoli per **Plex, Jellyfin, Emby, Sonarr e Radarr** in un unico posto. Aggiungere Wyzie come provider dà a tutti questi server accesso a OpenSubtitles, SubDL e Podnapisi tramite un’unica chiave.',
+    '[Bazarr](https://www.bazarr.media/) gestisce i sottotitoli per **Plex, Jellyfin, Emby, Sonarr e Radarr** in un unico posto. Aggiungere Wyzie come provider dà a tutti questi server accesso a ogni fonte Wyzie che la tua chiave può usare, tramite un’unica chiave.',
   'plugins.bazarr.note':
     'Questo è il modo consigliato per usare Wyzie con Plex e Jellyfin. Bazarr scarica i file dei sottotitoli accanto ai tuoi media e il tuo server li rileva automaticamente, quindi non è richiesto alcun plugin nativo separato.',
   'plugins.bazarr.before':
     'Ottieni una chiave API Wyzie gratuita su [store.wyzie.io/redeem](https://store.wyzie.io/redeem) e assicurati di avere accesso ai file di installazione di Bazarr (percorso Docker tipico: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    'Copia `wyzie.py` in `bazarr/subliminal_patch/providers/wyzie.py`.',
+    'Scarica [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) dal [repository wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (oppure `git clone https://github.com/wyziedevs/wyzie-plugins.git`) e copialo in `bazarr/subliminal_patch/providers/wyzie.py`.',
   'plugins.bazarr.install.2':
     'Modifica `bazarr/subliminal_patch/extensions.py` e aggiungi `wyzie` a **entrambi** `provider_registry` e `provider_manager`.',
   'plugins.bazarr.install.3':
@@ -715,13 +719,14 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     'È prevista una pull request ufficiale per integrare questo provider direttamente in Bazarr. Fino ad allora è un file pronto all’uso che aggiungi alla tua installazione.',
   'plugins.bazarr.cfg.key': 'La tua chiave Wyzie. Obbligatoria.',
-  'plugins.bazarr.cfg.hi': 'Preferisci i sottotitoli per non udenti.',
+  'plugins.bazarr.cfg.hi':
+    'Restituisce solo i sottotitoli per non udenti (invia hi=true).',
   'plugins.bazarr.cfg.sources':
     'Elenco separato da virgole dei provider da interrogare, oppure `all`.',
   'plugins.bazarr.quota.402':
     '**402 o 429** (saldo esaurito o limite giornaliero raggiunto): Bazarr registra una nota con un link a [store.wyzie.io](https://store.wyzie.io) e non restituisce risultati, quindi ricade in modo pulito sugli altri provider. Niente va in crash.',
   'plugins.bazarr.quota.401':
-    '**401** (chiave errata): Bazarr mostra un errore di autenticazione così sai di dover reinserire la chiave.',
+    '**401** (chiave mancante) o **403** (chiave sconosciuta, o chiave in pausa): Bazarr mostra un errore di autenticazione così sai di dover controllare o reinserire la chiave.',
   'plugins.bazarr.ts.missing':
     '**Wyzie non compare nella lista dei provider.** Ricontrolla il passaggio di installazione che modifica `extensions.py`; la voce deve essere sia in `provider_registry` sia in `provider_manager`, poi riavvia Bazarr.',
   'plugins.bazarr.ts.none':
@@ -748,7 +753,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'Usa questo se preferisci non aggiungere il repository. Nota: un’installazione da zip **non** si aggiorna automaticamente.',
   'plugins.kodi.zip.1':
-    'Ottieni lo zip dell’add-on: `service.subtitles.wyzie-<version>.zip`. Se hai il sorgente, comprimi la cartella `kodi/` così che lo zip contenga `addon.xml` nella sua radice.',
+    'Ottieni lo zip dell’add-on: `service.subtitles.wyzie-<version>.zip`. Per crearlo tu stesso, clona il [repository wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) e comprimi la sua cartella `kodi/` così che lo zip contenga `addon.xml` nella sua radice.',
   'plugins.kodi.zip.2':
     'In Kodi: **Impostazioni, Add-on, Installa da file zip**, poi scegli lo zip. Se Kodi lo blocca, abilita prima **Impostazioni, Sistema, Add-on, Origini sconosciute**.',
   'plugins.kodi.zip.3':
@@ -756,7 +761,8 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'Apri le impostazioni dell’add-on Wyzie Subs e incolla la tua **chiave API**.',
   'plugins.kodi.cfg.key': 'La tua chiave Wyzie. Obbligatoria.',
-  'plugins.kodi.cfg.hi': 'Preferisci i sottotitoli per non udenti.',
+  'plugins.kodi.cfg.hi':
+    'Restituisce solo i sottotitoli per non udenti (invia hi=true).',
   'plugins.kodi.cfg.langs':
     'Le lingue sono prese dalle lingue dei sottotitoli selezionate in Kodi e mappate automaticamente su ISO 639-1.',
   'plugins.kodi.matching.1':

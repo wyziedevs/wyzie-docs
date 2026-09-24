@@ -3,17 +3,17 @@ const messages: Record<string, string> = {
   'nav.language': '语言',
 
   // Index / Landing Page
-  'index.subtitle': 'Wyzie 是一套开源工具集，用于抓取字幕及相关功能。',
+  'index.subtitle': 'Wyzie 是一套工具集，用于抓取字幕及相关功能。',
   'index.cta.start': '快速开始',
   'index.cta.store': '立即查看',
 
   'index.card.keys.title': '免费 API 密钥',
   'index.card.keys.body':
-    '在 store.wyzie.io/redeem 通过快速 Gmail 验证即可获取免费 API 密钥。每天 1,000 次请求，完全免费。如需更高用量，也提供付费方案。',
+    '在 store.wyzie.io/redeem 通过快速邮箱验证即可获取免费 API 密钥（支持 Gmail、Outlook、Yahoo、iCloud、Proton 等主流邮箱服务商）。每天 1,000 次请求，完全免费。如需更高用量，也提供付费方案。',
 
   'index.card.ai.title': 'AI 翻译',
   'index.card.ai.body':
-    '按需将任意字幕翻译成 80 余种语言。逐条流式返回，播放可在数秒内开始。仅限 Pro 密钥使用。',
+    '按需将任意字幕翻译成 80 余种语言。SRT 会随各批次完成按顺序流式返回，因此最前面的几行很快就能到达。仅限 Pro 密钥使用。',
 
   'index.card.reliable.title': '稳定可靠',
   'index.card.reliable.body':
@@ -32,11 +32,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Wyzie Subs 简介',
   'subs.intro.p1':
-    'Wyzie Subs 是一个免费且开放的字幕抓取 API。向 API 发起请求有两种方式：使用我们的 NPM 包，或直接请求 Wyzie API。我推荐使用我们的包，但有些人可能觉得类型定义比较繁琐。在使用 API 之前，请先做出这个选择。',
+    'Wyzie Subs 是一个提供免费版的字幕抓取 API。向 API 发起请求有两种方式：使用我们的 NPM 包，或直接请求 Wyzie API。我推荐使用我们的包，但有些人可能觉得类型定义比较繁琐。在使用 API 之前，请先做出这个选择。',
   'subs.intro.note.ai':
-    'AI 翻译已对 Pro 密钥上线。任意标题，80 余种目标语言，翻译过程实时流式返回。',
+    'AI 翻译已对 Pro 密钥上线。任意标题，80 余种目标语言，随各批次完成按字幕顺序流式返回。',
   'subs.intro.important.apikey':
-    '所有请求都需要 API 密钥。请在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取免费密钥（Gmail 验证，每天 1,000 次请求）。如需更高用量，可选择 [Pro 方案及补充包](https://store.wyzie.io)。详情请参阅 API 密钥页面。',
+    '所有请求都需要 API 密钥。请在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取免费密钥（邮箱验证，每天 1,000 次请求）。如需更高用量，可选择 [Pro 方案及补充包](https://store.wyzie.io)。详情请参阅 API 密钥页面。',
   'subs.intro.note.npm':
     '如果你熟悉 TypeScript 或 JavaScript，我们强烈推荐使用 NPM 包',
   'subs.intro.btn.npm': 'NPM 包',
@@ -58,7 +58,7 @@ const messages: Record<string, string> = {
     '如果密钥到达了终端用户的机器，请将其视为公开信息。有两种安全使用方式：',
   'subs.intro.protect.opt1.h3': '方式一：使用 Wyzie Worker',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker 是一个轻量级 Cloudflare Worker 代理，可在服务端注入你的 API 密钥。将其部署到 Cloudflare Workers，并将你的密钥设置为 NITRO_API_TOKEN 环境变量。然后将客户端请求指向你的 Worker URL，而非 sub.wyzie.io——Worker 会附带你的密钥进行转发。',
+    'Wyzie Worker 是一个轻量级 Cloudflare Worker 代理，可在服务端注入你的 API 密钥。将其部署到 Cloudflare Workers，并设置两个机密变量：`NITRO_API_TOKEN`（你的 Wyzie API 密钥）和 `NITRO_WORKER_KEY`（由你自行选定的机密值）。发往 Worker 的每个请求都必须携带 `Authorization: Bearer <NITRO_WORKER_KEY>`；缺少该请求头时 Worker 会返回 401，而如果未设置 `NITRO_WORKER_KEY`，Worker 会以 503 拒绝所有请求。Worker 密钥同样必须保留在服务端，因此请从你自己的后端调用 Worker，切勿在浏览器或应用代码中调用。Worker 会将每个请求转发到 sub.wyzie.io，并附带你的 API 密钥。',
   'subs.intro.protect.opt2.h3': '方式二：自建代理',
   'subs.intro.protect.opt2.p1':
     '如果你不想使用 Wyzie Worker，可以在任意框架中构建一个简单的服务端代理。原理相同：你的后端接收客户端请求，附加 API 密钥后转发到 sub.wyzie.io。',
@@ -157,8 +157,8 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT、ASS、SSA、VTT、SUB 等格式',
 
   'subs.sources.ai.desc':
-    '非抓取器。按需从最佳可用来源字幕生成 AI 翻译的 SRT 文件。完整详情请参阅 AI 翻译指南。',
-  'subs.sources.ai.content': '任何 Wyzie 能找到 SRT 的内容',
+    '非抓取器。按需从最佳可用来源字幕生成 AI 翻译的 SRT 文件。仅限 Pro 密钥。完整详情请参阅 AI 翻译指南。',
+  'subs.sources.ai.content': '任何 Wyzie 能找到文本字幕的内容',
   'subs.sources.ai.languages': '80 余种目标语言',
   'subs.sources.ai.formats': '仅限 SRT',
 
@@ -182,7 +182,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.episode': '集数（需同时提供 season）。',
   'subs.pkg.param.language': '字幕语言的 ISO 639-1 代码，支持列表。',
   'subs.pkg.param.encoding': '字符编码过滤器（例如 utf-8、latin-1）。',
-  'subs.pkg.param.hi': '布尔值，用于筛选听障字幕。',
+  'subs.pkg.param.hi':
+    '为 true 时，仅返回听障字幕。不标记听障字幕的来源将不返回任何结果。',
   'subs.pkg.param.source':
     '按代号指定要查询的字幕提供商（all 表示你的密钥可用的所有在线来源；默认为 charlie）。',
   'subs.pkg.param.release': '发布版本/场景过滤器（支持列表）。',
@@ -204,7 +205,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'syncSubtitle 的输入和结果（Wyzie Synced，需 Pro 密钥）：要使用的字幕（某个结果、其 url，或 tmdb_id/imdb_id 加 language）、detectSpeech 检测到的 speech 或 media 文件，以及同步后的下载链接及其 offset、fps 和 confidence。请参阅 [Wyzie Synced](/subs/usage/synced)。',
   'subs.pkg.types.end':
-    '我们的类型定义非常简洁且文档齐全。请查看 GitHub 仓库中链接的 types.ts 文件。',
+    '我们的类型定义非常简洁且文档齐全。请参阅 wyzie-lib 仓库中的 [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts)。',
   'subs.pkg.config.h3': '配置',
   'subs.pkg.config.p1':
     '有用户在 Github 上询问能否配置 API 主机名，我觉得这个主意不错，所以下面是使用方法。感谢大家！',
@@ -224,10 +225,11 @@ const messages: Record<string, string> = {
   'subs.direct.param.language':
     '语言过滤器（ISO 639-1 代码），多个值以逗号分隔。',
   'subs.direct.param.format': '要返回的字幕格式，支持多个值。',
-  'subs.direct.param.hi': '是否优先返回听障字幕。',
+  'subs.direct.param.hi':
+    '为 true 时，仅返回听障字幕（这是过滤条件，而非偏好设置）。不标记听障字幕的来源将不返回任何结果。',
   'subs.direct.param.encoding': '字符编码过滤器。',
   'subs.direct.param.source':
-    '要查询的字幕提供商（all 表示查询所有已启用来源，默认为 charlie）。',
+    '要查询的字幕提供商（all 表示查询你的密钥可用的所有来源；默认为 charlie）。',
   'subs.direct.param.release': '发布版本或场景名称过滤器（逗号分隔）。',
   'subs.direct.param.file': '文件名过滤器（别名：file、filename、fileName）。',
   'subs.direct.param.origin':
@@ -245,7 +247,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': '返回数据',
   'subs.direct.data.id': '字幕文件的 ID。',
-  'subs.direct.data.url': '字幕文件的 URL。',
+  'subs.direct.data.url':
+    '位于 https://sub.wyzie.io/c/... 的下载链接，带有加密的 tok 参数。每次下载消耗 1 次请求；详见下文「下载字幕」一节。',
   'subs.direct.data.flagUrl': '语言区域国旗图片的 URL。',
   'subs.direct.data.format': '字幕文件的格式。',
   'subs.direct.data.encoding': '字幕文件的字符编码。',
@@ -294,26 +297,26 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI 字幕翻译',
   'subs.translate.important':
-    'AI 翻译是 **Pro 专属功能**。每次翻译消耗 **100 次请求**，无论是命中缓存还是全新翻译均会计费。免费密钥无法使用此功能。',
+    'AI 翻译是 **Pro 专属功能**；免费密钥会收到 403 Upgrade required。每次调用从你的密钥余额中消耗 **100 次请求**，命中缓存也照常计费。如果调用在产生任何输出之前就失败（未找到字幕、搜索或下载失败，或服务器繁忙），这 100 次请求会自动退还。',
   'subs.translate.p1':
-    'Wyzie 可以即时将任意字幕翻译成 80 余种语言。翻译结果随模型生成过程实时流式返回，因此播放可在一两秒内开始，无需等待整个文件生成完毕。结果会缓存 30 天，第二位请求相同翻译的用户将即时获得结果。',
+    'Wyzie 可以即时将任意字幕翻译成 80 余种语言。翻译后的 SRT 会随各批次完成按顺序流式返回，因此最前面的字幕条目很快就能到达，而不必等整个文件完成。完整的翻译结果会缓存 30 天，之后对同一标题、剧集和目标语言的请求将直接由缓存提供。',
 
   'subs.translate.ways.h2': '两种使用方式',
   'subs.translate.way1.h3': '1. 从搜索响应中选择语言',
   'subs.translate.way1.p1':
-    '每个 /search 响应现在都会为每种支持的语言额外包含一条 "ai": true 的条目，其 url 指向 /translate。只需在 UI 中像对待其他字幕条目一样处理 AI 条目：用户点击后请求该 URL 即可。',
+    '对于 Pro 密钥，每个 /search 响应还会包含 "ai": true 的 AI 翻译条目，其 url 指向 /translate：每种支持的语言各一条，或仅包含你的 language= 过滤器中的语言。免费密钥永远不会获得这些条目。在 UI 中像对待其他字幕条目一样处理 AI 条目：用户点击后请求该 URL 即可。',
   'subs.translate.way1.filter':
     '如果你希望在 UI 中隐藏 AI 条目，可将其过滤掉：',
   'subs.translate.way2.h3': '2. 直接调用 /translate',
 
   'subs.translate.param.id': 'TMDB 或 IMDB ID（必填）。',
   'subs.translate.param.target':
-    '目标语言的完整英文名称（例如 Spanish、Japanese、Brazilian Portuguese）（必填）。',
+    '目标语言（必填）：支持列表中的名称（例如 Spanish、Japanese、Portuguese (Brazil)）或其代码（例如 es、ja、pt-BR）。',
   'subs.translate.param.seasonEpisode': '用于电视剧，两者必须同时提供。',
   'subs.translate.param.key':
     '你的 API 密钥。如果 URL 来自 /search，请改用 tk。',
   'subs.translate.param.tk':
-    '/search 返回的签名令牌，等同于 key，但不暴露原始密钥。',
+    '来自 /search 中 AI 条目 URL 的加密令牌。作用等同于 key，不会暴露你的 API 密钥，有效期为 60 天。',
 
   'subs.translate.headers.p':
     '响应体为以 text/plain; charset=utf-8 流式传输的 SRT 文件。常用响应头：',
@@ -324,27 +327,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': '工作原理',
   'subs.translate.how.step1':
-    'Wyzie 从普通来源搜索 SRT 字幕，优先选择英语字幕（如有）。',
+    'Wyzie 从普通来源搜索文本字幕，优先选择英语 SRT（如有）。VTT、ASS、SSA 和 SUB 文件会先转换为 SRT。',
   'subs.translate.how.step2':
-    'SRT 被分割为每 50 条字幕为一组，依次翻译，每组完成后单独缓存。',
+    'SRT 被分割为每批最多约 3,800 个字符，并使用 Google Translate 翻译，每次同时处理 4 批。',
   'subs.translate.how.step3':
-    '输出逐条流式返回。支持流式 SRT 的播放器可在其余内容翻译完成之前就开始显示第一行。',
+    '输出会随各批次完成按 SRT 顺序流式返回，因此最前面的字幕条目很快就能到达。支持流式 SRT 的播放器可在其余内容完成之前就开始显示第一行。',
   'subs.translate.how.step4':
     '完整翻译结果以 id、season、episode 和 target 为键缓存在 Redis 中，有效期 30 天。',
 
   'subs.translate.languages.h2': '支持的目标语言',
   'subs.translate.languages.p':
-    '80 余种语言，涵盖所有主要欧洲、亚洲、非洲和中东语言。请传入英文名称（如 Spanish，而非 es）。语言列表也会以 ai: true 条目的形式出现在任何 /search 响应中，那是规范的参考来源。',
+    '80 余种语言，涵盖所有主要欧洲、亚洲、非洲和中东语言。请传入列表中的名称（Spanish、Portuguese (Brazil)）或其代码（es、pt-BR）。对于 Pro 密钥，完整列表也会以 ai: true 条目的形式出现在任何未使用 language= 过滤器的 /search 响应中，那是规范的参考来源。',
 
   'subs.translate.limitations.h2': '限制',
   'subs.translate.limit1':
-    'AI 翻译需要 SRT 来源。若某个标题所有可用字幕均为 .ass、.vtt 或其他格式，将返回 404 No SRT found。',
+    'AI 翻译需要以文本字幕为起点。VTT、ASS、SSA 和 SUB 来源会先转换为 SRT；如果不存在任何文本字幕，调用将返回 404 No subtitle found，并退还这 100 次请求。',
   'subs.translate.limit2':
     '翻译质量取决于源字幕的质量。时间轴不准确或有错别字的源字幕会产生同样有问题的翻译。',
   'subs.translate.limit3':
     '部分用户可能希望完全屏蔽 AI 条目，可在客户端过滤 ai === false。',
   'subs.translate.limit4':
-    '缓存命中也会计费。无论是全新生成还是从 30 天缓存中提供，每次 /translate 请求均消耗 100 次请求。',
+    '缓存命中也会计费。无论是全新生成还是从 30 天缓存中提供，每次 /translate 调用均消耗 100 次请求。只有在产生任何输出之前就失败的调用才会退还请求。',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -420,7 +423,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs 的所有请求均需要 API 密钥。免费版满足大多数使用场景；付费方案适合更高用量需求。',
 
   'subs.keys.tiers.h2': '方案等级',
-  'subs.keys.tier.free': '免费（需要 Gmail）',
+  'subs.keys.tier.free': '免费（邮箱验证）',
   'subs.keys.tier.free.limit': '1,000 次请求 / UTC 每天',
   'subs.keys.tier.pro': '$5 一次性付款',
   'subs.keys.tier.pro.limit': '400,000 次请求',
@@ -433,11 +436,12 @@ const messages: Record<string, string> = {
   'subs.keys.free.p':
     '访问 [store.wyzie.io/redeem](https://store.wyzie.io/redeem)：',
   'subs.keys.free.step1': '完成一个快速的 Cloudflare Turnstile 验证码。',
-  'subs.keys.free.step2': '输入 Gmail 地址（免费版仅接受 Gmail）。',
+  'subs.keys.free.step2':
+    '输入主流个人邮箱服务商的邮箱地址（Gmail、Outlook/Hotmail、Yahoo、iCloud、AOL、Proton 等）。一次性邮箱域名会被拒绝。',
   'subs.keys.free.step3': '输入我们发送到你邮箱的 6 位验证码。',
   'subs.keys.free.step4': '你将收到一个形如 wyzie-abc123... 的 API 密钥。',
   'subs.keys.free.gmail':
-    '每个 Gmail 地址只能兑换一个免费密钥。已有与该邮箱绑定的免费密钥？再次验证只会返回你已有的密钥。',
+    '每个邮箱地址和每个网络只能申领一个免费密钥；再次申请会返回 409。密钥丢失了？在[控制台](https://store.wyzie.io/dashboard)使用「Forgot key」（忘记密钥）即可重新发送。',
 
   'subs.keys.pro.h2': '升级至 Pro',
   'subs.keys.pro.p1':
@@ -450,11 +454,11 @@ const messages: Record<string, string> = {
     '**切勿将 API 密钥嵌入客户端代码。** 浏览器 JavaScript、移动应用、浏览器扩展、Electron 风格的桌面应用以及公开的 Git 仓库均属于客户端范畴。任何分发给终端用户的内容都可能被其检查。我们曾见过真实案例：用户将密钥粘贴到流媒体网站的前端，结果第三方从 JS 包中抓取了密钥，并在数小时内将请求余额消耗殆尽。以这种方式消耗的配额不予退还。',
   'subs.keys.protect.p2': '在客户端应用中安全使用密钥的两种方式：',
   'subs.keys.protect.option1':
-    '使用 [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker)：一个免费的 Cloudflare Worker 代理，在服务端持有你的密钥。将客户端请求指向 Worker URL，而非 sub.wyzie.io。',
+    '使用 [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker)：一个免费的 Cloudflare Worker 代理，以 `NITRO_API_TOKEN` 机密变量的形式保存你的 API 密钥。每次调用它都必须发送 `Authorization: Bearer <NITRO_WORKER_KEY>`（即你设置的第二个机密变量），因此请让客户端经由你自己的后端进行调用，并同样将 Worker 密钥保留在服务端。',
   'subs.keys.protect.option2':
     '运行你自己的代理：任何在转发请求至 sub.wyzie.io 前附加密钥的后端端点均可。参见入门页面中的 10 行示例。',
   'subs.keys.protect.devtools':
-    '如果密钥出现在 DevTools 的网络选项卡中，则说明它已经暴露。请将其视为公开信息，并通过发邮件给客服来轮换密钥。',
+    '如果密钥出现在 DevTools 的网络选项卡中，则说明它已经暴露。请将其视为公开信息，并在你的[控制台](https://store.wyzie.io/dashboard)中轮换密钥。',
 
   'subs.keys.using.h2': '使用你的密钥',
   'subs.keys.using.p': '在每次 API 请求中附加 &key=YOUR_KEY：',
@@ -464,9 +468,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     '每次搜索消耗 1 次请求，每次字幕下载消耗 1 次请求，因此搜索一次并下载一个文件共消耗 2 次。AI 翻译每次调用消耗 100 次请求。',
   'subs.keys.limit.free':
-    '**免费版**耗尽 -> API 返回 429，并附带 X-RateLimit-Reset 和 Retry-After 响应头。每日计数器在 UTC 午夜重置。',
+    '**免费版**耗尽 -> 搜索和下载链接返回 429 Daily request limit reached，JSON 中包含 reset_at，并附带 Retry-After 响应头。每日 1,000 次请求的上限在 UTC 午夜重置。',
   'subs.keys.limit.paid':
-    '**付费余额**耗尽 -> API 返回 402。在 [store.wyzie.io/topup](https://store.wyzie.io/topup) 手动补充，或在控制台开启**自动补充**，当余额低于你设定的阈值时自动充值。',
+    '**付费余额**耗尽 -> 搜索和下载链接返回 402，JSON 中附带补充链接。在 [store.wyzie.io/topup](https://store.wyzie.io/topup) 手动补充，或在控制台开启**自动补充**，当余额低于你设定的阈值时自动充值。',
   'subs.keys.hold.p1':
     '主要从数据中心或托管服务 IP 发送极大请求量的密钥会被自动暂停。被暂停的密钥在每次请求时都会收到 403 Key on hold，JSON 中包含恢复链接（https://store.wyzie.io/verify）和客服链接（https://store.wyzie.io/contact）。',
   'subs.keys.hold.p2':
@@ -483,7 +487,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': '常见问题',
   'subs.keys.faq.q1': '我丢失了密钥，能重新获取吗？',
   'subs.keys.faq.a1':
-    '访问 [store.wyzie.io](https://store.wyzie.io)，使用注册邮箱走「忘记密钥」流程，我们会将你现有的密钥重新发送给你。',
+    '打开[控制台](https://store.wyzie.io/dashboard)，使用注册邮箱通过「Forgot key」（忘记密钥）找回，我们会将你现有的密钥重新发送给你。如果你认为密钥已泄露，请改为在控制台中轮换密钥。',
   'subs.keys.faq.q2': '可以在多个项目中使用同一个密钥吗？',
   'subs.keys.faq.a2': '可以，你的密钥在任何调用 API 的地方都有效。',
   'subs.keys.faq.q3': '密钥会过期吗？',
@@ -540,7 +544,7 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature9': '**调试模式**：详细日志，便于故障排查和监控',
 
   'i6shark.intro.requirements.h2': '系统要求',
-  'i6shark.intro.req1': 'Go 1.20 或更高版本',
+  'i6shark.intro.req1': 'Go 1.22 或更高版本',
   'i6shark.intro.req2': '支持 IPv6 的 Linux/Unix 系统（推荐 Ubuntu）',
   'i6shark.intro.req3': 'Root 权限（用于绑定 80 端口及 IPv6 操作）',
   'i6shark.intro.req4': '来自托管服务商的 IPv6 /48 子网分配',
@@ -590,17 +594,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     '在 Android TV、树莓派或家庭影院电脑上需要 Kodi 原生字幕服务时，请使用 **Kodi**。',
   'plugins.index.shared.sources':
-    '**字幕来源：** OpenSubtitles、SubDL 和 Podnapisi，通过 Wyzie 聚合。',
+    '**字幕来源：**你的密钥可用的所有来源（`source=all`）：免费密钥为 charlie 和 lima，Pro 密钥为全部七个来源。',
   'plugins.index.shared.matching':
     '**匹配方式：** Wyzie 基于 IMDB 和 TMDB ID 以及季和集来驱动，因此电影和剧集都能精准匹配。',
   'plugins.index.shared.quota':
     '**配额：** 当你的密钥用尽时，插件会显示一个友好的提示，并链接到 [store.wyzie.io](https://store.wyzie.io)，而不是悄无声息地失败。充值或订阅后即可恢复使用。',
   'plugins.index.shared.languages':
     '**语言：** 100 多种，可在每个插件中分别选择。',
-  'plugins.index.outro': '在上方选择你的平台即可开始。',
+  'plugins.index.outro':
+    '在上方选择你的平台即可开始。所有插件的源代码都在 [wyzie-plugins 仓库](https://github.com/wyziedevs/wyzie-plugins)中。',
 
   'plugins.stremio.intro':
-    '一款一键安装的 [Stremio](https://www.stremio.com/) 字幕插件。它通过 Wyzie 聚合 OpenSubtitles、SubDL 和 Podnapisi，适用于电影和剧集，并支持 Stremio 运行的所有平台。',
+    '一款一键安装的 [Stremio](https://www.stremio.com/) 字幕插件。它会查询你的密钥可用的所有 Wyzie 来源，适用于电影和剧集，并支持 Stremio 运行的所有平台。',
   'plugins.stremio.before':
     '你需要一个免费的 Wyzie API 密钥。在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取，或在 [store.wyzie.io](https://store.wyzie.io/#plans) 购买 Pro 密钥或订阅。',
   'plugins.stremio.install.1':
@@ -608,7 +613,8 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.2': '粘贴你的 **API 密钥**。',
   'plugins.stremio.install.3':
     '可选：以 ISO 639-1 代码输入你偏好的**语言**，用逗号分隔（例如 `en,es,fr`）。留空表示所有语言。',
-  'plugins.stremio.install.4': '可选：如果你偏好**听障**字幕，可将其开启。',
+  'plugins.stremio.install.4':
+    '可选：开启**听障**选项，以仅获取听障字幕。保持关闭则显示全部字幕；开启时，不标记听障字幕的来源将不返回任何结果。',
   'plugins.stremio.install.5':
     '点击**安装**。Stremio 会打开并要求你确认；接受后即完成。',
   'plugins.stremio.install.after':
@@ -619,7 +625,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.cfg.langs.d':
     'ISO 639-1 代码，用逗号分隔。留空表示所有语言。',
   'plugins.stremio.cfg.hi.f': '听障',
-  'plugins.stremio.cfg.hi.d': '在可用时优先选择听障字幕。',
+  'plugins.stremio.cfg.hi.d': '仅返回听障字幕（发送 hi=true）。默认关闭。',
   'plugins.stremio.cfg.note':
     '若要在之后更改其中任何设置，请重新打开 [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure)，调整后重新安装。',
   'plugins.stremio.local':
@@ -634,13 +640,13 @@ const messages: Record<string, string> = {
     '**剧集无法匹配。** Wyzie 基于季和集进行匹配；请确认 Stremio 正在播放正确的剧集条目，而不是通用的剧集页面。',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) 可在一处管理 **Plex、Jellyfin、Emby、Sonarr 和 Radarr** 的字幕。将 Wyzie 添加为提供方后，所有这些服务器都能通过单个密钥访问 OpenSubtitles、SubDL 和 Podnapisi。',
+    '[Bazarr](https://www.bazarr.media/) 可在一处管理 **Plex、Jellyfin、Emby、Sonarr 和 Radarr** 的字幕。将 Wyzie 添加为提供方后，所有这些服务器都能通过同一个密钥，访问该密钥可用的全部 Wyzie 来源。',
   'plugins.bazarr.note':
     '这是在 Plex 和 Jellyfin 上使用 Wyzie 的推荐方式。Bazarr 会将字幕文件下载到你的媒体旁边，你的服务器会自动识别，因此无需单独的原生插件。',
   'plugins.bazarr.before':
     '在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取免费的 Wyzie API 密钥，并确保你能访问 Bazarr 的安装文件（典型 Docker 路径：`/opt/bazarr/bazarr/`）。',
   'plugins.bazarr.install.1':
-    '将 `wyzie.py` 复制到 `bazarr/subliminal_patch/providers/wyzie.py`。',
+    '从 [wyzie-plugins 仓库](https://github.com/wyziedevs/wyzie-plugins)下载 [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py)（或执行 `git clone https://github.com/wyziedevs/wyzie-plugins.git`），并将其复制到 `bazarr/subliminal_patch/providers/wyzie.py`。',
   'plugins.bazarr.install.2':
     '编辑 `bazarr/subliminal_patch/extensions.py`，并将 `wyzie` 添加到 `provider_registry` 和 `provider_manager` **两者**中。',
   'plugins.bazarr.install.3':
@@ -651,12 +657,12 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     '已计划提交一个一流的 pull request，将此提供方上游合并到 Bazarr。在此之前，它是一个可直接添加到你自己安装中的文件。',
   'plugins.bazarr.cfg.key': '你的 Wyzie 密钥。必填。',
-  'plugins.bazarr.cfg.hi': '优先选择听障字幕。',
+  'plugins.bazarr.cfg.hi': '仅返回听障字幕（发送 hi=true）。',
   'plugins.bazarr.cfg.sources': '要查询的提供方列表，用逗号分隔，或填 `all`。',
   'plugins.bazarr.quota.402':
     '**402 或 429**（余额耗尽或达到每日上限）：Bazarr 会记录一条带有 [store.wyzie.io](https://store.wyzie.io) 链接的提示并返回空结果，因此会干净地回退到你的其他提供方。不会崩溃。',
   'plugins.bazarr.quota.401':
-    '**401**（密钥错误）：Bazarr 会显示一个认证错误，让你知道需要重新输入密钥。',
+    '**401**（缺少密钥）或 **403**（未知密钥，或密钥被暂停）：Bazarr 会显示一个认证错误，让你知道需要检查或重新输入密钥。',
   'plugins.bazarr.ts.missing':
     '**Wyzie 没有出现在提供方列表中。** 请重新检查编辑 `extensions.py` 的安装步骤；该条目必须同时存在于 `provider_registry` 和 `provider_manager` 中，然后重启 Bazarr。',
   'plugins.bazarr.ts.none':
@@ -682,14 +688,14 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     '如果你不想添加仓库，可使用此方式。注意：zip 安装**不会**自动更新。',
   'plugins.kodi.zip.1':
-    '获取插件 zip：`service.subtitles.wyzie-<version>.zip`。如果你有源代码，将 `kodi/` 文件夹压缩成 zip，使其根目录包含 `addon.xml`。',
+    '获取插件 zip：`service.subtitles.wyzie-<version>.zip`。如需自行构建，请克隆 [wyzie-plugins 仓库](https://github.com/wyziedevs/wyzie-plugins)（`git clone https://github.com/wyziedevs/wyzie-plugins.git`），并将其中的 `kodi/` 文件夹压缩成 zip，使其根目录包含 `addon.xml`。',
   'plugins.kodi.zip.2':
     '在 Kodi 中：**设置、插件、从 zip 文件安装**，然后选择该 zip。如果 Kodi 阻止了它，请先启用**设置、系统、插件、未知来源**。',
   'plugins.kodi.zip.3':
     '**设置、播放器、语言、默认字幕服务**，然后选择 **Wyzie Subs**。',
   'plugins.kodi.zip.4': '打开 Wyzie Subs 插件设置并粘贴你的 **API 密钥**。',
   'plugins.kodi.cfg.key': '你的 Wyzie 密钥。必填。',
-  'plugins.kodi.cfg.hi': '优先选择听障字幕。',
+  'plugins.kodi.cfg.hi': '仅返回听障字幕（发送 hi=true）。',
   'plugins.kodi.cfg.langs':
     '语言取自 Kodi 所选的字幕语言，并自动映射为 ISO 639-1。',
   'plugins.kodi.matching.1':

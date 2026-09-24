@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie is een open-source toolset voor het scrapen van ondertitels en alles daartussenin.',
+    'Wyzie is een toolset voor het scrapen van ondertitels en alles daartussenin.',
   'index.cta.start': 'Aan de slag',
   'index.cta.store': 'Bekijk het',
 
   'index.card.keys.title': 'Gratis API-sleutels',
   'index.card.keys.body':
-    'Haal een gratis API-sleutel op bij store.wyzie.io/redeem met een snelle Gmail-verificatie. 1.000 verzoeken/dag gratis. Betaalde abonnementen beschikbaar voor intensiever gebruik.',
+    'Haal een gratis API-sleutel op bij store.wyzie.io/redeem met een snelle e-mailverificatie (Gmail, Outlook, Yahoo, iCloud, Proton en andere grote aanbieders). 1.000 verzoeken/dag gratis. Betaalde abonnementen beschikbaar voor intensiever gebruik.',
 
   'index.card.ai.title': 'AI-vertaling',
   'index.card.ai.body':
-    'Vertaal elke ondertitel naar 80+ talen op aanvraag. Streamt cue voor cue zodat het afspelen binnen enkele seconden kan beginnen. Beschikbaar voor Pro-sleutels.',
+    'Vertaal elke ondertitel op aanvraag naar 80+ talen. De SRT wordt op volgorde teruggestreamd zodra batches klaar zijn, zodat de eerste regels snel binnenkomen. Beschikbaar voor Pro-sleutels.',
 
   'index.card.reliable.title': 'Betrouwbaar',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Introductie tot Wyzie Subs',
   'subs.intro.p1':
-    'Wyzie Subs is een gratis en libre open-subtitles scraping API. Er zijn twee manieren om verzoeken aan de API te doen: via ons NPM-pakket of door de Wyzie API rechtstreeks op te vragen. Ik raad aan ons pakket te gebruiken, maar sommigen vinden de types omslachtig. Om de API te gebruiken, moet je eerst die keuze maken.',
+    'Wyzie Subs is een API voor het scrapen van ondertitels met een gratis abonnement. Er zijn twee manieren om verzoeken aan de API te doen: via ons NPM-pakket of door de Wyzie API rechtstreeks op te vragen. Ik raad aan ons pakket te gebruiken, maar sommigen vinden de types omslachtig. Om de API te gebruiken, moet je eerst die keuze maken.',
   'subs.intro.note.ai':
-    'AI-vertaling is live voor Pro-sleutels. Elke titel, 80+ doeltalen, gestreamd terwijl de vertaler bezig is.',
+    'AI-vertaling is live voor Pro-sleutels. Elke titel, 80+ doeltalen, in ondertitelvolgorde teruggestreamd zodra batches klaar zijn.',
   'subs.intro.important.apikey':
-    'Voor alle verzoeken is een API-sleutel vereist. Haal een gratis sleutel op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (Gmail-verificatie, 1.000 verzoeken/dag). Voor intensiever gebruik zijn [Pro- en opwaardeerplannen](https://store.wyzie.io) beschikbaar. Zie de pagina API-sleutels voor meer details.',
+    'Voor alle verzoeken is een API-sleutel vereist. Haal een gratis sleutel op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (e-mailverificatie, 1.000 verzoeken/dag). Voor intensiever gebruik zijn [Pro- en opwaardeerplannen](https://store.wyzie.io) beschikbaar. Zie de pagina API-sleutels voor meer details.',
   'subs.intro.note.npm':
     'We raden het NPM-pakket sterk aan als je bekend bent met TypeScript of JavaScript',
   'subs.intro.btn.npm': 'NPM-pakket',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'Als de sleutel de machine van een eindgebruiker bereikt, behandel hem dan als openbaar. Er zijn twee veilige opties:',
   'subs.intro.protect.opt1.h3': 'Optie 1: Wyzie Worker gebruiken',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker is een lichtgewicht Cloudflare Worker-proxy die je API-sleutel server-side injecteert. Implementeer het op Cloudflare Workers en stel je sleutel in als de omgevingsvariabele NITRO_API_TOKEN. Richt je clientverzoeken vervolgens op je worker-URL in plaats van sub.wyzie.io — de worker stuurt ze door met je sleutel toegevoegd.',
+    'Wyzie Worker is een lichtgewicht Cloudflare Worker-proxy die je API-sleutel server-side injecteert. Implementeer het op Cloudflare Workers en stel twee secrets in: `NITRO_API_TOKEN` (je Wyzie API-sleutel) en `NITRO_WORKER_KEY` (een secret dat je zelf kiest). Elk verzoek aan de worker moet `Authorization: Bearer <NITRO_WORKER_KEY>` meesturen; zonder deze header antwoordt de worker met 401, en als `NITRO_WORKER_KEY` niet is ingesteld, weigert hij elk verzoek met 503. Ook de worker-sleutel moet server-side blijven, dus roep de worker aan vanuit je eigen backend, nooit vanuit browser- of app-code. De worker stuurt elk verzoek door naar sub.wyzie.io met je API-sleutel toegevoegd.',
   'subs.intro.protect.opt2.h3': 'Optie 2: Bouw je eigen proxy',
   'subs.intro.protect.opt2.p1':
     'Als je Wyzie Worker liever niet gebruikt, kun je een eenvoudige server-side proxy bouwen in elk framework. Het idee is hetzelfde: je backend ontvangt verzoeken van je client, voegt de API-sleutel toe en stuurt ze door naar sub.wyzie.io.',
@@ -171,8 +171,9 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT, ASS, SSA, VTT, SUB, en andere',
 
   'subs.sources.ai.desc':
-    'Geen scraper. AI-vertaalde SRT die op aanvraag wordt gegenereerd vanuit de best beschikbare bronondertitel. Zie de AI-vertalingsgids voor volledige details.',
-  'subs.sources.ai.content': 'Alles waarvoor Wyzie een SRT kan vinden',
+    'Geen scraper. AI-vertaalde SRT die op aanvraag wordt gegenereerd vanuit de best beschikbare bronondertitel. Alleen voor Pro-sleutels. Zie de AI-vertalingsgids voor volledige details.',
+  'subs.sources.ai.content':
+    'Alles waarvoor Wyzie een tekstondertitel kan vinden',
   'subs.sources.ai.languages': '80+ doeltalen',
   'subs.sources.ai.formats': 'Alleen SRT',
 
@@ -199,7 +200,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.language':
     'ISO 639-1-codes voor de ondertiteltaal. Accepteert een lijst.',
   'subs.pkg.param.encoding': 'Tekencoderingsfilter (bijv. utf-8, latin-1).',
-  'subs.pkg.param.hi': 'Boolean voor ondertitels voor slechthorenden.',
+  'subs.pkg.param.hi':
+    'Als dit true is, worden alleen ondertitels voor slechthorenden teruggegeven. Bronnen die ondertitels voor slechthorenden niet markeren, geven niets terug.',
   'subs.pkg.param.source':
     'Ondertitelaanbieders om te bevragen op codenaam (all voor elke actieve bron die je sleutel kan gebruiken; standaard charlie).',
   'subs.pkg.param.release': 'Release/scene-filters (accepteert een lijst).',
@@ -225,7 +227,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'Invoer en resultaat van syncSubtitle (Wyzie Synced, Pro-sleutels): welke ondertitel (een resultaat, de url ervan, of tmdb_id/imdb_id met language), de spraakfragmenten (speech) die detectSpeech heeft gevonden of het media-bestand, en de gesynchroniseerde downloadlink met offset, fps en confidence. Zie [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
-    'Onze types zijn heel eenvoudig en goed gedocumenteerd. Bekijk het types.ts-bestand dat is gelinkt in de GitHub-repository.',
+    'Onze types zijn heel eenvoudig en goed gedocumenteerd. Zie [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) in de wyzie-lib-repository.',
   'subs.pkg.config.h3': 'Configuratie',
   'subs.pkg.config.p1':
     'Een gebruiker vroeg op Github om een configureerbare API-hostnaam en ik dacht: dat klinkt als een goed idee, dus hieronder staat het gebruik. Liefde voor jullie allemaal!',
@@ -248,10 +250,10 @@ const messages: Record<string, string> = {
   'subs.direct.param.format':
     'Ondertitelformaten om terug te geven. Meerdere waarden toegestaan.',
   'subs.direct.param.hi':
-    'Of de voorkeur gegeven moet worden aan ondertitels voor slechthorenden.',
+    'Als dit true is, worden alleen ondertitels voor slechthorenden teruggegeven (het is een filter, geen voorkeur). Bronnen die ondertitels voor slechthorenden niet markeren, geven niets terug.',
   'subs.direct.param.encoding': 'Tekencoderingsfilter.',
   'subs.direct.param.source':
-    'Ondertitelaanbieders om te bevragen (all bevraagt elke ingeschakelde bron; standaard charlie).',
+    'Ondertitelaanbieders om te bevragen (all bevraagt elke bron die je sleutel kan gebruiken; standaard charlie).',
   'subs.direct.param.release':
     'Release- of scenenaamfilters (kommagescheiden).',
   'subs.direct.param.file':
@@ -271,7 +273,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'Geretourneerde gegevens',
   'subs.direct.data.id': 'Het ID van het ondertitelbestand.',
-  'subs.direct.data.url': 'De URL naar het ondertitelbestand.',
+  'subs.direct.data.url':
+    'Downloadlink op https://sub.wyzie.io/c/... met een versleutelde tok-parameter. Elke download kost 1 verzoek; zie het gedeelte over het downloaden van ondertitels hieronder.',
   'subs.direct.data.flagUrl':
     'URL naar de vlag van de landinstelling van de taal.',
   'subs.direct.data.format': 'Het formaat van het ondertitelbestand.',
@@ -328,27 +331,27 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI-ondertitelvertaling',
   'subs.translate.important':
-    'AI-vertaling is een **Pro-functie**. Elke vertaling kost **100 verzoeken** van het saldo van je sleutel, ook bij een cache-hit. Gratis sleutels kunnen dit niet gebruiken.',
+    'AI-vertaling is een **Pro-functie**; gratis sleutels krijgen 403 Upgrade required. Elke aanroep kost **100 verzoeken** van het saldo van je sleutel, cache-hits inbegrepen. Als een aanroep mislukt voordat er uitvoer is (geen ondertitel gevonden, een zoek- of downloadfout, of de server is overbelast), worden de 100 verzoeken automatisch terugbetaald.',
   'subs.translate.p1':
-    'Wyzie kan elke ondertitel ter plekke vertalen naar 80+ talen. Vertalingen worden gestreamd terwijl het model ze produceert, zodat het afspelen kan beginnen binnen een seconde of twee in plaats van te wachten op het volledige bestand. Resultaten worden 30 dagen gecached, zodat de tweede persoon die om dezelfde vertaling vraagt deze onmiddellijk krijgt.',
+    'Wyzie kan elke ondertitel ter plekke vertalen naar 80+ talen. De vertaalde SRT wordt op volgorde teruggestreamd zodra batches klaar zijn, zodat de eerste cues snel binnenkomen in plaats van pas nadat het hele bestand klaar is. De volledige vertaling wordt 30 dagen gecached, zodat latere verzoeken voor dezelfde titel, aflevering en doeltaal vanuit de cache worden geleverd.',
 
   'subs.translate.ways.h2': 'Twee manieren om het te gebruiken',
   'subs.translate.way1.h3': '1. Kies een taal uit een zoekresultaat',
   'subs.translate.way1.p1':
-    'Elk /search-antwoord bevat nu één extra item per ondersteunde taal met "ai": true en een url die verwijst naar /translate. Behandel de AI-rijen gewoon als elk ander ondertitelrij in je UI: wanneer de gebruiker er op klikt, haal dan de URL op.',
+    'Voor Pro-sleutels bevat elk /search-antwoord ook AI-vertaalrijen met "ai": true en een url die verwijst naar /translate: één per ondersteunde taal, of alleen de talen in je language=-filter. Gratis sleutels krijgen deze rijen nooit. Behandel de AI-rijen als elke andere ondertitelrij in je UI: wanneer de gebruiker er een aanklikt, haal dan de URL op.',
   'subs.translate.way1.filter':
     'Als je de AI-rijen uit je UI wilt verbergen, filter ze er dan uit:',
   'subs.translate.way2.h3': '2. Roep /translate rechtstreeks aan',
 
   'subs.translate.param.id': 'TMDB- of IMDB-ID (vereist).',
   'subs.translate.param.target':
-    'Doeltaal als volledige Engelse naam (bijv. Spanish, Japanese, Brazilian Portuguese) (vereist).',
+    'Doeltaal (vereist): een naam uit de lijst met ondersteunde talen (bijv. Spanish, Japanese, Portuguese (Brazil)) of de bijbehorende code (bijv. es, ja, pt-BR).',
   'subs.translate.param.seasonEpisode':
     'Voor tv. Beide moeten tegelijk aanwezig zijn.',
   'subs.translate.param.key':
     'Je API-sleutel. Gebruik in plaats daarvan tk als je de URL van /search hebt gekregen.',
   'subs.translate.param.tk':
-    'Ondertekend token teruggegeven door /search. Equivalent aan key, maar geeft de ruwe sleutel niet bloot.',
+    "Versleuteld token uit de URL's van de AI-rijen in /search. Werkt als key, geeft je API-sleutel niet prijs en blijft 60 dagen geldig.",
 
   'subs.translate.headers.p':
     'De antwoordtekst is een SRT-bestand gestreamd als text/plain; charset=utf-8. Nuttige antwoordheaders:',
@@ -362,27 +365,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'Hoe het werkt',
   'subs.translate.how.step1':
-    'Wyzie zoekt in normale bronnen naar een SRT-ondertitel, met voorkeur voor Engels indien beschikbaar.',
+    'Wyzie zoekt in de normale bronnen naar een tekstondertitel, met voorkeur voor een Engelse SRT indien beschikbaar. VTT-, ASS-, SSA- en SUB-bestanden worden eerst naar SRT geconverteerd.',
   'subs.translate.how.step2':
-    'De SRT wordt opgesplitst in blokken van 50 cues en sequentieel vertaald. Elk blok wordt afzonderlijk gecached zodra het klaar is.',
+    'De SRT wordt opgesplitst in batches van maximaal ongeveer 3.800 tekens en vertaald met Google Translate, 4 batches tegelijk.',
   'subs.translate.how.step3':
-    'Uitvoer wordt cue voor cue naar je gestreamd. Spelers die een streamende SRT-body accepteren, kunnen de eerste regels tonen voordat de rest klaar is.',
+    'Uitvoer wordt in SRT-volgorde teruggestreamd zodra batches klaar zijn, zodat de eerste cues snel binnenkomen. Spelers die een streamende SRT-body accepteren, kunnen de eerste regels tonen voordat de rest klaar is.',
   'subs.translate.how.step4':
     'De volledige vertaling wordt 30 dagen gecached in Redis, geïndexeerd op id, season, episode en target.',
 
   'subs.translate.languages.h2': 'Ondersteunde doeltalen',
   'subs.translate.languages.p':
-    '80+ talen inclusief alle grote Europese, Aziatische, Afrikaanse en Midden-Oosterse talen. Geef de Engelse naam door (Spanish, niet es). De lijst wordt ook teruggegeven als ai: true rijen in elk /search-antwoord, wat de definitieve bron van waarheid is.',
+    '80+ talen, inclusief alle grote Europese, Aziatische, Afrikaanse en Midden-Oosterse talen. Geef een naam uit de lijst door (Spanish, Portuguese (Brazil)) of de bijbehorende code (es, pt-BR). Voor Pro-sleutels wordt de volledige lijst ook teruggegeven als ai: true rijen in elk /search-antwoord zonder language=-filter, wat de definitieve bron van waarheid is.',
 
   'subs.translate.limitations.h2': 'Beperkingen',
   'subs.translate.limit1':
-    'AI-vertaling heeft een SRT-bron nodig. Titels waarbij elke beschikbare ondertitel .ass, .vtt of een ander formaat is, geven 404 No SRT found terug.',
+    'AI-vertaling heeft een tekstondertitel nodig om van uit te gaan. VTT-, ASS-, SSA- en SUB-bronnen worden eerst naar SRT geconverteerd; als er geen tekstondertitel bestaat, geeft de aanroep 404 No subtitle found terug en worden de 100 verzoeken terugbetaald.',
   'subs.translate.limit2':
     'De vertaalkwaliteit hangt af van de bronondertitel. Een slecht getimede of verkeerd getypte bron levert een slecht getimede of verkeerd getypte vertaling op.',
   'subs.translate.limit3':
     'Sommige gebruikers willen AI-rijen volledig uitsluiten. Filter op ai === false in je client.',
   'subs.translate.limit4':
-    'Vertalingen worden ook bij cache-hits in rekening gebracht. Of ze nu vers worden gegenereerd of geleverd vanuit de 30-daagse cache, elk /translate-verzoek kost 100 verzoeken.',
+    'Vertalingen worden ook bij cache-hits in rekening gebracht. Of ze nu vers worden gegenereerd of geleverd vanuit de 30-daagse cache, elke /translate-aanroep kost 100 verzoeken. Alleen aanroepen die mislukken voordat er uitvoer is, worden terugbetaald.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -462,7 +465,7 @@ const messages: Record<string, string> = {
     "Wyzie Subs vereist een API-sleutel voor alle verzoeken. Een gratis abonnement dekt de meeste gebruiksscenario's; betaalde plannen verwerken intensiever gebruik.",
 
   'subs.keys.tiers.h2': 'Abonnementsniveaus',
-  'subs.keys.tier.free': 'Gratis (Gmail vereist)',
+  'subs.keys.tier.free': 'Gratis (e-mailverificatie)',
   'subs.keys.tier.free.limit': '1.000 verzoeken / UTC-dag',
   'subs.keys.tier.pro': '$5 eenmalig',
   'subs.keys.tier.pro.limit': '400.000 verzoeken',
@@ -476,12 +479,12 @@ const messages: Record<string, string> = {
     'Bezoek [store.wyzie.io/redeem](https://store.wyzie.io/redeem):',
   'subs.keys.free.step1': 'Los een snelle Cloudflare Turnstile-captcha op.',
   'subs.keys.free.step2':
-    'Voer een Gmail-adres in (alleen Gmail wordt geaccepteerd voor het gratis abonnement).',
+    'Voer een adres in van een grote persoonlijke e-mailaanbieder (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton en andere). Wegwerp-e-maildomeinen worden geweigerd.',
   'subs.keys.free.step3': 'Voer de 6-cijferige code in die we je e-mailen.',
   'subs.keys.free.step4':
     'Je ontvangt een API-sleutel die eruitziet als wyzie-abc123...',
   'subs.keys.free.gmail':
-    'Elk Gmail-adres kan slechts één gratis sleutel inwisselen. Had je al een gratis sleutel gekoppeld aan dat e-mailadres? Opnieuw verifiëren geeft gewoon je bestaande sleutel terug.',
+    'Elk e-mailadres en elk netwerk kan één gratis sleutel claimen; een tweede verzoek geeft 409 terug. Sleutel kwijt? Gebruik "Forgot key" op het [dashboard](https://store.wyzie.io/dashboard) om hem opnieuw te laten versturen.',
 
   'subs.keys.pro.h2': 'Upgraden naar Pro',
   'subs.keys.pro.p1':
@@ -495,11 +498,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     'Twee veilige manieren om de sleutel vanuit een client-app te gebruiken:',
   'subs.keys.protect.option1':
-    'Gebruik [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): een gratis Cloudflare Worker-proxy die je sleutel server-side bewaart. Richt je client op de Worker-URL in plaats van sub.wyzie.io.',
+    'Gebruik [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): een gratis Cloudflare Worker-proxy die je API-sleutel bewaart als het secret `NITRO_API_TOKEN`. Elke aanroep naar de worker moet `Authorization: Bearer <NITRO_WORKER_KEY>` meesturen, een tweede secret dat je zelf instelt, dus leid je client via je eigen backend en houd ook de worker-sleutel server-side.',
   'subs.keys.protect.option2':
     'Voer je eigen proxy uit: elk backend-eindpunt dat de sleutel toevoegt voordat het wordt doorgestuurd naar sub.wyzie.io werkt. Zie de Intro-pagina voor een voorbeeld van 10 regels.',
   'subs.keys.protect.devtools':
-    'Als de sleutel verschijnt in een netwerktabblad in DevTools, is deze blootgesteld. Beschouw hem als openbaar en roteer hem door contact op te nemen met support.',
+    'Als de sleutel verschijnt in een netwerktabblad in DevTools, is deze blootgesteld. Beschouw hem als openbaar en roteer hem via je [dashboard](https://store.wyzie.io/dashboard).',
 
   'subs.keys.using.h2': 'Je sleutel gebruiken',
   'subs.keys.using.p': 'Voeg &key=YOUR_KEY toe aan elk API-verzoek:',
@@ -509,9 +512,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'Een zoekopdracht kost 1 verzoek en elke ondertiteldownload kost 1 verzoek, dus één keer zoeken en één bestand downloaden verbruikt er 2. AI-vertaling kost 100 verzoeken per aanroep.',
   'subs.keys.limit.free':
-    '**Gratis abonnement** uitgeput -> API geeft 429 terug met X-RateLimit-Reset- en Retry-After-headers. Dagteller reset om middernacht UTC.',
+    '**Gratis abonnement** uitgeput -> zoekopdrachten en downloadlinks geven 429 Daily request limit reached terug, met reset_at in de JSON en een Retry-After-header. De daglimiet van 1.000 verzoeken wordt om middernacht UTC gereset.',
   'subs.keys.limit.paid':
-    '**Betaald saldo** uitgeput -> API geeft 402 terug. Waardeer op bij [store.wyzie.io/topup](https://store.wyzie.io/topup) of schakel **automatisch opwaarderen** in je dashboard in om automatisch bij te vullen wanneer je saldo een door jou ingestelde drempel bereikt.',
+    '**Betaald saldo** uitgeput -> zoekopdrachten en downloadlinks geven 402 terug met een opwaardeerlink in de JSON. Waardeer op bij [store.wyzie.io/topup](https://store.wyzie.io/topup) of schakel **automatisch opwaarderen** in je dashboard in om automatisch bij te vullen wanneer je saldo een door jou ingestelde drempel bereikt.',
   'subs.keys.hold.p1':
     "Sleutels die een zeer hoog volume versturen, grotendeels vanaf datacenter- of hosting-IP's, worden automatisch gepauzeerd. Een gepauzeerde sleutel krijgt bij elk verzoek 403 Key on hold, met een heractiveringslink (https://store.wyzie.io/verify) en een supportlink (https://store.wyzie.io/contact) in de JSON.",
   'subs.keys.hold.p2':
@@ -529,7 +532,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.q1':
     'Ik ben mijn sleutel kwijtgeraakt. Kan ik een nieuwe krijgen?',
   'subs.keys.faq.a1':
-    'Bezoek [store.wyzie.io](https://store.wyzie.io) en gebruik de "vergeten sleutel"-procedure met je geregistreerde e-mailadres; we sturen je bestaande sleutel opnieuw.',
+    'Open het [dashboard](https://store.wyzie.io/dashboard) en gebruik "Forgot key" met je geregistreerde e-mailadres; we sturen je bestaande sleutel opnieuw. Als je denkt dat de sleutel is uitgelekt, roteer hem dan in plaats daarvan via het dashboard.',
   'subs.keys.faq.q2': 'Kan ik één sleutel gebruiken in meerdere projecten?',
   'subs.keys.faq.a2': 'Ja. Je sleutel werkt overal waar je de API aanroept.',
   'subs.keys.faq.q3': 'Verloopt mijn sleutel ooit?',
@@ -588,7 +591,7 @@ const messages: Record<string, string> = {
     '**Foutopsporingsmodus**: Gedetailleerde logboekregistratie voor probleemoplossing en monitoring',
 
   'i6shark.intro.requirements.h2': 'Vereisten',
-  'i6shark.intro.req1': 'Go 1.20 of hoger',
+  'i6shark.intro.req1': 'Go 1.22 of hoger',
   'i6shark.intro.req2':
     'Linux/Unix-systeem met IPv6-ondersteuning (bij voorkeur Ubuntu)',
   'i6shark.intro.req3':
@@ -646,17 +649,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Gebruik **Kodi** voor een Kodi-native ondertiteldienst op Android TV, een Raspberry Pi of een home-theater-pc.',
   'plugins.index.shared.sources':
-    '**Bronnen:** OpenSubtitles, SubDL en Podnapisi, samengevoegd via Wyzie.',
+    '**Bronnen:** elke bron die je sleutel kan gebruiken (`source=all`): charlie en lima met een gratis sleutel, alle zeven met een Pro-sleutel.',
   'plugins.index.shared.matching':
     '**Matchen:** Wyzie wordt aangestuurd door IMDB- en TMDB-IDs plus seizoen en aflevering, zodat matches nauwkeurig zijn voor zowel films als series.',
   'plugins.index.shared.quota':
     '**Quotum:** wanneer je sleutel op is, toont de plug-in een vriendelijke melding met een link naar [store.wyzie.io](https://store.wyzie.io) in plaats van stilletjes te falen. Vul aan of neem een abonnement en je bent weer in bedrijf.',
   'plugins.index.shared.languages':
     '**Talen:** 100+, per plug-in selecteerbaar.',
-  'plugins.index.outro': 'Kies hierboven je platform om te beginnen.',
+  'plugins.index.outro':
+    'Kies hierboven je platform om te beginnen. De broncode van elke plug-in staat in de [wyzie-plugins-repository](https://github.com/wyziedevs/wyzie-plugins).',
 
   'plugins.stremio.intro':
-    'Een ondertitel-add-on met één klik voor [Stremio](https://www.stremio.com/). Het voegt OpenSubtitles, SubDL en Podnapisi samen via Wyzie en werkt voor zowel films als series, op elk platform waarop Stremio draait.',
+    'Een ondertitel-add-on met één klik voor [Stremio](https://www.stremio.com/). Het bevraagt elke Wyzie-bron die je sleutel kan gebruiken en werkt voor zowel films als series, op elk platform waarop Stremio draait.',
   'plugins.stremio.before':
     'Je hebt een gratis Wyzie API-sleutel nodig. Haal er een op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem), of koop een Pro-sleutel of neem een abonnement bij [store.wyzie.io](https://store.wyzie.io/#plans).',
   'plugins.stremio.install.1':
@@ -665,7 +669,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     "Optioneel: voer je voorkeurs**talen** in als ISO 639-1-codes, gescheiden door komma's (bijvoorbeeld `en,es,fr`). Laat leeg voor alle talen.",
   'plugins.stremio.install.4':
-    'Optioneel: schakel **slechthorenden**-ondertitels in als je daar de voorkeur aan geeft.',
+    'Optioneel: schakel **Slechthorenden** in om alleen ondertitels voor slechthorenden te krijgen. Laat het uit om alles te zien; bronnen die ondertitels voor slechthorenden niet markeren, geven niets terug zolang het aan staat.',
   'plugins.stremio.install.5':
     'Klik op **Installeren**. Stremio opent en vraagt je om te bevestigen; accepteer en je bent klaar.',
   'plugins.stremio.install.after':
@@ -677,7 +681,7 @@ const messages: Record<string, string> = {
     "ISO 639-1-codes, gescheiden door komma's. Leeg betekent alle talen.",
   'plugins.stremio.cfg.hi.f': 'Slechthorenden',
   'plugins.stremio.cfg.hi.d':
-    'Geef de voorkeur aan ondertitels voor slechthorenden indien beschikbaar.',
+    'Alleen ondertitels voor slechthorenden teruggeven (stuurt hi=true). Standaard uit.',
   'plugins.stremio.cfg.note':
     'Om deze later te wijzigen, open je [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) opnieuw, pas je het aan en installeer je opnieuw.',
   'plugins.stremio.local':
@@ -692,13 +696,13 @@ const messages: Record<string, string> = {
     '**Serieaflevering matcht niet.** Wyzie matcht op seizoen en aflevering; zorg ervoor dat Stremio de juiste afleveringsvermelding afspeelt en niet een algemene seriepagina.',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) beheert ondertitels voor **Plex, Jellyfin, Emby, Sonarr en Radarr** op één plek. Wyzie als provider toevoegen geeft al die servers toegang tot OpenSubtitles, SubDL en Podnapisi via één sleutel.',
+    '[Bazarr](https://www.bazarr.media/) beheert ondertitels voor **Plex, Jellyfin, Emby, Sonarr en Radarr** op één plek. Wyzie als provider toevoegen geeft al die servers via één sleutel toegang tot elke Wyzie-bron die je sleutel kan gebruiken.',
   'plugins.bazarr.note':
     'Dit is de aanbevolen manier om Wyzie te gebruiken met Plex en Jellyfin. Bazarr downloadt ondertitelbestanden naast je media en je server pikt ze automatisch op, dus er is geen aparte native plug-in vereist.',
   'plugins.bazarr.before':
     'Haal een gratis Wyzie API-sleutel op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem) en zorg dat je toegang hebt tot je Bazarr-installatiebestanden (typisch Docker-pad: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    'Kopieer `wyzie.py` naar `bazarr/subliminal_patch/providers/wyzie.py`.',
+    'Download [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) uit de [wyzie-plugins-repository](https://github.com/wyziedevs/wyzie-plugins) (of `git clone https://github.com/wyziedevs/wyzie-plugins.git`) en kopieer het naar `bazarr/subliminal_patch/providers/wyzie.py`.',
   'plugins.bazarr.install.2':
     'Bewerk `bazarr/subliminal_patch/extensions.py` en voeg `wyzie` toe aan **zowel** `provider_registry` als `provider_manager`.',
   'plugins.bazarr.install.3':
@@ -710,13 +714,13 @@ const messages: Record<string, string> = {
     'Een eersteklas pull request om deze provider naar Bazarr upstream te brengen, is gepland. Tot dan is het een kant-en-klaar bestand dat je aan je eigen installatie toevoegt.',
   'plugins.bazarr.cfg.key': 'Je Wyzie-sleutel. Vereist.',
   'plugins.bazarr.cfg.hi':
-    'Geef de voorkeur aan ondertitels voor slechthorenden.',
+    'Alleen ondertitels voor slechthorenden teruggeven (stuurt hi=true).',
   'plugins.bazarr.cfg.sources':
     "Door komma's gescheiden lijst van providers om te bevragen, of `all`.",
   'plugins.bazarr.quota.402':
     '**402 of 429** (saldo leeg of dagelijkse limiet bereikt): Bazarr logt een notitie met een link naar [store.wyzie.io](https://store.wyzie.io) en geeft geen resultaten terug, zodat het netjes terugvalt op je andere providers. Er crasht niets.',
   'plugins.bazarr.quota.401':
-    '**401** (verkeerde sleutel): Bazarr toont een authenticatiefout zodat je weet dat je de sleutel opnieuw moet invoeren.',
+    '**401** (ontbrekende sleutel) of **403** (onbekende of gepauzeerde sleutel): Bazarr toont een authenticatiefout zodat je weet dat je de sleutel moet controleren of opnieuw moet invoeren.',
   'plugins.bazarr.ts.missing':
     '**Wyzie verschijnt niet in de providerlijst.** Controleer de installatiestap die `extensions.py` bewerkt opnieuw; de vermelding moet in zowel `provider_registry` als `provider_manager` staan, start daarna Bazarr opnieuw.',
   'plugins.bazarr.ts.none':
@@ -743,7 +747,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'Gebruik dit als je liever de repository niet toevoegt. Let op: een zip-installatie werkt **niet** automatisch bij.',
   'plugins.kodi.zip.1':
-    'Haal de add-on-zip op: `service.subtitles.wyzie-<version>.zip`. Als je de broncode hebt, zip dan de map `kodi/` zodat de zip `addon.xml` in de root bevat.',
+    'Haal de add-on-zip op: `service.subtitles.wyzie-<version>.zip`. Om hem zelf te bouwen, kloon je de [wyzie-plugins-repository](https://github.com/wyziedevs/wyzie-plugins) (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) en zip je de map `kodi/` ervan, zodat de zip `addon.xml` in de root bevat.',
   'plugins.kodi.zip.2':
     'In Kodi: **Settings, Add-ons, Install from zip file**, kies daarna de zip. Als Kodi het blokkeert, schakel dan eerst **Settings, System, Add-ons, Unknown sources** in.',
   'plugins.kodi.zip.3':
@@ -752,7 +756,7 @@ const messages: Record<string, string> = {
     'Open de instellingen van de Wyzie Subs-add-on en plak je **API-sleutel**.',
   'plugins.kodi.cfg.key': 'Je Wyzie-sleutel. Vereist.',
   'plugins.kodi.cfg.hi':
-    'Geef de voorkeur aan ondertitels voor slechthorenden.',
+    'Alleen ondertitels voor slechthorenden teruggeven (stuurt hi=true).',
   'plugins.kodi.cfg.langs':
     'Talen worden overgenomen uit de geselecteerde ondertiteltalen van Kodi en automatisch toegewezen aan ISO 639-1.',
   'plugins.kodi.matching.1':

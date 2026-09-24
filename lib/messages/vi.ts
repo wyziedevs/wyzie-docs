@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie là một bộ công cụ mã nguồn mở để tìm kiếm phụ đề và nhiều chức năng khác.',
+    'Wyzie là một bộ công cụ để tìm kiếm phụ đề và nhiều chức năng khác.',
   'index.cta.start': 'Bắt đầu',
   'index.cta.store': 'Xem ngay',
 
   'index.card.keys.title': 'API Keys miễn phí',
   'index.card.keys.body':
-    'Lấy API key miễn phí tại store.wyzie.io/redeem với xác minh Gmail nhanh chóng. 1.000 yêu cầu/ngày hoàn toàn miễn phí. Có các gói trả phí cho nhu cầu sử dụng nhiều hơn.',
+    'Lấy API key miễn phí tại store.wyzie.io/redeem với xác minh email nhanh chóng (Gmail, Outlook, Yahoo, iCloud, Proton và các nhà cung cấp lớn khác). 1.000 yêu cầu/ngày hoàn toàn miễn phí. Có các gói trả phí cho nhu cầu sử dụng nhiều hơn.',
 
   'index.card.ai.title': 'Dịch thuật AI',
   'index.card.ai.body':
-    'Dịch bất kỳ phụ đề nào sang hơn 80 ngôn ngữ theo yêu cầu. Phát trực tuyến từng cue để có thể bắt đầu phát lại trong vài giây. Có sẵn trên các key Pro.',
+    'Dịch bất kỳ phụ đề nào sang hơn 80 ngôn ngữ theo yêu cầu. SRT được phát trực tuyến về theo đúng thứ tự khi từng lô hoàn tất, nên những dòng đầu tiên đến rất nhanh. Có sẵn trên các key Pro.',
 
   'index.card.reliable.title': 'Đáng tin cậy',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Giới thiệu Wyzie Subs',
   'subs.intro.p1':
-    'Wyzie Subs là một API tìm kiếm phụ đề mã nguồn mở và miễn phí. Có hai cách để gửi yêu cầu tới API: sử dụng gói NPM của chúng tôi hoặc trực tiếp gọi Wyzie API. Tôi khuyến nghị dùng gói của chúng tôi, nhưng một số người có thể thấy các kiểu dữ liệu hơi phức tạp. Để sử dụng API, trước tiên bạn cần đưa ra quyết định đó.',
+    'Wyzie Subs là một API tìm kiếm phụ đề có gói miễn phí. Có hai cách để gửi yêu cầu tới API: sử dụng gói NPM của chúng tôi hoặc trực tiếp gọi Wyzie API. Tôi khuyến nghị dùng gói của chúng tôi, nhưng một số người có thể thấy các kiểu dữ liệu hơi phức tạp. Để sử dụng API, trước tiên bạn cần đưa ra quyết định đó.',
   'subs.intro.note.ai':
-    'Dịch thuật AI đã hoạt động cho các key Pro. Bất kỳ tiêu đề nào, hơn 80 ngôn ngữ đích, phát trực tuyến trong khi dịch.',
+    'Dịch thuật AI đã hoạt động cho các key Pro. Bất kỳ tiêu đề nào, hơn 80 ngôn ngữ đích, phát trực tuyến về theo thứ tự phụ đề khi từng lô hoàn tất.',
   'subs.intro.important.apikey':
-    'API key là bắt buộc cho tất cả các yêu cầu. Lấy key miễn phí tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (xác minh Gmail, 1.000 yêu cầu/ngày). Để sử dụng nhiều hơn, [các gói Pro và nạp thêm](https://store.wyzie.io) đã có sẵn. Xem trang API Keys để biết chi tiết.',
+    'API key là bắt buộc cho tất cả các yêu cầu. Lấy key miễn phí tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (xác minh email, 1.000 yêu cầu/ngày). Để sử dụng nhiều hơn, [các gói Pro và nạp thêm](https://store.wyzie.io) đã có sẵn. Xem trang API Keys để biết chi tiết.',
   'subs.intro.note.npm':
     'Chúng tôi khuyến nghị mạnh mẽ sử dụng gói NPM nếu bạn quen thuộc với TypeScript hoặc JavaScript',
   'subs.intro.btn.npm': 'Gói NPM',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'Nếu key đến được máy của người dùng cuối, hãy coi nó là công khai. Có hai cách an toàn:',
   'subs.intro.protect.opt1.h3': 'Tùy chọn 1: Dùng Wyzie Worker',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker là một proxy Cloudflare Worker nhẹ, tự động gắn API key của bạn ở phía máy chủ. Triển khai nó lên Cloudflare Workers và đặt key của bạn làm biến môi trường NITRO_API_TOKEN. Sau đó trỏ các yêu cầu từ client vào URL worker của bạn thay vì sub.wyzie.io — worker sẽ chuyển tiếp chúng kèm theo key của bạn.',
+    'Wyzie Worker là một proxy Cloudflare Worker nhẹ, tự động gắn API key của bạn ở phía máy chủ. Triển khai nó lên Cloudflare Workers và đặt hai secret: `NITRO_API_TOKEN` (API key Wyzie của bạn) và `NITRO_WORKER_KEY` (một chuỗi bí mật do bạn tự chọn). Mọi yêu cầu gửi đến worker đều phải kèm `Authorization: Bearer <NITRO_WORKER_KEY>`; nếu thiếu, worker sẽ trả về 401, và nếu `NITRO_WORKER_KEY` chưa được đặt, worker sẽ từ chối mọi yêu cầu với 503. Key của worker cũng phải được giữ ở phía máy chủ, vì vậy hãy gọi worker từ backend của riêng bạn, không bao giờ từ code trình duyệt hay ứng dụng. Worker chuyển tiếp từng yêu cầu đến sub.wyzie.io kèm theo API key của bạn.',
   'subs.intro.protect.opt2.h3': 'Tùy chọn 2: Tự xây dựng proxy',
   'subs.intro.protect.opt2.p1':
     'Nếu bạn không muốn dùng Wyzie Worker, bạn có thể xây dựng một proxy phía máy chủ đơn giản bằng bất kỳ framework nào. Ý tưởng giống nhau: backend của bạn nhận yêu cầu từ client, gắn API key vào và chuyển tiếp đến sub.wyzie.io.',
@@ -172,8 +172,9 @@ const messages: Record<string, string> = {
     'SRT, ASS, SSA, VTT, SUB, và nhiều hơn nữa',
 
   'subs.sources.ai.desc':
-    'Không phải bộ scraper. SRT được dịch bằng AI theo yêu cầu từ phụ đề nguồn tốt nhất có sẵn. Xem hướng dẫn Dịch thuật AI để biết chi tiết đầy đủ.',
-  'subs.sources.ai.content': 'Bất cứ thứ gì Wyzie có thể tìm thấy SRT',
+    'Không phải bộ scraper. SRT được dịch bằng AI theo yêu cầu từ phụ đề nguồn tốt nhất có sẵn. Chỉ dành cho key Pro. Xem hướng dẫn Dịch thuật AI để biết chi tiết đầy đủ.',
+  'subs.sources.ai.content':
+    'Bất cứ thứ gì Wyzie có thể tìm thấy phụ đề dạng văn bản',
   'subs.sources.ai.languages': 'Hơn 80 ngôn ngữ đích',
   'subs.sources.ai.formats': 'Chỉ SRT',
 
@@ -200,7 +201,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.language':
     'Mã ISO 639-1 cho ngôn ngữ phụ đề. Chấp nhận danh sách.',
   'subs.pkg.param.encoding': 'Bộ lọc mã hóa ký tự (ví dụ: utf-8, latin-1).',
-  'subs.pkg.param.hi': 'Boolean cho phụ đề dành cho người khiếm thính.',
+  'subs.pkg.param.hi':
+    'Khi là true, chỉ trả về phụ đề dành cho người khiếm thính. Các nguồn không đánh dấu phụ đề dành cho người khiếm thính sẽ không trả về gì.',
   'subs.pkg.param.source':
     'Nhà cung cấp phụ đề cần truy vấn, theo tên mã (all cho mọi nguồn đang hoạt động mà key của bạn có thể dùng; mặc định là charlie).',
   'subs.pkg.param.release': 'Bộ lọc release/scene (chấp nhận danh sách).',
@@ -227,7 +229,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'Đầu vào và kết quả của syncSubtitle (Wyzie Synced, key Pro): phụ đề nào (một kết quả, url của nó, hoặc tmdb_id/imdb_id kèm language), speech mà detectSpeech tìm được hoặc file media, và liên kết tải xuống đã đồng bộ kèm offset, fps và confidence. Xem [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
-    'Các kiểu dữ liệu của chúng tôi rất đơn giản và được ghi chép đầy đủ. Xem file types.ts được liên kết trong kho GitHub.',
+    'Các kiểu dữ liệu của chúng tôi rất đơn giản và được ghi chép đầy đủ. Xem [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) trong kho wyzie-lib.',
   'subs.pkg.config.h3': 'Cấu hình',
   'subs.pkg.config.p1':
     'Một người dùng đã hỏi trên Github về hostname API có thể cấu hình được và tôi nghĩ đó là ý tưởng hay, vì vậy dưới đây là cách dùng. Cảm ơn mọi người!',
@@ -251,10 +253,10 @@ const messages: Record<string, string> = {
   'subs.direct.param.format':
     'Định dạng phụ đề cần trả về. Cho phép nhiều giá trị.',
   'subs.direct.param.hi':
-    'Có ưu tiên phụ đề dành cho người khiếm thính hay không.',
+    'Khi là true, chỉ trả về phụ đề dành cho người khiếm thính (đây là bộ lọc, không phải tùy chọn ưu tiên). Các nguồn không đánh dấu phụ đề dành cho người khiếm thính sẽ không trả về gì.',
   'subs.direct.param.encoding': 'Bộ lọc mã hóa ký tự.',
   'subs.direct.param.source':
-    'Nhà cung cấp phụ đề cần truy vấn (all truy vấn tất cả các nguồn đang kích hoạt; mặc định là charlie).',
+    'Nhà cung cấp phụ đề cần truy vấn (all truy vấn mọi nguồn mà key của bạn có thể dùng; mặc định là charlie).',
   'subs.direct.param.release':
     'Bộ lọc tên release hoặc scene (phân cách bằng dấu phẩy).',
   'subs.direct.param.file':
@@ -274,7 +276,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'Dữ liệu được trả về',
   'subs.direct.data.id': 'ID của file phụ đề.',
-  'subs.direct.data.url': 'URL đến file phụ đề.',
+  'subs.direct.data.url':
+    'Liên kết tải xuống trên https://sub.wyzie.io/c/... mang tham số tok đã được mã hóa. Mỗi lượt tải xuống tốn 1 yêu cầu; xem phần Tải xuống phụ đề bên dưới.',
   'subs.direct.data.flagUrl': 'URL đến cờ quốc gia của ngôn ngữ.',
   'subs.direct.data.format': 'Định dạng của file phụ đề.',
   'subs.direct.data.encoding': 'Mã hóa ký tự của file phụ đề.',
@@ -327,27 +330,27 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Dịch thuật phụ đề bằng AI',
   'subs.translate.important':
-    'Dịch thuật AI là **tính năng Pro**. Mỗi lần dịch tốn **100 yêu cầu** từ số dư của key, tính cả khi lấy từ bộ nhớ đệm lẫn dịch mới. Key miễn phí không thể sử dụng tính năng này.',
+    'Dịch thuật AI là **tính năng Pro**; key miễn phí nhận 403 Upgrade required. Mỗi lần gọi tốn **100 yêu cầu** từ số dư của key, kể cả khi lấy từ bộ nhớ đệm. Nếu một lần gọi thất bại trước khi có bất kỳ đầu ra nào (không tìm thấy phụ đề, lỗi tìm kiếm hoặc tải xuống, hoặc máy chủ đang bận), 100 yêu cầu sẽ được hoàn trả tự động.',
   'subs.translate.p1':
-    'Wyzie có thể dịch bất kỳ phụ đề nào sang hơn 80 ngôn ngữ ngay lập tức. Bản dịch được phát trực tuyến trong khi mô hình xử lý, nên có thể bắt đầu phát lại chỉ trong một hoặc hai giây thay vì chờ cả file. Kết quả được lưu đệm 30 ngày, vì vậy người thứ hai yêu cầu cùng một bản dịch sẽ nhận ngay lập tức.',
+    'Wyzie có thể dịch bất kỳ phụ đề nào sang hơn 80 ngôn ngữ ngay lập tức. SRT đã dịch được phát trực tuyến về theo thứ tự khi từng lô hoàn tất, nên các cue đầu tiên đến rất nhanh thay vì phải đợi cả file xong. Bản dịch hoàn chỉnh được lưu đệm 30 ngày, vì vậy các yêu cầu sau đó cho cùng tiêu đề, tập và ngôn ngữ đích sẽ được phục vụ từ bộ nhớ đệm.',
 
   'subs.translate.ways.h2': 'Hai cách sử dụng',
   'subs.translate.way1.h3': '1. Chọn ngôn ngữ từ kết quả tìm kiếm',
   'subs.translate.way1.p1':
-    'Mỗi phản hồi /search hiện bao gồm một mục bổ sung cho mỗi ngôn ngữ được hỗ trợ với "ai": true và url trỏ đến /translate. Chỉ cần xử lý các hàng AI như bất kỳ hàng phụ đề nào khác trong giao diện của bạn: khi người dùng nhấp vào một hàng, hãy lấy URL đó.',
+    'Với key Pro, mọi phản hồi /search cũng bao gồm các hàng bản dịch AI với "ai": true và url trỏ đến /translate: mỗi ngôn ngữ được hỗ trợ một hàng, hoặc chỉ các ngôn ngữ trong bộ lọc language= của bạn. Key miễn phí không bao giờ nhận được các hàng này. Hãy xử lý các hàng AI như bất kỳ hàng phụ đề nào khác trong giao diện của bạn: khi người dùng nhấp vào một hàng, hãy lấy URL đó.',
   'subs.translate.way1.filter':
     'Nếu bạn muốn ẩn các hàng AI khỏi giao diện, hãy lọc chúng ra:',
   'subs.translate.way2.h3': '2. Gọi /translate trực tiếp',
 
   'subs.translate.param.id': 'TMDB hoặc IMDB ID (bắt buộc).',
   'subs.translate.param.target':
-    'Ngôn ngữ đích theo tên tiếng Anh đầy đủ (ví dụ: Spanish, Japanese, Brazilian Portuguese) (bắt buộc).',
+    'Ngôn ngữ đích (bắt buộc): một tên trong danh sách được hỗ trợ (ví dụ: Spanish, Japanese, Portuguese (Brazil)) hoặc mã của nó (ví dụ: es, ja, pt-BR).',
   'subs.translate.param.seasonEpisode':
     'Dành cho TV. Cả hai phải có mặt cùng nhau.',
   'subs.translate.param.key':
     'API key của bạn. Dùng tk thay thế nếu bạn lấy URL từ /search.',
   'subs.translate.param.tk':
-    'Token đã ký được trả về bởi /search. Tương đương với key, nhưng không lộ key thô.',
+    'Token được mã hóa lấy từ URL của các hàng AI trong /search. Hoạt động giống key, không làm lộ API key của bạn và có hiệu lực trong 60 ngày.',
 
   'subs.translate.headers.p':
     'Phần thân phản hồi là một file SRT được phát trực tuyến dưới dạng text/plain; charset=utf-8. Các header phản hồi hữu ích:',
@@ -361,27 +364,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'Cách hoạt động',
   'subs.translate.how.step1':
-    'Wyzie tìm kiếm các nguồn thông thường để lấy phụ đề SRT, ưu tiên tiếng Anh khi có sẵn.',
+    'Wyzie tìm kiếm các nguồn thông thường để lấy phụ đề dạng văn bản, ưu tiên SRT tiếng Anh khi có sẵn. Các file VTT, ASS, SSA và SUB được chuyển đổi sang SRT trước.',
   'subs.translate.how.step2':
-    'SRT được chia thành các đoạn 50 cue và dịch tuần tự. Mỗi đoạn được lưu đệm riêng lẻ khi hoàn thành.',
+    'SRT được chia thành các lô tối đa khoảng 3.800 ký tự và được dịch bằng Google Translate, mỗi lần 4 lô.',
   'subs.translate.how.step3':
-    'Đầu ra được phát trực tuyến lại cho bạn theo từng cue. Các trình phát chấp nhận nội dung SRT phát trực tuyến có thể bắt đầu hiển thị những dòng đầu tiên trước khi phần còn lại hoàn thành.',
+    'Đầu ra được phát trực tuyến về theo thứ tự SRT khi từng lô hoàn tất, nên các cue đầu tiên đến rất nhanh. Các trình phát chấp nhận nội dung SRT phát trực tuyến có thể bắt đầu hiển thị những dòng đầu tiên trước khi phần còn lại hoàn thành.',
   'subs.translate.how.step4':
     'Bản dịch hoàn chỉnh được lưu đệm trong Redis 30 ngày, được lập chỉ mục bởi id, season, episode, và target.',
 
   'subs.translate.languages.h2': 'Các ngôn ngữ đích được hỗ trợ',
   'subs.translate.languages.p':
-    'Hơn 80 ngôn ngữ bao gồm tất cả các ngôn ngữ chính của châu Âu, châu Á, châu Phi và Trung Đông. Truyền tên tiếng Anh (Spanish, không phải es). Danh sách cũng được trả về dưới dạng các hàng ai: true trong bất kỳ phản hồi /search nào, đây là nguồn thông tin chính xác nhất.',
+    'Hơn 80 ngôn ngữ bao gồm tất cả các ngôn ngữ chính của châu Âu, châu Á, châu Phi và Trung Đông. Truyền một tên trong danh sách (Spanish, Portuguese (Brazil)) hoặc mã của nó (es, pt-BR). Với key Pro, danh sách đầy đủ cũng được trả về dưới dạng các hàng ai: true trong bất kỳ phản hồi /search nào không có bộ lọc language=, đây là nguồn thông tin chính xác nhất.',
 
   'subs.translate.limitations.h2': 'Giới hạn',
   'subs.translate.limit1':
-    'Dịch thuật AI cần nguồn SRT. Các tiêu đề mà mọi phụ đề có sẵn đều là .ass, .vtt, hoặc định dạng khác sẽ trả về lỗi 404 No SRT found.',
+    'Dịch thuật AI cần một phụ đề dạng văn bản làm điểm xuất phát. Các nguồn VTT, ASS, SSA và SUB được chuyển đổi sang SRT trước; nếu không có phụ đề dạng văn bản nào, lệnh gọi sẽ trả về 404 No subtitle found và 100 yêu cầu được hoàn trả.',
   'subs.translate.limit2':
     'Chất lượng dịch phụ thuộc vào phụ đề nguồn. Một nguồn có thời gian kém hoặc lỗi đánh máy sẽ tạo ra bản dịch có thời gian kém hoặc lỗi đánh máy tương tự.',
   'subs.translate.limit3':
     'Một số người dùng có thể muốn loại bỏ hoàn toàn các hàng AI. Lọc theo ai === false trong client của bạn.',
   'subs.translate.limit4':
-    'Các bản dịch cũng được tính phí khi lấy từ bộ nhớ đệm. Dù được tạo mới hay lấy từ bộ nhớ đệm 30 ngày, mỗi yêu cầu /translate tốn 100 yêu cầu.',
+    'Các bản dịch cũng được tính phí khi lấy từ bộ nhớ đệm. Dù được tạo mới hay lấy từ bộ nhớ đệm 30 ngày, mỗi lệnh gọi /translate tốn 100 yêu cầu. Chỉ những lệnh gọi thất bại trước khi có bất kỳ đầu ra nào mới được hoàn trả.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -461,7 +464,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs yêu cầu API key cho tất cả các yêu cầu. Gói miễn phí đáp ứng hầu hết các trường hợp sử dụng; các gói trả phí xử lý nhu cầu sử dụng nặng hơn.',
 
   'subs.keys.tiers.h2': 'Các gói',
-  'subs.keys.tier.free': 'Miễn phí (cần Gmail)',
+  'subs.keys.tier.free': 'Miễn phí (xác minh email)',
   'subs.keys.tier.free.limit': '1.000 yêu cầu / ngày UTC',
   'subs.keys.tier.pro': '5$ một lần',
   'subs.keys.tier.pro.limit': '400.000 yêu cầu',
@@ -475,12 +478,12 @@ const messages: Record<string, string> = {
     'Truy cập [store.wyzie.io/redeem](https://store.wyzie.io/redeem):',
   'subs.keys.free.step1': 'Giải một captcha Cloudflare Turnstile nhanh chóng.',
   'subs.keys.free.step2':
-    'Nhập địa chỉ Gmail (chỉ Gmail được chấp nhận cho gói miễn phí).',
+    'Nhập địa chỉ từ một nhà cung cấp email cá nhân lớn (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton và các nhà cung cấp khác). Tên miền email dùng một lần sẽ bị từ chối.',
   'subs.keys.free.step3': 'Nhập mã 6 chữ số chúng tôi gửi qua email.',
   'subs.keys.free.step4':
     'Bạn nhận được API key trông giống như wyzie-abc123...',
   'subs.keys.free.gmail':
-    'Mỗi địa chỉ Gmail chỉ có thể đổi một key miễn phí. Đã có key miễn phí gắn với email đó? Xác minh lại chỉ trả về key hiện có của bạn.',
+    'Mỗi địa chỉ email và mỗi mạng chỉ có thể nhận một key miễn phí; yêu cầu lần thứ hai sẽ trả về 409. Mất key? Dùng "Forgot key" (quên key) trên [bảng điều khiển](https://store.wyzie.io/dashboard) để được gửi lại.',
 
   'subs.keys.pro.h2': 'Nâng cấp lên Pro',
   'subs.keys.pro.p1':
@@ -493,11 +496,11 @@ const messages: Record<string, string> = {
     '**Không bao giờ nhúng API key vào code phía client.** JavaScript trình duyệt, ứng dụng di động, tiện ích mở rộng trình duyệt, ứng dụng desktop kiểu Electron, và kho Git công khai đều được coi là phía client. Bất cứ thứ gì bạn phân phối đến người dùng cuối đều có thể bị họ kiểm tra, và chúng tôi đã thấy các trường hợp thực tế khi người dùng dán key vào frontend của trang phát video, chỉ để bên thứ ba lấy JS bundle và dùng hết số dư yêu cầu trong vài giờ. Hạn mức bị tiêu theo cách này không được hoàn trả.',
   'subs.keys.protect.p2': 'Hai cách an toàn để sử dụng key từ ứng dụng client:',
   'subs.keys.protect.option1':
-    'Dùng [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): một proxy Cloudflare Worker miễn phí giữ key của bạn ở phía máy chủ. Trỏ client của bạn vào URL Worker thay vì sub.wyzie.io.',
+    'Dùng [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): một proxy Cloudflare Worker miễn phí giữ API key của bạn dưới dạng secret `NITRO_API_TOKEN`. Mọi lệnh gọi đến nó phải gửi `Authorization: Bearer <NITRO_WORKER_KEY>`, một secret thứ hai do bạn đặt, vì vậy hãy định tuyến client qua backend của riêng bạn và cũng giữ key của worker ở phía máy chủ.',
   'subs.keys.protect.option2':
     'Chạy proxy của riêng bạn: bất kỳ endpoint backend nào thêm key trước khi chuyển tiếp đến sub.wyzie.io đều hoạt động. Xem trang Giới thiệu để có ví dụ 10 dòng.',
   'subs.keys.protect.devtools':
-    'Nếu key xuất hiện trong tab network trong DevTools, nó đã bị lộ. Hãy coi nó là công khai và thay thế bằng cách gửi email đến bộ phận hỗ trợ.',
+    'Nếu key xuất hiện trong tab network trong DevTools, nó đã bị lộ. Hãy coi nó là công khai và thay key mới từ [bảng điều khiển](https://store.wyzie.io/dashboard) của bạn.',
 
   'subs.keys.using.h2': 'Sử dụng key của bạn',
   'subs.keys.using.p': 'Thêm &key=YOUR_KEY vào mọi yêu cầu API:',
@@ -507,9 +510,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'Một lần tìm kiếm tốn 1 yêu cầu và mỗi lượt tải phụ đề tốn 1 yêu cầu, vì vậy tìm kiếm một lần và tải một file sẽ dùng 2 yêu cầu. Dịch thuật AI tốn 100 yêu cầu cho mỗi lần gọi.',
   'subs.keys.limit.free':
-    '**Gói miễn phí** đã hết -> API trả về 429 với header X-RateLimit-Reset và Retry-After. Bộ đếm hàng ngày được đặt lại vào lúc nửa đêm UTC.',
+    '**Gói miễn phí** đã hết -> tìm kiếm và liên kết tải xuống trả về 429 Daily request limit reached, kèm reset_at trong JSON và header Retry-After. Giới hạn hàng ngày 1.000 yêu cầu được đặt lại vào lúc nửa đêm UTC.',
   'subs.keys.limit.paid':
-    '**Số dư trả phí** đã hết -> API trả về 402. Nạp thêm tại [store.wyzie.io/topup](https://store.wyzie.io/topup) hoặc bật **tự động nạp thêm** trong bảng điều khiển để tự động nạp khi số dư vượt qua ngưỡng bạn đặt.',
+    '**Số dư trả phí** đã hết -> tìm kiếm và liên kết tải xuống trả về 402 kèm liên kết nạp thêm trong JSON. Nạp thêm tại [store.wyzie.io/topup](https://store.wyzie.io/topup) hoặc bật **tự động nạp thêm** trong bảng điều khiển để tự động nạp khi số dư vượt qua ngưỡng bạn đặt.',
   'subs.keys.hold.p1':
     'Các key gửi lưu lượng rất lớn, chủ yếu từ IP trung tâm dữ liệu hoặc hosting, sẽ tự động bị tạm dừng. Key bị tạm dừng nhận 403 Key on hold cho mọi yêu cầu, kèm liên kết khôi phục (https://store.wyzie.io/verify) và liên kết hỗ trợ (https://store.wyzie.io/contact) trong JSON.',
   'subs.keys.hold.p2':
@@ -526,7 +529,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': 'Câu hỏi thường gặp',
   'subs.keys.faq.q1': 'Tôi mất key. Có thể lấy lại không?',
   'subs.keys.faq.a1':
-    'Truy cập [store.wyzie.io](https://store.wyzie.io) và dùng luồng "quên key" với email đã đăng ký; chúng tôi sẽ gửi lại key hiện có của bạn.',
+    'Mở [bảng điều khiển](https://store.wyzie.io/dashboard) và dùng "Forgot key" (quên key) với email đã đăng ký; chúng tôi sẽ gửi lại key hiện có của bạn. Nếu bạn nghĩ key đã bị lộ, thay vào đó hãy thay key mới từ bảng điều khiển.',
   'subs.keys.faq.q2': 'Tôi có thể dùng một key trong nhiều dự án không?',
   'subs.keys.faq.a2': 'Có. Key của bạn hoạt động ở bất kỳ đâu bạn gọi API.',
   'subs.keys.faq.q3': 'Key của tôi có hết hạn không?',
@@ -585,7 +588,7 @@ const messages: Record<string, string> = {
     '**Chế độ gỡ lỗi**: Ghi nhật ký chi tiết để khắc phục sự cố và giám sát',
 
   'i6shark.intro.requirements.h2': 'Yêu cầu',
-  'i6shark.intro.req1': 'Go 1.20 trở lên',
+  'i6shark.intro.req1': 'Go 1.22 trở lên',
   'i6shark.intro.req2': 'Hệ thống Linux/Unix có hỗ trợ IPv6 (ưu tiên Ubuntu)',
   'i6shark.intro.req3': 'Quyền root (để binding cổng 80 và thao tác IPv6)',
   'i6shark.intro.req4':
@@ -642,17 +645,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Dùng **Kodi** để có dịch vụ phụ đề gốc của Kodi trên Android TV, Raspberry Pi hoặc máy tính rạp hát tại nhà.',
   'plugins.index.shared.sources':
-    '**Nguồn:** OpenSubtitles, SubDL và Podnapisi, được tổng hợp qua Wyzie.',
+    '**Nguồn:** mọi nguồn mà khóa của bạn có thể dùng (`source=all`): charlie và lima với khóa miễn phí, cả bảy nguồn với khóa Pro.',
   'plugins.index.shared.matching':
     '**Khớp:** Wyzie được điều khiển bởi ID IMDB và TMDB cùng với mùa và tập, vì vậy việc khớp chính xác cho cả phim lẻ và phim bộ.',
   'plugins.index.shared.quota':
     '**Hạn mức:** khi khóa của bạn hết, plugin sẽ hiển thị một thông báo thân thiện liên kết đến [store.wyzie.io](https://store.wyzie.io) thay vì lỗi âm thầm. Nạp thêm hoặc đăng ký và bạn có thể tiếp tục.',
   'plugins.index.shared.languages':
     '**Ngôn ngữ:** hơn 100, có thể chọn cho từng plugin.',
-  'plugins.index.outro': 'Chọn nền tảng của bạn ở trên để bắt đầu.',
+  'plugins.index.outro':
+    'Chọn nền tảng của bạn ở trên để bắt đầu. Mã nguồn của mọi plugin đều nằm trong [kho lưu trữ wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins).',
 
   'plugins.stremio.intro':
-    'Một add-on phụ đề chỉ với một cú nhấp cho [Stremio](https://www.stremio.com/). Nó tổng hợp OpenSubtitles, SubDL và Podnapisi qua Wyzie và hoạt động cho cả phim lẻ và phim bộ, trên mọi nền tảng mà Stremio chạy.',
+    'Một add-on phụ đề chỉ với một cú nhấp cho [Stremio](https://www.stremio.com/). Nó truy vấn mọi nguồn Wyzie mà khóa của bạn có thể dùng và hoạt động cho cả phim lẻ và phim bộ, trên mọi nền tảng mà Stremio chạy.',
   'plugins.stremio.before':
     'Bạn cần một khóa API Wyzie miễn phí. Nhận một khóa tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem), hoặc mua khóa Pro hay đăng ký tại [store.wyzie.io](https://store.wyzie.io/#plans).',
   'plugins.stremio.install.1':
@@ -661,7 +665,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     'Tùy chọn: nhập các **ngôn ngữ** ưa thích của bạn dưới dạng mã ISO 639-1, phân cách bằng dấu phẩy (ví dụ `en,es,fr`). Để trống cho tất cả ngôn ngữ.',
   'plugins.stremio.install.4':
-    'Tùy chọn: bật phụ đề **dành cho người khiếm thính** nếu bạn thích.',
+    'Tùy chọn: bật **dành cho người khiếm thính** để chỉ nhận phụ đề dành cho người khiếm thính. Giữ tắt để xem tất cả; khi bật, các nguồn không đánh dấu phụ đề dành cho người khiếm thính sẽ không trả về gì.',
   'plugins.stremio.install.5':
     'Nhấp **Install**. Stremio mở ra và yêu cầu bạn xác nhận; chấp nhận, và bạn đã xong.',
   'plugins.stremio.install.after':
@@ -673,7 +677,7 @@ const messages: Record<string, string> = {
     'Mã ISO 639-1, phân cách bằng dấu phẩy. Để trống nghĩa là tất cả ngôn ngữ.',
   'plugins.stremio.cfg.hi.f': 'Dành cho người khiếm thính',
   'plugins.stremio.cfg.hi.d':
-    'Ưu tiên phụ đề dành cho người khiếm thính khi có sẵn.',
+    'Chỉ trả về phụ đề dành cho người khiếm thính (gửi hi=true). Mặc định tắt.',
   'plugins.stremio.cfg.note':
     'Để thay đổi bất kỳ tùy chọn nào sau này, mở lại [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), điều chỉnh và cài đặt lại.',
   'plugins.stremio.local':
@@ -688,13 +692,13 @@ const messages: Record<string, string> = {
     '**Tập phim bộ không khớp.** Wyzie khớp theo mùa và tập; đảm bảo Stremio đang phát đúng mục tập, không phải một trang phim bộ chung chung.',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) quản lý phụ đề cho **Plex, Jellyfin, Emby, Sonarr và Radarr** ở một nơi. Thêm Wyzie làm provider giúp tất cả các máy chủ đó truy cập OpenSubtitles, SubDL và Podnapisi thông qua một khóa duy nhất.',
+    '[Bazarr](https://www.bazarr.media/) quản lý phụ đề cho **Plex, Jellyfin, Emby, Sonarr và Radarr** ở một nơi. Thêm Wyzie làm provider giúp tất cả các máy chủ đó truy cập mọi nguồn Wyzie mà khóa của bạn có thể dùng, thông qua một khóa duy nhất.',
   'plugins.bazarr.note':
     'Đây là cách được khuyến nghị để dùng Wyzie với Plex và Jellyfin. Bazarr tải các tệp phụ đề cạnh media của bạn, và máy chủ của bạn tự động nhận chúng, nên không cần plugin gốc riêng.',
   'plugins.bazarr.before':
     'Nhận một khóa API Wyzie miễn phí tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem), và có quyền truy cập vào các tệp cài đặt Bazarr của bạn (đường dẫn Docker thông thường: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    'Sao chép `wyzie.py` vào `bazarr/subliminal_patch/providers/wyzie.py`.',
+    'Tải [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) từ [kho lưu trữ wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (hoặc `git clone https://github.com/wyziedevs/wyzie-plugins.git`) và sao chép nó vào `bazarr/subliminal_patch/providers/wyzie.py`.',
   'plugins.bazarr.install.2':
     'Chỉnh sửa `bazarr/subliminal_patch/extensions.py` và thêm `wyzie` vào **cả hai** `provider_registry` và `provider_manager`.',
   'plugins.bazarr.install.3':
@@ -705,13 +709,14 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     'Một pull request hạng nhất để đưa provider này vào chính thức Bazarr đang được lên kế hoạch. Cho đến lúc đó, đây là một tệp cắm-vào-chạy mà bạn thêm vào bản cài đặt của riêng mình.',
   'plugins.bazarr.cfg.key': 'Khóa Wyzie của bạn. Bắt buộc.',
-  'plugins.bazarr.cfg.hi': 'Ưu tiên phụ đề dành cho người khiếm thính.',
+  'plugins.bazarr.cfg.hi':
+    'Chỉ trả về phụ đề dành cho người khiếm thính (gửi hi=true).',
   'plugins.bazarr.cfg.sources':
     'Danh sách các provider cần truy vấn, phân cách bằng dấu phẩy, hoặc `all`.',
   'plugins.bazarr.quota.402':
     '**402 hoặc 429** (hết số dư hoặc đạt giới hạn hàng ngày): Bazarr ghi một ghi chú kèm liên kết đến [store.wyzie.io](https://store.wyzie.io) và không trả về kết quả, nên nó chuyển sang các provider khác của bạn một cách gọn gàng. Không có gì bị sập.',
   'plugins.bazarr.quota.401':
-    '**401** (khóa sai): Bazarr hiển thị lỗi xác thực để bạn biết cần nhập lại khóa.',
+    '**401** (thiếu khóa) hoặc **403** (khóa không xác định, hoặc khóa đang bị tạm dừng): Bazarr hiển thị lỗi xác thực để bạn biết cần kiểm tra hoặc nhập lại khóa.',
   'plugins.bazarr.ts.missing':
     '**Wyzie không xuất hiện trong danh sách provider.** Kiểm tra lại bước cài đặt chỉnh sửa `extensions.py`; mục này phải nằm trong cả `provider_registry` và `provider_manager`, sau đó khởi động lại Bazarr.',
   'plugins.bazarr.ts.none':
@@ -738,7 +743,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'Dùng cách này nếu bạn không muốn thêm kho lưu trữ. Lưu ý: cài đặt từ zip sẽ **không** tự động cập nhật.',
   'plugins.kodi.zip.1':
-    'Lấy tệp zip add-on: `service.subtitles.wyzie-<version>.zip`. Nếu bạn có mã nguồn, hãy nén thư mục `kodi/` sao cho tệp zip chứa `addon.xml` ở thư mục gốc của nó.',
+    'Lấy tệp zip add-on: `service.subtitles.wyzie-<version>.zip`. Để tự build, hãy clone [kho lưu trữ wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) rồi nén thư mục `kodi/` của nó sao cho tệp zip chứa `addon.xml` ở thư mục gốc.',
   'plugins.kodi.zip.2':
     'Trong Kodi: **Settings, Add-ons, Install from zip file**, sau đó chọn tệp zip. Nếu Kodi chặn nó, hãy bật **Settings, System, Add-ons, Unknown sources** trước.',
   'plugins.kodi.zip.3':
@@ -746,7 +751,8 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'Mở cài đặt add-on Wyzie Subs và dán **khóa API** của bạn.',
   'plugins.kodi.cfg.key': 'Khóa Wyzie của bạn. Bắt buộc.',
-  'plugins.kodi.cfg.hi': 'Ưu tiên phụ đề dành cho người khiếm thính.',
+  'plugins.kodi.cfg.hi':
+    'Chỉ trả về phụ đề dành cho người khiếm thính (gửi hi=true).',
   'plugins.kodi.cfg.langs':
     'Ngôn ngữ được lấy từ các ngôn ngữ phụ đề đã chọn của Kodi và tự động ánh xạ sang ISO 639-1.',
   'plugins.kodi.matching.1':

@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie, altyazı aramak ve benzeri işlemler için açık kaynaklı bir araç setidir.',
+    'Wyzie, altyazı aramak ve benzeri işlemler için bir araç setidir.',
   'index.cta.start': 'Başlarken',
   'index.cta.store': 'İncele',
 
   'index.card.keys.title': 'Ücretsiz API Anahtarları',
   'index.card.keys.body':
-    'store.wyzie.io/redeem adresinden hızlı bir Gmail doğrulamasıyla ücretsiz API anahtarı alın. Günde 1.000 istek ücretsiz. Daha yüksek kullanım için ücretli planlar mevcuttur.',
+    'store.wyzie.io/redeem adresinden hızlı bir e-posta doğrulamasıyla (Gmail, Outlook, Yahoo, iCloud, Proton ve diğer büyük sağlayıcılar) ücretsiz API anahtarı alın. Günde 1.000 istek ücretsiz. Daha yüksek kullanım için ücretli planlar mevcuttur.',
 
   'index.card.ai.title': 'AI Çevirisi',
   'index.card.ai.body':
-    "Herhangi bir altyazıyı talep üzerine 80'den fazla dile çevirin. Oynatma saniyeler içinde başlayabilsin diye ipucu ipucu yayınlar. Pro anahtarlarda mevcuttur.",
+    "Herhangi bir altyazıyı talep üzerine 80'den fazla dile çevirin. SRT, gruplar tamamlandıkça sırayla akış halinde döner; böylece ilk satırlar hızla gelir. Pro anahtarlarda mevcuttur.",
 
   'index.card.reliable.title': 'Güvenilir',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': "Wyzie Subs'a Giriş",
   'subs.intro.p1':
-    "Wyzie Subs, ücretsiz ve özgür bir açık altyazı kazıma API'sidir. API'ye istek yapmanın iki yolu vardır: NPM paketimizi kullanmak veya Wyzie API'sini doğrudan çağırmak. Paketi kullanmanızı öneririm, ancak bazıları türleri zahmetli bulabilir. API'yi kullanmak için önce bu kararı vermeniz gerekir.",
+    "Wyzie Subs, ücretsiz katmanı olan bir altyazı kazıma API'sidir. API'ye istek yapmanın iki yolu vardır: NPM paketimizi kullanmak veya Wyzie API'sini doğrudan çağırmak. Paketi kullanmanızı öneririm, ancak bazıları türleri zahmetli bulabilir. API'yi kullanmak için önce bu kararı vermeniz gerekir.",
   'subs.intro.note.ai':
-    "AI Çevirisi Pro anahtarlar için yayındadır. Herhangi bir başlık, 80'den fazla hedef dil, çevirmen çalışırken akış halinde döner.",
+    "AI Çevirisi Pro anahtarlar için yayındadır. Herhangi bir başlık, 80'den fazla hedef dil, gruplar tamamlandıkça altyazı sırasıyla akış halinde döner.",
   'subs.intro.important.apikey':
-    'Tüm istekler için bir API anahtarı gereklidir. [store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden ücretsiz anahtar alın (Gmail doğrulaması, günde 1.000 istek). Daha yüksek kullanım için [Pro ve üst doldurma planları](https://store.wyzie.io) mevcuttur. Ayrıntılar için API Anahtarları sayfasına bakın.',
+    'Tüm istekler için bir API anahtarı gereklidir. [store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden ücretsiz anahtar alın (e-posta doğrulaması, günde 1.000 istek). Daha yüksek kullanım için [Pro ve üst doldurma planları](https://store.wyzie.io) mevcuttur. Ayrıntılar için API Anahtarları sayfasına bakın.',
   'subs.intro.note.npm':
     "TypeScript veya JavaScript'e aşinaysanız NPM paketini şiddetle tavsiye ederiz",
   'subs.intro.btn.npm': 'NPM Paketi',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'Anahtar bir son kullanıcının makinesine ulaşırsa, onu genel kabul edin. İki güvenli yöntem vardır:',
   'subs.intro.protect.opt1.h3': 'Seçenek 1: Wyzie Worker Kullanın',
   'subs.intro.protect.opt1.p1':
-    "Wyzie Worker, API anahtarınızı sunucu tarafında enjekte eden hafif bir Cloudflare Worker proxy'sidir. Cloudflare Workers'a dağıtın ve anahtarınızı NITRO_API_TOKEN ortam değişkeni olarak ayarlayın. Ardından istemci isteklerinizi sub.wyzie.io yerine worker URL'nize yönlendirin; worker istekleri anahtarınızı ekleyerek iletir.",
+    "Wyzie Worker, API anahtarınızı sunucu tarafında enjekte eden hafif bir Cloudflare Worker proxy'sidir. Cloudflare Workers'a dağıtın ve iki gizli değer ayarlayın: `NITRO_API_TOKEN` (Wyzie API anahtarınız) ve `NITRO_WORKER_KEY` (sizin seçtiğiniz bir gizli değer). Worker'a giden her istek `Authorization: Bearer <NITRO_WORKER_KEY>` göndermelidir; bu olmadan worker 401 ile yanıt verir, `NITRO_WORKER_KEY` ayarlanmamışsa da her isteği 503 ile reddeder. Worker anahtarı da sunucu tarafında kalmalıdır; bu yüzden worker'ı kendi arka ucunuzdan çağırın, asla tarayıcı veya uygulama kodundan çağırmayın. Worker her isteği API anahtarınızı ekleyerek sub.wyzie.io'ya iletir.",
   'subs.intro.protect.opt2.h3': "Seçenek 2: Kendi Proxy'nizi Oluşturun",
   'subs.intro.protect.opt2.p1':
     "Wyzie Worker kullanmak istemiyorsanız herhangi bir çerçevede basit bir sunucu taraflı proxy oluşturabilirsiniz. Fikir aynıdır: arka ucunuz istemcinizdeki istekleri alır, API anahtarını ekler ve sub.wyzie.io'ya iletir.",
@@ -170,8 +170,8 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT, ASS, SSA, VTT, SUB ve diğerleri',
 
   'subs.sources.ai.desc':
-    'Bir kazıyıcı değil. Mevcut en iyi kaynak altyazıdan talep üzerine oluşturulan AI çevirisi SRT. Tüm ayrıntılar için AI Çevirisi kılavuzuna bakın.',
-  'subs.sources.ai.content': "Wyzie'nin SRT bulabildiği her şey",
+    'Bir kazıyıcı değil. Mevcut en iyi kaynak altyazıdan talep üzerine oluşturulan AI çevirisi SRT. Yalnızca Pro anahtarlar. Tüm ayrıntılar için AI Çevirisi kılavuzuna bakın.',
+  'subs.sources.ai.content': "Wyzie'nin metin altyazı bulabildiği her şey",
   'subs.sources.ai.languages': "80'den fazla hedef dil",
   'subs.sources.ai.formats': 'Yalnızca SRT',
 
@@ -198,7 +198,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.language':
     'Altyazı dili için ISO 639-1 kodları. Liste kabul eder.',
   'subs.pkg.param.encoding': 'Karakter kodlama filtresi (örn. utf-8, latin-1).',
-  'subs.pkg.param.hi': 'İşitme engelli altyazılar için boolean.',
+  'subs.pkg.param.hi':
+    'true olduğunda yalnızca işitme engelli altyazılarını döndürür. İşitme engelli altyazılarını işaretlemeyen kaynaklar hiçbir şey döndürmez.',
   'subs.pkg.param.source':
     'Kod adıyla sorgulanacak altyazı sağlayıcıları (anahtarınızın kullanabileceği tüm etkin kaynaklar için all; varsayılan charlie).',
   'subs.pkg.param.release': 'Sürüm/sahne filtreleri (liste kabul eder).',
@@ -224,7 +225,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     "syncSubtitle'ın girdisi ve sonucu (Wyzie Synced, Pro anahtarlar): hangi altyazı (bir sonuç, onun url'si veya language ile birlikte tmdb_id/imdb_id), detectSpeech'in bulduğu konuşma aralıkları (speech) ya da media dosyası ve offset, fps ve confidence değerleriyle birlikte senkronize indirme bağlantısı. [Wyzie Synced](/subs/usage/synced) sayfasına bakın.",
   'subs.pkg.types.end':
-    'Türlerimiz çok basit ve iyi belgelenmiştir. GitHub deposunda bağlantılı types.ts dosyasına göz atın.',
+    'Türlerimiz çok basit ve iyi belgelenmiştir. wyzie-lib deposundaki [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) dosyasına bakın.',
   'subs.pkg.config.h3': 'Yapılandırma',
   'subs.pkg.config.p1':
     "Github'da bir kullanıcı yapılandırılabilir API ana bilgisayar adı istedi ve ben de 'vay canına, bu iyi bir fikir gibi görünüyor' dedim, bu yüzden aşağıda kullanım var. Sizi seviyorum arkadaşlar!",
@@ -247,10 +248,10 @@ const messages: Record<string, string> = {
   'subs.direct.param.format':
     'Döndürülecek altyazı biçimleri. Birden fazla değere izin verilir.',
   'subs.direct.param.hi':
-    'İşitme engelli altyazıların tercih edilip edilmeyeceği.',
+    'true olduğunda yalnızca işitme engelli altyazılarını döndürür (bu bir tercih değil, bir filtredir). İşitme engelli altyazılarını işaretlemeyen kaynaklar hiçbir şey döndürmez.',
   'subs.direct.param.encoding': 'Karakter kodlama filtresi.',
   'subs.direct.param.source':
-    'Sorgulanacak altyazı sağlayıcıları (all her etkin kaynağı sorgular; varsayılan charlie).',
+    'Sorgulanacak altyazı sağlayıcıları (all, anahtarınızın kullanabileceği her kaynağı sorgular; varsayılan charlie).',
   'subs.direct.param.release':
     'Sürüm veya sahne adı filtreleri (virgülle ayrılmış).',
   'subs.direct.param.file':
@@ -270,7 +271,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'Dönen Veriler',
   'subs.direct.data.id': "Altyazı dosyasının ID'si.",
-  'subs.direct.data.url': "Altyazı dosyasının URL'si.",
+  'subs.direct.data.url':
+    'https://sub.wyzie.io/c/... adresindeki, şifrelenmiş bir tok parametresi taşıyan indirme bağlantısı. Her indirme 1 istek harcar; aşağıdaki Downloading Subtitles bölümüne bakın.',
   'subs.direct.data.flagUrl': "Dilin yerel bayrağının URL'si.",
   'subs.direct.data.format': 'Altyazı dosyasının biçimi.',
   'subs.direct.data.encoding': 'Altyazı dosyasının karakter kodlaması.',
@@ -323,27 +325,27 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI Altyazı Çevirisi',
   'subs.translate.important':
-    'AI çevirisi bir **Pro özelliğidir**. Her çeviri, önbellek isabeti dahil anahtarınızın bakiyesinden **100 istek** harcar. Ücretsiz anahtarlar bunu kullanamazlar.',
+    'AI çevirisi bir **Pro özelliğidir**; ücretsiz anahtarlar 403 Upgrade required alır. Her çağrı, önbellek isabetleri dahil anahtarınızın bakiyesinden **100 istek** harcar. Bir çağrı herhangi bir çıktı üretmeden başarısız olursa (altyazı bulunamazsa, arama veya indirme başarısız olursa ya da sunucu meşgulse) 100 istek otomatik olarak iade edilir.',
   'subs.translate.p1':
-    "Wyzie herhangi bir altyazıyı anında 80'den fazla dile çevirebilir. Çeviriler model ürettikçe akış halinde döner, bu yüzden oynatma dosyanın tamamını beklemek yerine bir-iki saniye içinde başlayabilir. Sonuçlar 30 gün boyunca önbelleklenir; böylece aynı çeviriyi isteyen ikinci kişi anında alır.",
+    "Wyzie herhangi bir altyazıyı anında 80'den fazla dile çevirebilir. Çevrilen SRT, gruplar tamamlandıkça sırayla akış halinde döner; böylece ilk ipuçları dosyanın tamamı bitene kadar beklemeden hızla gelir. Tam çeviri 30 gün boyunca önbelleklenir; böylece aynı başlık, bölüm ve hedef dil için sonraki istekler önbellekten sunulur.",
 
   'subs.translate.ways.h2': 'Kullanmanın İki Yolu',
   'subs.translate.way1.h3': '1. Arama Yanıtından Bir Dil Seçin',
   'subs.translate.way1.p1':
-    'Her /search yanıtı artık desteklenen her dil için "ai": true olan ve /translate\'e işaret eden bir url içeren bir ekstra giriş içermektedir. AI satırlarını kullanıcı arayüzünüzdeki diğer altyazı satırları gibi değerlendirin: kullanıcı birini tıkladığında URL\'yi çekin.',
+    'Pro anahtarlar için her /search yanıtı ayrıca "ai": true içeren ve /translate\'e işaret eden bir url taşıyan AI çevirisi satırları da içerir: desteklenen her dil için bir tane ya da yalnızca language= filtrenizdeki diller için. Ücretsiz anahtarlar bu satırları hiçbir zaman almaz. AI satırlarını kullanıcı arayüzünüzdeki diğer altyazı satırları gibi değerlendirin: kullanıcı birini tıkladığında URL\'yi çekin.',
   'subs.translate.way1.filter':
     'AI satırlarını kullanıcı arayüzünüzden gizlemek istiyorsanız filtreleyin:',
   'subs.translate.way2.h3': "2. /translate'i Doğrudan Çağırın",
 
   'subs.translate.param.id': "TMDB veya IMDB ID'si (gerekli).",
   'subs.translate.param.target':
-    'Tam İngilizce adıyla hedef dil (örn. Spanish, Japanese, Brazilian Portuguese) (gerekli).',
+    'Hedef dil (gerekli): desteklenen listeden bir ad (örn. Spanish, Japanese, Portuguese (Brazil)) veya bu dilin kodu (örn. es, ja, pt-BR).',
   'subs.translate.param.seasonEpisode':
     'TV için. Her ikisi de birlikte bulunmalıdır.',
   'subs.translate.param.key':
     "API anahtarınız. URL'yi /search'ten aldıysanız bunun yerine tk kullanın.",
   'subs.translate.param.tk':
-    "/search tarafından döndürülen imzalı token. key'e eşdeğerdir, ancak ham anahtarı açığa çıkarmaz.",
+    "/search'teki AI satırı URL'lerinden gelen şifrelenmiş token. key gibi çalışır, API anahtarınızı açığa çıkarmaz ve 60 gün boyunca geçerli kalır.",
 
   'subs.translate.headers.p':
     'Yanıt gövdesi, text/plain; charset=utf-8 olarak akışla iletilen bir SRT dosyasıdır. Yararlı yanıt başlıkları:',
@@ -357,27 +359,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'Nasıl Çalışır',
   'subs.translate.how.step1':
-    'Wyzie, mevcut olduğunda İngilizceyi tercih ederek normal kaynaklarda SRT altyazısı arar.',
+    "Wyzie, mevcut olduğunda İngilizce bir SRT'yi tercih ederek normal kaynaklarda metin altyazı arar. VTT, ASS, SSA ve SUB dosyaları önce SRT'ye dönüştürülür.",
   'subs.translate.how.step2':
-    "SRT, 50'şer ipucundan oluşan parçalara bölünür ve sırayla çevrilir. Her parça tamamlanınca ayrı ayrı önbelleklenir.",
+    'SRT, her biri en fazla yaklaşık 3.800 karakterlik gruplara bölünür ve Google Translate ile, aynı anda 4 grup olmak üzere çevrilir.',
   'subs.translate.how.step3':
-    'Çıktı size ipucu ipucu akış halinde gönderilir. Akışlı SRT gövdesini kabul eden oynatıcılar, geri kalanlar tamamlanmadan ilk satırları göstermeye başlayabilir.',
+    'Çıktı, gruplar tamamlandıkça SRT sırasıyla akış halinde gönderilir; böylece ilk ipuçları hızla gelir. Akışlı SRT gövdesini kabul eden oynatıcılar, geri kalanlar tamamlanmadan ilk satırları göstermeye başlayabilir.',
   'subs.translate.how.step4':
     "Tam çeviri, id, season, episode ve target ile anahtarlanarak Redis'te 30 gün boyunca önbelleklenir.",
 
   'subs.translate.languages.h2': 'Desteklenen Hedef Diller',
   'subs.translate.languages.p':
-    "Başlıca Avrupa, Asya, Afrika ve Orta Doğu dilleri dahil 80'den fazla dil. İngilizce adı geçin (Spanish, es değil). Liste ayrıca herhangi bir /search yanıtında ai: true satırları olarak da döner; bu, doğruluk kaynağıdır.",
+    "Başlıca Avrupa, Asya, Afrika ve Orta Doğu dilleri dahil 80'den fazla dil. Listeden bir ad (Spanish, Portuguese (Brazil)) veya bu dilin kodunu (es, pt-BR) geçin. Pro anahtarlar için tam liste, language= filtresi olmayan herhangi bir /search yanıtında ai: true satırları olarak da döner; asıl doğruluk kaynağı budur.",
 
   'subs.translate.limitations.h2': 'Sınırlamalar',
   'subs.translate.limit1':
-    'AI çevirisi için SRT kaynağı gerekir. Mevcut her altyazının .ass, .vtt veya başka bir biçimde olduğu başlıklar 404 No SRT found döndürür.',
+    "AI çevirisinin başlangıç noktası olarak bir metin altyazıya ihtiyacı vardır. VTT, ASS, SSA ve SUB kaynakları önce SRT'ye dönüştürülür; hiç metin altyazı yoksa çağrı 404 No subtitle found döndürür ve 100 istek iade edilir.",
   'subs.translate.limit2':
     'Çeviri kalitesi kaynak altyazıya bağlıdır. Kötü zamanlanmış veya yanlış yazılmış bir kaynak, kötü zamanlanmış veya yanlış yazılmış bir çeviri üretir.',
   'subs.translate.limit3':
     'Bazı kullanıcılar AI satırlarını tamamen devre dışı bırakmak isteyebilir. İstemcinizde ai === false ile filtreleyin.',
   'subs.translate.limit4':
-    'Çeviriler önbellek isabetlerinde de faturalandırılır. Taze oluşturulmuş veya 30 günlük önbellekten sunulmuş olsun, her /translate isteği 100 istek harcar.',
+    'Çeviriler önbellek isabetlerinde de faturalandırılır. Taze oluşturulmuş veya 30 günlük önbellekten sunulmuş olsun, her /translate çağrısı 100 istek harcar. Yalnızca herhangi bir çıktı üretmeden başarısız olan çağrılar iade edilir.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -456,7 +458,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs, tüm istekler için bir API anahtarı gerektirir. Ücretsiz katman çoğu kullanım senaryosunu karşılar; ücretli planlar daha ağır kullanım için uygundur.',
 
   'subs.keys.tiers.h2': 'Katmanlar',
-  'subs.keys.tier.free': 'Ücretsiz (Gmail gerekli)',
+  'subs.keys.tier.free': 'Ücretsiz (e-posta doğrulaması)',
   'subs.keys.tier.free.limit': '1.000 istek / UTC günü',
   'subs.keys.tier.pro': '5$ tek seferlik',
   'subs.keys.tier.pro.limit': '400.000 istek',
@@ -470,12 +472,12 @@ const messages: Record<string, string> = {
     '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresini ziyaret edin:',
   'subs.keys.free.step1': 'Hızlı bir Cloudflare Turnstile captcha çözün.',
   'subs.keys.free.step2':
-    'Bir Gmail adresi girin (ücretsiz katman için yalnızca Gmail kabul edilir).',
+    'Büyük bir kişisel e-posta sağlayıcısından (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton ve diğerleri) bir adres girin. Tek kullanımlık e-posta alan adları reddedilir.',
   'subs.keys.free.step3': 'Size e-posta ile gönderdiğimiz 6 haneli kodu girin.',
   'subs.keys.free.step4':
     'wyzie-abc123... gibi görünen bir API anahtarı alırsınız.',
   'subs.keys.free.gmail':
-    'Her Gmail adresi yalnızca bir ücretsiz anahtar alabilir. O e-postaya bağlı zaten bir ücretsiz anahtarınız var mı? Tekrar doğrulama yapmak mevcut anahtarınızı döndürür.',
+    'Her e-posta adresi ve her ağ yalnızca bir ücretsiz anahtar alabilir; ikinci bir istek 409 döndürür. Anahtarınızı mı kaybettiniz? Yeniden gönderilmesi için [kontrol panelindeki](https://store.wyzie.io/dashboard) "Forgot key" (anahtarı unuttum) seçeneğini kullanın.',
 
   'subs.keys.pro.h2': "Pro'ya Yükseltme",
   'subs.keys.pro.p1':
@@ -489,11 +491,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     'Bir istemci uygulamasından anahtarı kullanmanın iki güvenli yolu:',
   'subs.keys.protect.option1':
-    "[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) kullanın: anahtarınızı sunucu tarafında tutan ücretsiz bir Cloudflare Worker proxy'si. İstemcinizi sub.wyzie.io yerine Worker URL'sine yönlendirin.",
+    "[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) kullanın: API anahtarınızı `NITRO_API_TOKEN` gizli değeri olarak tutan ücretsiz bir Cloudflare Worker proxy'si. Ona yapılan her çağrı, sizin belirlediğiniz ikinci bir gizli değeri taşıyan `Authorization: Bearer <NITRO_WORKER_KEY>` başlığını göndermelidir; bu yüzden istemcinizi kendi arka ucunuz üzerinden yönlendirin ve worker anahtarını da sunucu tarafında tutun.",
   'subs.keys.protect.option2':
     "Kendi proxy'nizi çalıştırın: sub.wyzie.io'ya iletmeden önce anahtarı ekleyen herhangi bir arka uç uç noktası çalışır. 10 satırlık bir örnek için Giriş sayfasına bakın.",
   'subs.keys.protect.devtools':
-    "Anahtar DevTools'daki ağ sekmesinde görünüyorsa açığa çıkmış demektir. Genel kabul edin ve destek ekibine e-posta göndererek değiştirin.",
+    "Anahtar DevTools'daki ağ sekmesinde görünüyorsa açığa çıkmış demektir. Genel kabul edin ve [kontrol panelinizden](https://store.wyzie.io/dashboard) değiştirin.",
 
   'subs.keys.using.h2': 'Anahtarınızı Kullanma',
   'subs.keys.using.p': 'Her API isteğine &key=YOUR_KEY ekleyin:',
@@ -503,9 +505,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'Bir arama 1 istek, her altyazı indirmesi de 1 istek harcar; yani bir kez arama yapıp bir dosya indirmek 2 istek kullanır. AI çevirisi çağrı başına 100 istek harcar.',
   'subs.keys.limit.free':
-    '**Ücretsiz katman** tükendi -> API, X-RateLimit-Reset ve Retry-After başlıklarıyla 429 döndürür. Günlük sayaç UTC gece yarısı sıfırlanır.',
+    '**Ücretsiz katman** tükendi -> aramalar ve indirme bağlantıları, JSON içinde reset_at ve bir Retry-After başlığıyla birlikte 429 Daily request limit reached döndürür. Günlük 1.000 isteklik üst sınır UTC gece yarısı sıfırlanır.',
   'subs.keys.limit.paid':
-    "**Ücretli bakiye** tükendi -> API 402 döndürür. [store.wyzie.io/topup](https://store.wyzie.io/topup) adresinden üst doldurun veya belirlediğiniz bir eşiği aştığında bakiyenizi otomatik doldurmak için kontrol panelinizde **otomatik üst doldurma**'yı etkinleştirin.",
+    "**Ücretli bakiye** tükendi -> aramalar ve indirme bağlantıları, JSON içinde bir üst doldurma bağlantısıyla birlikte 402 döndürür. [store.wyzie.io/topup](https://store.wyzie.io/topup) adresinden üst doldurun veya belirlediğiniz bir eşiği aştığında bakiyenizi otomatik doldurmak için kontrol panelinizde **otomatik üst doldurma**'yı etkinleştirin.",
   'subs.keys.hold.p1':
     "Çoğunlukla veri merkezi veya barındırma IP'lerinden çok yüksek hacimde istek gönderen anahtarlar otomatik olarak askıya alınır. Askıya alınan bir anahtar her istekte 403 Key on hold alır; JSON içinde bir yeniden etkinleştirme bağlantısı (https://store.wyzie.io/verify) ve bir destek bağlantısı (https://store.wyzie.io/contact) bulunur.",
   'subs.keys.hold.p2':
@@ -522,7 +524,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': 'SSS',
   'subs.keys.faq.q1': 'Anahtarımı kaybettim. Yeni bir tane alabilir miyim?',
   'subs.keys.faq.a1':
-    '[store.wyzie.io](https://store.wyzie.io) adresini ziyaret edin ve kayıtlı e-postanızla "anahtarımı unuttum" akışını kullanın; mevcut anahtarınızı yeniden göndereceğiz.',
+    '[Kontrol panelini](https://store.wyzie.io/dashboard) açın ve kayıtlı e-postanızla "Forgot key" (anahtarı unuttum) seçeneğini kullanın; mevcut anahtarınızı yeniden göndereceğiz. Anahtarın sızdığını düşünüyorsanız bunun yerine onu kontrol panelinden değiştirin.',
   'subs.keys.faq.q2': 'Bir anahtarı birden fazla projede kullanabilir miyim?',
   'subs.keys.faq.a2':
     "Evet. Anahtarınız API'yi çağırdığınız her yerde çalışır.",
@@ -582,7 +584,7 @@ const messages: Record<string, string> = {
     '**Hata Ayıklama Modu**: Sorun giderme ve izleme için ayrıntılı günlükleme',
 
   'i6shark.intro.requirements.h2': 'Gereksinimler',
-  'i6shark.intro.req1': 'Go 1.20 veya üstü',
+  'i6shark.intro.req1': 'Go 1.22 veya üstü',
   'i6shark.intro.req2':
     'IPv6 desteğine sahip Linux/Unix sistemi (tercihen Ubuntu)',
   'i6shark.intro.req3':
@@ -641,17 +643,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Android TV, Raspberry Pi veya bir ev sinema bilgisayarında Kodi yerel bir altyazı hizmeti için **Kodi** kullanın.',
   'plugins.index.shared.sources':
-    '**Kaynaklar:** Wyzie üzerinden bir araya getirilen OpenSubtitles, SubDL ve Podnapisi.',
+    '**Kaynaklar:** anahtarınızın kullanabileceği her kaynak (`source=all`): ücretsiz anahtarda charlie ve lima, Pro anahtarda yedisinin tamamı.',
   'plugins.index.shared.matching':
     '**Eşleştirme:** Wyzie, IMDB ve TMDB kimlikleri ile sezon ve bölüm bilgisiyle yönlendirilir, bu nedenle hem filmler hem de diziler için eşleşmeler kesindir.',
   'plugins.index.shared.quota':
     '**Kota:** anahtarınız tükendiğinde, eklenti sessizce başarısız olmak yerine [store.wyzie.io](https://store.wyzie.io) adresine bağlantı veren dostça bir uyarı gösterir. Yükleme yapın veya abone olun, tekrar iş başındasınız.',
   'plugins.index.shared.languages':
     '**Diller:** 100+, eklenti başına seçilebilir.',
-  'plugins.index.outro': 'Başlamak için yukarıdan platformunuzu seçin.',
+  'plugins.index.outro':
+    'Başlamak için yukarıdan platformunuzu seçin. Her eklentinin kaynak kodu [wyzie-plugins deposunda](https://github.com/wyziedevs/wyzie-plugins) bulunur.',
 
   'plugins.stremio.intro':
-    '[Stremio](https://www.stremio.com/) için tek tıklamayla altyazı eklentisi. OpenSubtitles, SubDL ve Podnapisi kaynaklarını Wyzie üzerinden bir araya getirir ve Stremio çalışan her platformda hem filmler hem de diziler için çalışır.',
+    '[Stremio](https://www.stremio.com/) için tek tıklamayla altyazı eklentisi. Anahtarınızın kullanabileceği her Wyzie kaynağını sorgular ve Stremio çalışan her platformda hem filmler hem de diziler için çalışır.',
   'plugins.stremio.before':
     'Ücretsiz bir Wyzie API anahtarına ihtiyacınız var. [store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden bir tane edinin veya [store.wyzie.io](https://store.wyzie.io/#plans) adresinden bir Pro anahtarı satın alın ya da abone olun.',
   'plugins.stremio.install.1':
@@ -660,7 +663,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     'İsteğe bağlı: tercih ettiğiniz **dilleri** ISO 639-1 kodları olarak, virgülle ayrılmış şekilde girin (örneğin `en,es,fr`). Tüm diller için boş bırakın.',
   'plugins.stremio.install.4':
-    'İsteğe bağlı: tercih ediyorsanız **işitme engelli** altyazılarını açın.',
+    'İsteğe bağlı: yalnızca işitme engelli altyazılarını almak için **işitme engelli** seçeneğini açın. Her şeyi görmek için kapalı bırakın; açıkken, işitme engelli altyazılarını işaretlemeyen kaynaklar hiçbir şey döndürmez.',
   'plugins.stremio.install.5':
     '**Yükle** düğmesine tıklayın. Stremio açılır ve onaylamanızı ister; kabul edin, işiniz bitti.',
   'plugins.stremio.install.after':
@@ -672,7 +675,7 @@ const messages: Record<string, string> = {
     'ISO 639-1 kodları, virgülle ayrılmış. Boş, tüm diller anlamına gelir.',
   'plugins.stremio.cfg.hi.f': 'İşitme engelli',
   'plugins.stremio.cfg.hi.d':
-    'Mevcut olduğunda işitme engelli altyazılarını tercih edin.',
+    'Yalnızca işitme engelli altyazılarını döndürür (hi=true gönderir). Varsayılan olarak kapalıdır.',
   'plugins.stremio.cfg.note':
     'Bunlardan herhangi birini daha sonra değiştirmek için [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) adresini yeniden açın, ayarlayın ve yeniden yükleyin.',
   'plugins.stremio.local':
@@ -687,13 +690,13 @@ const messages: Record<string, string> = {
     "**Dizi bölümü eşleşmiyor.** Wyzie sezon ve bölüm üzerinden eşleştirir; Stremio'nun genel bir dizi sayfası değil, doğru bölüm girdisini oynattığından emin olun.",
 
   'plugins.bazarr.intro':
-    "[Bazarr](https://www.bazarr.media/), **Plex, Jellyfin, Emby, Sonarr ve Radarr** için altyazıları tek bir yerde yönetir. Wyzie'yi sağlayıcı olarak eklemek, tüm bu sunuculara tek bir anahtar üzerinden OpenSubtitles, SubDL ve Podnapisi erişimi sağlar.",
+    "[Bazarr](https://www.bazarr.media/), **Plex, Jellyfin, Emby, Sonarr ve Radarr** için altyazıları tek bir yerde yönetir. Wyzie'yi sağlayıcı olarak eklemek, tüm bu sunuculara tek bir anahtar üzerinden, anahtarınızın kullanabileceği her Wyzie kaynağına erişim sağlar.",
   'plugins.bazarr.note':
     "Bu, Wyzie'yi Plex ve Jellyfin ile kullanmanın önerilen yoludur. Bazarr altyazı dosyalarını medyanızın yanına indirir ve sunucunuz bunları otomatik olarak alır, bu nedenle ayrı bir yerel eklenti gerekmez.",
   'plugins.bazarr.before':
     '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden ücretsiz bir Wyzie API anahtarı edinin ve Bazarr kurulum dosyalarınıza erişiminiz olsun (tipik Docker yolu: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    '`wyzie.py` dosyasını `bazarr/subliminal_patch/providers/wyzie.py` konumuna kopyalayın.',
+    '[bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) dosyasını [wyzie-plugins deposundan](https://github.com/wyziedevs/wyzie-plugins) indirin (veya `git clone https://github.com/wyziedevs/wyzie-plugins.git` komutunu çalıştırın) ve `bazarr/subliminal_patch/providers/wyzie.py` konumuna kopyalayın.',
   'plugins.bazarr.install.2':
     '`bazarr/subliminal_patch/extensions.py` dosyasını düzenleyin ve `wyzie` öğesini **hem** `provider_registry` **hem de** `provider_manager` içine ekleyin.',
   'plugins.bazarr.install.3':
@@ -704,13 +707,14 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     "Bu sağlayıcıyı Bazarr'a üst akışa taşıyan birinci sınıf bir pull request planlanıyor. O zamana kadar kendi kurulumunuza eklediğiniz tak-çalıştır bir dosyadır.",
   'plugins.bazarr.cfg.key': 'Wyzie anahtarınız. Gerekli.',
-  'plugins.bazarr.cfg.hi': 'İşitme engelli altyazılarını tercih edin.',
+  'plugins.bazarr.cfg.hi':
+    'Yalnızca işitme engelli altyazılarını döndürür (hi=true gönderir).',
   'plugins.bazarr.cfg.sources':
     'Sorgulanacak sağlayıcıların virgülle ayrılmış listesi veya `all`.',
   'plugins.bazarr.quota.402':
     '**402 veya 429** (bakiye boş veya günlük üst sınıra ulaşıldı): Bazarr [store.wyzie.io](https://store.wyzie.io) bağlantısı içeren bir not kaydeder ve sonuç döndürmez, böylece temiz bir şekilde diğer sağlayıcılarınıza geri döner. Hiçbir şey çökmez.',
   'plugins.bazarr.quota.401':
-    '**401** (hatalı anahtar): Bazarr bir kimlik doğrulama hatası gösterir, böylece anahtarı yeniden girmeniz gerektiğini bilirsiniz.',
+    '**401** (anahtar eksik) veya **403** (bilinmeyen anahtar ya da askıya alınmış anahtar): Bazarr bir kimlik doğrulama hatası gösterir, böylece anahtarı kontrol etmeniz veya yeniden girmeniz gerektiğini bilirsiniz.',
   'plugins.bazarr.ts.missing':
     "**Wyzie sağlayıcılar listesinde görünmüyor.** `extensions.py` dosyasını düzenleyen kurulum adımını yeniden kontrol edin; girdi hem `provider_registry` hem de `provider_manager` içinde olmalıdır, ardından Bazarr'ı yeniden başlatın.",
   'plugins.bazarr.ts.none':
@@ -737,7 +741,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'Depoyu eklemek istemiyorsanız bunu kullanın. Not: zip kurulumu otomatik **güncellenmez**.',
   'plugins.kodi.zip.1':
-    'Eklenti zip dosyasını edinin: `service.subtitles.wyzie-<version>.zip`. Kaynağa sahipseniz, zip dosyasının kökünde `addon.xml` bulunacak şekilde `kodi/` klasörünü zipleyin.',
+    'Eklenti zip dosyasını edinin: `service.subtitles.wyzie-<version>.zip`. Kendiniz derlemek için [wyzie-plugins deposunu](https://github.com/wyziedevs/wyzie-plugins) klonlayın (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) ve zip dosyasının kökünde `addon.xml` bulunacak şekilde deponun `kodi/` klasörünü zipleyin.',
   'plugins.kodi.zip.2':
     'Kodi içinde: **Ayarlar, Eklentiler, Zip dosyasından yükle**, ardından zip dosyasını seçin. Kodi engellerse, önce **Ayarlar, Sistem, Eklentiler, Bilinmeyen kaynaklar** seçeneğini etkinleştirin.',
   'plugins.kodi.zip.3':
@@ -745,7 +749,8 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'Wyzie Subs eklenti ayarlarını açın ve **API anahtarınızı** yapıştırın.',
   'plugins.kodi.cfg.key': 'Wyzie anahtarınız. Gerekli.',
-  'plugins.kodi.cfg.hi': 'İşitme engelli altyazılarını tercih edin.',
+  'plugins.kodi.cfg.hi':
+    'Yalnızca işitme engelli altyazılarını döndürür (hi=true gönderir).',
   'plugins.kodi.cfg.langs':
     "Diller, Kodi'nin seçili altyazı dillerinden alınır ve otomatik olarak ISO 639-1'e eşlenir.",
   'plugins.kodi.matching.1':

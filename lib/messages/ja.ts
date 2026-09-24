@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie は字幕のスクレイピングとその周辺機能のためのオープンソースツールセットです。',
+    'Wyzie は字幕のスクレイピングとその周辺機能のためのツールセットです。',
   'index.cta.start': 'はじめる',
   'index.cta.store': 'ストアを見る',
 
   'index.card.keys.title': '無料 API キー',
   'index.card.keys.body':
-    'store.wyzie.io/redeem で Gmail 認証を行うだけで無料の API キーを取得できます。1日 1,000 リクエストを無料でご利用いただけます。より高い使用量には有料プランもご用意しています。',
+    'store.wyzie.io/redeem で簡単なメール認証（Gmail、Outlook、Yahoo、iCloud、Proton などの主要プロバイダーに対応）を行うだけで無料の API キーを取得できます。1日 1,000 リクエストを無料でご利用いただけます。より高い使用量には有料プランもご用意しています。',
 
   'index.card.ai.title': 'AI 翻訳',
   'index.card.ai.body':
-    '任意の字幕を 80 以上の言語にオンデマンドで翻訳できます。キューごとにストリーミングされるため、数秒で再生を開始できます。Pro キーでご利用いただけます。',
+    '任意の字幕を 80 以上の言語にオンデマンドで翻訳できます。SRT はバッチが完了するたびに順番どおりストリーミングで返されるため、最初の行がすぐに届きます。Pro キーでご利用いただけます。',
 
   'index.card.reliable.title': '信頼性',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Wyzie Subs 入門',
   'subs.intro.p1':
-    'Wyzie Subs は、フリーかつリブレなオープン字幕スクレイピング API です。API へのリクエストには 2 つの方法があります。NPM パッケージを使用するか、Wyzie API を直接フェッチするかです。パッケージの使用を推奨しますが、型が煩わしいと感じる方もいるかもしれません。API を使用する前に、どちらの方法を使うか決めておく必要があります。',
+    'Wyzie Subs は、無料ティアのある字幕スクレイピング API です。API へのリクエストには 2 つの方法があります。NPM パッケージを使用するか、Wyzie API を直接フェッチするかです。パッケージの使用を推奨しますが、型が煩わしいと感じる方もいるかもしれません。API を使用する前に、どちらの方法を使うか決めておく必要があります。',
   'subs.intro.note.ai':
-    'AI 翻訳は Pro キー向けに提供中です。あらゆるタイトルに対応し、80 以上の言語をターゲットに、翻訳の進行に合わせてストリーミングで返します。',
+    'AI 翻訳は Pro キー向けに提供中です。あらゆるタイトルに対応し、80 以上の言語をターゲットに、バッチが完了するたびに字幕の順番どおりストリーミングで返します。',
   'subs.intro.important.apikey':
-    'すべてのリクエストには API キーが必要です。[store.wyzie.io/redeem](https://store.wyzie.io/redeem) で無料キーを取得してください（Gmail 認証、1日 1,000 リクエスト）。より高い使用量には [Pro およびトップアッププラン](https://store.wyzie.io) もご利用いただけます。詳細は API キーのページをご覧ください。',
+    'すべてのリクエストには API キーが必要です。[store.wyzie.io/redeem](https://store.wyzie.io/redeem) で無料キーを取得してください（メール認証、1日 1,000 リクエスト）。より高い使用量には [Pro およびトップアッププラン](https://store.wyzie.io) もご利用いただけます。詳細は API キーのページをご覧ください。',
   'subs.intro.note.npm':
     'TypeScript または JavaScript に慣れている方には NPM パッケージを強くお勧めします',
   'subs.intro.btn.npm': 'NPM パッケージ',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'キーがエンドユーザーの端末に到達した場合は、公開されたものとして扱ってください。安全なパターンが 2 つあります：',
   'subs.intro.protect.opt1.h3': 'オプション 1：Wyzie Worker を使用する',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker は軽量な Cloudflare Worker プロキシで、サーバーサイドで API キーを注入します。Cloudflare Workers にデプロイし、NITRO_API_TOKEN 環境変数にキーを設定してください。その後、クライアントのリクエスト先を sub.wyzie.io の代わりにワーカーの URL に向けると、ワーカーがキーを付加してリクエストを転送します。',
+    'Wyzie Worker は軽量な Cloudflare Worker プロキシで、サーバーサイドで API キーを注入します。Cloudflare Workers にデプロイし、2 つのシークレットを設定してください：`NITRO_API_TOKEN`（Wyzie の API キー）と `NITRO_WORKER_KEY`（自分で決めたシークレット）です。ワーカーへのすべてのリクエストでは `Authorization: Bearer <NITRO_WORKER_KEY>` を送信する必要があります。これがないとワーカーは 401 を返し、`NITRO_WORKER_KEY` が設定されていない場合はすべてのリクエストを 503 で拒否します。ワーカーキーもサーバーサイドに保持する必要があるため、ワーカーはブラウザやアプリのコードからではなく、必ず自前のバックエンドから呼び出してください。ワーカーは各リクエストに API キーを付加して sub.wyzie.io に転送します。',
   'subs.intro.protect.opt2.h3': 'オプション 2：独自のプロキシを構築する',
   'subs.intro.protect.opt2.p1':
     'Wyzie Worker を使用したくない場合は、任意のフレームワークでシンプルなサーバーサイドプロキシを構築できます。考え方は同じです。バックエンドがクライアントからリクエストを受け取り、API キーを付加して sub.wyzie.io に転送します。',
@@ -167,8 +167,8 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT、ASS、SSA、VTT、SUB など',
 
   'subs.sources.ai.desc':
-    'スクレイパーではありません。利用可能な最良のソース字幕からオンデマンドで AI 翻訳した SRT を生成します。詳細は AI 翻訳ガイドをご覧ください。',
-  'subs.sources.ai.content': 'Wyzie が SRT を見つけられるものすべて',
+    'スクレイパーではありません。利用可能な最良のソース字幕からオンデマンドで AI 翻訳した SRT を生成します。Pro キー専用です。詳細は AI 翻訳ガイドをご覧ください。',
+  'subs.sources.ai.content': 'Wyzie がテキスト字幕を見つけられるものすべて',
   'subs.sources.ai.languages': '80 以上の言語',
   'subs.sources.ai.formats': 'SRT のみ',
 
@@ -195,7 +195,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.language':
     '字幕言語の ISO 639-1 コード。リストを受け付けます。',
   'subs.pkg.param.encoding': '文字エンコードフィルター（例：utf-8、latin-1）。',
-  'subs.pkg.param.hi': '聴覚障害者向け字幕を示すブール値。',
+  'subs.pkg.param.hi':
+    'true の場合、聴覚障害者向け字幕のみを返します。聴覚障害者向け字幕にフラグを付けていないソースは何も返しません。',
   'subs.pkg.param.source':
     'クエリする字幕プロバイダーのコードネーム（all でキーが使用できる稼働中のすべてのソースを対象。デフォルトは charlie）。',
   'subs.pkg.param.release':
@@ -222,7 +223,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'syncSubtitle の入力と結果（Wyzie Synced、Pro キー）：使用する字幕（検索結果、その url、または tmdb_id/imdb_id と language）、detectSpeech が検出した speech または media ファイル、そして offset、fps、confidence を含む同期済みのダウンロードリンク。詳細は [Wyzie Synced](/subs/usage/synced) をご覧ください。',
   'subs.pkg.types.end':
-    '型定義は非常にシンプルで充実したドキュメントが付いています。GitHub リポジトリにリンクされている types.ts ファイルをご確認ください。',
+    '型定義は非常にシンプルで充実したドキュメントが付いています。wyzie-lib リポジトリの [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) をご覧ください。',
   'subs.pkg.config.h3': '設定',
   'subs.pkg.config.p1':
     'あるユーザーが GitHub で設定可能な API ホスト名についてリクエストしてくれて、「それいいアイデアだ」と思ったので、以下に使い方を示します。みんな愛してるよ！',
@@ -243,10 +244,11 @@ const messages: Record<string, string> = {
   'subs.direct.param.language':
     '言語フィルター（ISO 639-1 コード）。複数の値はカンマ区切り。',
   'subs.direct.param.format': '返す字幕形式。複数の値を指定できます。',
-  'subs.direct.param.hi': '聴覚障害者向け字幕を優先するかどうか。',
+  'subs.direct.param.hi':
+    'true の場合、聴覚障害者向け字幕のみを返します（優先指定ではなくフィルターです）。聴覚障害者向け字幕にフラグを付けていないソースは何も返しません。',
   'subs.direct.param.encoding': '文字エンコードフィルター。',
   'subs.direct.param.source':
-    'クエリする字幕プロバイダー（all ですべての有効なソースをクエリ。デフォルトは charlie）。',
+    'クエリする字幕プロバイダー（all でキーが使用できるすべてのソースをクエリ。デフォルトは charlie）。',
   'subs.direct.param.release':
     'リリースまたはシーン名フィルター（カンマ区切り）。',
   'subs.direct.param.file':
@@ -266,7 +268,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': '返されるデータ',
   'subs.direct.data.id': '字幕ファイルの ID。',
-  'subs.direct.data.url': '字幕ファイルの URL。',
+  'subs.direct.data.url':
+    '暗号化された tok パラメータが付いた https://sub.wyzie.io/c/... のダウンロードリンク。ダウンロードごとに 1 リクエストを消費します。詳しくは下記の字幕のダウンロードの項をご覧ください。',
   'subs.direct.data.flagUrl': '言語のロケールのフラグの URL。',
   'subs.direct.data.format': '字幕ファイルの形式。',
   'subs.direct.data.encoding': '字幕ファイルの文字エンコード。',
@@ -319,27 +322,27 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI 字幕翻訳',
   'subs.translate.important':
-    'AI 翻訳は **Pro 機能**です。翻訳ごとにキーの残高から **100 リクエスト**が消費され、キャッシュヒット時も同様に課金されます。無料キーでは使用できません。',
+    'AI 翻訳は **Pro 機能**です。無料キーでは 403 Upgrade required が返されます。呼び出しごとにキーの残高から **100 リクエスト**が消費され、キャッシュヒット時も同様です。何も出力される前に呼び出しが失敗した場合（字幕が見つからない、検索またはダウンロードの失敗、サーバーの混雑）、100 リクエストは自動的に返金されます。',
   'subs.translate.p1':
-    'Wyzie はあらゆる字幕を 80 以上の言語にオンザフライで翻訳できます。翻訳はモデルの生成に合わせてストリーミングで返されるため、ファイル全体を待つことなく 1〜2 秒以内に再生を開始できます。結果は 30 日間キャッシュされるため、同じ翻訳を 2 人目に要求した人は即座に取得できます。',
+    'Wyzie はあらゆる字幕を 80 以上の言語にオンザフライで翻訳できます。翻訳された SRT はバッチが完了するたびに順番どおりストリーミングで返されるため、ファイル全体の完了を待たずに最初のキューがすぐに届きます。完全な翻訳は 30 日間キャッシュされるため、同じタイトル、エピソード、ターゲット言語に対するその後のリクエストはキャッシュから提供されます。',
 
   'subs.translate.ways.h2': '2 つの使い方',
   'subs.translate.way1.h3': '1. 検索レスポンスから言語を選ぶ',
   'subs.translate.way1.p1':
-    'すべての /search レスポンスには、サポートされている各言語に対して "ai": true と /translate を指すURLを持つ追加エントリが含まれるようになりました。UI で AI 行を通常の字幕行と同様に扱うだけです。ユーザーがクリックしたら URL をフェッチしてください。',
+    'Pro キーの場合、すべての /search レスポンスには、"ai": true と /translate を指す url を持つ AI 翻訳行も含まれます。サポートされている言語ごとに 1 行、または language= フィルターで指定した言語の分だけです。無料キーにはこれらの行は一切含まれません。UI では AI 行を他の字幕行と同様に扱ってください。ユーザーがクリックしたら URL をフェッチします。',
   'subs.translate.way1.filter':
     'UI から AI 行を非表示にしたい場合はフィルタリングしてください：',
   'subs.translate.way2.h3': '2. /translate を直接呼び出す',
 
   'subs.translate.param.id': 'TMDB または IMDB ID（必須）。',
   'subs.translate.param.target':
-    'ターゲット言語の英語名（例：Spanish、Japanese、Brazilian Portuguese）（必須）。',
+    'ターゲット言語（必須）：サポート対象リストにある言語名（例：Spanish、Japanese、Portuguese (Brazil)）またはそのコード（例：es、ja、pt-BR）。',
   'subs.translate.param.seasonEpisode':
     'テレビ番組用。両方同時に指定する必要があります。',
   'subs.translate.param.key':
     'API キー。/search から URL を取得した場合は tk を使用してください。',
   'subs.translate.param.tk':
-    '/search が返す署名付きトークン。key と同等ですが、生のキーを公開しません。',
+    '/search の AI 行の URL に含まれる暗号化トークン。key と同様に機能し、API キーを露出せず、60 日間有効です。',
 
   'subs.translate.headers.p':
     'レスポンスボディは text/plain; charset=utf-8 としてストリーミングされる SRT ファイルです。有用なレスポンスヘッダー：',
@@ -351,27 +354,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': '仕組み',
   'subs.translate.how.step1':
-    'Wyzie が通常のソースから SRT 字幕を検索し、利用可能な場合は英語を優先します。',
+    'Wyzie が通常のソースからテキスト字幕を検索し、利用可能な場合は英語の SRT を優先します。VTT、ASS、SSA、SUB ファイルは先に SRT に変換されます。',
   'subs.translate.how.step2':
-    'SRT を 50 キューのチャンクに分割し、順次翻訳します。各チャンクは完了した時点で個別にキャッシュされます。',
+    'SRT は最大約 3,800 文字のバッチに分割され、Google Translate で一度に 4 バッチずつ翻訳されます。',
   'subs.translate.how.step3':
-    '出力はキューごとにストリーミングで返されます。ストリーミング SRT ボディを受け付けるプレイヤーは、残りが完了する前に最初の行を表示し始めることができます。',
+    '出力はバッチが完了するたびに SRT の順番どおりストリーミングで返されるため、最初のキューがすぐに届きます。ストリーミング SRT ボディを受け付けるプレイヤーは、残りが完了する前に最初の行を表示し始めることができます。',
   'subs.translate.how.step4':
     '完全な翻訳は id、season、episode、target をキーとして Redis に 30 日間キャッシュされます。',
 
   'subs.translate.languages.h2': 'サポートされているターゲット言語',
   'subs.translate.languages.p':
-    '主要なヨーロッパ語、アジア語、アフリカ語、中東言語を含む 80 以上の言語。英語名で指定してください（es ではなく Spanish）。リストはすべての /search レスポンスで ai: true 行としても返されており、それが正式な情報源です。',
+    '主要なヨーロッパ語、アジア語、アフリカ語、中東言語を含む 80 以上の言語。リストにある言語名（Spanish、Portuguese (Brazil)）またはそのコード（es、pt-BR）で指定してください。Pro キーの場合、language= フィルターなしのすべての /search レスポンスで完全なリストが ai: true 行としても返されており、それが正式な情報源です。',
 
   'subs.translate.limitations.h2': '制限事項',
   'subs.translate.limit1':
-    'AI 翻訳には SRT ソースが必要です。利用可能な字幕がすべて .ass、.vtt などの形式のタイトルは 404 No SRT found を返します。',
+    'AI 翻訳には元になるテキスト字幕が必要です。VTT、ASS、SSA、SUB のソースは先に SRT に変換されます。テキスト字幕が存在しない場合、呼び出しは 404 No subtitle found を返し、100 リクエストは返金されます。',
   'subs.translate.limit2':
     '翻訳品質はソース字幕に依存します。タイミングが悪いまたは誤字のあるソースは、同様にタイミングが悪いまたは誤字のある翻訳を生成します。',
   'subs.translate.limit3':
     'AI 行を完全に除外したいユーザーもいるかもしれません。クライアントで ai === false でフィルタリングしてください。',
   'subs.translate.limit4':
-    '翻訳はキャッシュヒット時も課金されます。新たに生成された場合でも 30 日間のキャッシュから提供された場合でも、各 /translate リクエストは 100 リクエストを消費します。',
+    '翻訳はキャッシュヒット時も課金されます。新たに生成された場合でも 30 日間のキャッシュから提供された場合でも、各 /translate 呼び出しは 100 リクエストを消費します。返金されるのは、何も出力される前に失敗した呼び出しのみです。',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -452,7 +455,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs はすべてのリクエストに API キーが必要です。無料ティアでほとんどのユースケースに対応しています。より大量の使用には有料プランをご利用ください。',
 
   'subs.keys.tiers.h2': 'ティア',
-  'subs.keys.tier.free': '無料（Gmail 必須）',
+  'subs.keys.tier.free': '無料（メール認証）',
   'subs.keys.tier.free.limit': '1,000 リクエスト / UTC 日',
   'subs.keys.tier.pro': '$5 一回払い',
   'subs.keys.tier.pro.limit': '400,000 リクエスト',
@@ -466,13 +469,13 @@ const messages: Record<string, string> = {
     '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) にアクセスしてください：',
   'subs.keys.free.step1': 'Cloudflare Turnstile キャプチャを解いてください。',
   'subs.keys.free.step2':
-    'Gmail アドレスを入力してください（無料ティアでは Gmail のみ対応）。',
+    '主要な個人向けメールプロバイダー（Gmail、Outlook/Hotmail、Yahoo、iCloud、AOL、Proton など）のアドレスを入力してください。使い捨てメールのドメインは拒否されます。',
   'subs.keys.free.step3':
     'メールで送られてくる 6 桁のコードを入力してください。',
   'subs.keys.free.step4':
     'wyzie-abc123... のような形式の API キーが発行されます。',
   'subs.keys.free.gmail':
-    '各 Gmail アドレスで無料キーを受け取れるのは 1 回だけです。そのメールアドレスにすでに無料キーが紐付いている場合は、再度認証すると既存のキーが返されます。',
+    '無料キーは、メールアドレスごと、ネットワークごとに 1 つまで取得できます。2 回目のリクエストには 409 が返されます。キーを紛失しましたか？[ダッシュボード](https://store.wyzie.io/dashboard)の「Forgot key」ボタンからキーを再送できます。',
 
   'subs.keys.pro.h2': 'Pro へのアップグレード',
   'subs.keys.pro.p1':
@@ -486,11 +489,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     'クライアントアプリからキーを使用する 2 つの安全な方法：',
   'subs.keys.protect.option1':
-    '[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) を使用する：サーバーサイドでキーを保持する無料の Cloudflare Worker プロキシです。クライアントを sub.wyzie.io の代わりに Worker URL に向けてください。',
+    '[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) を使用する：API キーを `NITRO_API_TOKEN` シークレットとして保持する無料の Cloudflare Worker プロキシです。Worker へのすべての呼び出しでは、自分で設定する 2 つ目のシークレットを含む `Authorization: Bearer <NITRO_WORKER_KEY>` を送信する必要があります。そのため、クライアントは自前のバックエンドを経由させ、ワーカーキーもサーバーサイドに保持してください。',
   'subs.keys.protect.option2':
     '独自のプロキシを実行する：sub.wyzie.io に転送する前にキーを付加するバックエンドエンドポイントであれば何でも機能します。10 行のサンプルは入門ページをご覧ください。',
   'subs.keys.protect.devtools':
-    'DevTools のネットワークタブにキーが表示される場合、そのキーは公開されています。公開されているとみなし、サポートにメールしてローテーションしてください。',
+    'DevTools のネットワークタブにキーが表示される場合、そのキーは公開されています。公開されているとみなし、[ダッシュボード](https://store.wyzie.io/dashboard)からローテーションしてください。',
 
   'subs.keys.using.h2': 'キーの使い方',
   'subs.keys.using.p':
@@ -501,9 +504,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     '検索は 1 リクエスト、字幕のダウンロードは 1 回ごとに 1 リクエストを消費するため、1 回検索して 1 ファイルをダウンロードすると 2 リクエストを使用します。AI 翻訳は 1 回の呼び出しにつき 100 リクエストを消費します。',
   'subs.keys.limit.free':
-    '**無料ティア**が枯渇した場合 -> API は X-RateLimit-Reset および Retry-After ヘッダーとともに 429 を返します。日次カウンターは UTC 深夜にリセットされます。',
+    '**無料ティア**が枯渇した場合 -> 検索とダウンロードリンクは 429 Daily request limit reached を返し、JSON には reset_at が含まれ、Retry-After ヘッダーも付与されます。1日 1,000 リクエストの上限は UTC 午前 0 時にリセットされます。',
   'subs.keys.limit.paid':
-    '**有料残高**が枯渇した場合 -> API は 402 を返します。[store.wyzie.io/topup](https://store.wyzie.io/topup) でトップアップするか、ダッシュボードで **自動トップアップ** を有効にして残高が設定したしきい値を下回ったときに自動的に補充されるようにしてください。',
+    '**有料残高**が枯渇した場合 -> 検索とダウンロードリンクは 402 を返し、JSON にはトップアップ用のリンクが含まれます。[store.wyzie.io/topup](https://store.wyzie.io/topup) でトップアップするか、ダッシュボードで **自動トップアップ** を有効にして残高が設定したしきい値を下回ったときに自動的に補充されるようにしてください。',
   'subs.keys.hold.p1':
     '主にデータセンターやホスティングの IP から非常に大量のリクエストを送信するキーは、自動的に一時停止されます。一時停止されたキーはすべてのリクエストで 403 Key on hold を受け取り、JSON には復旧用リンク（https://store.wyzie.io/verify）とサポートリンク（https://store.wyzie.io/contact）が含まれます。',
   'subs.keys.hold.p2':
@@ -520,7 +523,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': 'よくある質問',
   'subs.keys.faq.q1': 'キーを紛失しました。新しいキーをもらえますか？',
   'subs.keys.faq.a1':
-    '[store.wyzie.io](https://store.wyzie.io) にアクセスし、登録メールアドレスで「キーを忘れた」フローを使用してください。既存のキーを再送します。',
+    '[ダッシュボード](https://store.wyzie.io/dashboard)を開き、登録メールアドレスで「Forgot key」ボタンを使用してください。既存のキーを再送します。キーが漏洩したと思われる場合は、代わりにダッシュボードからローテーションしてください。',
   'subs.keys.faq.q2': '1 つのキーを複数のプロジェクトで使用できますか？',
   'subs.keys.faq.a2':
     'はい。キーは API を呼び出す場所であればどこでも使用できます。',
@@ -580,7 +583,7 @@ const messages: Record<string, string> = {
     '**デバッグモード**: トラブルシューティングとモニタリングのための詳細なログ記録',
 
   'i6shark.intro.requirements.h2': '要件',
-  'i6shark.intro.req1': 'Go 1.20 以上',
+  'i6shark.intro.req1': 'Go 1.22 以上',
   'i6shark.intro.req2':
     'IPv6 をサポートする Linux/Unix システム（Ubuntu 推奨）',
   'i6shark.intro.req3': 'ルート権限（ポート 80 のバインドと IPv6 操作に必要）',
@@ -640,17 +643,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Android TV、Raspberry Pi、またはホームシアター PC 上で Kodi ネイティブの字幕サービスを利用するには **Kodi** をお使いください。',
   'plugins.index.shared.sources':
-    '**ソース：** OpenSubtitles、SubDL、Podnapisi を Wyzie 経由で集約しています。',
+    '**ソース：** キーで使用できるすべてのソース（`source=all`）。無料キーでは charlie と lima、Pro キーでは 7 つすべてです。',
   'plugins.index.shared.matching':
     '**マッチング：** Wyzie は IMDB および TMDB の ID とシーズン・エピソードで動作するため、映画でもシリーズでも正確にマッチします。',
   'plugins.index.shared.quota':
     '**クォータ：** キーを使い切ると、プラグインは無言で失敗する代わりに [store.wyzie.io](https://store.wyzie.io) へのリンク付きの分かりやすいメッセージを表示します。チャージまたはサブスクライブすればすぐに再開できます。',
   'plugins.index.shared.languages':
     '**言語：** 100 以上、プラグインごとに選択可能です。',
-  'plugins.index.outro': '始めるには上からプラットフォームを選んでください。',
+  'plugins.index.outro':
+    '始めるには上からプラットフォームを選んでください。すべてのプラグインのソースコードは [wyzie-plugins リポジトリ](https://github.com/wyziedevs/wyzie-plugins) にあります。',
 
   'plugins.stremio.intro':
-    '[Stremio](https://www.stremio.com/) 向けのワンクリック字幕アドオンです。OpenSubtitles、SubDL、Podnapisi を Wyzie 経由で集約し、映画とシリーズの両方に対応、Stremio が動作するあらゆるプラットフォームで利用できます。',
+    '[Stremio](https://www.stremio.com/) 向けのワンクリック字幕アドオンです。キーで使用できるすべての Wyzie ソースにクエリし、映画とシリーズの両方に対応、Stremio が動作するあらゆるプラットフォームで利用できます。',
   'plugins.stremio.before':
     '無料の Wyzie API キーが必要です。[store.wyzie.io/redeem](https://store.wyzie.io/redeem) で取得するか、[store.wyzie.io](https://store.wyzie.io/#plans) で Pro キーを購入またはサブスクライブしてください。',
   'plugins.stremio.install.1':
@@ -659,7 +663,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     '任意：希望する **言語** を ISO 639-1 コードでカンマ区切りで入力します（例：`en,es,fr`）。すべての言語にする場合は空欄のままにします。',
   'plugins.stremio.install.4':
-    '任意：希望する場合は **聴覚障害者向け** 字幕を切り替えます。',
+    '任意：聴覚障害者向け字幕のみを取得するには **聴覚障害者向け** をオンにします。すべてを表示するにはオフのままにしてください。オンの間は、聴覚障害者向け字幕にフラグを付けていないソースからは何も返されません。',
   'plugins.stremio.install.5':
     '**Install** をクリックします。Stremio が開いて確認を求めるので、承認すれば完了です。',
   'plugins.stremio.install.after':
@@ -671,7 +675,7 @@ const messages: Record<string, string> = {
     'ISO 639-1 コードをカンマ区切りで指定します。空欄はすべての言語を意味します。',
   'plugins.stremio.cfg.hi.f': '聴覚障害者向け',
   'plugins.stremio.cfg.hi.d':
-    '利用可能な場合は聴覚障害者向け字幕を優先します。',
+    '聴覚障害者向け字幕のみを返します（hi=true を送信）。デフォルトはオフです。',
   'plugins.stremio.cfg.note':
     '後でこれらを変更するには、[stremio.wyzie.io/configure](https://stremio.wyzie.io/configure) を再度開いて調整し、再インストールしてください。',
   'plugins.stremio.local':
@@ -686,13 +690,13 @@ const messages: Record<string, string> = {
     '**シリーズのエピソードがマッチしない。** Wyzie はシーズンとエピソードでマッチします。Stremio が一般的なシリーズページではなく正しいエピソード項目を再生していることを確認してください。',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) は **Plex、Jellyfin、Emby、Sonarr、Radarr** の字幕を一元管理します。Wyzie をプロバイダーとして追加すると、それらすべてのサーバーが単一のキーで OpenSubtitles、SubDL、Podnapisi にアクセスできるようになります。',
+    '[Bazarr](https://www.bazarr.media/) は **Plex、Jellyfin、Emby、Sonarr、Radarr** の字幕を一元管理します。Wyzie をプロバイダーとして追加すると、それらすべてのサーバーが単一のキーを通じて、そのキーで使用できるすべての Wyzie ソースにアクセスできるようになります。',
   'plugins.bazarr.note':
     'これは Plex と Jellyfin で Wyzie を使用する推奨方法です。Bazarr は字幕ファイルをメディアの隣にダウンロードし、サーバーが自動的にそれを取り込むため、別途ネイティブプラグインは必要ありません。',
   'plugins.bazarr.before':
     '[store.wyzie.io/redeem](https://store.wyzie.io/redeem) で無料の Wyzie API キーを取得し、Bazarr のインストールファイルにアクセスできるようにしてください（一般的な Docker パス：`/opt/bazarr/bazarr/`）。',
   'plugins.bazarr.install.1':
-    '`wyzie.py` を `bazarr/subliminal_patch/providers/wyzie.py` にコピーします。',
+    '[wyzie-plugins リポジトリ](https://github.com/wyziedevs/wyzie-plugins) から [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) をダウンロードし（または `git clone https://github.com/wyziedevs/wyzie-plugins.git` を実行し）、`bazarr/subliminal_patch/providers/wyzie.py` にコピーします。',
   'plugins.bazarr.install.2':
     '`bazarr/subliminal_patch/extensions.py` を編集し、`provider_registry` と `provider_manager` の **両方** に `wyzie` を追加します。',
   'plugins.bazarr.install.3':
@@ -703,13 +707,14 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     'このプロバイダーを Bazarr 本体へ取り込む正式なプルリクエストが計画されています。それまでは、自分のインストールに追加するドロップイン形式のファイルです。',
   'plugins.bazarr.cfg.key': 'あなたの Wyzie キー。必須です。',
-  'plugins.bazarr.cfg.hi': '聴覚障害者向け字幕を優先します。',
+  'plugins.bazarr.cfg.hi':
+    '聴覚障害者向け字幕のみを返します（hi=true を送信）。',
   'plugins.bazarr.cfg.sources':
     'クエリするプロバイダーのカンマ区切りリスト、または `all`。',
   'plugins.bazarr.quota.402':
     '**402 または 429**（残高切れまたは日次上限到達）：Bazarr は [store.wyzie.io](https://store.wyzie.io) へのリンク付きのメモをログに記録し、結果を返さないため、他のプロバイダーへきれいにフォールバックします。クラッシュはしません。',
   'plugins.bazarr.quota.401':
-    '**401**（キーが不正）：Bazarr は認証エラーを表示するので、キーを再入力すべきだと分かります。',
+    '**401**（キーがない）または **403**（不明なキー、または一時停止中のキー）：Bazarr は認証エラーを表示するので、キーを確認または再入力すべきだと分かります。',
   'plugins.bazarr.ts.missing':
     '**Wyzie がプロバイダーリストに表示されない。** `extensions.py` を編集するインストール手順を再確認してください。エントリは `provider_registry` と `provider_manager` の両方になければなりません。その後 Bazarr を再起動してください。',
   'plugins.bazarr.ts.none':
@@ -736,7 +741,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'リポジトリを追加したくない場合はこちらを使ってください。注意：zip インストールは **自動更新されません**。',
   'plugins.kodi.zip.1':
-    'アドオンの zip を入手します：`service.subtitles.wyzie-<version>.zip`。ソースをお持ちの場合は、`kodi/` フォルダーを zip にして、zip のルートに `addon.xml` が含まれるようにします。',
+    'アドオンの zip を入手します：`service.subtitles.wyzie-<version>.zip`。自分でビルドする場合は、[wyzie-plugins リポジトリ](https://github.com/wyziedevs/wyzie-plugins) をクローンし（`git clone https://github.com/wyziedevs/wyzie-plugins.git`）、その `kodi/` フォルダーを zip にして、zip のルートに `addon.xml` が含まれるようにします。',
   'plugins.kodi.zip.2':
     'Kodi で：**Settings, Add-ons, Install from zip file** を選び、その zip を選択します。Kodi がブロックする場合は、先に **Settings, System, Add-ons, Unknown sources** を有効にしてください。',
   'plugins.kodi.zip.3':
@@ -744,7 +749,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'Wyzie Subs アドオンの設定を開き、**API キー** を貼り付けます。',
   'plugins.kodi.cfg.key': 'あなたの Wyzie キー。必須です。',
-  'plugins.kodi.cfg.hi': '聴覚障害者向け字幕を優先します。',
+  'plugins.kodi.cfg.hi': '聴覚障害者向け字幕のみを返します（hi=true を送信）。',
   'plugins.kodi.cfg.langs':
     '言語は Kodi で選択された字幕言語から取得され、自動的に ISO 639-1 にマッピングされます。',
   'plugins.kodi.matching.1':

@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie este un set de instrumente open-source pentru extragerea subtitlurilor și tot ce implică aceasta.',
+    'Wyzie este un set de instrumente pentru extragerea subtitlurilor și tot ce implică aceasta.',
   'index.cta.start': 'Începe',
   'index.cta.store': 'Vezi Magazinul',
 
   'index.card.keys.title': 'Chei API Gratuite',
   'index.card.keys.body':
-    'Obține o cheie API gratuită la store.wyzie.io/redeem cu o verificare rapidă Gmail. 1.000 de cereri/zi fără costuri. Planuri plătite disponibile pentru utilizare mai intensă.',
+    'Obține o cheie API gratuită la store.wyzie.io/redeem cu o verificare rapidă prin email (Gmail, Outlook, Yahoo, iCloud, Proton și alți furnizori importanți). 1.000 de cereri/zi fără costuri. Planuri plătite disponibile pentru utilizare mai intensă.',
 
   'index.card.ai.title': 'Traducere AI',
   'index.card.ai.body':
-    'Traduce orice subtitlu în 80+ limbi la cerere. Transmite indiciu cu indiciu, astfel încât redarea poate începe în câteva secunde. Disponibil pe cheile Pro.',
+    'Traduce orice subtitlu în 80+ limbi la cerere. SRT-ul este transmis înapoi în ordine, pe măsură ce loturile se termină, astfel încât primele rânduri ajung rapid. Disponibil pe cheile Pro.',
 
   'index.card.reliable.title': 'De Încredere',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Introducere în Wyzie Subs',
   'subs.intro.p1':
-    'Wyzie Subs este un API gratuit și liber pentru extragerea subtitlurilor open-source. Există două moduri de a face cereri către API: folosind pachetul nostru NPM sau accesând direct API-ul Wyzie. Recomand utilizarea pachetului nostru, dar unii pot găsi tipurile incomode. Pentru a folosi API-ul, trebuie mai întâi să iei această decizie.',
+    'Wyzie Subs este un API de extragere a subtitlurilor cu un nivel gratuit. Există două moduri de a face cereri către API: folosind pachetul nostru NPM sau accesând direct API-ul Wyzie. Recomand utilizarea pachetului nostru, dar unii pot găsi tipurile incomode. Pentru a folosi API-ul, trebuie mai întâi să iei această decizie.',
   'subs.intro.note.ai':
-    'Traducerea AI este activă pentru cheile Pro. Orice titlu, 80+ limbi țintă, transmis pe măsură ce traducătorul lucrează.',
+    'Traducerea AI este activă pentru cheile Pro. Orice titlu, 80+ limbi țintă, transmis înapoi în ordinea subtitlului, pe măsură ce loturile se termină.',
   'subs.intro.important.apikey':
-    'O cheie API este necesară pentru toate cererile. Obține o cheie gratuită la [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verificare Gmail, 1.000 de cereri/zi). Pentru utilizare mai intensă, sunt disponibile [planuri Pro și reîncărcare](https://store.wyzie.io). Vezi pagina Chei API pentru detalii.',
+    'O cheie API este necesară pentru toate cererile. Obține o cheie gratuită la [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verificare prin email, 1.000 de cereri/zi). Pentru utilizare mai intensă, sunt disponibile [planuri Pro și reîncărcare](https://store.wyzie.io). Vezi pagina Chei API pentru detalii.',
   'subs.intro.note.npm':
     'Recomandăm cu tărie pachetul NPM dacă ești familiarizat cu TypeScript sau JavaScript',
   'subs.intro.btn.npm': 'Pachet NPM',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'Dacă cheia ajunge pe mașina unui utilizator final, tratează-o ca publică. Există două modele sigure:',
   'subs.intro.protect.opt1.h3': 'Opțiunea 1: Folosește Wyzie Worker',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker este un proxy Cloudflare Worker ușor care injectează cheia ta API pe server. Deployează-l pe Cloudflare Workers și setează cheia ca variabilă de mediu NITRO_API_TOKEN. Apoi îndreaptă cererile clientului tău către URL-ul worker-ului în loc de sub.wyzie.io - worker-ul le transmite cu cheia ta atașată.',
+    'Wyzie Worker este un proxy Cloudflare Worker ușor care injectează cheia ta API pe server. Deployează-l pe Cloudflare Workers și setează două secrete: `NITRO_API_TOKEN` (cheia ta API Wyzie) și `NITRO_WORKER_KEY` (un secret ales de tine). Fiecare cerere către worker trebuie să trimită `Authorization: Bearer <NITRO_WORKER_KEY>`; fără acest antet, worker-ul răspunde cu 401, iar dacă `NITRO_WORKER_KEY` nu este setat, refuză fiecare cerere cu 503. Și cheia worker-ului trebuie să rămână pe server, așa că apelează worker-ul din propriul tău backend, niciodată din codul din browser sau din aplicație. Worker-ul transmite fiecare cerere către sub.wyzie.io cu cheia ta API atașată.',
   'subs.intro.protect.opt2.h3': 'Opțiunea 2: Construiește Propriul Tău Proxy',
   'subs.intro.protect.opt2.p1':
     'Dacă preferi să nu folosești Wyzie Worker, poți construi un proxy server simplu în orice framework. Ideea este aceeași: backend-ul tău primește cereri de la client, adaugă cheia API și le transmite către sub.wyzie.io.',
@@ -171,8 +171,9 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT, ASS, SSA, VTT, SUB și altele',
 
   'subs.sources.ai.desc':
-    'Nu este un scraper. SRT tradus de AI generat la cerere din cel mai bun subtitlu sursă disponibil. Vezi ghidul Traducere AI pentru detalii complete.',
-  'subs.sources.ai.content': 'Orice poate găsi Wyzie un SRT pentru',
+    'Nu este un scraper. SRT tradus de AI, generat la cerere din cel mai bun subtitlu sursă disponibil. Numai pentru cheile Pro. Vezi ghidul Traducere AI pentru detalii complete.',
+  'subs.sources.ai.content':
+    'Orice pentru care Wyzie poate găsi un subtitlu text',
   'subs.sources.ai.languages': '80+ limbi țintă',
   'subs.sources.ai.formats': 'Numai SRT',
 
@@ -201,7 +202,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.encoding':
     'Filtru de codificare a caracterelor (ex., utf-8, latin-1).',
   'subs.pkg.param.hi':
-    'Boolean pentru subtitluri pentru persoane cu deficiențe de auz.',
+    'Când este true, returnează doar subtitluri pentru persoane cu deficiențe de auz. Sursele care nu marchează subtitlurile pentru persoane cu deficiențe de auz nu returnează nimic.',
   'subs.pkg.param.source':
     'Furnizori de subtitluri de interogat, după numele de cod (all pentru fiecare sursă activă pe care o poate folosi cheia ta; implicit charlie).',
   'subs.pkg.param.release': 'Filtre release/scene (acceptă o listă).',
@@ -228,7 +229,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'Intrarea și rezultatul pentru syncSubtitle (Wyzie Synced, chei Pro): ce subtitlu (un rezultat, url-ul lui sau tmdb_id/imdb_id cu language), segmentele de vorbire (speech) găsite de detectSpeech sau fișierul media, precum și linkul de descărcare sincronizat, cu valorile offset, fps și confidence. Vezi [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
-    'Tipurile noastre sunt foarte simple și bine documentate. Consultă fișierul types.ts legat în depozitul GitHub.',
+    'Tipurile noastre sunt foarte simple și bine documentate. Vezi [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) în depozitul wyzie-lib.',
   'subs.pkg.config.h3': 'Configurare',
   'subs.pkg.config.p1':
     'Un utilizator a cerut pe Github un hostname API configurabil și m-am gândit că sună a idee bună, deci mai jos este utilizarea. Vă iubesc băieți!',
@@ -252,10 +253,10 @@ const messages: Record<string, string> = {
   'subs.direct.param.format':
     'Formate de subtitlu de returnat. Sunt permise mai multe valori.',
   'subs.direct.param.hi':
-    'Dacă să se prefere subtitluri pentru persoane cu deficiențe de auz.',
+    'Când este true, returnează doar subtitluri pentru persoane cu deficiențe de auz (este un filtru, nu o preferință). Sursele care nu marchează subtitlurile pentru persoane cu deficiențe de auz nu returnează nimic.',
   'subs.direct.param.encoding': 'Filtru de codificare a caracterelor.',
   'subs.direct.param.source':
-    'Furnizori de subtitluri de interogat (all interoghează fiecare sursă activată; implicit charlie).',
+    'Furnizori de subtitluri de interogat (all interoghează fiecare sursă pe care o poate folosi cheia ta; implicit charlie).',
   'subs.direct.param.release':
     'Filtre pentru release sau numele scenei (separate prin virgulă).',
   'subs.direct.param.file':
@@ -275,7 +276,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'Date Returnate',
   'subs.direct.data.id': 'ID-ul fișierului de subtitlu.',
-  'subs.direct.data.url': 'URL-ul fișierului de subtitlu.',
+  'subs.direct.data.url':
+    'Link de descărcare pe https://sub.wyzie.io/c/... care conține un parametru tok criptat. Fiecare descărcare costă 1 cerere; vezi mai jos secțiunea despre descărcarea subtitlurilor.',
   'subs.direct.data.flagUrl': 'URL la steagul localității limbii.',
   'subs.direct.data.format': 'Formatul fișierului de subtitlu.',
   'subs.direct.data.encoding':
@@ -330,27 +332,27 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Traducere AI a Subtitlurilor',
   'subs.translate.important':
-    'Traducerea AI este o **funcție Pro**. Fiecare traducere costă **100 de cereri** din soldul cheii tale, taxat atât la un cache hit cât și la o traducere proaspătă. Cheile gratuite nu o pot folosi.',
+    'Traducerea AI este o **funcție Pro**; cheile gratuite primesc 403 Upgrade required. Fiecare apel costă **100 de cereri** din soldul cheii tale, inclusiv la un cache hit. Dacă un apel eșuează înainte de a produce vreun rezultat (nu s-a găsit niciun subtitlu, căutarea sau descărcarea a eșuat ori serverul este ocupat), cele 100 de cereri sunt rambursate automat.',
   'subs.translate.p1':
-    'Wyzie poate traduce orice subtitlu în 80+ limbi din mers. Traducerile sunt transmise pe măsură ce modelul le produce, astfel încât redarea poate începe în una-două secunde în loc să aștepți întregul fișier. Rezultatele sunt stocate în cache timp de 30 de zile, astfel că a doua persoană care cere aceeași traducere o primește instant.',
+    'Wyzie poate traduce orice subtitlu în 80+ limbi din mers. SRT-ul tradus este transmis înapoi în ordine, pe măsură ce loturile se termină, astfel încât primele intrări ajung rapid, nu abia după ce întregul fișier este gata. Traducerea completă este stocată în cache timp de 30 de zile, așa că cererile ulterioare pentru același titlu, episod și limbă țintă sunt servite din cache.',
 
   'subs.translate.ways.h2': 'Două Moduri de Utilizare',
   'subs.translate.way1.h3': '1. Alege o Limbă din Răspunsul de Căutare',
   'subs.translate.way1.p1':
-    'Fiecare răspuns /search include acum o intrare suplimentară per limbă suportată cu "ai": true și un url care indică spre /translate. Tratează rândurile AI ca orice alt rând de subtitlu în interfața ta: când utilizatorul face click pe unul, obține URL-ul.',
+    'Pentru cheile Pro, fiecare răspuns /search include și rânduri de traducere AI cu "ai": true și un url care indică spre /translate: câte unul pentru fiecare limbă suportată sau doar pentru limbile din filtrul tău language=. Cheile gratuite nu primesc niciodată aceste rânduri. Tratează rândurile AI ca orice alt rând de subtitlu în interfața ta: când utilizatorul face click pe unul, obține URL-ul.',
   'subs.translate.way1.filter':
     'Dacă vrei să ascunzi rândurile AI din interfața ta, filtrează-le:',
   'subs.translate.way2.h3': '2. Apelează /translate Direct',
 
   'subs.translate.param.id': 'ID TMDB sau IMDB (obligatoriu).',
   'subs.translate.param.target':
-    'Limba țintă ca nume complet în engleză (ex. Spanish, Japanese, Brazilian Portuguese) (obligatoriu).',
+    'Limba țintă (obligatorie): un nume din lista limbilor suportate (ex. Spanish, Japanese, Portuguese (Brazil)) sau codul limbii (ex. es, ja, pt-BR).',
   'subs.translate.param.seasonEpisode':
     'Pentru TV. Ambele trebuie să fie prezente împreună.',
   'subs.translate.param.key':
     'Cheia ta API. Folosește tk în schimb dacă ai primit URL-ul din /search.',
   'subs.translate.param.tk':
-    'Token semnat returnat de /search. Echivalent cu key, dar nu expune cheia brută.',
+    'Token criptat din URL-urile rândurilor AI din /search. Funcționează ca key, nu dezvăluie cheia ta API și rămâne valabil 60 de zile.',
 
   'subs.translate.headers.p':
     'Corpul răspunsului este un fișier SRT transmis ca text/plain; charset=utf-8. Antete utile de răspuns:',
@@ -364,27 +366,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'Cum Funcționează',
   'subs.translate.how.step1':
-    'Wyzie caută în sursele normale un subtitlu SRT, preferând engleza când este disponibilă.',
+    'Wyzie caută în sursele obișnuite un subtitlu text, preferând un SRT în engleză când este disponibil. Fișierele VTT, ASS, SSA și SUB sunt mai întâi convertite în SRT.',
   'subs.translate.how.step2':
-    'SRT-ul este împărțit în fragmente de 50 de indicii și tradus secvențial. Fiecare fragment este stocat individual în cache pe măsură ce se finalizează.',
+    'SRT-ul este împărțit în loturi de până la aproximativ 3.800 de caractere și tradus cu Google Translate, câte 4 loturi simultan.',
   'subs.translate.how.step3':
-    'Ieșirea este transmisă înapoi indiciu cu indiciu. Playerele care acceptă un corp SRT în streaming pot începe să afișeze primele rânduri înainte ca restul să fie gata.',
+    'Ieșirea este transmisă înapoi în ordinea SRT, pe măsură ce loturile se termină, astfel încât primele intrări ajung rapid. Playerele care acceptă un corp SRT în streaming pot începe să afișeze primele rânduri înainte ca restul să fie gata.',
   'subs.translate.how.step4':
     'Traducerea completă este stocată în cache în Redis timp de 30 de zile, indexată după id, season, episode și target.',
 
   'subs.translate.languages.h2': 'Limbi Țintă Suportate',
   'subs.translate.languages.p':
-    '80+ limbi incluzând toate limbile europene, asiatice, africane și din Orientul Mijlociu majore. Transmite numele în engleză (Spanish, nu es). Lista este returnată și ca rânduri ai: true în orice răspuns /search, care este sursa canonică a adevărului.',
+    '80+ limbi, inclusiv toate limbile majore europene, asiatice, africane și din Orientul Mijlociu. Transmite un nume din listă (Spanish, Portuguese (Brazil)) sau codul limbii (es, pt-BR). Pentru cheile Pro, lista completă este returnată și ca rânduri ai: true în orice răspuns /search fără filtru language=, care este sursa canonică a adevărului.',
 
   'subs.translate.limitations.h2': 'Limitări',
   'subs.translate.limit1':
-    'Traducerea AI necesită o sursă SRT. Titlurile pentru care fiecare subtitlu disponibil este .ass, .vtt sau alt format vor returna 404 No SRT found.',
+    'Traducerea AI are nevoie de un subtitlu text ca punct de plecare. Sursele VTT, ASS, SSA și SUB sunt mai întâi convertite în SRT; dacă nu există niciun subtitlu text, apelul returnează 404 No subtitle found, iar cele 100 de cereri sunt rambursate.',
   'subs.translate.limit2':
     'Calitatea traducerii depinde de subtitlul sursă. O sursă slab sincronizată sau cu erori de scriere produce o traducere slab sincronizată sau cu erori de scriere.',
   'subs.translate.limit3':
     'Unii utilizatori pot dori să excludă complet rândurile AI. Filtrează după ai === false în clientul tău.',
   'subs.translate.limit4':
-    'Traducerile sunt facturate și la cache hit. Indiferent dacă sunt generate proaspăt sau servite din cache-ul de 30 de zile, fiecare cerere /translate costă 100 de cereri.',
+    'Traducerile sunt facturate și la cache hit. Indiferent dacă sunt generate proaspăt sau servite din cache-ul de 30 de zile, fiecare apel /translate costă 100 de cereri. Doar apelurile care eșuează înainte de a produce vreun rezultat sunt rambursate.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -465,7 +467,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs necesită o cheie API pentru toate cererile. Un nivel gratuit acoperă majoritatea cazurilor de utilizare; planurile plătite gestionează utilizarea mai intensă.',
 
   'subs.keys.tiers.h2': 'Niveluri',
-  'subs.keys.tier.free': 'Gratuit (Gmail necesar)',
+  'subs.keys.tier.free': 'Gratuit (verificare prin email)',
   'subs.keys.tier.free.limit': '1.000 de cereri / zi UTC',
   'subs.keys.tier.pro': '$5 o singură dată',
   'subs.keys.tier.pro.limit': '400.000 de cereri',
@@ -479,12 +481,12 @@ const messages: Record<string, string> = {
     'Vizitează [store.wyzie.io/redeem](https://store.wyzie.io/redeem):',
   'subs.keys.free.step1': 'Rezolvă un captcha Cloudflare Turnstile rapid.',
   'subs.keys.free.step2':
-    'Introdu o adresă Gmail (numai Gmail este acceptat pentru nivelul gratuit).',
+    'Introdu o adresă de la un furnizor important de email personal (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton și alții). Domeniile de email de unică folosință sunt respinse.',
   'subs.keys.free.step3':
     'Introdu codul de 6 cifre pe care ți-l trimitem pe email.',
   'subs.keys.free.step4': 'Primești o cheie API care arată ca wyzie-abc123...',
   'subs.keys.free.gmail':
-    'Fiecare adresă Gmail poate răscumpăra o singură cheie gratuită. Ai avut deja o cheie gratuită legată de acel email? Verificarea din nou îți returnează pur și simplu cheia existentă.',
+    'Fiecare adresă de email și fiecare rețea pot revendica o singură cheie gratuită; o a doua cerere returnează 409. Ți-ai pierdut cheia? Folosește "Forgot key" în [tabloul de bord](https://store.wyzie.io/dashboard) ca să ți-o retrimitem.',
 
   'subs.keys.pro.h2': 'Upgrade la Pro',
   'subs.keys.pro.p1':
@@ -498,11 +500,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     'Două moduri sigure de a folosi cheia dintr-o aplicație client:',
   'subs.keys.protect.option1':
-    'Folosește [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): un proxy Cloudflare Worker gratuit care ține cheia ta pe server. Îndreaptă clientul tău către URL-ul Worker în loc de sub.wyzie.io.',
+    'Folosește [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): un proxy Cloudflare Worker gratuit care păstrează cheia ta API sub forma secretului `NITRO_API_TOKEN`. Fiecare apel către el trebuie să trimită `Authorization: Bearer <NITRO_WORKER_KEY>`, un al doilea secret setat de tine, așa că direcționează clientul prin propriul tău backend și păstrează și cheia worker-ului pe server.',
   'subs.keys.protect.option2':
     'Rulează propriul tău proxy: orice endpoint backend care adaugă cheia înainte de a transmite către sub.wyzie.io funcționează. Vezi pagina Intro pentru un exemplu de 10 rânduri.',
   'subs.keys.protect.devtools':
-    'Dacă cheia apare într-un tab de rețea în DevTools, este expusă. Consideră-o publică și rotește-o trimițând un email la suport.',
+    'Dacă cheia apare într-un tab de rețea în DevTools, este expusă. Consideră-o publică și rotește-o din [tabloul tău de bord](https://store.wyzie.io/dashboard).',
 
   'subs.keys.using.h2': 'Utilizarea Cheii Tale',
   'subs.keys.using.p': 'Adaugă &key=YOUR_KEY la fiecare cerere API:',
@@ -512,9 +514,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'O căutare costă 1 cerere și fiecare descărcare de subtitlu costă 1 cerere, deci o căutare urmată de descărcarea unui fișier consumă 2. Traducerea AI costă 100 de cereri per apel.',
   'subs.keys.limit.free':
-    '**Nivelul gratuit** epuizat -> API returnează 429 cu antetele X-RateLimit-Reset și Retry-After. Contorul zilnic se resetează la miezul nopții UTC.',
+    '**Nivelul gratuit** epuizat -> căutările și linkurile de descărcare returnează 429 Daily request limit reached, cu reset_at în JSON și un antet Retry-After. Plafonul zilnic de 1.000 de cereri se resetează la miezul nopții UTC.',
   'subs.keys.limit.paid':
-    '**Soldul plătit** epuizat -> API returnează 402. Reîncarcă la [store.wyzie.io/topup](https://store.wyzie.io/topup) sau activează **reîncărcarea automată** în tabloul tău de bord pentru a reumple automat când soldul tău trece sub un prag pe care îl setezi.',
+    '**Soldul plătit** epuizat -> căutările și linkurile de descărcare returnează 402 cu un link de reîncărcare în JSON. Reîncarcă la [store.wyzie.io/topup](https://store.wyzie.io/topup) sau activează **reîncărcarea automată** în tabloul tău de bord pentru a reumple automat când soldul tău trece sub un prag pe care îl setezi.',
   'subs.keys.hold.p1':
     'Cheile care trimit un volum foarte mare de cereri, în mare parte de pe IP-uri de datacenter sau de hosting, sunt suspendate automat. O cheie suspendată primește 403 Key on hold la fiecare cerere, cu un link de reactivare (https://store.wyzie.io/verify) și un link de suport (https://store.wyzie.io/contact) în JSON.',
   'subs.keys.hold.p2':
@@ -531,7 +533,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': 'Întrebări Frecvente',
   'subs.keys.faq.q1': 'Mi-am pierdut cheia. Pot obține una nouă?',
   'subs.keys.faq.a1':
-    'Vizitează [store.wyzie.io](https://store.wyzie.io) și folosește fluxul "cheie uitată" cu emailul tău înregistrat; îți vom retrimite cheia existentă.',
+    'Deschide [tabloul de bord](https://store.wyzie.io/dashboard) și folosește "Forgot key" cu emailul tău înregistrat; îți vom retrimite cheia existentă. Dacă crezi că cheia a fost divulgată, rotește-o în schimb din tabloul de bord.',
   'subs.keys.faq.q2': 'Pot folosi o cheie în mai multe proiecte?',
   'subs.keys.faq.a2': 'Da. Cheia ta funcționează oriunde apelezi API-ul.',
   'subs.keys.faq.q3': 'Cheia mea va expira vreodată?',
@@ -590,7 +592,7 @@ const messages: Record<string, string> = {
     '**Modul Debug**: Jurnalizare detaliată pentru depanare și monitorizare',
 
   'i6shark.intro.requirements.h2': 'Cerințe',
-  'i6shark.intro.req1': 'Go 1.20 sau mai nou',
+  'i6shark.intro.req1': 'Go 1.22 sau mai nou',
   'i6shark.intro.req2': 'Sistem Linux/Unix cu suport IPv6 (preferabil Ubuntu)',
   'i6shark.intro.req3':
     'Privilegii root (pentru legarea portului 80 și manipularea IPv6)',
@@ -649,17 +651,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Folosește **Kodi** pentru un serviciu de subtitrări nativ Kodi pe Android TV, un Raspberry Pi sau un PC home theatre.',
   'plugins.index.shared.sources':
-    '**Surse:** OpenSubtitles, SubDL și Podnapisi, agregate prin Wyzie.',
+    '**Surse:** fiecare sursă pe care o poate folosi cheia ta (`source=all`): charlie și lima cu o cheie gratuită, toate cele șapte cu o cheie Pro.',
   'plugins.index.shared.matching':
     '**Potrivire:** Wyzie este ghidat de ID-uri IMDB și TMDB plus sezon și episod, așa că potrivirile sunt precise atât pentru filme, cât și pentru seriale.',
   'plugins.index.shared.quota':
     '**Cotă:** când cheia ta se epuizează, pluginul afișează un mesaj prietenos care trimite către [store.wyzie.io](https://store.wyzie.io) în loc să eșueze în tăcere. Reîncarcă sau abonează-te și ești din nou în activitate.',
   'plugins.index.shared.languages':
     '**Limbi:** peste 100, selectabile pentru fiecare plugin.',
-  'plugins.index.outro': 'Alege platforma ta de mai sus pentru a începe.',
+  'plugins.index.outro':
+    'Alege platforma ta de mai sus pentru a începe. Codul sursă al fiecărui plugin se află în [depozitul wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins).',
 
   'plugins.stremio.intro':
-    'Un add-on de subtitrări cu un singur clic pentru [Stremio](https://www.stremio.com/). Agregă OpenSubtitles, SubDL și Podnapisi prin Wyzie și funcționează atât pentru filme, cât și pentru seriale, pe fiecare platformă pe care rulează Stremio.',
+    'Un add-on de subtitrări cu un singur clic pentru [Stremio](https://www.stremio.com/). Interoghează fiecare sursă Wyzie pe care o poate folosi cheia ta și funcționează atât pentru filme, cât și pentru seriale, pe fiecare platformă pe care rulează Stremio.',
   'plugins.stremio.before':
     'Ai nevoie de o cheie API Wyzie gratuită. Obține una la [store.wyzie.io/redeem](https://store.wyzie.io/redeem), sau cumpără o cheie Pro ori abonează-te la [store.wyzie.io](https://store.wyzie.io/#plans).',
   'plugins.stremio.install.1':
@@ -668,7 +671,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     'Opțional: introdu **limbile** preferate ca coduri ISO 639-1, separate prin virgulă (de exemplu `en,es,fr`). Lasă gol pentru toate limbile.',
   'plugins.stremio.install.4':
-    'Opțional: activează subtitrările pentru **persoane cu deficiențe de auz** dacă le preferi.',
+    'Opțional: activează **Deficiențe de auz** pentru a primi doar subtitrări pentru persoane cu deficiențe de auz. Lasă opțiunea dezactivată ca să vezi tot; cât timp este activă, sursele care nu marchează subtitrările pentru persoane cu deficiențe de auz nu returnează nimic.',
   'plugins.stremio.install.5':
     'Apasă **Install**. Stremio se deschide și îți cere să confirmi; acceptă și ai terminat.',
   'plugins.stremio.install.after':
@@ -680,7 +683,7 @@ const messages: Record<string, string> = {
     'Coduri ISO 639-1, separate prin virgulă. Gol înseamnă toate limbile.',
   'plugins.stremio.cfg.hi.f': 'Deficiențe de auz',
   'plugins.stremio.cfg.hi.d':
-    'Preferă subtitrările pentru persoane cu deficiențe de auz când sunt disponibile.',
+    'Returnează doar subtitrări pentru persoane cu deficiențe de auz (trimite hi=true). Dezactivat implicit.',
   'plugins.stremio.cfg.note':
     'Pentru a schimba oricare dintre acestea ulterior, redeschide [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), ajustează și reinstalează.',
   'plugins.stremio.local':
@@ -695,13 +698,13 @@ const messages: Record<string, string> = {
     '**Episodul serialului nu se potrivește.** Wyzie se potrivește pe sezon și episod; asigură-te că Stremio redă intrarea corectă a episodului, nu o pagină generică a serialului.',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) gestionează subtitrările pentru **Plex, Jellyfin, Emby, Sonarr și Radarr** într-un singur loc. Adăugarea Wyzie ca provider oferă tuturor acelor servere acces la OpenSubtitles, SubDL și Podnapisi printr-o singură cheie.',
+    '[Bazarr](https://www.bazarr.media/) gestionează subtitrările pentru **Plex, Jellyfin, Emby, Sonarr și Radarr** într-un singur loc. Adăugarea Wyzie ca provider oferă tuturor acelor servere acces la fiecare sursă Wyzie pe care o poate folosi cheia ta, printr-o singură cheie.',
   'plugins.bazarr.note':
     'Aceasta este modalitatea recomandată de a folosi Wyzie cu Plex și Jellyfin. Bazarr descarcă fișierele de subtitrare lângă media ta, iar serverul tău le preia automat, deci nu este necesar un plugin nativ separat.',
   'plugins.bazarr.before':
     'Obține o cheie API Wyzie gratuită la [store.wyzie.io/redeem](https://store.wyzie.io/redeem) și asigură-te că ai acces la fișierele instalării tale Bazarr (cale Docker tipică: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    'Copiază `wyzie.py` în `bazarr/subliminal_patch/providers/wyzie.py`.',
+    'Descarcă [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) din [depozitul wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (sau `git clone https://github.com/wyziedevs/wyzie-plugins.git`) și copiază-l în `bazarr/subliminal_patch/providers/wyzie.py`.',
   'plugins.bazarr.install.2':
     'Editează `bazarr/subliminal_patch/extensions.py` și adaugă `wyzie` în **ambele** `provider_registry` și `provider_manager`.',
   'plugins.bazarr.install.3':
@@ -713,13 +716,13 @@ const messages: Record<string, string> = {
     'Este planificat un pull request de calitate care să integreze acest provider în Bazarr. Până atunci, este un fișier drop-in pe care îl adaugi la propria instalare.',
   'plugins.bazarr.cfg.key': 'Cheia ta Wyzie. Necesară.',
   'plugins.bazarr.cfg.hi':
-    'Preferă subtitrările pentru persoane cu deficiențe de auz.',
+    'Returnează doar subtitrări pentru persoane cu deficiențe de auz (trimite hi=true).',
   'plugins.bazarr.cfg.sources':
     'Listă de provideri de interogat, separați prin virgulă, sau `all`.',
   'plugins.bazarr.quota.402':
     '**402 sau 429** (sold epuizat sau plafon zilnic atins): Bazarr înregistrează o notă cu un link către [store.wyzie.io](https://store.wyzie.io) și nu returnează rezultate, astfel încât revine curat la ceilalți provideri ai tăi. Nimic nu se blochează.',
   'plugins.bazarr.quota.401':
-    '**401** (cheie greșită): Bazarr afișează o eroare de autentificare ca să știi să reintroduci cheia.',
+    '**401** (cheie lipsă) sau **403** (cheie necunoscută sau suspendată): Bazarr afișează o eroare de autentificare ca să știi să verifici sau să reintroduci cheia.',
   'plugins.bazarr.ts.missing':
     '**Wyzie nu apare în lista de provideri.** Reverifică pasul de instalare care editează `extensions.py`; intrarea trebuie să fie atât în `provider_registry`, cât și în `provider_manager`, apoi repornește Bazarr.',
   'plugins.bazarr.ts.none':
@@ -746,7 +749,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'Folosește aceasta dacă preferi să nu adaugi depozitul. Notă: o instalare din zip **nu** se actualizează automat.',
   'plugins.kodi.zip.1':
-    'Obține zip-ul add-on-ului: `service.subtitles.wyzie-<version>.zip`. Dacă ai sursa, arhivează folderul `kodi/` astfel încât zip-ul să conțină `addon.xml` la rădăcina sa.',
+    'Obține zip-ul add-on-ului: `service.subtitles.wyzie-<version>.zip`. Pentru a-l construi singur, clonează [depozitul wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) și arhivează folderul său `kodi/` astfel încât zip-ul să conțină `addon.xml` la rădăcina sa.',
   'plugins.kodi.zip.2':
     'În Kodi: **Settings, Add-ons, Install from zip file**, apoi alege zip-ul. Dacă Kodi îl blochează, activează mai întâi **Settings, System, Add-ons, Unknown sources**.',
   'plugins.kodi.zip.3':
@@ -755,7 +758,7 @@ const messages: Record<string, string> = {
     'Deschide setările add-on-ului Wyzie Subs și lipește **cheia API**.',
   'plugins.kodi.cfg.key': 'Cheia ta Wyzie. Necesară.',
   'plugins.kodi.cfg.hi':
-    'Preferă subtitrările pentru persoane cu deficiențe de auz.',
+    'Returnează doar subtitrări pentru persoane cu deficiențe de auz (trimite hi=true).',
   'plugins.kodi.cfg.langs':
     'Limbile sunt preluate din limbile de subtitrare selectate în Kodi și mapate automat la ISO 639-1.',
   'plugins.kodi.matching.1':

@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie to otwartoźródłowy zestaw narzędzi do pobierania napisów i wszystkiego, co się z tym wiąże.',
+    'Wyzie to zestaw narzędzi do pobierania napisów i wszystkiego, co się z tym wiąże.',
   'index.cta.start': 'Zacznij',
   'index.cta.store': 'Sprawdź to',
 
   'index.card.keys.title': 'Darmowe klucze API',
   'index.card.keys.body':
-    'Pobierz darmowy klucz API na store.wyzie.io/redeem przy szybkiej weryfikacji przez Gmail. 1 000 żądań dziennie bez opłat. Dostępne są płatne plany dla wyższego zużycia.',
+    'Pobierz darmowy klucz API na store.wyzie.io/redeem po szybkiej weryfikacji adresu e-mail (Gmail, Outlook, Yahoo, iCloud, Proton i inni główni dostawcy). 1 000 żądań dziennie bez opłat. Dostępne są płatne plany dla wyższego zużycia.',
 
   'index.card.ai.title': 'Tłumaczenie AI',
   'index.card.ai.body':
-    'Przetłumacz dowolne napisy na ponad 80 języków na żądanie. Strumieniuje wskazówkę po wskazówce, dzięki czemu odtwarzanie może rozpocząć się w kilka sekund. Dostępne dla kluczy Pro.',
+    'Przetłumacz dowolne napisy na ponad 80 języków na żądanie. Plik SRT jest strumieniowany po kolei, w miarę kończenia kolejnych partii, dzięki czemu pierwsze linie docierają szybko. Dostępne dla kluczy Pro.',
 
   'index.card.reliable.title': 'Niezawodność',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Wprowadzenie do Wyzie Subs',
   'subs.intro.p1':
-    'Wyzie Subs to darmowe i wolne (libre) API do pobierania napisów z otwartych źródeł. Istnieją dwa sposoby wykonywania żądań do API: przy użyciu naszego pakietu NPM lub przez bezpośrednie odpytywanie samego API Wyzie. Zalecam użycie naszego pakietu, choć niektórzy mogą uznać typy za uciążliwe. Aby korzystać z API, musisz najpierw podjąć tę decyzję.',
+    'Wyzie Subs to API do pobierania napisów, które oferuje darmowy poziom. Istnieją dwa sposoby wykonywania żądań do API: przy użyciu naszego pakietu NPM lub przez bezpośrednie odpytywanie samego API Wyzie. Zalecam użycie naszego pakietu, choć niektórzy mogą uznać typy za uciążliwe. Aby korzystać z API, musisz najpierw podjąć tę decyzję.',
   'subs.intro.note.ai':
-    'Tłumaczenie AI jest dostępne na żywo dla kluczy Pro. Dowolny tytuł, ponad 80 języków docelowych, strumieniowane w trakcie pracy tłumacza.',
+    'Tłumaczenie AI jest już dostępne dla kluczy Pro. Dowolny tytuł, ponad 80 języków docelowych, wynik strumieniowany w kolejności napisów w miarę kończenia kolejnych partii.',
   'subs.intro.important.apikey':
-    'Klucz API jest wymagany dla wszystkich żądań. Pobierz darmowy klucz na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (weryfikacja Gmail, 1 000 żądań dziennie). Dla wyższego zużycia dostępne są [plany Pro i doładowania](https://store.wyzie.io). Szczegóły znajdziesz na stronie Klucze API.',
+    'Klucz API jest wymagany dla wszystkich żądań. Pobierz darmowy klucz na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (weryfikacja e-mail, 1 000 żądań dziennie). Dla wyższego zużycia dostępne są [plany Pro i doładowania](https://store.wyzie.io). Szczegóły znajdziesz na stronie Klucze API.',
   'subs.intro.note.npm':
     'Zdecydowanie zalecamy pakiet NPM, jeśli znasz TypeScript lub JavaScript',
   'subs.intro.btn.npm': 'Pakiet NPM',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'Jeśli klucz trafi na urządzenie użytkownika końcowego, traktuj go jako publiczny. Istnieją dwa bezpieczne wzorce:',
   'subs.intro.protect.opt1.h3': 'Opcja 1: Użyj Wyzie Worker',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker to lekki proxy Cloudflare Worker, który wstrzykuje Twój klucz API po stronie serwera. Wdróż go do Cloudflare Workers i ustaw swój klucz jako zmienną środowiskową NITRO_API_TOKEN. Następnie skieruj żądania klienta na adres URL swojego workera zamiast sub.wyzie.io — worker przekazuje je z dołączonym kluczem.',
+    'Wyzie Worker to lekki proxy Cloudflare Worker, który wstrzykuje Twój klucz API po stronie serwera. Wdróż go do Cloudflare Workers i ustaw dwa sekrety: `NITRO_API_TOKEN` (Twój klucz API Wyzie) i `NITRO_WORKER_KEY` (wybrany przez Ciebie sekret). Każde żądanie do workera musi zawierać `Authorization: Bearer <NITRO_WORKER_KEY>`; bez tego nagłówka worker odpowiada kodem 401, a jeśli `NITRO_WORKER_KEY` nie jest ustawiony, odrzuca każde żądanie z kodem 503. Klucz workera również musi pozostać po stronie serwera, więc wywołuj workera z własnego backendu, nigdy z kodu przeglądarki ani aplikacji. Worker przekazuje każde żądanie do sub.wyzie.io z dołączonym Twoim kluczem API.',
   'subs.intro.protect.opt2.h3': 'Opcja 2: Zbuduj własne proxy',
   'subs.intro.protect.opt2.p1':
     'Jeśli wolisz nie korzystać z Wyzie Worker, możesz zbudować proste proxy po stronie serwera w dowolnym frameworku. Idea jest taka sama: Twój backend odbiera żądania od klienta, dołącza klucz API i przekazuje je do sub.wyzie.io.',
@@ -170,8 +170,9 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT, ASS, SSA, VTT, SUB i inne',
 
   'subs.sources.ai.desc':
-    'Nie jest scrapem. SRT przetłumaczony przez AI generowany na żądanie z najlepszego dostępnego źródłowego napisu. Zobacz przewodnik po tłumaczeniu AI, aby uzyskać pełne informacje.',
-  'subs.sources.ai.content': 'Wszystko, do czego Wyzie może znaleźć SRT',
+    'Nie jest scraperem. SRT przetłumaczony przez AI, generowany na żądanie z najlepszego dostępnego napisu źródłowego. Tylko klucze Pro. Zobacz przewodnik po tłumaczeniu AI, aby uzyskać pełne informacje.',
+  'subs.sources.ai.content':
+    'Wszystko, do czego Wyzie może znaleźć napisy tekstowe',
   'subs.sources.ai.languages': 'Ponad 80 języków docelowych',
   'subs.sources.ai.formats': 'Tylko SRT',
 
@@ -197,7 +198,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.episode': 'Numer odcinka (wymaga season).',
   'subs.pkg.param.language': 'Kody ISO 639-1 języka napisów. Przyjmuje listę.',
   'subs.pkg.param.encoding': 'Filtr kodowania znaków (np. utf-8, latin-1).',
-  'subs.pkg.param.hi': 'Wartość logiczna dla napisów dla osób niesłyszących.',
+  'subs.pkg.param.hi':
+    'Gdy true, zwraca tylko napisy dla osób niesłyszących. Źródła, które nie oznaczają napisów dla osób niesłyszących, nie zwracają żadnych wyników.',
   'subs.pkg.param.source':
     'Dostawcy napisów do odpytania, podawani po nazwie kodowej (all dla każdego aktywnego źródła, którego może używać Twój klucz; domyślnie charlie).',
   'subs.pkg.param.release': 'Filtry wydania/sceny (przyjmuje listę).',
@@ -223,7 +225,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'Dane wejściowe i wynik syncSubtitle (Wyzie Synced, klucze Pro): które napisy (wynik wyszukiwania, jego url albo tmdb_id/imdb_id z language), wykryte przez detectSpeech fragmenty mowy (speech) lub plik audio/wideo (media) oraz zsynchronizowany link do pobrania z wartościami offset, fps i confidence. Zobacz [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
-    'Nasze typy są bardzo proste i dobrze udokumentowane. Sprawdź plik types.ts zlinkowany w repozytorium GitHub.',
+    'Nasze typy są bardzo proste i dobrze udokumentowane. Zobacz [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) w repozytorium wyzie-lib.',
   'subs.pkg.config.h3': 'Konfiguracja',
   'subs.pkg.config.p1':
     'Jeden użytkownik zapytał na Github o konfigurowalną nazwę hosta API i pomyślałem, że to świetny pomysł, więc poniżej znajdziesz sposób użycia. Kocham was, chłopaki!',
@@ -245,10 +247,11 @@ const messages: Record<string, string> = {
     'Filtr języka (kody ISO 639-1). Wiele wartości rozdzielonych przecinkami.',
   'subs.direct.param.format':
     'Formaty napisów do zwrócenia. Dozwolone wiele wartości.',
-  'subs.direct.param.hi': 'Czy preferować napisy dla osób niesłyszących.',
+  'subs.direct.param.hi':
+    'Gdy true, zwraca tylko napisy dla osób niesłyszących (to filtr, a nie preferencja). Źródła, które nie oznaczają napisów dla osób niesłyszących, nie zwracają żadnych wyników.',
   'subs.direct.param.encoding': 'Filtr kodowania znaków.',
   'subs.direct.param.source':
-    'Dostawcy napisów do odpytania (all odpytuje każde włączone źródło; domyślnie charlie).',
+    'Dostawcy napisów do odpytania (all odpytuje każde źródło, którego może używać Twój klucz; domyślnie charlie).',
   'subs.direct.param.release':
     'Filtry nazwy wydania lub sceny (rozdzielone przecinkami).',
   'subs.direct.param.file':
@@ -268,7 +271,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'Zwracane dane',
   'subs.direct.data.id': 'ID pliku napisów.',
-  'subs.direct.data.url': 'URL do pliku napisów.',
+  'subs.direct.data.url':
+    'Link do pobrania pod adresem https://sub.wyzie.io/c/... z zaszyfrowanym parametrem tok. Każde pobranie kosztuje 1 żądanie; zobacz poniżej sekcję o pobieraniu napisów.',
   'subs.direct.data.flagUrl': 'URL flagi lokalizacji języka.',
   'subs.direct.data.format': 'Format pliku napisów.',
   'subs.direct.data.encoding': 'Kodowanie znaków pliku napisów.',
@@ -321,26 +325,26 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Tłumaczenie napisów przez AI',
   'subs.translate.important':
-    'Tłumaczenie AI to **funkcja Pro**. Każde tłumaczenie kosztuje **100 żądań** z salda Twojego klucza, naliczanych zarówno przy trafieniu w cache, jak i przy świeżym tłumaczeniu. Darmowe klucze nie mogą jej używać.',
+    'Tłumaczenie AI to **funkcja Pro**; darmowe klucze otrzymują 403 Upgrade required. Każde wywołanie kosztuje **100 żądań** z salda Twojego klucza, również przy trafieniu w cache. Jeśli wywołanie zakończy się niepowodzeniem, zanim zwróci jakikolwiek wynik (nie znaleziono napisów, wyszukiwanie lub pobieranie się nie powiodło albo serwer jest zajęty), 100 żądań zostaje automatycznie zwróconych.',
   'subs.translate.p1':
-    'Wyzie może przetłumaczyć dowolne napisy na ponad 80 języków w locie. Tłumaczenia są strumieniowane w trakcie generowania przez model, dzięki czemu odtwarzanie może rozpocząć się w ciągu sekundy lub dwóch zamiast czekania na cały plik. Wyniki są buforowane przez 30 dni, więc druga osoba, która poprosi o to samo tłumaczenie, otrzymuje je natychmiast.',
+    'Wyzie może przetłumaczyć dowolne napisy na ponad 80 języków w locie. Przetłumaczony plik SRT jest strumieniowany po kolei, w miarę kończenia kolejnych partii, więc pierwsze wpisy docierają szybko, a nie dopiero po przetworzeniu całego pliku. Kompletne tłumaczenie jest buforowane przez 30 dni, więc kolejne żądania dotyczące tego samego tytułu, odcinka i języka docelowego są obsługiwane z cache.',
 
   'subs.translate.ways.h2': 'Dwa sposoby użycia',
   'subs.translate.way1.h3': '1. Wybierz język z odpowiedzi wyszukiwania',
   'subs.translate.way1.p1':
-    'Każda odpowiedź /search zawiera teraz jeden dodatkowy wpis na obsługiwany język z "ai": true i adresem URL wskazującym na /translate. Traktuj wiersze AI jak każdy inny wiersz napisów w swoim interfejsie: gdy użytkownik kliknie jeden z nich, pobierz URL.',
+    'W przypadku kluczy Pro każda odpowiedź /search zawiera także wiersze tłumaczeń AI z "ai": true i polem url wskazującym na /translate: po jednym dla każdego obsługiwanego języka albo tylko dla języków z Twojego filtra language=. Darmowe klucze nigdy nie otrzymują tych wierszy. Traktuj wiersze AI jak każdy inny wiersz napisów w swoim interfejsie: gdy użytkownik kliknie jeden z nich, pobierz ten URL.',
   'subs.translate.way1.filter':
     'Jeśli chcesz ukryć wiersze AI ze swojego interfejsu, przefiltruj je:',
   'subs.translate.way2.h3': '2. Wywołaj /translate bezpośrednio',
 
   'subs.translate.param.id': 'TMDB lub IMDB ID (wymagane).',
   'subs.translate.param.target':
-    'Język docelowy jako pełna angielska nazwa (np. Spanish, Japanese, Brazilian Portuguese) (wymagane).',
+    'Język docelowy (wymagany): nazwa z listy obsługiwanych języków (np. Spanish, Japanese, Portuguese (Brazil)) lub kod języka (np. es, ja, pt-BR).',
   'subs.translate.param.seasonEpisode': 'Dla TV. Oba muszą być podane razem.',
   'subs.translate.param.key':
     'Twój klucz API. Użyj tk zamiast tego, jeśli URL otrzymałeś z /search.',
   'subs.translate.param.tk':
-    'Podpisany token zwrócony przez /search. Równoważny key, ale nie ujawnia surowego klucza.',
+    'Zaszyfrowany token z adresów URL wierszy AI w /search. Działa jak key, nie ujawnia Twojego klucza API i pozostaje ważny przez 60 dni.',
 
   'subs.translate.headers.p':
     'Treść odpowiedzi to plik SRT strumieniowany jako text/plain; charset=utf-8. Przydatne nagłówki odpowiedzi:',
@@ -354,27 +358,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'Jak to działa',
   'subs.translate.how.step1':
-    'Wyzie przeszukuje normalne źródła w poszukiwaniu napisu SRT, preferując angielski, gdy jest dostępny.',
+    'Wyzie przeszukuje zwykłe źródła w poszukiwaniu napisów tekstowych, preferując angielski plik SRT, gdy jest dostępny. Pliki VTT, ASS, SSA i SUB są najpierw konwertowane do SRT.',
   'subs.translate.how.step2':
-    'SRT jest dzielony na fragmenty po 50 wskazówek i tłumaczony sekwencyjnie. Każdy fragment jest buforowany indywidualnie po ukończeniu.',
+    'SRT jest dzielony na partie liczące maksymalnie około 3 800 znaków i tłumaczony za pomocą Google Translate, po 4 partie jednocześnie.',
   'subs.translate.how.step3':
-    'Wynik jest strumieniowany do Ciebie wskazówka po wskazówce. Odtwarzacze obsługujące strumieniowanie treści SRT mogą zacząć wyświetlać pierwsze linie, zanim reszta zostanie ukończona.',
+    'Wynik jest strumieniowany w kolejności SRT, w miarę kończenia kolejnych partii, więc pierwsze wpisy docierają szybko. Odtwarzacze obsługujące strumieniowanie treści SRT mogą zacząć wyświetlać pierwsze linie, zanim reszta zostanie ukończona.',
   'subs.translate.how.step4':
     'Kompletne tłumaczenie jest buforowane w Redis przez 30 dni, z kluczem na podstawie id, season, episode i target.',
 
   'subs.translate.languages.h2': 'Obsługiwane języki docelowe',
   'subs.translate.languages.p':
-    'Ponad 80 języków, w tym wszystkie główne języki europejskie, azjatyckie, afrykańskie i bliskowschodnie. Podaj angielską nazwę (Spanish, nie es). Lista jest również zwracana jako wiersze ai: true w każdej odpowiedzi /search, co jest kanonicznym źródłem prawdy.',
+    'Ponad 80 języków, w tym wszystkie główne języki europejskie, azjatyckie, afrykańskie i bliskowschodnie. Podaj nazwę z listy (Spanish, Portuguese (Brazil)) lub kod języka (es, pt-BR). W przypadku kluczy Pro pełna lista jest również zwracana jako wiersze ai: true w każdej odpowiedzi /search bez filtra language=, co jest kanonicznym źródłem prawdy.',
 
   'subs.translate.limitations.h2': 'Ograniczenia',
   'subs.translate.limit1':
-    'Tłumaczenie AI wymaga źródła SRT. Tytuły, dla których każdy dostępny napis ma format .ass, .vtt lub inny, zwrócą błąd 404 No SRT found.',
+    'Tłumaczenie AI wymaga napisów tekstowych jako punktu wyjścia. Źródła VTT, ASS, SSA i SUB są najpierw konwertowane do SRT; jeśli nie ma żadnych napisów tekstowych, wywołanie zwraca 404 No subtitle found, a 100 żądań zostaje zwróconych.',
   'subs.translate.limit2':
     'Jakość tłumaczenia zależy od źródłowego napisu. Źle zsynchronizowany lub zawierający błędy źródłowy napis skutkuje źle zsynchronizowanym lub zawierającym błędy tłumaczeniem.',
   'subs.translate.limit3':
     'Niektórzy użytkownicy mogą chcieć całkowicie zrezygnować z wierszy AI. Filtruj według ai === false po stronie klienta.',
   'subs.translate.limit4':
-    'Tłumaczenia są naliczane również przy trafieniach w cache. Niezależnie od tego, czy są generowane na nowo, czy serwowane z 30-dniowego cache, każde żądanie /translate kosztuje 100 żądań.',
+    'Tłumaczenia są naliczane również przy trafieniach w cache. Niezależnie od tego, czy są generowane na nowo, czy serwowane z 30-dniowego cache, każde wywołanie /translate kosztuje 100 żądań. Zwrot obejmuje tylko wywołania, które zakończą się niepowodzeniem, zanim zwrócą jakikolwiek wynik.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -455,7 +459,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs wymaga klucza API dla wszystkich żądań. Darmowy poziom pokrywa większość przypadków użycia; płatne plany obsługują intensywniejsze korzystanie.',
 
   'subs.keys.tiers.h2': 'Poziomy',
-  'subs.keys.tier.free': 'Darmowy (wymagany Gmail)',
+  'subs.keys.tier.free': 'Darmowy (weryfikacja e-mail)',
   'subs.keys.tier.free.limit': '1 000 żądań / dzień UTC',
   'subs.keys.tier.pro': '5 USD jednorazowo',
   'subs.keys.tier.pro.limit': '400 000 żądań',
@@ -469,12 +473,12 @@ const messages: Record<string, string> = {
     'Odwiedź [store.wyzie.io/redeem](https://store.wyzie.io/redeem):',
   'subs.keys.free.step1': 'Rozwiąż szybką captchę Cloudflare Turnstile.',
   'subs.keys.free.step2':
-    'Podaj adres Gmail (tylko Gmail jest akceptowany dla darmowego poziomu).',
+    'Podaj adres e-mail u jednego z głównych dostawców prywatnej poczty (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton i inni). Adresy z domen jednorazowej poczty e-mail są odrzucane.',
   'subs.keys.free.step3': 'Wprowadź 6-cyfrowy kod, który wyślemy e-mailem.',
   'subs.keys.free.step4':
     'Otrzymujesz klucz API wyglądający jak wyzie-abc123...',
   'subs.keys.free.gmail':
-    'Każdy adres Gmail może wymienić tylko jeden darmowy klucz. Masz już darmowy klucz powiązany z tym e-mailem? Weryfikacja ponownie po prostu zwróci Twój istniejący klucz.',
+    'Każdy adres e-mail i każda sieć mogą odebrać jeden darmowy klucz; ponowne żądanie zwraca 409. Zgubiłeś klucz? Użyj opcji "Forgot key" w [panelu](https://store.wyzie.io/dashboard), aby otrzymać go ponownie.',
 
   'subs.keys.pro.h2': 'Ulepszanie do Pro',
   'subs.keys.pro.p1':
@@ -488,11 +492,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     'Dwa bezpieczne sposoby korzystania z klucza z aplikacji klienckiej:',
   'subs.keys.protect.option1':
-    'Użyj [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): darmowego proxy Cloudflare Worker, które przechowuje Twój klucz po stronie serwera. Skieruj klienta na adres URL Workera zamiast sub.wyzie.io.',
+    'Użyj [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): darmowego proxy Cloudflare Worker, które przechowuje Twój klucz API jako sekret `NITRO_API_TOKEN`. Każde wywołanie workera musi zawierać `Authorization: Bearer <NITRO_WORKER_KEY>` (to drugi sekret, który sam ustawiasz), więc kieruj klienta przez własny backend, a klucz workera również trzymaj po stronie serwera.',
   'subs.keys.protect.option2':
     'Uruchom własne proxy: każdy backendowy punkt końcowy, który dołącza klucz przed przekazaniem do sub.wyzie.io, zadziała. Zobacz stronę Intro, aby zobaczyć przykład w 10 liniach.',
   'subs.keys.protect.devtools':
-    'Jeśli klucz pojawia się w zakładce sieci w DevTools, jest ujawniony. Traktuj go jako publiczny i zmień go, kontaktując się ze wsparciem.',
+    'Jeśli klucz pojawia się w zakładce sieci w DevTools, jest ujawniony. Traktuj go jako publiczny i zmień go w swoim [panelu](https://store.wyzie.io/dashboard).',
 
   'subs.keys.using.h2': 'Korzystanie z klucza',
   'subs.keys.using.p': 'Dołącz &key=YOUR_KEY do każdego żądania API:',
@@ -502,9 +506,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'Wyszukiwanie kosztuje 1 żądanie i każde pobranie napisów kosztuje 1 żądanie, więc jedno wyszukiwanie i pobranie jednego pliku zużywa 2. Tłumaczenie AI kosztuje 100 żądań za wywołanie.',
   'subs.keys.limit.free':
-    '**Darmowy poziom** wyczerpany -> API zwraca 429 z nagłówkami X-RateLimit-Reset i Retry-After. Dzienny licznik resetuje się o północy UTC.',
+    '**Darmowy poziom** wyczerpany -> wyszukiwania i linki do pobrania zwracają 429 Daily request limit reached, z polem reset_at w odpowiedzi JSON i nagłówkiem Retry-After. Dzienny limit 1 000 żądań resetuje się o północy UTC.',
   'subs.keys.limit.paid':
-    '**Płatne saldo** wyczerpane -> API zwraca 402. Doładuj na [store.wyzie.io/topup](https://store.wyzie.io/topup) lub włącz **automatyczne doładowanie** w swoim panelu, aby uzupełniać automatycznie, gdy saldo przekroczy ustalony przez Ciebie próg.',
+    '**Płatne saldo** wyczerpane -> wyszukiwania i linki do pobrania zwracają 402 z linkiem do doładowania w odpowiedzi JSON. Doładuj na [store.wyzie.io/topup](https://store.wyzie.io/topup) lub włącz **automatyczne doładowanie** w swoim panelu, aby uzupełniać automatycznie, gdy saldo spadnie poniżej ustalonego przez Ciebie progu.',
   'subs.keys.hold.p1':
     'Klucze wysyłające bardzo dużą liczbę żądań, głównie z adresów IP centrów danych lub hostingu, są automatycznie wstrzymywane. Wstrzymany klucz otrzymuje 403 Key on hold przy każdym żądaniu, a odpowiedź JSON zawiera link do przywrócenia (https://store.wyzie.io/verify) i link do wsparcia (https://store.wyzie.io/contact).',
   'subs.keys.hold.p2':
@@ -521,7 +525,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': 'FAQ',
   'subs.keys.faq.q1': 'Zgubiłem swój klucz. Czy mogę otrzymać nowy?',
   'subs.keys.faq.a1':
-    'Odwiedź [store.wyzie.io](https://store.wyzie.io) i skorzystaj z przepływu "zapomnianego klucza" ze swoim zarejestrowanym e-mailem; wyślemy ponownie Twój istniejący klucz.',
+    'Otwórz [panel](https://store.wyzie.io/dashboard) i użyj opcji "Forgot key" ze swoim zarejestrowanym adresem e-mail; wyślemy ponownie Twój istniejący klucz. Jeśli podejrzewasz, że klucz wyciekł, zamiast tego zmień go w panelu.',
   'subs.keys.faq.q2': 'Czy mogę używać jednego klucza w wielu projektach?',
   'subs.keys.faq.a2':
     'Tak. Twój klucz działa wszędzie tam, gdzie wywołujesz API.',
@@ -582,7 +586,7 @@ const messages: Record<string, string> = {
     '**Tryb debugowania**: Szczegółowe logowanie do rozwiązywania problemów i monitorowania',
 
   'i6shark.intro.requirements.h2': 'Wymagania',
-  'i6shark.intro.req1': 'Go 1.20 lub nowszy',
+  'i6shark.intro.req1': 'Go 1.22 lub nowszy',
   'i6shark.intro.req2': 'System Linux/Unix z obsługą IPv6 (najlepiej Ubuntu)',
   'i6shark.intro.req3':
     'Uprawnienia roota (do wiązania portu 80 i manipulacji IPv6)',
@@ -641,17 +645,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Użyj **Kodi**, aby uzyskać natywną dla Kodi usługę napisów na Android TV, Raspberry Pi lub komputerze kina domowego.',
   'plugins.index.shared.sources':
-    '**Źródła:** OpenSubtitles, SubDL i Podnapisi, agregowane przez Wyzie.',
+    '**Źródła:** każde źródło, którego może używać Twój klucz (`source=all`): charlie i lima przy darmowym kluczu, wszystkie siedem przy kluczu Pro.',
   'plugins.index.shared.matching':
     '**Dopasowywanie:** Wyzie działa w oparciu o identyfikatory IMDB i TMDB oraz sezon i odcinek, dzięki czemu dopasowania są precyzyjne zarówno dla filmów, jak i seriali.',
   'plugins.index.shared.quota':
     '**Limit:** gdy Twój klucz się wyczerpie, wtyczka wyświetla przyjazny komunikat z odnośnikiem do [store.wyzie.io](https://store.wyzie.io) zamiast po cichu zawieść. Doładuj lub wykup subskrypcję, a wrócisz do działania.',
   'plugins.index.shared.languages':
     '**Języki:** ponad 100, wybieranych w każdej wtyczce.',
-  'plugins.index.outro': 'Wybierz powyżej swoją platformę, aby zacząć.',
+  'plugins.index.outro':
+    'Wybierz powyżej swoją platformę, aby zacząć. Kod źródłowy każdej wtyczki znajduje się w [repozytorium wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins).',
 
   'plugins.stremio.intro':
-    'Dodatek napisów dla [Stremio](https://www.stremio.com/) instalowany jednym kliknięciem. Agreguje OpenSubtitles, SubDL i Podnapisi przez Wyzie oraz działa zarówno dla filmów, jak i seriali, na każdej platformie, na której działa Stremio.',
+    'Dodatek napisów dla [Stremio](https://www.stremio.com/) instalowany jednym kliknięciem. Odpytuje każde źródło Wyzie, którego może używać Twój klucz, i działa zarówno dla filmów, jak i seriali, na każdej platformie, na której działa Stremio.',
   'plugins.stremio.before':
     'Potrzebujesz darmowego klucza API Wyzie. Pobierz go na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) albo kup klucz Pro lub wykup subskrypcję na [store.wyzie.io](https://store.wyzie.io/#plans).',
   'plugins.stremio.install.1':
@@ -660,7 +665,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     'Opcjonalnie: wpisz preferowane **języki** jako kody ISO 639-1, oddzielone przecinkami (na przykład `en,es,fr`). Pozostaw puste, aby uwzględnić wszystkie języki.',
   'plugins.stremio.install.4':
-    'Opcjonalnie: włącz napisy dla **niesłyszących**, jeśli je preferujesz.',
+    'Opcjonalnie: włącz opcję **dla niesłyszących**, aby otrzymywać tylko napisy dla niesłyszących. Pozostaw ją wyłączoną, aby widzieć wszystko; gdy jest włączona, źródła, które nie oznaczają napisów dla niesłyszących, nie zwracają żadnych wyników.',
   'plugins.stremio.install.5':
     'Kliknij **Zainstaluj**. Stremio otworzy się i poprosi o potwierdzenie; zaakceptuj i gotowe.',
   'plugins.stremio.install.after':
@@ -672,7 +677,7 @@ const messages: Record<string, string> = {
     'Kody ISO 639-1, oddzielone przecinkami. Puste oznacza wszystkie języki.',
   'plugins.stremio.cfg.hi.f': 'Dla niesłyszących',
   'plugins.stremio.cfg.hi.d':
-    'Preferuj napisy dla niesłyszących, gdy są dostępne.',
+    'Zwraca tylko napisy dla niesłyszących (wysyła hi=true). Domyślnie wyłączone.',
   'plugins.stremio.cfg.note':
     'Aby zmienić którekolwiek z tych ustawień później, otwórz ponownie [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), dostosuj i zainstaluj ponownie.',
   'plugins.stremio.local':
@@ -687,13 +692,13 @@ const messages: Record<string, string> = {
     '**Odcinek serialu nie pasuje.** Wyzie dopasowuje na podstawie sezonu i odcinka; upewnij się, że Stremio odtwarza właściwy wpis odcinka, a nie ogólną stronę serialu.',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) zarządza napisami dla **Plex, Jellyfin, Emby, Sonarr i Radarr** w jednym miejscu. Dodanie Wyzie jako dostawcy daje wszystkim tym serwerom dostęp do OpenSubtitles, SubDL i Podnapisi za pomocą jednego klucza.',
+    '[Bazarr](https://www.bazarr.media/) zarządza napisami dla **Plex, Jellyfin, Emby, Sonarr i Radarr** w jednym miejscu. Dodanie Wyzie jako dostawcy daje wszystkim tym serwerom dostęp do każdego źródła Wyzie, którego może używać Twój klucz, za pomocą jednego klucza.',
   'plugins.bazarr.note':
     'Jest to zalecany sposób korzystania z Wyzie z Plex i Jellyfin. Bazarr pobiera pliki napisów obok Twoich multimediów, a Twój serwer automatycznie je wykrywa, więc nie jest wymagana osobna natywna wtyczka.',
   'plugins.bazarr.before':
     'Pobierz darmowy klucz API Wyzie na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) i zapewnij sobie dostęp do plików instalacyjnych Bazarr (typowa ścieżka Docker: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    'Skopiuj `wyzie.py` do `bazarr/subliminal_patch/providers/wyzie.py`.',
+    'Pobierz [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) z [repozytorium wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (lub `git clone https://github.com/wyziedevs/wyzie-plugins.git`) i skopiuj go do `bazarr/subliminal_patch/providers/wyzie.py`.',
   'plugins.bazarr.install.2':
     'Edytuj `bazarr/subliminal_patch/extensions.py` i dodaj `wyzie` do **obu** `provider_registry` i `provider_manager`.',
   'plugins.bazarr.install.3':
@@ -704,13 +709,14 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     'Planowany jest pełnoprawny pull request integrujący tego dostawcę bezpośrednio z Bazarr. Do tego czasu jest to gotowy plik, który dodajesz do własnej instalacji.',
   'plugins.bazarr.cfg.key': 'Twój klucz Wyzie. Wymagany.',
-  'plugins.bazarr.cfg.hi': 'Preferuj napisy dla niesłyszących.',
+  'plugins.bazarr.cfg.hi':
+    'Zwraca tylko napisy dla niesłyszących (wysyła hi=true).',
   'plugins.bazarr.cfg.sources':
     'Lista dostawców do odpytania oddzielona przecinkami lub `all`.',
   'plugins.bazarr.quota.402':
     '**402 lub 429** (saldo wyczerpane lub osiągnięto dzienny limit): Bazarr zapisuje w logach notatkę z odnośnikiem do [store.wyzie.io](https://store.wyzie.io) i nie zwraca wyników, więc czysto przechodzi do innych dostawców. Nic się nie zawiesza.',
   'plugins.bazarr.quota.401':
-    '**401** (zły klucz): Bazarr zgłasza błąd uwierzytelniania, dzięki czemu wiesz, że trzeba ponownie wpisać klucz.',
+    '**401** (brak klucza) lub **403** (nieznany klucz lub klucz wstrzymany): Bazarr zgłasza błąd uwierzytelniania, dzięki czemu wiesz, że trzeba sprawdzić klucz lub wpisać go ponownie.',
   'plugins.bazarr.ts.missing':
     '**Wyzie nie pojawia się na liście dostawców.** Sprawdź ponownie krok instalacji edytujący `extensions.py`; wpis musi znajdować się zarówno w `provider_registry`, jak i `provider_manager`, a następnie uruchom ponownie Bazarr.',
   'plugins.bazarr.ts.none':
@@ -737,7 +743,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'Użyj tego, jeśli wolisz nie dodawać repozytorium. Uwaga: instalacja z pliku zip **nie** aktualizuje się automatycznie.',
   'plugins.kodi.zip.1':
-    'Pobierz plik zip dodatku: `service.subtitles.wyzie-<version>.zip`. Jeśli masz kod źródłowy, spakuj folder `kodi/` do zip tak, aby zip zawierał `addon.xml` w swoim katalogu głównym.',
+    'Pobierz plik zip dodatku: `service.subtitles.wyzie-<version>.zip`. Aby zbudować go samodzielnie, sklonuj [repozytorium wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) i spakuj jego folder `kodi/` do zip tak, aby zip zawierał `addon.xml` w swoim katalogu głównym.',
   'plugins.kodi.zip.2':
     'W Kodi: **Ustawienia, Dodatki, Zainstaluj z pliku zip**, a następnie wybierz plik zip. Jeśli Kodi to zablokuje, najpierw włącz **Ustawienia, System, Dodatki, Nieznane źródła**.',
   'plugins.kodi.zip.3':
@@ -745,7 +751,8 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'Otwórz ustawienia dodatku Wyzie Subs i wklej swój **klucz API**.',
   'plugins.kodi.cfg.key': 'Twój klucz Wyzie. Wymagany.',
-  'plugins.kodi.cfg.hi': 'Preferuj napisy dla niesłyszących.',
+  'plugins.kodi.cfg.hi':
+    'Zwraca tylko napisy dla niesłyszących (wysyła hi=true).',
   'plugins.kodi.cfg.langs':
     'Języki są pobierane z wybranych w Kodi języków napisów i automatycznie mapowane na ISO 639-1.',
   'plugins.kodi.matching.1':

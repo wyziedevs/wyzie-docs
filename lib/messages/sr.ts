@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie je skup alata otvorenog koda za pretragu titlova i svega što uz to ide.',
+    'Wyzie je skup alata za pretragu titlova i svega što uz to ide.',
   'index.cta.start': 'Počnite',
   'index.cta.store': 'Pogledajte',
 
   'index.card.keys.title': 'Besplatni API ključevi',
   'index.card.keys.body':
-    'Preuzmite besplatni API ključ na store.wyzie.io/redeem uz brzu Gmail verifikaciju. 1.000 zahteva dnevno bez naknade. Dostupni su plaćeni planovi za veće korišćenje.',
+    'Preuzmite besplatni API ključ na store.wyzie.io/redeem uz brzu verifikaciju emaila (Gmail, Outlook, Yahoo, iCloud, Proton i drugi veliki provajderi). 1.000 zahteva dnevno bez naknade. Dostupni su plaćeni planovi za veće korišćenje.',
 
   'index.card.ai.title': 'AI prevod',
   'index.card.ai.body':
-    'Prevedite bilo koji titl na 80+ jezika po zahtevu. Prenosi se stavka po stavka tako da reprodukcija može početi za nekoliko sekundi. Dostupno na Pro ključevima.',
+    'Prevedite bilo koji titl na 80+ jezika po zahtevu. SRT se streamuje nazad redom kako se grupe završavaju, pa prvi redovi stižu brzo. Dostupno na Pro ključevima.',
 
   'index.card.reliable.title': 'Pouzdano',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Uvod u Wyzie Subs',
   'subs.intro.p1':
-    'Wyzie Subs je besplatni API otvorenog koda za preuzimanje titlova. Postoje dva načina za slanje zahteva API-ju: korišćenjem našeg NPM paketa ili direktnim pozivanjem Wyzie API-ja. Preporučujem korišćenje našeg paketa, mada nekima tipovi mogu izgledati glomazno. Da biste koristili API, najpre morate doneti tu odluku.',
+    'Wyzie Subs je API za preuzimanje titlova sa besplatnim nivoom. Postoje dva načina za slanje zahteva API-ju: korišćenjem našeg NPM paketa ili direktnim pozivanjem Wyzie API-ja. Preporučujem korišćenje našeg paketa, mada nekima tipovi mogu izgledati glomazno. Da biste koristili API, najpre morate doneti tu odluku.',
   'subs.intro.note.ai':
-    'AI prevod je aktivan za Pro ključeve. Bilo koji naslov, 80+ ciljnih jezika, streamed u realnom vremenu dok prevodilac radi.',
+    'AI prevod je aktivan za Pro ključeve. Bilo koji naslov, 80+ ciljnih jezika, streamuje se nazad redosledom titla kako se grupe završavaju.',
   'subs.intro.important.apikey':
-    'API ključ je obavezan za sve zahteve. Nabavite besplatni ključ na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (Gmail verifikacija, 1.000 zahteva dnevno). Za veće korišćenje dostupni su [Pro i top-up planovi](https://store.wyzie.io). Pogledajte stranicu API ključevi za detalje.',
+    'API ključ je obavezan za sve zahteve. Nabavite besplatni ključ na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifikacija emaila, 1.000 zahteva dnevno). Za veće korišćenje dostupni su [Pro i top-up planovi](https://store.wyzie.io). Pogledajte stranicu API ključevi za detalje.',
   'subs.intro.note.npm':
     'Toplo preporučujemo NPM paket ako ste upoznati sa TypeScript-om ili JavaScript-om',
   'subs.intro.btn.npm': 'NPM paket',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'Ako ključ dospe do uređaja krajnjeg korisnika, tretujte ga kao javni. Postoje dva bezbedna pristupa:',
   'subs.intro.protect.opt1.h3': 'Opcija 1: Koristite Wyzie Worker',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker je lagani Cloudflare Worker proxy koji ubacuje vaš API ključ na strani servera. Postavite ga na Cloudflare Workers i postavite ključ kao promenljivu okruženja NITRO_API_TOKEN. Zatim usmerite zahteve klijenta na URL vašeg workera umesto na sub.wyzie.io — worker ih prosleđuje sa vašim ključem.',
+    'Wyzie Worker je lagani Cloudflare Worker proxy koji ubacuje vaš API ključ na strani servera. Postavite ga na Cloudflare Workers i podesite dve tajne: `NITRO_API_TOKEN` (vaš Wyzie API ključ) i `NITRO_WORKER_KEY` (tajna koju sami izaberete). Svaki zahtev ka workeru mora da pošalje `Authorization: Bearer <NITRO_WORKER_KEY>`; bez toga worker odgovara sa 401, a ako `NITRO_WORKER_KEY` nije podešen, odbija svaki zahtev sa 503. I ključ workera mora ostati na strani servera, pa worker pozivajte iz sopstvenog backenda, nikada iz koda u browseru ili aplikaciji. Worker prosleđuje svaki zahtev na sub.wyzie.io sa priloženim vašim API ključem.',
   'subs.intro.protect.opt2.h3': 'Opcija 2: Napravite sopstveni proxy',
   'subs.intro.protect.opt2.p1':
     'Ako ne želite da koristite Wyzie Worker, možete napraviti jednostavan server-side proxy u bilo kom frameworku. Ideja je ista: vaš backend prima zahteve od klijenta, dodaje API ključ i prosleđuje ih na sub.wyzie.io.',
@@ -170,8 +170,8 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT, ASS, SSA, VTT, SUB i drugi',
 
   'subs.sources.ai.desc':
-    'Nije skrejper. AI-prevedeni SRT koji se generiše po zahtevu od najboljeg dostupnog izvornog titla. Pogledajte vodič za AI prevod za sve detalje.',
-  'subs.sources.ai.content': 'Sve za šta Wyzie može pronaći SRT',
+    'Nije skrejper. AI-prevedeni SRT koji se generiše po zahtevu od najboljeg dostupnog izvornog titla. Samo Pro ključevi. Pogledajte vodič za AI prevod za sve detalje.',
+  'subs.sources.ai.content': 'Sve za šta Wyzie može pronaći tekstualni titl',
   'subs.sources.ai.languages': '80+ ciljnih jezika',
   'subs.sources.ai.formats': 'Samo SRT',
 
@@ -198,7 +198,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.language': 'ISO 639-1 kodovi za jezik titla. Prihvata listu.',
   'subs.pkg.param.encoding': 'Filter kodiranja znakova (npr. utf-8, latin-1).',
   'subs.pkg.param.hi':
-    'Boolean za titlove prilagođene osobama oštećenog sluha.',
+    'Kada je true, vraća samo titlove za osobe oštećenog sluha. Izvori koji ne označavaju titlove za osobe oštećenog sluha ne vraćaju ništa.',
   'subs.pkg.param.source':
     'Provajderi titlova za upit, navedeni po kodnom imenu (all za svaki aktivni izvor koji vaš ključ može da koristi; podrazumevano charlie).',
   'subs.pkg.param.release': 'Filtri za release/scene (prihvata listu).',
@@ -224,7 +224,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'Ulaz i rezultat funkcije syncSubtitle (Wyzie Synced, Pro ključevi): koji titl (rezultat, njegov url ili tmdb_id/imdb_id uz language), segmenti govora (speech) koje je pronašao detectSpeech ili media fajl, i sinhronizovani link za preuzimanje sa vrednostima offset, fps i confidence. Pogledajte [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
-    'Naši tipovi su vrlo jednostavni i dobro dokumentovani. Pogledajte fajl types.ts u GitHub repozitorijumu.',
+    'Naši tipovi su vrlo jednostavni i dobro dokumentovani. Pogledajte [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) u wyzie-lib repozitorijumu.',
   'subs.pkg.config.h3': 'Konfiguracija',
   'subs.pkg.config.p1':
     'Jedan korisnik je na Githubu pitao za konfigurabilan API hostname i rekao sam sebi — pa to zvuči kao dobra ideja, pa je ispod primer korišćenja. Volim vas, ekipo!',
@@ -247,10 +247,10 @@ const messages: Record<string, string> = {
   'subs.direct.param.format':
     'Formati titlova za vraćanje. Dozvoljeno je više vrednosti.',
   'subs.direct.param.hi':
-    'Da li preferirati titlove prilagođene osobama oštećenog sluha.',
+    'Kada je true, vraća samo titlove za osobe oštećenog sluha (ovo je filter, a ne preferencija). Izvori koji ne označavaju titlove za osobe oštećenog sluha ne vraćaju ništa.',
   'subs.direct.param.encoding': 'Filter kodiranja znakova.',
   'subs.direct.param.source':
-    'Provajderi titlova za upit (all upituje svaki aktivni izvor; podrazumevano charlie).',
+    'Provajderi titlova za upit (all upituje svaki izvor koji vaš ključ može da koristi; podrazumevano charlie).',
   'subs.direct.param.release':
     'Filtri za release ili scene naziv (razdvojeni zarezima).',
   'subs.direct.param.file':
@@ -270,7 +270,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'Vraćeni podaci',
   'subs.direct.data.id': 'ID fajla titla.',
-  'subs.direct.data.url': 'URL do fajla titla.',
+  'subs.direct.data.url':
+    'Link za preuzimanje na https://sub.wyzie.io/c/... koji nosi šifrovani parametar tok. Svako preuzimanje košta 1 zahtev; pogledajte odeljak Downloading Subtitles ispod.',
   'subs.direct.data.flagUrl': 'URL do zastave lokala jezika.',
   'subs.direct.data.format': 'Format fajla titla.',
   'subs.direct.data.encoding': 'Kodiranje znakova fajla titla.',
@@ -323,27 +324,27 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI prevod titlova',
   'subs.translate.important':
-    'AI prevod je **Pro funkcija**. Svaki prevod košta **100 zahteva** iz stanja vašeg ključa, naplaćuje se i na pogodak keša i na sveži prevod. Besplatni ključevi ga ne mogu koristiti.',
+    'AI prevod je **Pro funkcija**; besplatni ključevi dobijaju 403 Upgrade required. Svaki poziv košta **100 zahteva** iz stanja vašeg ključa, uključujući i pogotke keša. Ako poziv ne uspe pre bilo kakvog izlaza (titl nije pronađen, pretraga ili preuzimanje nisu uspeli ili je server zauzet), tih 100 zahteva vam se automatski vraća.',
   'subs.translate.p1':
-    'Wyzie može prevesti bilo koji titl na 80+ jezika u hodu. Prevodi se streamuju dok ih model generiše, tako da reprodukcija može početi za sekund-dva umesto da se čeka ceo fajl. Rezultati se kešuju 30 dana, tako da druga osoba koja zatraži isti prevod dobija ga trenutno.',
+    'Wyzie može prevesti bilo koji titl na 80+ jezika u hodu. Prevedeni SRT se streamuje nazad redom kako se grupe završavaju, pa prve stavke stižu brzo, umesto tek kada ceo fajl bude gotov. Kompletan prevod se kešuje 30 dana, pa se kasniji zahtevi za isti naslov, epizodu i ciljni jezik isporučuju iz keša.',
 
   'subs.translate.ways.h2': 'Dva načina korišćenja',
   'subs.translate.way1.h3': '1. Izaberite jezik iz odgovora pretrage',
   'subs.translate.way1.p1':
-    'Svaki /search odgovor sada uključuje jedan dodatni unos po podržanom jeziku sa "ai": true i url koji pokazuje na /translate. Samo tretirajte AI redove kao bilo koji drugi red titla u vašem UI-ju: kada korisnik klikne na jedan, preuzmite URL.',
+    'Za Pro ključeve, svaki /search odgovor uključuje i redove AI prevoda sa "ai": true i url koji pokazuje na /translate: po jedan za svaki podržani jezik, ili samo za jezike iz vašeg language= filtera. Besplatni ključevi nikada ne dobijaju ove redove. Tretirajte AI redove kao bilo koji drugi red titla u vašem UI-ju: kada korisnik klikne na jedan, preuzmite URL.',
   'subs.translate.way1.filter':
     'Ako želite da sakrijete AI redove iz vašeg UI-ja, filtrirajte ih:',
   'subs.translate.way2.h3': '2. Direktno pozovite /translate',
 
   'subs.translate.param.id': 'TMDB ili IMDB ID (obavezno).',
   'subs.translate.param.target':
-    'Ciljni jezik kao puni engleski naziv (npr. Spanish, Japanese, Brazilian Portuguese) (obavezno).',
+    'Ciljni jezik (obavezno): naziv sa liste podržanih jezika (npr. Spanish, Japanese, Portuguese (Brazil)) ili njegov kod (npr. es, ja, pt-BR).',
   'subs.translate.param.seasonEpisode':
     'Za TV serije. Oba moraju biti prisutna zajedno.',
   'subs.translate.param.key':
     'Vaš API ključ. Koristite tk umesto toga ako ste dobili URL iz /search.',
   'subs.translate.param.tk':
-    'Potpisani token koji vraća /search. Ekvivalent ključu, ali ne izlaže sirov ključ.',
+    'Šifrovani token iz URL-ova AI redova u /search. Radi kao key, ne otkriva vaš API ključ i važi 60 dana.',
 
   'subs.translate.headers.p':
     'Telo odgovora je SRT fajl streamovan kao text/plain; charset=utf-8. Korisni zaglavlja odgovora:',
@@ -357,27 +358,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'Kako funkcioniše',
   'subs.translate.how.step1':
-    'Wyzie pretražuje normalne izvore za SRT titl, preferirajući engleski kada je dostupan.',
+    'Wyzie pretražuje normalne izvore za tekstualni titl, preferirajući engleski SRT kada je dostupan. VTT, ASS, SSA i SUB fajlovi se najpre konvertuju u SRT.',
   'subs.translate.how.step2':
-    'SRT se deli na delove od 50 stavki i prevodi sekvencijalno. Svaki deo se kešuje pojedinačno čim se završi.',
+    'SRT se deli na grupe od najviše oko 3.800 znakova i prevodi pomoću Google Translate-a, po 4 grupe istovremeno.',
   'subs.translate.how.step3':
-    'Izlaz se streamuje nazad stavka po stavka. Plejeri koji prihvataju SRT telo u streamingu mogu početi da prikazuju prve redove pre nego što se ostali završe.',
+    'Izlaz se streamuje nazad redosledom SRT-a kako se grupe završavaju, pa prve stavke stižu brzo. Plejeri koji prihvataju SRT telo u streamingu mogu početi da prikazuju prve redove pre nego što se ostali završe.',
   'subs.translate.how.step4':
     'Kompletan prevod se kešuje u Redis-u na 30 dana, sa ključem po id, season, episode i target.',
 
   'subs.translate.languages.h2': 'Podržani ciljni jezici',
   'subs.translate.languages.p':
-    '80+ jezika uključujući sve major evropske, azijske, afričke i bliskoistočne jezike. Prosledite engleski naziv (Spanish, ne es). Lista se takođe vraća kao ai: true redovi u bilo kom /search odgovoru, što je kanonički izvor istine.',
+    '80+ jezika uključujući sve glavne evropske, azijske, afričke i bliskoistočne jezike. Prosledite naziv sa liste (Spanish, Portuguese (Brazil)) ili njegov kod (es, pt-BR). Za Pro ključeve, kompletna lista se vraća i kao ai: true redovi u svakom /search odgovoru bez language= filtera, što je kanonički izvor istine.',
 
   'subs.translate.limitations.h2': 'Ograničenja',
   'subs.translate.limit1':
-    'AI prevod zahteva SRT izvor. Naslovi gde je svaki dostupni titl .ass, .vtt ili drugi format vratiće 404 No SRT found.',
+    'AI prevodu je potreban tekstualni titl kao polazna tačka. VTT, ASS, SSA i SUB izvori se najpre konvertuju u SRT; ako tekstualni titl ne postoji, poziv vraća 404 No subtitle found i tih 100 zahteva vam se vraća.',
   'subs.translate.limit2':
     'Kvalitet prevoda zavisi od izvornog titla. Loše vremenski usklađen ili pogrešno otkucan izvor rezultira loše vremenski usklađenim ili pogrešno otkucanim prevodom.',
   'subs.translate.limit3':
     'Neki korisnici možda žele da u potpunosti isključe AI redove. Filtrirajte po ai === false u vašem klijentu.',
   'subs.translate.limit4':
-    'Prevodi se naplaćuju i na pogodke keša. Bez obzira na to da li je sveže generisan ili isporučen iz 30-dnevnog keša, svaki /translate zahtev košta 100 zahteva.',
+    'Prevodi se naplaćuju i na pogodke keša. Bez obzira na to da li je sveže generisan ili isporučen iz 30-dnevnog keša, svaki /translate poziv košta 100 zahteva. Zahtevi se vraćaju samo za pozive koji ne uspeju pre bilo kakvog izlaza.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -457,7 +458,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs zahteva API ključ za sve zahteve. Besplatni nivo pokriva većinu slučajeva upotrebe; plaćeni planovi su namenjeni intenzivnijem korišćenju.',
 
   'subs.keys.tiers.h2': 'Nivoi',
-  'subs.keys.tier.free': 'Besplatno (Gmail obavezan)',
+  'subs.keys.tier.free': 'Besplatno (verifikacija emaila)',
   'subs.keys.tier.free.limit': '1.000 zahteva / UTC dan',
   'subs.keys.tier.pro': '5$ jednokratno',
   'subs.keys.tier.pro.limit': '400.000 zahteva',
@@ -471,12 +472,12 @@ const messages: Record<string, string> = {
     'Posetite [store.wyzie.io/redeem](https://store.wyzie.io/redeem):',
   'subs.keys.free.step1': 'Rešite brzi Cloudflare Turnstile captcha.',
   'subs.keys.free.step2':
-    'Unesite Gmail adresu (samo Gmail je prihvaćen za besplatni nivo).',
+    'Unesite adresu nekog od velikih provajdera ličnog emaila (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton i drugi). Domeni jednokratnih email adresa se odbijaju.',
   'subs.keys.free.step3': 'Unesite 6-cifreni kod koji vam pošaljemo emailom.',
   'subs.keys.free.step4':
     'Dobijate API ključ koji izgleda ovako: wyzie-abc123...',
   'subs.keys.free.gmail':
-    'Svaka Gmail adresa može iskoristiti samo jedan besplatni ključ. Već ste imali besplatni ključ vezan za tu adresu? Ponovna verifikacija samo vraća vaš postojeći ključ.',
+    'Svaka email adresa i svaka mreža mogu dobiti po jedan besplatni ključ; drugi zahtev vraća 409. Izgubili ste ključ? Koristite "Forgot key" (zaboravljen ključ) na [kontrolnoj tabli](https://store.wyzie.io/dashboard) da bi vam bio ponovo poslat.',
 
   'subs.keys.pro.h2': 'Nadogradnja na Pro',
   'subs.keys.pro.p1':
@@ -490,11 +491,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     'Dva bezbedna načina za korišćenje ključa iz klijentske aplikacije:',
   'subs.keys.protect.option1':
-    'Koristite [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): besplatni Cloudflare Worker proxy koji čuva vaš ključ na strani servera. Usmerite klijenta na Worker URL umesto na sub.wyzie.io.',
+    'Koristite [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): besplatni Cloudflare Worker proxy koji čuva vaš API ključ kao tajnu `NITRO_API_TOKEN`. Svaki poziv ka njemu mora da pošalje `Authorization: Bearer <NITRO_WORKER_KEY>`, drugu tajnu koju sami podešavate, pa klijenta usmerite kroz sopstveni backend i ključ workera takođe držite na strani servera.',
   'subs.keys.protect.option2':
     'Pokrenite sopstveni proxy: bilo koji backend endpoint koji dodaje ključ pre prosleđivanja na sub.wyzie.io funkcioniše. Pogledajte stranicu Uvod za primer od 10 linija.',
   'subs.keys.protect.devtools':
-    'Ako se ključ pojavi u mrežnoj kartici u DevTools-u, on je izložen. Pretpostavite da je javan i zamenite ga slanjem emaila podršci.',
+    'Ako se ključ pojavi u mrežnoj kartici u DevTools-u, on je izložen. Pretpostavite da je javan i zamenite ga na vašoj [kontrolnoj tabli](https://store.wyzie.io/dashboard).',
 
   'subs.keys.using.h2': 'Korišćenje vašeg ključa',
   'subs.keys.using.p': 'Dodajte &key=YOUR_KEY na svaki API zahtev:',
@@ -504,9 +505,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'Pretraga košta 1 zahtev i svako preuzimanje titla košta 1 zahtev, pa jedna pretraga i preuzimanje jednog fajla troše 2. AI prevod košta 100 zahteva po pozivu.',
   'subs.keys.limit.free':
-    '**Besplatni nivo** iscrpljen -> API vraća 429 sa X-RateLimit-Reset i Retry-After zaglavljima. Dnevni brojač se resetuje u ponoć UTC.',
+    '**Besplatni nivo** iscrpljen -> pretrage i linkovi za preuzimanje vraćaju 429 Daily request limit reached, sa reset_at u JSON-u i zaglavljem Retry-After. Dnevni limit od 1.000 zahteva resetuje se u ponoć UTC.',
   'subs.keys.limit.paid':
-    '**Plaćeno stanje** iscrpljeno -> API vraća 402. Dopunite na [store.wyzie.io/topup](https://store.wyzie.io/topup) ili aktivirajte **automatski top-up** na vašoj kontrolnoj tabli da se automatski dopunjava kada stanje pređe prag koji postavite.',
+    '**Plaćeno stanje** iscrpljeno -> pretrage i linkovi za preuzimanje vraćaju 402 sa linkom za dopunu u JSON-u. Dopunite na [store.wyzie.io/topup](https://store.wyzie.io/topup) ili aktivirajte **automatski top-up** na vašoj kontrolnoj tabli da se automatski dopunjava kada stanje pređe prag koji postavite.',
   'subs.keys.hold.p1':
     'Ključevi koji šalju veoma veliki obim zahteva, uglavnom sa IP adresa data centara ili hosting provajdera, automatski se pauziraju. Pauziran ključ dobija 403 Key on hold na svaki zahtev, sa linkom za ponovno aktiviranje (https://store.wyzie.io/verify) i linkom za podršku (https://store.wyzie.io/contact) u JSON-u.',
   'subs.keys.hold.p2':
@@ -523,7 +524,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': 'Česta pitanja',
   'subs.keys.faq.q1': 'Izgubio sam ključ. Mogu li dobiti novi?',
   'subs.keys.faq.a1':
-    'Posetite [store.wyzie.io](https://store.wyzie.io) i koristite tok "zaboravljen ključ" sa vašim registrovanim emailom; ponovo ćemo vam poslati vaš postojeći ključ.',
+    'Otvorite [kontrolnu tablu](https://store.wyzie.io/dashboard) i koristite "Forgot key" (zaboravljen ključ) sa vašim registrovanim emailom; ponovo ćemo vam poslati vaš postojeći ključ. Ako mislite da je ključ procureo, umesto toga ga zamenite na kontrolnoj tabli.',
   'subs.keys.faq.q2': 'Mogu li koristiti jedan ključ u više projekata?',
   'subs.keys.faq.a2': 'Da. Vaš ključ funkcioniše bilo gde gde pozivate API.',
   'subs.keys.faq.q3': 'Da li će moj ključ ikada isteći?',
@@ -582,7 +583,7 @@ const messages: Record<string, string> = {
     '**Debug režim**: Detaljno logovanje za rešavanje problema i praćenje',
 
   'i6shark.intro.requirements.h2': 'Zahtevi',
-  'i6shark.intro.req1': 'Go 1.20 ili noviji',
+  'i6shark.intro.req1': 'Go 1.22 ili noviji',
   'i6shark.intro.req2':
     'Linux/Unix sistem sa IPv6 podrškom (preporučeno Ubuntu)',
   'i6shark.intro.req3':
@@ -642,16 +643,17 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Koristite **Kodi** za Kodi-nativni servis titlova na Android TV-u, Raspberry Pi-ju ili kućnom bioskopu (HTPC).',
   'plugins.index.shared.sources':
-    '**Izvori:** OpenSubtitles, SubDL i Podnapisi, objedinjeni kroz Wyzie.',
+    '**Izvori:** svaki izvor koji vaš ključ može da koristi (`source=all`): charlie i lima uz besplatni ključ, svih sedam uz Pro ključ.',
   'plugins.index.shared.matching':
     '**Uparivanje:** Wyzie se pokreće pomoću IMDB i TMDB ID-jeva plus sezone i epizode, tako da su uparivanja precizna i za filmove i za serije.',
   'plugins.index.shared.quota':
     '**Kvota:** kada vašem ključu ponestane, dodatak prikazuje prijateljski podsetnik sa linkom ka [store.wyzie.io](https://store.wyzie.io) umesto da tiho zakaže. Dopunite ili se pretplatite i ponovo ste spremni za rad.',
   'plugins.index.shared.languages': '**Jezici:** 100+, izbor po dodatku.',
-  'plugins.index.outro': 'Izaberite svoju platformu iznad da biste počeli.',
+  'plugins.index.outro':
+    'Izaberite svoju platformu iznad da biste počeli. Izvorni kod svakog dodatka nalazi se u [wyzie-plugins repozitorijumu](https://github.com/wyziedevs/wyzie-plugins).',
 
   'plugins.stremio.intro':
-    'Dodatak za titlove za [Stremio](https://www.stremio.com/) sa instalacijom u jednom kliku. Objedinjuje OpenSubtitles, SubDL i Podnapisi kroz Wyzie i radi i za filmove i za serije, na svakoj platformi na kojoj Stremio radi.',
+    'Dodatak za titlove za [Stremio](https://www.stremio.com/) sa instalacijom u jednom kliku. Pretražuje svaki Wyzie izvor koji vaš ključ može da koristi i radi i za filmove i za serije, na svakoj platformi na kojoj Stremio radi.',
   'plugins.stremio.before':
     'Potreban vam je besplatan Wyzie API ključ. Preuzmite ga na [store.wyzie.io/redeem](https://store.wyzie.io/redeem), ili kupite Pro ključ ili se pretplatite na [store.wyzie.io](https://store.wyzie.io/#plans).',
   'plugins.stremio.install.1':
@@ -660,7 +662,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     'Opciono: unesite željene **jezike** kao ISO 639-1 kodove, razdvojene zarezima (na primer `en,es,fr`). Ostavite prazno za sve jezike.',
   'plugins.stremio.install.4':
-    'Opciono: uključite titlove za **osobe oštećenog sluha** ako ih preferirate.',
+    'Opciono: uključite opciju **osobe oštećenog sluha** da biste dobijali samo titlove za osobe oštećenog sluha. Ostavite je isključenu da biste videli sve; dok je uključena, izvori koji ne označavaju titlove za osobe oštećenog sluha ne vraćaju ništa.',
   'plugins.stremio.install.5':
     'Kliknite **Instaliraj**. Stremio se otvara i traži da potvrdite; prihvatite i gotovi ste.',
   'plugins.stremio.install.after':
@@ -672,7 +674,7 @@ const messages: Record<string, string> = {
     'ISO 639-1 kodovi, razdvojeni zarezima. Prazno znači svi jezici.',
   'plugins.stremio.cfg.hi.f': 'Osobe oštećenog sluha',
   'plugins.stremio.cfg.hi.d':
-    'Preferiraj titlove za osobe oštećenog sluha kada su dostupni.',
+    'Vraćaj samo titlove za osobe oštećenog sluha (šalje hi=true). Podrazumevano isključeno.',
   'plugins.stremio.cfg.note':
     'Da biste kasnije promenili bilo šta od ovoga, ponovo otvorite [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), prilagodite i ponovo instalirajte.',
   'plugins.stremio.local':
@@ -687,13 +689,13 @@ const messages: Record<string, string> = {
     '**Epizoda serije se ne uparuje.** Wyzie uparuje po sezoni i epizodi; uverite se da Stremio reprodukuje ispravnu stavku epizode, a ne generičku stranicu serije.',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) upravlja titlovima za **Plex, Jellyfin, Emby, Sonarr i Radarr** na jednom mestu. Dodavanje Wyzie kao provajdera daje svim tim serverima pristup OpenSubtitles, SubDL i Podnapisi kroz jedan ključ.',
+    '[Bazarr](https://www.bazarr.media/) upravlja titlovima za **Plex, Jellyfin, Emby, Sonarr i Radarr** na jednom mestu. Dodavanje Wyzie kao provajdera daje svim tim serverima pristup svakom Wyzie izvoru koji vaš ključ može da koristi, kroz jedan ključ.',
   'plugins.bazarr.note':
     'Ovo je preporučeni način korišćenja Wyzie sa Plex i Jellyfin. Bazarr preuzima datoteke titlova pored vaših medija, a vaš server ih automatski preuzima, tako da nije potreban poseban nativni dodatak.',
   'plugins.bazarr.before':
     'Preuzmite besplatan Wyzie API ključ na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) i obezbedite pristup datotekama vaše Bazarr instalacije (tipična Docker putanja: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    'Kopirajte `wyzie.py` u `bazarr/subliminal_patch/providers/wyzie.py`.',
+    'Preuzmite [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) iz [wyzie-plugins repozitorijuma](https://github.com/wyziedevs/wyzie-plugins) (ili `git clone https://github.com/wyziedevs/wyzie-plugins.git`) i kopirajte ga u `bazarr/subliminal_patch/providers/wyzie.py`.',
   'plugins.bazarr.install.2':
     'Izmenite `bazarr/subliminal_patch/extensions.py` i dodajte `wyzie` u **oba** `provider_registry` i `provider_manager`.',
   'plugins.bazarr.install.3':
@@ -704,13 +706,14 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     'Planiran je prvoklasan pull request koji ovog provajdera uvodi uzvodno u Bazarr. Do tada je to drop-in datoteka koju dodajete u sopstvenu instalaciju.',
   'plugins.bazarr.cfg.key': 'Vaš Wyzie ključ. Obavezno.',
-  'plugins.bazarr.cfg.hi': 'Preferiraj titlove za osobe oštećenog sluha.',
+  'plugins.bazarr.cfg.hi':
+    'Vraćaj samo titlove za osobe oštećenog sluha (šalje hi=true).',
   'plugins.bazarr.cfg.sources':
     'Lista provajdera za upit razdvojena zarezima, ili `all`.',
   'plugins.bazarr.quota.402':
     '**402 ili 429** (prazan saldo ili dostignut dnevni limit): Bazarr beleži napomenu sa linkom ka [store.wyzie.io](https://store.wyzie.io) i ne vraća rezultate, tako da se čisto vraća na vaše druge provajdere. Ništa se ne ruši.',
   'plugins.bazarr.quota.401':
-    '**401** (loš ključ): Bazarr prikazuje grešku autentifikacije kako biste znali da treba ponovo da unesete ključ.',
+    '**401** (ključ nedostaje) ili **403** (nepoznat ključ ili pauziran ključ): Bazarr prikazuje grešku autentifikacije kako biste znali da treba da proverite ili ponovo unesete ključ.',
   'plugins.bazarr.ts.missing':
     '**Wyzie se ne pojavljuje na listi provajdera.** Ponovo proverite korak instalacije koji izmenjuje `extensions.py`; stavka mora biti u oba `provider_registry` i `provider_manager`, zatim restartujte Bazarr.',
   'plugins.bazarr.ts.none':
@@ -737,7 +740,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'Koristite ovo ako radije ne biste dodavali repozitorijum. Napomena: zip instalacija se **ne** ažurira automatski.',
   'plugins.kodi.zip.1':
-    'Preuzmite zip dodatka: `service.subtitles.wyzie-<version>.zip`. Ako imate izvorni kod, zipujte `kodi/` folder tako da zip sadrži `addon.xml` u svom korenu.',
+    'Preuzmite zip dodatka: `service.subtitles.wyzie-<version>.zip`. Da biste ga sami napravili, klonirajte [wyzie-plugins repozitorijum](https://github.com/wyziedevs/wyzie-plugins) (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) i zipujte njegov `kodi/` folder tako da zip sadrži `addon.xml` u svom korenu.',
   'plugins.kodi.zip.2':
     'U Kodi: **Settings, Add-ons, Install from zip file**, zatim izaberite zip. Ako ga Kodi blokira, prvo omogućite **Settings, System, Add-ons, Unknown sources**.',
   'plugins.kodi.zip.3':
@@ -745,7 +748,8 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'Otvorite podešavanja Wyzie Subs dodatka i nalepite svoj **API ključ**.',
   'plugins.kodi.cfg.key': 'Vaš Wyzie ključ. Obavezno.',
-  'plugins.kodi.cfg.hi': 'Preferiraj titlove za osobe oštećenog sluha.',
+  'plugins.kodi.cfg.hi':
+    'Vraćaj samo titlove za osobe oštećenog sluha (šalje hi=true).',
   'plugins.kodi.cfg.langs':
     'Jezici se preuzimaju iz Kodi izabranih jezika titlova i automatski mapiraju na ISO 639-1.',
   'plugins.kodi.matching.1':

@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie adalah seperangkat alat sumber terbuka untuk mengambil subtitle dan segala sesuatu di antaranya.',
+    'Wyzie adalah seperangkat alat untuk mengambil subtitle dan segala sesuatu di antaranya.',
   'index.cta.start': 'Mulai',
   'index.cta.store': 'Lihat Selengkapnya',
 
   'index.card.keys.title': 'API Key Gratis',
   'index.card.keys.body':
-    'Dapatkan API key gratis di store.wyzie.io/redeem dengan verifikasi Gmail cepat. 1.000 permintaan/hari tanpa biaya. Paket berbayar tersedia untuk penggunaan lebih tinggi.',
+    'Dapatkan API key gratis di store.wyzie.io/redeem dengan verifikasi email cepat (Gmail, Outlook, Yahoo, iCloud, Proton, dan penyedia besar lainnya). 1.000 permintaan/hari tanpa biaya. Paket berbayar tersedia untuk penggunaan lebih tinggi.',
 
   'index.card.ai.title': 'Terjemahan AI',
   'index.card.ai.body':
-    'Terjemahkan subtitle apa pun ke 80+ bahasa sesuai permintaan. Mengalir per cue sehingga pemutaran dapat dimulai dalam hitungan detik. Tersedia untuk kunci Pro.',
+    'Terjemahkan subtitle apa pun ke 80+ bahasa sesuai permintaan. SRT dialirkan kembali secara berurutan seiring batch selesai, sehingga baris pertama tiba dengan cepat. Tersedia untuk kunci Pro.',
 
   'index.card.reliable.title': 'Andal',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Pengantar Wyzie Subs',
   'subs.intro.p1':
-    'Wyzie Subs adalah API scraping subtitle terbuka dan bebas. Ada dua cara untuk membuat permintaan ke API: menggunakan paket NPM kami atau langsung mengambil API Wyzie itu sendiri. Saya merekomendasikan menggunakan paket kami, tetapi sebagian orang mungkin merasa tipenya merepotkan. Untuk menggunakan API, Anda harus terlebih dahulu membuat keputusan tersebut.',
+    'Wyzie Subs adalah API scraping subtitle dengan tingkatan gratis. Ada dua cara untuk membuat permintaan ke API: menggunakan paket NPM kami atau langsung mengambil API Wyzie itu sendiri. Saya merekomendasikan menggunakan paket kami, tetapi sebagian orang mungkin merasa tipenya merepotkan. Untuk menggunakan API, Anda harus terlebih dahulu membuat keputusan tersebut.',
   'subs.intro.note.ai':
-    'Terjemahan AI telah aktif untuk kunci Pro. Judul apa pun, 80+ bahasa target, dialirkan kembali saat penerjemah bekerja.',
+    'Terjemahan AI telah aktif untuk kunci Pro. Judul apa pun, 80+ bahasa target, dialirkan kembali sesuai urutan subtitle seiring batch selesai.',
   'subs.intro.important.apikey':
-    'API key diperlukan untuk semua permintaan. Dapatkan kunci gratis di [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifikasi Gmail, 1.000 permintaan/hari). Untuk penggunaan lebih tinggi, tersedia [paket Pro dan top-up](https://store.wyzie.io). Lihat halaman API Keys untuk detailnya.',
+    'API key diperlukan untuk semua permintaan. Dapatkan kunci gratis di [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifikasi email, 1.000 permintaan/hari). Untuk penggunaan lebih tinggi, tersedia [paket Pro dan top-up](https://store.wyzie.io). Lihat halaman API Keys untuk detailnya.',
   'subs.intro.note.npm':
     'Kami sangat menyarankan paket NPM jika Anda familiar dengan TypeScript atau JavaScript',
   'subs.intro.btn.npm': 'Paket NPM',
@@ -61,7 +61,7 @@ const messages: Record<string, string> = {
     'Jika kunci mencapai mesin pengguna akhir, anggap saja sudah publik. Ada dua pola yang aman:',
   'subs.intro.protect.opt1.h3': 'Opsi 1: Gunakan Wyzie Worker',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker adalah proxy Cloudflare Worker ringan yang menyuntikkan API key Anda di sisi server. Deploy ke Cloudflare Workers dan atur kunci Anda sebagai variabel lingkungan NITRO_API_TOKEN. Kemudian arahkan permintaan klien Anda ke URL worker Anda alih-alih sub.wyzie.io — worker akan meneruskannya dengan kunci Anda terlampir.',
+    'Wyzie Worker adalah proxy Cloudflare Worker ringan yang menyuntikkan API key Anda di sisi server. Deploy ke Cloudflare Workers dan atur dua secret: `NITRO_API_TOKEN` (API key Wyzie Anda) dan `NITRO_WORKER_KEY` (secret yang Anda pilih sendiri). Setiap permintaan ke worker harus mengirim `Authorization: Bearer <NITRO_WORKER_KEY>`; tanpanya worker menjawab dengan 401, dan jika `NITRO_WORKER_KEY` tidak diatur, worker menolak setiap permintaan dengan 503. Kunci worker juga harus tetap berada di sisi server, jadi panggil worker dari backend Anda sendiri, jangan pernah dari kode browser atau aplikasi. Worker meneruskan setiap permintaan ke sub.wyzie.io dengan API key Anda terlampir.',
   'subs.intro.protect.opt2.h3': 'Opsi 2: Buat Proxy Sendiri',
   'subs.intro.protect.opt2.p1':
     'Jika Anda tidak ingin menggunakan Wyzie Worker, Anda dapat membuat proxy sisi server sederhana dengan framework apa pun. Idenya sama: backend Anda menerima permintaan dari klien, menambahkan API key, dan meneruskannya ke sub.wyzie.io.',
@@ -171,8 +171,9 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT, ASS, SSA, VTT, SUB, dan lainnya',
 
   'subs.sources.ai.desc':
-    'Bukan scraper. SRT hasil terjemahan AI yang dibuat sesuai permintaan dari subtitle sumber terbaik yang tersedia. Lihat panduan Terjemahan AI untuk detail lengkap.',
-  'subs.sources.ai.content': 'Apa pun yang dapat ditemukan SRT-nya oleh Wyzie',
+    'Bukan scraper. SRT hasil terjemahan AI yang dibuat sesuai permintaan dari subtitle sumber terbaik yang tersedia. Hanya untuk kunci Pro. Lihat panduan Terjemahan AI untuk detail lengkap.',
+  'subs.sources.ai.content':
+    'Apa pun yang subtitle teksnya dapat ditemukan oleh Wyzie',
   'subs.sources.ai.languages': '80+ bahasa target',
   'subs.sources.ai.formats': 'Hanya SRT',
 
@@ -201,7 +202,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.encoding':
     'Filter pengkodean karakter (mis., utf-8, latin-1).',
   'subs.pkg.param.hi':
-    'Boolean untuk subtitle bagi pengguna dengan gangguan pendengaran.',
+    'Jika true, hanya mengembalikan subtitle untuk pengguna dengan gangguan pendengaran. Sumber yang tidak memberi tanda gangguan pendengaran pada subtitle-nya tidak mengembalikan apa pun.',
   'subs.pkg.param.source':
     'Penyedia subtitle yang dikueri berdasarkan nama kode (all untuk setiap sumber aktif yang dapat digunakan kunci Anda; default charlie).',
   'subs.pkg.param.release': 'Filter rilis/scene (menerima daftar).',
@@ -226,7 +227,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'Input dan hasil dari syncSubtitle (Wyzie Synced, kunci Pro): subtitle yang mana (sebuah hasil, url-nya, atau tmdb_id/imdb_id beserta language), speech yang ditemukan detectSpeech atau file media, serta tautan unduhan hasil sinkronisasi beserta offset, fps, dan confidence-nya. Lihat [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
-    'Tipe kami sangat sederhana dan terdokumentasi dengan baik. Lihat file types.ts yang tertaut di repositori GitHub.',
+    'Tipe kami sangat sederhana dan terdokumentasi dengan baik. Lihat [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) di repositori wyzie-lib.',
   'subs.pkg.config.h3': 'Konfigurasi',
   'subs.pkg.config.p1':
     'Seorang pengguna bertanya di Github tentang hostname API yang dapat dikonfigurasi dan saya pikir itu ide yang bagus, jadi berikut cara penggunaannya. Terima kasih semuanya!',
@@ -249,10 +250,10 @@ const messages: Record<string, string> = {
   'subs.direct.param.format':
     'Format subtitle yang dikembalikan. Beberapa nilai diperbolehkan.',
   'subs.direct.param.hi':
-    'Apakah ingin memprioritaskan subtitle untuk pengguna dengan gangguan pendengaran.',
+    'Jika true, hanya mengembalikan subtitle untuk pengguna dengan gangguan pendengaran (ini filter, bukan preferensi). Sumber yang tidak memberi tanda gangguan pendengaran pada subtitle-nya tidak mengembalikan apa pun.',
   'subs.direct.param.encoding': 'Filter pengkodean karakter.',
   'subs.direct.param.source':
-    'Penyedia subtitle yang dikueri (all untuk mengkueri setiap sumber yang diaktifkan; default charlie).',
+    'Penyedia subtitle yang dikueri (all untuk mengkueri setiap sumber yang dapat digunakan kunci Anda; default charlie).',
   'subs.direct.param.release':
     'Filter rilis atau nama scene (dipisahkan koma).',
   'subs.direct.param.file':
@@ -272,7 +273,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': 'Data yang Dikembalikan',
   'subs.direct.data.id': 'ID dari file subtitle.',
-  'subs.direct.data.url': 'URL ke file subtitle.',
+  'subs.direct.data.url':
+    'Tautan unduhan di https://sub.wyzie.io/c/... yang membawa parameter tok terenkripsi. Setiap unduhan membutuhkan 1 permintaan; lihat bagian Mengunduh Subtitle di bawah.',
   'subs.direct.data.flagUrl': 'URL ke bendera lokal bahasa.',
   'subs.direct.data.format': 'Format dari file subtitle.',
   'subs.direct.data.encoding': 'Pengkodean karakter dari file subtitle.',
@@ -326,27 +328,27 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Terjemahan Subtitle AI',
   'subs.translate.important':
-    'Terjemahan AI adalah **fitur Pro**. Setiap terjemahan membutuhkan **100 permintaan** dari saldo kunci Anda, dikenakan biaya pada cache hit maupun terjemahan baru. Kunci gratis tidak dapat menggunakannya.',
+    'Terjemahan AI adalah **fitur Pro**; kunci gratis mendapatkan 403 Upgrade required. Setiap panggilan membutuhkan **100 permintaan** dari saldo kunci Anda, termasuk cache hit. Jika panggilan gagal sebelum menghasilkan output apa pun (tidak ada subtitle yang ditemukan, pencarian atau unduhan gagal, atau server sedang sibuk), 100 permintaan tersebut dikembalikan secara otomatis.',
   'subs.translate.p1':
-    'Wyzie dapat menerjemahkan subtitle apa pun ke 80+ bahasa secara langsung. Terjemahan dialirkan kembali saat model menghasilkannya, sehingga pemutaran dapat dimulai dalam satu atau dua detik alih-alih menunggu seluruh file selesai. Hasil di-cache selama 30 hari, sehingga orang kedua yang meminta terjemahan yang sama akan mendapatkannya secara instan.',
+    'Wyzie dapat menerjemahkan subtitle apa pun ke 80+ bahasa secara langsung. SRT hasil terjemahan dialirkan kembali secara berurutan seiring batch selesai, sehingga cue pertama tiba dengan cepat alih-alih setelah seluruh file selesai. Terjemahan lengkap di-cache selama 30 hari, sehingga permintaan berikutnya untuk judul, episode, dan bahasa target yang sama disajikan dari cache.',
 
   'subs.translate.ways.h2': 'Dua Cara untuk Menggunakannya',
   'subs.translate.way1.h3': '1. Pilih Bahasa dari Respons Pencarian',
   'subs.translate.way1.p1':
-    'Setiap respons /search kini menyertakan satu entri tambahan per bahasa yang didukung dengan "ai": true dan url yang mengarah ke /translate. Perlakukan baris AI seperti baris subtitle lainnya di UI Anda: saat pengguna mengkliknya, ambil URL tersebut.',
+    'Untuk kunci Pro, setiap respons /search juga menyertakan baris terjemahan AI dengan "ai": true dan url yang mengarah ke /translate: satu per bahasa yang didukung, atau hanya bahasa dalam filter language= Anda. Kunci gratis tidak pernah mendapatkan baris ini. Perlakukan baris AI seperti baris subtitle lainnya di UI Anda: saat pengguna mengkliknya, ambil URL tersebut.',
   'subs.translate.way1.filter':
     'Jika Anda ingin menyembunyikan baris AI dari UI Anda, filter keluar:',
   'subs.translate.way2.h3': '2. Panggil /translate Secara Langsung',
 
   'subs.translate.param.id': 'TMDB atau IMDB ID (wajib).',
   'subs.translate.param.target':
-    'Bahasa target dengan nama Inggris lengkapnya (mis. Spanish, Japanese, Brazilian Portuguese) (wajib).',
+    'Bahasa target (wajib): nama dari daftar yang didukung (mis. Spanish, Japanese, Portuguese (Brazil)) atau kodenya (mis. es, ja, pt-BR).',
   'subs.translate.param.seasonEpisode':
     'Untuk TV. Keduanya harus ada bersamaan.',
   'subs.translate.param.key':
     'API key Anda. Gunakan tk sebagai gantinya jika Anda mendapatkan URL dari /search.',
   'subs.translate.param.tk':
-    'Token bertanda tangan yang dikembalikan oleh /search. Setara dengan key, tetapi tidak mengekspos kunci mentah.',
+    'Token terenkripsi dari URL baris AI di /search. Berfungsi seperti key, tidak mengungkapkan API key Anda, dan tetap berlaku selama 60 hari.',
 
   'subs.translate.headers.p':
     'Isi respons adalah file SRT yang dialirkan sebagai text/plain; charset=utf-8. Header respons yang berguna:',
@@ -360,27 +362,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': 'Cara Kerjanya',
   'subs.translate.how.step1':
-    'Wyzie mencari sumber normal untuk subtitle SRT, lebih memilih bahasa Inggris jika tersedia.',
+    'Wyzie mencari sumber normal untuk subtitle teks, lebih memilih SRT bahasa Inggris jika tersedia. File VTT, ASS, SSA, dan SUB dikonversi ke SRT terlebih dahulu.',
   'subs.translate.how.step2':
-    'SRT dibagi menjadi potongan 50 cue dan diterjemahkan secara berurutan. Setiap potongan di-cache secara individual saat selesai.',
+    'SRT dibagi menjadi batch berukuran hingga sekitar 3.800 karakter dan diterjemahkan dengan Google Translate, 4 batch sekaligus.',
   'subs.translate.how.step3':
-    'Output dialirkan kembali kepada Anda cue per cue. Pemutar yang menerima isi SRT streaming dapat mulai menampilkan baris pertama sebelum sisanya selesai.',
+    'Output dialirkan kembali sesuai urutan SRT seiring batch selesai, sehingga cue pertama tiba dengan cepat. Pemutar yang menerima isi SRT streaming dapat mulai menampilkan baris pertama sebelum sisanya selesai.',
   'subs.translate.how.step4':
     'Terjemahan lengkap di-cache di Redis selama 30 hari, dikunci berdasarkan id, season, episode, dan target.',
 
   'subs.translate.languages.h2': 'Bahasa Target yang Didukung',
   'subs.translate.languages.p':
-    '80+ bahasa termasuk semua bahasa utama Eropa, Asia, Afrika, dan Timur Tengah. Sertakan nama Inggrisnya (Spanish, bukan es). Daftar ini juga dikembalikan sebagai baris ai: true dalam respons /search mana pun, yang merupakan sumber kebenaran kanonik.',
+    '80+ bahasa termasuk semua bahasa utama Eropa, Asia, Afrika, dan Timur Tengah. Sertakan nama dari daftar (Spanish, Portuguese (Brazil)) atau kodenya (es, pt-BR). Untuk kunci Pro, daftar lengkapnya juga dikembalikan sebagai baris ai: true dalam respons /search mana pun tanpa filter language=, yang merupakan sumber kebenaran kanonik.',
 
   'subs.translate.limitations.h2': 'Keterbatasan',
   'subs.translate.limit1':
-    'Terjemahan AI memerlukan sumber SRT. Judul yang setiap subtitle tersedianya adalah .ass, .vtt, atau format lain akan mengembalikan 404 No SRT found.',
+    'Terjemahan AI memerlukan subtitle teks sebagai titik awal. Sumber VTT, ASS, SSA, dan SUB dikonversi ke SRT terlebih dahulu; jika tidak ada subtitle teks, panggilan mengembalikan 404 No subtitle found dan 100 permintaan tersebut dikembalikan ke saldo Anda.',
   'subs.translate.limit2':
     'Kualitas terjemahan bergantung pada subtitle sumber. Sumber yang waktunya buruk atau salah ketik akan menghasilkan terjemahan yang waktunya buruk atau salah ketik.',
   'subs.translate.limit3':
     'Beberapa pengguna mungkin ingin sepenuhnya menghindari baris AI. Filter pada ai === false di klien Anda.',
   'subs.translate.limit4':
-    'Terjemahan ditagih pada cache hit juga. Baik yang baru dibuat maupun yang disajikan dari cache 30 hari, setiap permintaan /translate membutuhkan 100 permintaan.',
+    'Terjemahan ditagih pada cache hit juga. Baik yang baru dibuat maupun yang disajikan dari cache 30 hari, setiap panggilan /translate membutuhkan 100 permintaan. Biaya hanya dikembalikan untuk panggilan yang gagal sebelum menghasilkan output apa pun.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -461,7 +463,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs memerlukan API key untuk semua permintaan. Tingkatan gratis mencakup sebagian besar kasus penggunaan; paket berbayar menangani penggunaan yang lebih berat.',
 
   'subs.keys.tiers.h2': 'Tingkatan',
-  'subs.keys.tier.free': 'Gratis (Gmail diperlukan)',
+  'subs.keys.tier.free': 'Gratis (verifikasi email)',
   'subs.keys.tier.free.limit': '1.000 permintaan / hari UTC',
   'subs.keys.tier.pro': '$5 sekali bayar',
   'subs.keys.tier.pro.limit': '400.000 permintaan',
@@ -476,13 +478,13 @@ const messages: Record<string, string> = {
   'subs.keys.free.step1':
     'Selesaikan captcha Cloudflare Turnstile dengan cepat.',
   'subs.keys.free.step2':
-    'Masukkan alamat Gmail (hanya Gmail yang diterima untuk tingkatan gratis).',
+    'Masukkan alamat dari penyedia email pribadi besar (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton, dan lainnya). Domain email sekali pakai ditolak.',
   'subs.keys.free.step3':
     'Masukkan kode 6 digit yang kami kirimkan melalui email.',
   'subs.keys.free.step4':
     'Anda akan menerima API key yang terlihat seperti wyzie-abc123...',
   'subs.keys.free.gmail':
-    'Setiap alamat Gmail hanya dapat menukarkan satu kunci gratis. Sudah pernah memiliki kunci gratis yang terhubung ke email tersebut? Verifikasi ulang hanya akan mengembalikan kunci Anda yang sudah ada.',
+    'Setiap alamat email dan setiap jaringan hanya dapat mengklaim satu kunci gratis; permintaan kedua mengembalikan 409. Kehilangan kunci Anda? Gunakan "Forgot key" di [dasbor](https://store.wyzie.io/dashboard) agar kunci Anda dikirim ulang.',
 
   'subs.keys.pro.h2': 'Upgrade ke Pro',
   'subs.keys.pro.p1':
@@ -496,11 +498,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     'Dua cara aman menggunakan kunci dari aplikasi klien:',
   'subs.keys.protect.option1':
-    'Gunakan [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): proxy Cloudflare Worker gratis yang menyimpan kunci Anda di sisi server. Arahkan klien Anda ke URL Worker alih-alih sub.wyzie.io.',
+    'Gunakan [Wyzie Worker](https://github.com/wyziedevs/wyzie-worker): proxy Cloudflare Worker gratis yang menyimpan API key Anda sebagai secret `NITRO_API_TOKEN`. Setiap panggilan ke worker tersebut harus mengirim `Authorization: Bearer <NITRO_WORKER_KEY>`, secret kedua yang Anda tetapkan, jadi arahkan klien Anda melalui backend Anda sendiri dan simpan juga kunci worker di sisi server.',
   'subs.keys.protect.option2':
     'Jalankan proxy Anda sendiri: endpoint backend apa pun yang menambahkan kunci sebelum meneruskan ke sub.wyzie.io berfungsi. Lihat halaman Intro untuk contoh 10 baris.',
   'subs.keys.protect.devtools':
-    'Jika kunci muncul di tab jaringan di DevTools, itu berarti sudah terekspos. Anggap sudah publik dan ganti dengan menghubungi dukungan melalui email.',
+    'Jika kunci muncul di tab jaringan di DevTools, itu berarti sudah terekspos. Anggap sudah publik dan ganti melalui [dasbor](https://store.wyzie.io/dashboard) Anda.',
 
   'subs.keys.using.h2': 'Menggunakan Kunci Anda',
   'subs.keys.using.p': 'Tambahkan &key=YOUR_KEY ke setiap permintaan API:',
@@ -510,9 +512,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     'Satu pencarian membutuhkan 1 permintaan dan setiap unduhan subtitle membutuhkan 1 permintaan, jadi mencari sekali lalu mengunduh satu file menggunakan 2. Terjemahan AI membutuhkan 100 permintaan per panggilan.',
   'subs.keys.limit.free':
-    '**Tingkatan gratis** habis -> API mengembalikan 429 dengan header X-RateLimit-Reset dan Retry-After. Penghitung harian direset pada tengah malam UTC.',
+    '**Tingkatan gratis** habis -> pencarian dan tautan unduhan mengembalikan 429 Daily request limit reached, dengan reset_at di dalam JSON dan header Retry-After. Batas harian 1.000 permintaan direset pada tengah malam UTC.',
   'subs.keys.limit.paid':
-    '**Saldo berbayar** habis -> API mengembalikan 402. Isi ulang di [store.wyzie.io/topup](https://store.wyzie.io/topup) atau aktifkan **auto top-up** di dasbor Anda untuk mengisi ulang secara otomatis saat saldo Anda melewati ambang batas yang Anda tentukan.',
+    '**Saldo berbayar** habis -> pencarian dan tautan unduhan mengembalikan 402 dengan tautan top-up di dalam JSON. Isi ulang di [store.wyzie.io/topup](https://store.wyzie.io/topup) atau aktifkan **auto top-up** di dasbor Anda untuk mengisi ulang secara otomatis saat saldo Anda melewati ambang batas yang Anda tentukan.',
   'subs.keys.hold.p1':
     'Kunci yang mengirim volume sangat tinggi, sebagian besar dari IP datacenter atau hosting, dijeda secara otomatis. Kunci yang dijeda mendapatkan 403 Key on hold pada setiap permintaan, dengan tautan pemulihan (https://store.wyzie.io/verify) dan tautan dukungan (https://store.wyzie.io/contact) di dalam JSON.',
   'subs.keys.hold.p2':
@@ -530,7 +532,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.q1':
     'Saya kehilangan kunci saya. Bisakah saya mendapatkan yang baru?',
   'subs.keys.faq.a1':
-    'Kunjungi [store.wyzie.io](https://store.wyzie.io) dan gunakan alur "forgot key" dengan email terdaftar Anda; kami akan mengirim ulang kunci Anda yang sudah ada.',
+    'Buka [dasbor](https://store.wyzie.io/dashboard) dan gunakan "Forgot key" dengan email terdaftar Anda; kami akan mengirim ulang kunci Anda yang sudah ada. Jika menurut Anda kunci tersebut bocor, sebaiknya ganti kunci melalui dasbor.',
   'subs.keys.faq.q2': 'Bisakah saya menggunakan satu kunci di beberapa proyek?',
   'subs.keys.faq.a2':
     'Ya. Kunci Anda berfungsi di mana pun Anda memanggil API.',
@@ -590,7 +592,7 @@ const messages: Record<string, string> = {
     '**Mode Debug**: Logging terperinci untuk pemecahan masalah dan pemantauan',
 
   'i6shark.intro.requirements.h2': 'Persyaratan',
-  'i6shark.intro.req1': 'Go 1.20 atau lebih tinggi',
+  'i6shark.intro.req1': 'Go 1.22 atau lebih tinggi',
   'i6shark.intro.req2':
     'Sistem Linux/Unix dengan dukungan IPv6 (lebih disukai Ubuntu)',
   'i6shark.intro.req3':
@@ -648,17 +650,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Gunakan **Kodi** untuk layanan subtitle native Kodi pada Android TV, Raspberry Pi, atau PC home theatre.',
   'plugins.index.shared.sources':
-    '**Sumber:** OpenSubtitles, SubDL, dan Podnapisi, diagregasi melalui Wyzie.',
+    '**Sumber:** setiap sumber yang dapat digunakan kunci Anda (`source=all`): charlie dan lima pada kunci gratis, ketujuh sumber pada kunci Pro.',
   'plugins.index.shared.matching':
     '**Pencocokan:** Wyzie didorong oleh ID IMDB dan TMDB plus musim dan episode, sehingga pencocokan akurat untuk film maupun serial.',
   'plugins.index.shared.quota':
     '**Kuota:** ketika kunci Anda habis, plugin menampilkan pesan ramah yang menautkan ke [store.wyzie.io](https://store.wyzie.io) alih-alih gagal secara diam-diam. Isi ulang atau berlangganan dan Anda kembali beraksi.',
   'plugins.index.shared.languages':
     '**Bahasa:** 100+, dapat dipilih per plugin.',
-  'plugins.index.outro': 'Pilih platform Anda di atas untuk memulai.',
+  'plugins.index.outro':
+    'Pilih platform Anda di atas untuk memulai. Kode sumber setiap plugin ada di [repositori wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins).',
 
   'plugins.stremio.intro':
-    'Add-on subtitle sekali klik untuk [Stremio](https://www.stremio.com/). Ia mengagregasi OpenSubtitles, SubDL, dan Podnapisi melalui Wyzie dan bekerja untuk film maupun serial, di setiap platform tempat Stremio berjalan.',
+    'Add-on subtitle sekali klik untuk [Stremio](https://www.stremio.com/). Ia mengkueri setiap sumber Wyzie yang dapat digunakan kunci Anda dan bekerja untuk film maupun serial, di setiap platform tempat Stremio berjalan.',
   'plugins.stremio.before':
     'Anda memerlukan Wyzie API key gratis. Dapatkan satu di [store.wyzie.io/redeem](https://store.wyzie.io/redeem), atau beli kunci Pro atau berlangganan di [store.wyzie.io](https://store.wyzie.io/#plans).',
   'plugins.stremio.install.1':
@@ -667,7 +670,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     'Opsional: masukkan **bahasa** pilihan Anda sebagai kode ISO 639-1, dipisahkan koma (misalnya `en,es,fr`). Kosongkan untuk semua bahasa.',
   'plugins.stremio.install.4':
-    'Opsional: aktifkan subtitle **hearing-impaired** jika Anda lebih menyukainya.',
+    'Opsional: aktifkan **hearing-impaired** untuk hanya mendapatkan subtitle hearing-impaired. Biarkan nonaktif untuk melihat semuanya; selama opsi ini aktif, sumber yang tidak menandai subtitle hearing-impaired tidak mengembalikan apa pun.',
   'plugins.stremio.install.5':
     'Klik **Install**. Stremio terbuka dan meminta Anda mengonfirmasi; terima, dan Anda selesai.',
   'plugins.stremio.install.after':
@@ -679,7 +682,7 @@ const messages: Record<string, string> = {
     'Kode ISO 639-1, dipisahkan koma. Kosong berarti semua bahasa.',
   'plugins.stremio.cfg.hi.f': 'Hearing-impaired',
   'plugins.stremio.cfg.hi.d':
-    'Utamakan subtitle hearing-impaired bila tersedia.',
+    'Hanya kembalikan subtitle hearing-impaired (mengirim hi=true). Nonaktif secara default.',
   'plugins.stremio.cfg.note':
     'Untuk mengubah salah satu dari ini nanti, buka kembali [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure), sesuaikan, dan instal ulang.',
   'plugins.stremio.local':
@@ -694,13 +697,13 @@ const messages: Record<string, string> = {
     '**Episode serial tidak cocok.** Wyzie mencocokkan berdasarkan musim dan episode; pastikan Stremio memutar entri episode yang benar, bukan halaman serial umum.',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/) mengelola subtitle untuk **Plex, Jellyfin, Emby, Sonarr, dan Radarr** di satu tempat. Menambahkan Wyzie sebagai penyedia memberi semua server tersebut akses ke OpenSubtitles, SubDL, dan Podnapisi melalui satu kunci.',
+    '[Bazarr](https://www.bazarr.media/) mengelola subtitle untuk **Plex, Jellyfin, Emby, Sonarr, dan Radarr** di satu tempat. Menambahkan Wyzie sebagai penyedia memberi semua server tersebut akses ke setiap sumber Wyzie yang dapat digunakan kunci Anda, melalui satu kunci.',
   'plugins.bazarr.note':
     'Ini adalah cara yang direkomendasikan untuk menggunakan Wyzie dengan Plex dan Jellyfin. Bazarr mengunduh berkas subtitle di samping media Anda, dan server Anda mengambilnya secara otomatis, sehingga tidak diperlukan plugin native terpisah.',
   'plugins.bazarr.before':
     'Dapatkan Wyzie API key gratis di [store.wyzie.io/redeem](https://store.wyzie.io/redeem), dan miliki akses ke berkas instalasi Bazarr Anda (jalur Docker tipikal: `/opt/bazarr/bazarr/`).',
   'plugins.bazarr.install.1':
-    'Salin `wyzie.py` ke `bazarr/subliminal_patch/providers/wyzie.py`.',
+    'Unduh [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py) dari [repositori wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (atau `git clone https://github.com/wyziedevs/wyzie-plugins.git`) dan salin ke `bazarr/subliminal_patch/providers/wyzie.py`.',
   'plugins.bazarr.install.2':
     'Edit `bazarr/subliminal_patch/extensions.py` dan tambahkan `wyzie` ke **kedua** `provider_registry` dan `provider_manager`.',
   'plugins.bazarr.install.3':
@@ -711,13 +714,14 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     'Sebuah pull request kelas satu untuk mengirimkan penyedia ini ke hulu Bazarr sedang direncanakan. Sampai saat itu, ini adalah berkas siap-pakai yang Anda tambahkan ke instalasi Anda sendiri.',
   'plugins.bazarr.cfg.key': 'Kunci Wyzie Anda. Wajib.',
-  'plugins.bazarr.cfg.hi': 'Utamakan subtitle hearing-impaired.',
+  'plugins.bazarr.cfg.hi':
+    'Hanya kembalikan subtitle hearing-impaired (mengirim hi=true).',
   'plugins.bazarr.cfg.sources':
     'Daftar penyedia yang dipisahkan koma untuk dikueri, atau `all`.',
   'plugins.bazarr.quota.402':
     '**402 atau 429** (saldo kosong atau batas harian tercapai): Bazarr mencatat catatan dengan tautan ke [store.wyzie.io](https://store.wyzie.io) dan tidak mengembalikan hasil, sehingga dengan rapi beralih ke penyedia Anda yang lain. Tidak ada yang crash.',
   'plugins.bazarr.quota.401':
-    '**401** (kunci buruk): Bazarr memunculkan kesalahan autentikasi sehingga Anda tahu untuk memasukkan ulang kunci.',
+    '**401** (kunci tidak disertakan) atau **403** (kunci tidak dikenal, atau kunci yang sedang ditangguhkan): Bazarr memunculkan kesalahan autentikasi sehingga Anda tahu untuk memeriksa atau memasukkan ulang kunci.',
   'plugins.bazarr.ts.missing':
     '**Wyzie tidak muncul dalam daftar penyedia.** Periksa kembali langkah instalasi yang mengedit `extensions.py`; entri harus ada di kedua `provider_registry` dan `provider_manager`, lalu mulai ulang Bazarr.',
   'plugins.bazarr.ts.none':
@@ -744,7 +748,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     'Gunakan ini jika Anda lebih memilih untuk tidak menambahkan repositori. Catatan: instalasi zip **tidak** memperbarui otomatis.',
   'plugins.kodi.zip.1':
-    'Dapatkan zip add-on: `service.subtitles.wyzie-<version>.zip`. Jika Anda memiliki sumbernya, zip folder `kodi/` sehingga zip berisi `addon.xml` di root-nya.',
+    'Dapatkan zip add-on: `service.subtitles.wyzie-<version>.zip`. Untuk membuatnya sendiri, clone [repositori wyzie-plugins](https://github.com/wyziedevs/wyzie-plugins) (`git clone https://github.com/wyziedevs/wyzie-plugins.git`) dan zip folder `kodi/` di dalamnya sehingga zip berisi `addon.xml` di root-nya.',
   'plugins.kodi.zip.2':
     'Di Kodi: **Settings, Add-ons, Install from zip file**, lalu pilih zip-nya. Jika Kodi memblokirnya, aktifkan **Settings, System, Add-ons, Unknown sources** terlebih dahulu.',
   'plugins.kodi.zip.3':
@@ -752,7 +756,8 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'Buka pengaturan add-on Wyzie Subs dan tempel **API key** Anda.',
   'plugins.kodi.cfg.key': 'Kunci Wyzie Anda. Wajib.',
-  'plugins.kodi.cfg.hi': 'Utamakan subtitle hearing-impaired.',
+  'plugins.kodi.cfg.hi':
+    'Hanya kembalikan subtitle hearing-impaired (mengirim hi=true).',
   'plugins.kodi.cfg.langs':
     'Bahasa diambil dari bahasa subtitle yang dipilih Kodi dan dipetakan ke ISO 639-1 secara otomatis.',
   'plugins.kodi.matching.1':

@@ -4,17 +4,17 @@ const messages: Record<string, string> = {
 
   // Index / Landing Page
   'index.subtitle':
-    'Wyzie는 자막 스크래핑 및 관련 작업을 위한 오픈 소스 도구 모음입니다.',
+    'Wyzie는 자막 스크래핑 및 관련 작업을 위한 도구 모음입니다.',
   'index.cta.start': '시작하기',
   'index.cta.store': '확인하기',
 
   'index.card.keys.title': '무료 API 키',
   'index.card.keys.body':
-    'store.wyzie.io/redeem에서 간단한 Gmail 인증으로 무료 API 키를 받으세요. 하루 1,000회 요청을 무료로 사용할 수 있습니다. 더 많은 사용량을 위한 유료 플랜도 제공됩니다.',
+    'store.wyzie.io/redeem에서 간단한 이메일 인증 (Gmail, Outlook, Yahoo, iCloud, Proton 및 기타 주요 제공업체)으로 무료 API 키를 받으세요. 하루 1,000회 요청을 무료로 사용할 수 있습니다. 더 많은 사용량을 위한 유료 플랜도 제공됩니다.',
 
   'index.card.ai.title': 'AI 번역',
   'index.card.ai.body':
-    '원하는 자막을 80개 이상의 언어로 즉시 번역합니다. 번역 작업 중에도 큐 단위로 스트리밍되어 몇 초 만에 재생을 시작할 수 있습니다. Pro 키에서 사용 가능합니다.',
+    '원하는 자막을 80개 이상의 언어로 즉시 번역합니다. SRT는 배치가 완료되는 대로 순서대로 스트리밍되므로 첫 줄이 빠르게 도착합니다. Pro 키에서 사용 가능합니다.',
 
   'index.card.reliable.title': '안정성',
   'index.card.reliable.body':
@@ -33,11 +33,11 @@ const messages: Record<string, string> = {
   // Subs Intro Page
   'subs.intro.title': 'Wyzie Subs 소개',
   'subs.intro.p1':
-    'Wyzie Subs는 무료 오픈 소스 자막 스크래핑 API입니다. API에 요청하는 방법은 두 가지입니다: NPM 패키지를 사용하거나 Wyzie API를 직접 호출하는 것입니다. 패키지 사용을 권장하지만, 타입이 번거롭다고 느끼는 분도 있을 수 있습니다. API를 사용하기 전에 먼저 방법을 결정해야 합니다.',
+    'Wyzie Subs는 무료 등급을 제공하는 자막 스크래핑 API입니다. API에 요청하는 방법은 두 가지입니다: NPM 패키지를 사용하거나 Wyzie API를 직접 호출하는 것입니다. 패키지 사용을 권장하지만, 타입이 번거롭다고 느끼는 분도 있을 수 있습니다. API를 사용하기 전에 먼저 방법을 결정해야 합니다.',
   'subs.intro.note.ai':
-    'AI 번역이 Pro 키에 대해 제공됩니다. 모든 제목, 80개 이상의 대상 언어, 번역 작업 중 실시간 스트리밍.',
+    'AI 번역이 Pro 키에 대해 제공됩니다. 모든 제목, 80개 이상의 대상 언어, 배치가 완료되는 대로 자막 순서대로 스트리밍.',
   'subs.intro.important.apikey':
-    '모든 요청에는 API 키가 필요합니다. [store.wyzie.io/redeem](https://store.wyzie.io/redeem)에서 무료 키를 받으세요 (Gmail 인증, 하루 1,000회 요청). 더 많은 사용량이 필요하다면 [Pro 및 충전 플랜](https://store.wyzie.io)을 이용하세요. 자세한 내용은 API 키 페이지를 참고하세요.',
+    '모든 요청에는 API 키가 필요합니다. [store.wyzie.io/redeem](https://store.wyzie.io/redeem)에서 무료 키를 받으세요 (이메일 인증, 하루 1,000회 요청). 더 많은 사용량이 필요하다면 [Pro 및 충전 플랜](https://store.wyzie.io)을 이용하세요. 자세한 내용은 API 키 페이지를 참고하세요.',
   'subs.intro.note.npm':
     'TypeScript 또는 JavaScript에 익숙하다면 NPM 패키지 사용을 강력히 권장합니다',
   'subs.intro.btn.npm': 'NPM 패키지',
@@ -60,7 +60,7 @@ const messages: Record<string, string> = {
     '키가 최종 사용자의 기기에 도달하면 공개된 것으로 간주하세요. 안전한 방법은 두 가지입니다:',
   'subs.intro.protect.opt1.h3': '옵션 1: Wyzie Worker 사용',
   'subs.intro.protect.opt1.p1':
-    'Wyzie Worker는 API 키를 서버 측에서 주입하는 경량 Cloudflare Worker 프록시입니다. Cloudflare Workers에 배포하고 키를 NITRO_API_TOKEN 환경 변수로 설정하세요. 그런 다음 클라이언트 요청을 sub.wyzie.io 대신 워커 URL로 보내면 워커가 키를 첨부하여 요청을 전달합니다.',
+    'Wyzie Worker는 API 키를 서버 측에서 주입하는 경량 Cloudflare Worker 프록시입니다. Cloudflare Workers에 배포하고 두 개의 시크릿을 설정하세요: `NITRO_API_TOKEN` (Wyzie API 키), `NITRO_WORKER_KEY` (직접 정한 시크릿). 워커로 보내는 모든 요청에는 `Authorization: Bearer <NITRO_WORKER_KEY>`가 포함되어야 합니다. 없으면 워커가 401로 응답하며, `NITRO_WORKER_KEY`가 설정되지 않은 경우에는 모든 요청을 503으로 거부합니다. 워커 키 역시 서버 측에 보관해야 하므로, 워커는 브라우저나 앱 코드가 아닌 반드시 자체 백엔드에서 호출하세요. 워커는 API 키를 첨부하여 각 요청을 sub.wyzie.io로 전달합니다.',
   'subs.intro.protect.opt2.h3': '옵션 2: 직접 프록시 구축',
   'subs.intro.protect.opt2.p1':
     'Wyzie Worker를 사용하고 싶지 않다면 원하는 프레임워크로 간단한 서버 측 프록시를 구축할 수 있습니다. 개념은 동일합니다: 백엔드가 클라이언트의 요청을 받아 API 키를 추가한 뒤 sub.wyzie.io로 전달합니다.',
@@ -166,8 +166,8 @@ const messages: Record<string, string> = {
   'subs.sources.ajatttools.formats': 'SRT, ASS, SSA, VTT, SUB 등',
 
   'subs.sources.ai.desc':
-    '스크래퍼가 아닙니다. 이용 가능한 최상의 소스 자막을 기반으로 온디맨드로 AI 번역된 SRT를 생성합니다. 자세한 내용은 AI 번역 가이드를 참고하세요.',
-  'subs.sources.ai.content': 'Wyzie가 SRT를 찾을 수 있는 모든 콘텐츠',
+    '스크래퍼가 아닙니다. 이용 가능한 최상의 소스 자막을 기반으로 온디맨드로 AI 번역된 SRT를 생성합니다. Pro 키 전용입니다. 자세한 내용은 AI 번역 가이드를 참고하세요.',
+  'subs.sources.ai.content': 'Wyzie가 텍스트 자막을 찾을 수 있는 모든 콘텐츠',
   'subs.sources.ai.languages': '80개 이상의 대상 언어',
   'subs.sources.ai.formats': 'SRT 전용',
 
@@ -193,7 +193,8 @@ const messages: Record<string, string> = {
   'subs.pkg.param.episode': '에피소드 번호 (season 필요).',
   'subs.pkg.param.language': '자막 언어의 ISO 639-1 코드. 목록을 허용합니다.',
   'subs.pkg.param.encoding': '문자 인코딩 필터 (예: utf-8, latin-1).',
-  'subs.pkg.param.hi': '청각 장애인 자막 여부를 나타내는 불리언.',
+  'subs.pkg.param.hi':
+    'true이면 청각 장애인 자막만 반환합니다. 청각 장애인 자막을 구분해 표시하지 않는 소스는 아무것도 반환하지 않습니다.',
   'subs.pkg.param.source':
     '코드명으로 지정하는 쿼리할 자막 제공자 (all이면 키가 사용할 수 있는 가동 중인 모든 소스 조회; 기본값은 charlie).',
   'subs.pkg.param.release': '릴리스/씬 필터 (목록을 허용합니다).',
@@ -217,7 +218,7 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sync':
     'syncSubtitle의 입력과 결과 (Wyzie Synced, Pro 키): 사용할 자막 (검색 결과, 그 url, 또는 tmdb_id/imdb_id와 language), detectSpeech가 찾은 speech 또는 media 파일, 그리고 offset, fps, confidence가 포함된 동기화된 다운로드 링크. [Wyzie Synced](/subs/usage/synced)를 참고하세요.',
   'subs.pkg.types.end':
-    '타입은 매우 간결하고 잘 문서화되어 있습니다. GitHub 저장소에 링크된 types.ts 파일을 확인하세요.',
+    '타입은 매우 간결하고 잘 문서화되어 있습니다. wyzie-lib 저장소의 [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts)를 참고하세요.',
   'subs.pkg.config.h3': '설정',
   'subs.pkg.config.p1':
     '어떤 사용자가 Github에서 API 호스트명 설정 기능을 요청했는데 좋은 생각 같아서 추가했습니다. 아래에 사용 방법이 있습니다. 여러분을 사랑합니다!',
@@ -238,10 +239,11 @@ const messages: Record<string, string> = {
   'subs.direct.param.language':
     '언어 필터 (ISO 639-1 코드). 여러 값은 쉼표로 구분합니다.',
   'subs.direct.param.format': '반환할 자막 형식. 여러 값을 허용합니다.',
-  'subs.direct.param.hi': '청각 장애인 자막 선호 여부.',
+  'subs.direct.param.hi':
+    'true이면 청각 장애인 자막만 반환합니다 (선호 설정이 아니라 필터입니다). 청각 장애인 자막을 구분해 표시하지 않는 소스는 아무것도 반환하지 않습니다.',
   'subs.direct.param.encoding': '문자 인코딩 필터.',
   'subs.direct.param.source':
-    '쿼리할 자막 제공자 (all이면 활성화된 모든 소스 조회; 기본값은 charlie).',
+    '쿼리할 자막 제공자 (all이면 키가 사용할 수 있는 모든 소스 조회; 기본값은 charlie).',
   'subs.direct.param.release': '릴리스 또는 씬 이름 필터 (쉼표로 구분).',
   'subs.direct.param.file': '파일명 필터 (별칭: file, filename, fileName).',
   'subs.direct.param.origin':
@@ -259,7 +261,8 @@ const messages: Record<string, string> = {
 
   'subs.direct.data.h3': '반환 데이터',
   'subs.direct.data.id': '자막 파일의 ID.',
-  'subs.direct.data.url': '자막 파일의 URL.',
+  'subs.direct.data.url':
+    '암호화된 tok 파라미터가 포함된 https://sub.wyzie.io/c/... 다운로드 링크. 다운로드마다 1회 요청이 차감됩니다. 아래의 자막 다운로드 섹션을 참고하세요.',
   'subs.direct.data.flagUrl': '언어 로케일 국기 이미지의 URL.',
   'subs.direct.data.format': '자막 파일의 형식.',
   'subs.direct.data.encoding': '자막 파일의 문자 인코딩.',
@@ -312,25 +315,25 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI 자막 번역',
   'subs.translate.important':
-    'AI 번역은 **Pro 기능**입니다. 번역 한 번에 키 잔액에서 **100회 요청**이 차감되며, 캐시 적중 시에도 동일하게 차감됩니다. 무료 키는 사용할 수 없습니다.',
+    'AI 번역은 **Pro 기능**입니다. 무료 키는 403 Upgrade required를 받습니다. 호출 한 번에 키 잔액에서 **100회 요청**이 차감되며, 캐시 적중 시에도 마찬가지입니다. 출력이 나오기 전에 호출이 실패하면 (자막을 찾지 못함, 검색 또는 다운로드 실패, 서버 혼잡) 100회 요청이 자동으로 환불됩니다.',
   'subs.translate.p1':
-    'Wyzie는 어떤 자막이든 80개 이상의 언어로 즉시 번역할 수 있습니다. 번역 결과는 모델이 처리하는 동안 스트리밍되므로, 전체 파일을 기다리지 않고 1~2초 내에 재생을 시작할 수 있습니다. 결과는 30일 동안 캐시되므로, 동일한 번역을 두 번째로 요청하면 즉시 제공됩니다.',
+    'Wyzie는 어떤 자막이든 80개 이상의 언어로 즉시 번역할 수 있습니다. 번역된 SRT는 배치가 완료되는 대로 순서대로 스트리밍되므로, 전체 파일이 끝날 때까지 기다리지 않고 첫 큐가 빠르게 도착합니다. 완성된 번역은 30일 동안 캐시되므로, 이후 동일한 제목, 에피소드, 대상 언어에 대한 요청은 캐시에서 제공됩니다.',
 
   'subs.translate.ways.h2': '두 가지 사용 방법',
   'subs.translate.way1.h3': '1. 검색 응답에서 언어 선택하기',
   'subs.translate.way1.p1':
-    '모든 /search 응답에는 지원되는 각 언어별로 "ai": true가 설정되고 /translate를 가리키는 url이 포함된 추가 항목이 포함됩니다. UI에서 AI 행을 다른 자막 행과 동일하게 처리하면 됩니다: 사용자가 클릭하면 해당 URL을 가져오세요.',
+    'Pro 키의 경우 모든 /search 응답에 "ai": true가 설정되고 /translate를 가리키는 url이 포함된 AI 번역 행도 포함됩니다: 지원되는 언어마다 하나씩, 또는 language= 필터에 지정한 언어만 포함됩니다. 무료 키에는 이러한 행이 절대 포함되지 않습니다. UI에서 AI 행을 다른 자막 행과 동일하게 처리하세요: 사용자가 클릭하면 해당 URL을 가져오면 됩니다.',
   'subs.translate.way1.filter': 'UI에서 AI 행을 숨기려면 필터링하세요:',
   'subs.translate.way2.h3': '2. /translate 직접 호출하기',
 
   'subs.translate.param.id': 'TMDB 또는 IMDB ID (필수).',
   'subs.translate.param.target':
-    '영어 전체 이름으로 표기된 대상 언어 (예: Spanish, Japanese, Brazilian Portuguese) (필수).',
+    '대상 언어 (필수): 지원 목록에 있는 이름 (예: Spanish, Japanese, Portuguese (Brazil)) 또는 해당 코드 (예: es, ja, pt-BR).',
   'subs.translate.param.seasonEpisode': 'TV용. 두 값 모두 함께 있어야 합니다.',
   'subs.translate.param.key':
     'API 키. /search에서 URL을 가져온 경우 대신 tk를 사용하세요.',
   'subs.translate.param.tk':
-    '/search가 반환하는 서명된 토큰. key와 동일하지만 원시 키를 노출하지 않습니다.',
+    '/search의 AI 행 URL에 포함된 암호화된 토큰. key처럼 작동하며, API 키를 노출하지 않고, 60일 동안 유효합니다.',
 
   'subs.translate.headers.p':
     '응답 본문은 text/plain; charset=utf-8로 스트리밍되는 SRT 파일입니다. 유용한 응답 헤더:',
@@ -342,27 +345,27 @@ const messages: Record<string, string> = {
 
   'subs.translate.how.h2': '작동 방식',
   'subs.translate.how.step1':
-    'Wyzie가 일반 소스에서 SRT 자막을 검색하며, 이용 가능한 경우 영어를 선호합니다.',
+    'Wyzie가 일반 소스에서 텍스트 자막을 검색하며, 이용 가능한 경우 영어 SRT를 우선합니다. VTT, ASS, SSA, SUB 파일은 먼저 SRT로 변환됩니다.',
   'subs.translate.how.step2':
-    'SRT는 50개 큐 단위의 청크로 분할되어 순차적으로 번역됩니다. 각 청크는 완료되는 즉시 개별적으로 캐시됩니다.',
+    'SRT는 최대 약 3,800자 단위의 배치로 분할되어 Google Translate로 한 번에 4개 배치씩 번역됩니다.',
   'subs.translate.how.step3':
-    '출력은 큐 단위로 스트리밍됩니다. 스트리밍 SRT 본문을 허용하는 플레이어는 나머지가 완료되기 전에 첫 번째 줄부터 표시를 시작할 수 있습니다.',
+    '출력은 배치가 완료되는 대로 SRT 순서대로 스트리밍되므로 첫 큐가 빠르게 도착합니다. 스트리밍 SRT 본문을 허용하는 플레이어는 나머지가 완료되기 전에 첫 번째 줄부터 표시를 시작할 수 있습니다.',
   'subs.translate.how.step4':
     '완성된 번역은 id, season, episode, target을 키로 하여 30일 동안 Redis에 캐시됩니다.',
 
   'subs.translate.languages.h2': '지원 대상 언어',
   'subs.translate.languages.p':
-    '주요 유럽어, 아시아어, 아프리카어, 중동 언어를 포함한 80개 이상의 언어. 영어 이름으로 전달하세요 (es가 아닌 Spanish). 목록은 모든 /search 응답에서 ai: true 행으로도 반환되며, 이것이 정식 기준입니다.',
+    '주요 유럽어, 아시아어, 아프리카어, 중동 언어를 포함한 80개 이상의 언어. 목록에 있는 이름 (Spanish, Portuguese (Brazil)) 또는 해당 코드 (es, pt-BR)로 전달하세요. Pro 키의 경우 language= 필터가 없는 모든 /search 응답에서 전체 목록이 ai: true 행으로도 반환되며, 이것이 정식 기준입니다.',
 
   'subs.translate.limitations.h2': '제한 사항',
   'subs.translate.limit1':
-    'AI 번역에는 SRT 소스가 필요합니다. 이용 가능한 자막이 모두 .ass, .vtt 또는 다른 형식인 경우 404 No SRT found가 반환됩니다.',
+    'AI 번역에는 시작점이 될 텍스트 자막이 필요합니다. VTT, ASS, SSA, SUB 소스는 먼저 SRT로 변환되며, 텍스트 자막이 없으면 호출이 404 No subtitle found를 반환하고 100회 요청이 환불됩니다.',
   'subs.translate.limit2':
     '번역 품질은 소스 자막에 따라 달라집니다. 타이밍이 맞지 않거나 오타가 있는 소스는 번역도 동일한 문제를 가집니다.',
   'subs.translate.limit3':
     '일부 사용자는 AI 행을 완전히 제외하고 싶을 수 있습니다. 클라이언트에서 ai === false로 필터링하세요.',
   'subs.translate.limit4':
-    '번역은 캐시 적중 시에도 요금이 부과됩니다. 새로 생성되든 30일 캐시에서 제공되든 /translate 요청 한 번에 100회 요청이 차감됩니다.',
+    '번역은 캐시 적중 시에도 요금이 부과됩니다. 새로 생성되든 30일 캐시에서 제공되든 /translate 호출 한 번에 100회 요청이 차감됩니다. 출력이 나오기 전에 실패한 호출만 환불됩니다.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
@@ -441,7 +444,7 @@ const messages: Record<string, string> = {
     'Wyzie Subs는 모든 요청에 API 키가 필요합니다. 무료 등급으로 대부분의 사용 사례를 처리할 수 있으며, 유료 플랜은 더 많은 사용량을 처리합니다.',
 
   'subs.keys.tiers.h2': '등급',
-  'subs.keys.tier.free': '무료 (Gmail 필요)',
+  'subs.keys.tier.free': '무료 (이메일 인증)',
   'subs.keys.tier.free.limit': '하루 1,000회 요청 / UTC 기준',
   'subs.keys.tier.pro': '$5 일회성',
   'subs.keys.tier.pro.limit': '400,000회 요청',
@@ -455,11 +458,11 @@ const messages: Record<string, string> = {
     '[store.wyzie.io/redeem](https://store.wyzie.io/redeem)을 방문하세요:',
   'subs.keys.free.step1': 'Cloudflare Turnstile 캡차를 빠르게 풀어주세요.',
   'subs.keys.free.step2':
-    'Gmail 주소를 입력하세요 (무료 등급에서는 Gmail만 허용됩니다).',
+    '주요 개인 이메일 제공업체 (Gmail, Outlook/Hotmail, Yahoo, iCloud, AOL, Proton 등)의 주소를 입력하세요. 일회용 이메일 도메인은 거부됩니다.',
   'subs.keys.free.step3': '이메일로 발송된 6자리 코드를 입력하세요.',
   'subs.keys.free.step4': 'wyzie-abc123... 형식의 API 키를 받게 됩니다.',
   'subs.keys.free.gmail':
-    '각 Gmail 주소는 무료 키를 한 번만 발급받을 수 있습니다. 해당 이메일에 이미 연결된 무료 키가 있다면, 재인증 시 기존 키가 반환됩니다.',
+    '이메일 주소와 네트워크마다 무료 키를 하나만 받을 수 있으며, 두 번째 요청은 409를 반환합니다. 키를 잃어버렸나요? [대시보드](https://store.wyzie.io/dashboard)에서 "Forgot key" 버튼을 사용하면 키를 다시 보내 드립니다.',
 
   'subs.keys.pro.h2': 'Pro로 업그레이드하기',
   'subs.keys.pro.p1':
@@ -473,11 +476,11 @@ const messages: Record<string, string> = {
   'subs.keys.protect.p2':
     '클라이언트 앱에서 키를 안전하게 사용하는 두 가지 방법:',
   'subs.keys.protect.option1':
-    '[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) 사용: 키를 서버 측에 보관하는 무료 Cloudflare Worker 프록시입니다. 클라이언트가 sub.wyzie.io 대신 Worker URL을 가리키도록 설정하세요.',
+    '[Wyzie Worker](https://github.com/wyziedevs/wyzie-worker) 사용: API 키를 `NITRO_API_TOKEN` 시크릿으로 보관하는 무료 Cloudflare Worker 프록시입니다. Worker에 대한 모든 호출은 직접 설정하는 두 번째 시크릿을 담은 `Authorization: Bearer <NITRO_WORKER_KEY>`를 보내야 하므로, 클라이언트가 자체 백엔드를 거치도록 하고 워커 키도 서버 측에 보관하세요.',
   'subs.keys.protect.option2':
     '직접 프록시 구축: sub.wyzie.io로 전달하기 전에 키를 추가하는 백엔드 엔드포인트면 됩니다. 10줄 예시는 소개 페이지를 참고하세요.',
   'subs.keys.protect.devtools':
-    'DevTools의 네트워크 탭에 키가 표시되면 노출된 것입니다. 공개된 것으로 간주하고 support에 이메일을 보내 키를 교체하세요.',
+    'DevTools의 네트워크 탭에 키가 표시되면 노출된 것입니다. 공개된 것으로 간주하고 [대시보드](https://store.wyzie.io/dashboard)에서 키를 교체하세요.',
 
   'subs.keys.using.h2': '키 사용하기',
   'subs.keys.using.p': '모든 API 요청에 &key=YOUR_KEY를 추가하세요:',
@@ -487,9 +490,9 @@ const messages: Record<string, string> = {
   'subs.keys.limit.p':
     '검색은 1회 요청, 자막 다운로드는 건당 1회 요청이 차감되므로, 한 번 검색하고 파일 하나를 다운로드하면 2회를 사용합니다. AI 번역은 호출당 100회 요청이 차감됩니다.',
   'subs.keys.limit.free':
-    '**무료 등급** 소진 -> API가 X-RateLimit-Reset 및 Retry-After 헤더와 함께 429를 반환합니다. 일일 카운터는 UTC 자정에 초기화됩니다.',
+    '**무료 등급** 소진 -> 검색 및 다운로드 링크가 429 Daily request limit reached를 반환하며, JSON에 reset_at이 포함되고 Retry-After 헤더가 함께 전송됩니다. 하루 1,000회 요청 한도는 UTC 자정에 초기화됩니다.',
   'subs.keys.limit.paid':
-    '**유료 잔액** 소진 -> API가 402를 반환합니다. [store.wyzie.io/topup](https://store.wyzie.io/topup)에서 충전하거나, 대시보드에서 **자동 충전**을 활성화하면 잔액이 설정한 임계값 아래로 떨어질 때 자동으로 충전됩니다.',
+    '**유료 잔액** 소진 -> 검색 및 다운로드 링크가 402를 반환하며, JSON에 충전 링크가 포함됩니다. [store.wyzie.io/topup](https://store.wyzie.io/topup)에서 충전하거나, 대시보드에서 **자동 충전**을 활성화하면 잔액이 설정한 임계값 아래로 떨어질 때 자동으로 충전됩니다.',
   'subs.keys.hold.p1':
     '주로 데이터센터나 호스팅 IP에서 매우 많은 양의 요청을 보내는 키는 자동으로 일시 중지됩니다. 일시 중지된 키는 모든 요청에서 403 Key on hold를 받으며, JSON에는 복구 링크 (https://store.wyzie.io/verify)와 지원 링크 (https://store.wyzie.io/contact)가 포함됩니다.',
   'subs.keys.hold.p2':
@@ -506,7 +509,7 @@ const messages: Record<string, string> = {
   'subs.keys.faq.h2': '자주 묻는 질문',
   'subs.keys.faq.q1': '키를 잃어버렸습니다. 새 키를 받을 수 있나요?',
   'subs.keys.faq.a1':
-    '[store.wyzie.io](https://store.wyzie.io)를 방문하여 등록된 이메일로 "키 분실" 절차를 이용하면 기존 키를 재발송해 드립니다.',
+    '[대시보드](https://store.wyzie.io/dashboard)를 열고 등록된 이메일로 "Forgot key" 버튼을 이용하면 기존 키를 재발송해 드립니다. 키가 유출되었다고 생각되면 대신 대시보드에서 키를 교체하세요.',
   'subs.keys.faq.q2': '하나의 키를 여러 프로젝트에서 사용할 수 있나요?',
   'subs.keys.faq.a2': '네. API를 호출하는 어디서든 키를 사용할 수 있습니다.',
   'subs.keys.faq.q3': '키가 만료되나요?',
@@ -564,7 +567,7 @@ const messages: Record<string, string> = {
     '**디버그 모드**: 문제 해결 및 모니터링을 위한 상세 로깅',
 
   'i6shark.intro.requirements.h2': '요구 사항',
-  'i6shark.intro.req1': 'Go 1.20 이상',
+  'i6shark.intro.req1': 'Go 1.22 이상',
   'i6shark.intro.req2': 'IPv6를 지원하는 Linux/Unix 시스템 (Ubuntu 권장)',
   'i6shark.intro.req3': '루트 권한 (포트 80 바인딩 및 IPv6 조작을 위해)',
   'i6shark.intro.req4': '호스팅 제공업체로부터의 IPv6 /48 서브넷 할당',
@@ -619,17 +622,18 @@ const messages: Record<string, string> = {
   'plugins.index.use.kodi':
     'Android TV, Raspberry Pi 또는 홈시어터 PC에서 Kodi 네이티브 자막 서비스를 원한다면 **Kodi**를 사용하세요.',
   'plugins.index.shared.sources':
-    '**소스:** OpenSubtitles, SubDL, Podnapisi를 Wyzie를 통해 통합합니다.',
+    '**소스:** 키가 사용할 수 있는 모든 소스(`source=all`): 무료 키는 charlie와 lima, Pro 키는 7개 전체.',
   'plugins.index.shared.matching':
     '**매칭:** Wyzie는 IMDB 및 TMDB ID와 시즌 및 에피소드를 기반으로 작동하므로 영화와 시리즈 모두에 대해 정확하게 매칭됩니다.',
   'plugins.index.shared.quota':
     '**할당량:** 키가 소진되면 플러그인이 조용히 실패하는 대신 [store.wyzie.io](https://store.wyzie.io)로 연결되는 안내 메시지를 표시합니다. 충전하거나 구독하면 다시 사용할 수 있습니다.',
   'plugins.index.shared.languages':
     '**언어:** 100개 이상, 플러그인별로 선택 가능.',
-  'plugins.index.outro': '시작하려면 위에서 플랫폼을 선택하세요.',
+  'plugins.index.outro':
+    '시작하려면 위에서 플랫폼을 선택하세요. 모든 플러그인의 소스 코드는 [wyzie-plugins 저장소](https://github.com/wyziedevs/wyzie-plugins)에 있습니다.',
 
   'plugins.stremio.intro':
-    '[Stremio](https://www.stremio.com/)를 위한 원클릭 자막 애드온입니다. OpenSubtitles, SubDL, Podnapisi를 Wyzie를 통해 통합하며, Stremio가 실행되는 모든 플랫폼에서 영화와 시리즈 모두에 대해 작동합니다.',
+    '[Stremio](https://www.stremio.com/)를 위한 원클릭 자막 애드온입니다. 키가 사용할 수 있는 모든 Wyzie 소스를 쿼리하며, Stremio가 실행되는 모든 플랫폼에서 영화와 시리즈 모두에 대해 작동합니다.',
   'plugins.stremio.before':
     '무료 Wyzie API 키가 필요합니다. [store.wyzie.io/redeem](https://store.wyzie.io/redeem)에서 받거나, [store.wyzie.io](https://store.wyzie.io/#plans)에서 Pro 키를 구매하거나 구독하세요.',
   'plugins.stremio.install.1':
@@ -638,7 +642,7 @@ const messages: Record<string, string> = {
   'plugins.stremio.install.3':
     '선택 사항: 선호하는 **언어**를 ISO 639-1 코드로 쉼표로 구분하여 입력합니다(예: `en,es,fr`). 모든 언어를 사용하려면 비워 두세요.',
   'plugins.stremio.install.4':
-    '선택 사항: 선호한다면 **청각 장애인용** 자막을 켭니다.',
+    '선택 사항: 청각 장애인용 자막만 받으려면 **청각 장애인용**을 켭니다. 모든 자막을 보려면 꺼 두세요. 켜져 있는 동안에는 청각 장애인용 자막을 구분해 표시하지 않는 소스가 아무것도 반환하지 않습니다.',
   'plugins.stremio.install.5':
     '**설치**를 클릭합니다. Stremio가 열리고 확인을 요청하면 수락하면 완료됩니다.',
   'plugins.stremio.install.after':
@@ -650,7 +654,7 @@ const messages: Record<string, string> = {
     'ISO 639-1 코드, 쉼표로 구분. 비워 두면 모든 언어를 의미합니다.',
   'plugins.stremio.cfg.hi.f': '청각 장애인용',
   'plugins.stremio.cfg.hi.d':
-    '사용 가능한 경우 청각 장애인용 자막을 우선합니다.',
+    '청각 장애인용 자막만 반환합니다(hi=true 전송). 기본값은 꺼짐입니다.',
   'plugins.stremio.cfg.note':
     '나중에 변경하려면 [stremio.wyzie.io/configure](https://stremio.wyzie.io/configure)를 다시 열고 조정한 후 재설치하세요.',
   'plugins.stremio.local':
@@ -665,13 +669,13 @@ const messages: Record<string, string> = {
     '**시리즈 에피소드가 매칭되지 않습니다.** Wyzie는 시즌과 에피소드로 매칭합니다. Stremio가 일반 시리즈 페이지가 아닌 올바른 에피소드 항목을 재생하고 있는지 확인하세요.',
 
   'plugins.bazarr.intro':
-    '[Bazarr](https://www.bazarr.media/)는 **Plex, Jellyfin, Emby, Sonarr, Radarr**의 자막을 한곳에서 관리합니다. Wyzie를 공급자로 추가하면 이 모든 서버가 단일 키를 통해 OpenSubtitles, SubDL, Podnapisi에 액세스할 수 있습니다.',
+    '[Bazarr](https://www.bazarr.media/)는 **Plex, Jellyfin, Emby, Sonarr, Radarr**의 자막을 한곳에서 관리합니다. Wyzie를 공급자로 추가하면 이 모든 서버가 단일 키를 통해 해당 키로 사용할 수 있는 모든 Wyzie 소스에 액세스할 수 있습니다.',
   'plugins.bazarr.note':
     'Plex 및 Jellyfin과 함께 Wyzie를 사용하는 권장 방법입니다. Bazarr가 미디어 옆에 자막 파일을 다운로드하면 서버가 자동으로 이를 인식하므로 별도의 네이티브 플러그인이 필요하지 않습니다.',
   'plugins.bazarr.before':
     '[store.wyzie.io/redeem](https://store.wyzie.io/redeem)에서 무료 Wyzie API 키를 받고, Bazarr 설치 파일(일반적인 Docker 경로: `/opt/bazarr/bazarr/`)에 액세스할 수 있어야 합니다.',
   'plugins.bazarr.install.1':
-    '`wyzie.py`를 `bazarr/subliminal_patch/providers/wyzie.py`로 복사합니다.',
+    '[wyzie-plugins 저장소](https://github.com/wyziedevs/wyzie-plugins)에서 [bazarr/wyzie.py](https://github.com/wyziedevs/wyzie-plugins/blob/main/bazarr/wyzie.py)를 다운로드하고(또는 `git clone https://github.com/wyziedevs/wyzie-plugins.git`) `bazarr/subliminal_patch/providers/wyzie.py`로 복사합니다.',
   'plugins.bazarr.install.2':
     '`bazarr/subliminal_patch/extensions.py`를 편집하여 `provider_registry`와 `provider_manager` **양쪽** 모두에 `wyzie`를 추가합니다.',
   'plugins.bazarr.install.3':
@@ -682,13 +686,13 @@ const messages: Record<string, string> = {
   'plugins.bazarr.install.after':
     '이 공급자를 Bazarr에 업스트림으로 반영하는 정식 풀 리퀘스트가 계획되어 있습니다. 그때까지는 직접 설치에 추가하는 드롭인 파일입니다.',
   'plugins.bazarr.cfg.key': 'Wyzie 키입니다. 필수입니다.',
-  'plugins.bazarr.cfg.hi': '청각 장애인용 자막을 우선합니다.',
+  'plugins.bazarr.cfg.hi': '청각 장애인용 자막만 반환합니다(hi=true 전송).',
   'plugins.bazarr.cfg.sources':
     '쿼리할 공급자의 쉼표로 구분된 목록 또는 `all`.',
   'plugins.bazarr.quota.402':
     '**402 또는 429**(잔액 소진 또는 일일 한도 도달): Bazarr가 [store.wyzie.io](https://store.wyzie.io) 링크가 포함된 메모를 기록하고 결과를 반환하지 않으므로 다른 공급자로 깔끔하게 폴백됩니다. 아무것도 충돌하지 않습니다.',
   'plugins.bazarr.quota.401':
-    '**401**(잘못된 키): Bazarr가 인증 오류를 표시하므로 키를 다시 입력해야 함을 알 수 있습니다.',
+    '**401**(키 누락) 또는 **403**(알 수 없는 키 또는 일시 중지된 키): Bazarr가 인증 오류를 표시하므로 키를 확인하거나 다시 입력해야 함을 알 수 있습니다.',
   'plugins.bazarr.ts.missing':
     '**Wyzie가 공급자 목록에 나타나지 않습니다.** `extensions.py`를 편집하는 설치 단계를 다시 확인하세요. 항목은 `provider_registry`와 `provider_manager` 양쪽 모두에 있어야 하며, 그런 다음 Bazarr를 재시작하세요.',
   'plugins.bazarr.ts.none':
@@ -715,7 +719,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.intro':
     '저장소를 추가하지 않으려면 이것을 사용하세요. 참고: zip 설치는 **자동 업데이트되지 않습니다**.',
   'plugins.kodi.zip.1':
-    '애드온 zip을 가져옵니다: `service.subtitles.wyzie-<version>.zip`. 소스가 있다면 zip의 루트에 `addon.xml`이 포함되도록 `kodi/` 폴더를 압축하세요.',
+    '애드온 zip을 가져옵니다: `service.subtitles.wyzie-<version>.zip`. 직접 빌드하려면 [wyzie-plugins 저장소](https://github.com/wyziedevs/wyzie-plugins)를 클론하고(`git clone https://github.com/wyziedevs/wyzie-plugins.git`) zip의 루트에 `addon.xml`이 포함되도록 해당 `kodi/` 폴더를 압축하세요.',
   'plugins.kodi.zip.2':
     'Kodi에서: **Settings, Add-ons, Install from zip file**, 그런 다음 zip을 선택합니다. Kodi가 차단하면 먼저 **Settings, System, Add-ons, Unknown sources**를 활성화하세요.',
   'plugins.kodi.zip.3':
@@ -723,7 +727,7 @@ const messages: Record<string, string> = {
   'plugins.kodi.zip.4':
     'Wyzie Subs 애드온 설정을 열고 **API 키**를 붙여넣습니다.',
   'plugins.kodi.cfg.key': 'Wyzie 키입니다. 필수입니다.',
-  'plugins.kodi.cfg.hi': '청각 장애인용 자막을 우선합니다.',
+  'plugins.kodi.cfg.hi': '청각 장애인용 자막만 반환합니다(hi=true 전송).',
   'plugins.kodi.cfg.langs':
     '언어는 Kodi에서 선택한 자막 언어에서 가져와 자동으로 ISO 639-1로 매핑됩니다.',
   'plugins.kodi.matching.1':
