@@ -29,9 +29,9 @@ import { T, TP, TImportant } from '../../../components/T';
 }
 ```
 
-The `tk` param is a short-lived signed token derived from the API key you passed to `/search`. It lets the translate endpoint authorise the request without exposing the raw key in the URL. You do not need to compute it yourself; just use the URL as-is.
+The `tk` param is an encrypted token made from the API key you passed to `/search`. It does not reveal your key, stays valid for 60 days, and lets the translate endpoint authorise the request. You do not need to compute it yourself; just use the URL as-is.
 
-<TP id="subs.translate.filter.p" />
+<TP id="subs.translate.way1.filter" />
 
 ```js
 const real = results.filter((r) => !r.ai);

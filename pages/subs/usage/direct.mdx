@@ -15,7 +15,7 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
     ```json
     {
       "id": "1955024019",
-      "url": "https://sub.wyzie.io/c/198e0c4d/id/1955024019?format=srt&encoding=UTF-8",
+      "url": "https://sub.wyzie.io/c/198e0c4d/id/1955024019?format=srt&encoding=UTF-8&tok=...",
       "flagUrl": "https://flagsapi.com/US/flat/24.png",
       "format": "srt",
       "encoding": "UTF-8",
@@ -63,6 +63,8 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
 | **origin**           | `/search?id=tt3659388&origin=WEB,BLURAY`              | <T id="subs.direct.param.origin" />                                                                     |
 | **key**              | `/search?id=tt3659388&key=YOUR_KEY`                   | <T id="subs.direct.param.key" />                                                                        |
 | **refresh**          | `/search?id=tt3659388&refresh=true`                   | <T id="subs.direct.param.refresh" />                                                                    |
+| **page**             | `/search?id=tt3659388&limit=50&page=2`                | <T id="subs.direct.param.page" />                                                                       |
+| **limit**            | `/search?id=tt3659388&limit=50`                       | <T id="subs.direct.param.limit" />                                                                      |
 
 <TImportant id="subs.direct.important.imdb" />
 
@@ -89,6 +91,27 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
 | **matchedFilter**     | <T id="subs.direct.data.matchedFilter" />                            |
 | **ai**                | <T id="subs.direct.data.ai" />                                       |
 
+### Downloading Subtitles
+
+<TP id="subs.direct.download.p" />
+
+| Status  | Cause                                                                                                   |
+| ------- | ------------------------------------------------------------------------------------------------------- |
+| **402** | The Pro balance is exhausted. The JSON includes a `topup` link.                                         |
+| **429** | A free key is over its daily cap of 1,000 requests. The JSON includes `reset_at`, plus a `Retry-After` header. |
+| **403** | The key is invalid, or it is on hold (see [API Keys](/subs/usage/api-keys)).                           |
+| **401** | The `tok` parameter is missing or expired.                                                              |
+
+### Pagination and Headers
+
+<TP id="subs.direct.headers.p" />
+
+- `X-Page`: <T id="subs.direct.header.xpage" />
+- `X-Per-Page`: <T id="subs.direct.header.xperpage" />
+- `X-Total-Pages`: <T id="subs.direct.header.xtotalpages" />
+
+<TP id="subs.direct.headers.rate" />
+
 ### Errors
 
 Errors are returned as JSON with the matching HTTP status:
@@ -97,13 +120,23 @@ Errors are returned as JSON with the matching HTTP status:
 {
   "code": 401,
   "message": "API key required",
-  "details": "Include a valid API key as the `key` query parameter.",
+  "details": "Include a valid API key as the `key` query parameter. Claim a free key at https://store.wyzie.io/redeem",
   "notice": "https://sub.wyzie.io/notice"
 }
 ```
 
-| Status  | Message              | Cause                                                         |
-| ------- | -------------------- | ------------------------------------------------------------- |
-| **401** | `API key required`   | The `key` parameter is missing.                               |
-| **403** | `Invalid API key`    | The `key` parameter was sent but the key is not recognized.   |
-| **400** | `No subtitles found` | The search completed but nothing matched your parameters.     |
+| Status  | Message                                | Cause                                                                                                   |
+| ------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **400** | `No subtitles found`                   | The search completed but nothing matched your parameters.                                               |
+| **400** | `No matching release found`            | Subtitles exist for the title, but none matched your `release`, `file`, or `origin` filters.            |
+| **400** | `Invalid source`                       | A `source` value is not a known codename or `all`.                                                      |
+| **400** | `Invalid language format`              | `language` must be ISO 639-1 codes (two letters, e.g. `en,es`).                                         |
+| **400** | `Both season and episode are required` | Only one of `season` and `episode` was sent.                                                            |
+| **401** | `API key required`                     | The `key` parameter is missing.                                                                         |
+| **402** | `Pro key request balance exhausted`    | The Pro key has no requests left. The JSON includes a `topup` link.                                     |
+| **403** | `Invalid API key`                      | The `key` parameter was sent but the key is not recognized.                                             |
+| **403** | `Provider not available on free plan`  | Every source you asked for is Pro-only. Free keys can use `charlie` and `lima`.                         |
+| **403** | `Key on hold`                          | The key was paused for very high datacenter traffic. The JSON includes `reinstate` and `support` links; see [API Keys](/subs/usage/api-keys). |
+| **429** | `Daily request limit reached`          | A free key is over its daily cap of 1,000 requests. The JSON includes `reset_at` and `upgrade`, plus a `Retry-After` header. |
+| **503** | `Service temporarily unavailable`      | Key verification is briefly unavailable. Retry in a moment.                                             |
+| **503** | `Source temporarily offline`           | Every source you named is paused by its health checks (not billed). See [Sources](/subs/sources#health-checks); use a live source or `source=all`. |

@@ -7,8 +7,11 @@ import faviconUrl from "./public/favicon.png";
 const usageGuide = (url: string) => `/subs/usage/${url}`;
 
 export default defineTheme({
-  github: "wyziedevs/wyzie-subs",
   navigation: [
+    link('GitHub', 'https://github.com/wyziedevs', {
+      newTab: true,
+      icon: 'mdi:github',
+    }),
     link('Discord', 'https://discord.gg/2mxraHBVtB', {
       newTab: true,
       icon: 'mdi:discord',
@@ -20,7 +23,7 @@ export default defineTheme({
   ],
   contentFooter: {
     text: "Created by BadDeveloper with 💙",
-    editRepositoryBase: "https://github.com/wyziedevs/wyzie-docs/blob/master",
+    editRepositoryBase: "https://github.com/wyziedevs/wyzie-docs/blob/main",
     socials: [
       social.github("https://github.com/itzcozi"),
       social.discord("https://discord.gg/2mxraHBVtB"),
@@ -28,13 +31,13 @@ export default defineTheme({
   },
   meta: (pageMeta) => (
     <NextSeo {...{
-      title: `${pageMeta.title ?? "Free, Open-Source API"} | Wyzie Docs`,
+      title: `${pageMeta.title ?? "Free Subtitle API"} | Wyzie Docs`,
       description: pageMeta.description ?? "The official documentation for the Wyzie toolset.",
       openGraph: {
         images: [{
           url: transparentLogo.src,
         }],
-        title: `${pageMeta.title ?? "Free, Open-Source API"} | Wyzie Docs`,
+        title: `${pageMeta.title ?? "Free Subtitle API"} | Wyzie Docs`,
         description: pageMeta.description ?? "The official documentation for the Wyzie toolset.",
       },
       twitter: {

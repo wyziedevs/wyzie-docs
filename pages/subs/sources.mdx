@@ -22,6 +22,16 @@ Use the `source` parameter to specify which provider(s) to query:
 - <T id="subs.sources.using.bullet2" />
 - <T id="subs.sources.using.bullet3" />
 
+## Health Checks
+
+Every source is checked once an hour with a real search and a real subtitle download. A source that fails two checks in a row is **paused**:
+
+- it is left out of `GET /sources` and out of `source=all` until it passes a check again
+- a search that names only paused sources (for example `source=lima` while lima is paused) returns `503` with `"message": "Source temporarily offline"` and is not billed; name a live source alongside it, or use `source=all`
+- a search that mixes live and paused sources runs the live ones and lists the paused ones in the `X-Sources-Offline` response header
+
+Paused sources are re-checked every 15 minutes and return automatically. [sub.wyzie.io/status](https://sub.wyzie.io/status) shows every source, including paused ones, and `GET /api/status` returns the same data as JSON (`listed: false` marks a paused source). Treat `/sources` as the live list rather than hard-coding it.
+
 ## API Endpoint
 
 <TP id="subs.sources.api.p1" />
@@ -46,7 +56,8 @@ Returns:
 
 - `free`: <T id="subs.sources.api.free" />
 - `paid`: <T id="subs.sources.api.paid" />
-- `tiered`: one entry per enabled source with its `key` (the value to pass as `source`), display `name`, `tier` (`free` or `paid`), and `tags` (for example `anime`). The example above is shortened.
+- `sources`, `free`, `paid`, `tiered`: live sources only; a source paused by its health checks is missing from all of them until it recovers.
+- `tiered`: one entry per live source with its `key` (the value to pass as `source`), display `name`, `tier` (`free` or `paid`), and `tags` (for example `anime`). The example above is shortened.
 - `allFree`: <T id="subs.sources.api.allFree" />
 
 ### Scoping to a key

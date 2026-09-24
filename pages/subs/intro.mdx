@@ -45,7 +45,9 @@ import { T, TP, TNote, TImportant } from '../../components/T';
 <TP id="subs.intro.protect.opt1.p1" />
 
 ```
-Client → your-worker.workers.dev/search?id=286217 → sub.wyzie.io/search?id=286217&key=YOUR_KEY
+Your backend → your-worker.workers.dev/search?id=286217
+               Authorization: Bearer <NITRO_WORKER_KEY>
+Worker       → sub.wyzie.io/search?id=286217&key=<NITRO_API_TOKEN>
 ```
 
 ### Option 2: Build Your Own Proxy
