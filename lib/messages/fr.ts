@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'Une clé API est requise pour toutes les requêtes. Obtenez une clé gratuite sur [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (vérification par email, 1 000 requêtes/jour). Pour une utilisation plus intensive, des [plans Pro et recharges](https://store.wyzie.io) sont disponibles. Consultez la page Clés API pour plus de détails.',
   'subs.intro.note.npm':
     'Nous recommandons vivement le package NPM si vous êtes familier avec TypeScript ou JavaScript',
+  'subs.intro.note.status':
+    "Disponibilité et incidents : [sub.wyzie.io/status](https://sub.wyzie.io/status) et l'[API de statut](/subs/usage/status). Actualités de l'API et de la boutique : [sub.wyzie.io/news](https://sub.wyzie.io/news).",
   'subs.intro.btn.npm': 'Package NPM',
   'subs.intro.btn.direct': 'Appel direct',
 
@@ -302,7 +304,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     "true si l'entrée est un sous-titre traduit par IA, false pour les sous-titres scrapés normalement. Utilisez-le comme filtre côté client quand vous ne souhaitez que l'un ou l'autre.",
   'subs.direct.download.p':
-    "Chaque url d'une réponse /search pointe vers https://sub.wyzie.io/c/... et contient un paramètre d'URL tok. Le paramètre tok est chiffré, il ne révèle donc pas votre clé API, et il reste valide pendant 60 jours. Utilisez l'URL telle quelle. Une recherche coûte 1 requête et chaque téléchargement en coûte 1 de plus, facturé à la clé qui a effectué la recherche. Lorsque cette clé ne peut pas payer un téléchargement, le lien est refusé :",
+    "Chaque url d'une réponse /search pointe vers https://sub.wyzie.io/c/... et contient un paramètre d'URL tok. Le paramètre tok est chiffré, il ne révèle donc pas votre clé API, et il reste valide pendant 60 jours. Chaque lien a son propre tok, qui n'ouvre que ce fichier : utilisez donc l'URL telle quelle (vous pouvez y ajouter des options de téléchargement). Une recherche coûte 1 requête et chaque téléchargement en coûte 1 de plus, facturé à la clé qui a effectué la recherche. Lorsque cette clé ne peut pas payer un téléchargement, le lien est refusé :",
   'subs.direct.dl.p':
     "Ajoutez ces paramètres à une URL de téléchargement pour modifier ce qu'elle retourne. Ils fonctionnent sur chaque téléchargement, en cache ou non, et ne coûtent rien de plus (sauf dual, ci-dessous). L'en-tête de réponse X-Subtitle-Transforms indique ce qui a été appliqué, avec les décomptes correspondants.",
   'subs.direct.dl.param.to':
@@ -418,7 +420,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     "Les moments où l'on parle : [[start, end], …] en secondes, issus de n'importe quel détecteur d'activité vocale (detectSpeech de wyzie-lib, Silero VAD, webrtcvad). Un film de 2 heures représente environ 2 000 segments, soit à peu près 40 KB de JSON.",
   'subs.synced.param.media':
-    "Ou le fichier audio/vidéo lui-même : comme corps brut de la requête (avec les autres champs dans les paramètres d'URL), ou comme champ multipart media. Jusqu'à 95 MB : pour un film complet, envoyez donc uniquement la piste audio.",
+    "Ou le fichier audio/vidéo lui-même : comme corps brut de la requête (avec les autres champs dans les paramètres d'URL), ou comme champ multipart media. Jusqu'à 95 MB : pour un film complet, envoyez donc uniquement la piste audio. Pour un envoi multipart de plus de 8 MB, placez key dans les paramètres d'URL : elle est vérifiée avant la lecture du fichier.",
   'subs.synced.fields.note':
     "Les champs se placent dans un corps JSON, un formulaire multipart, ou dans les paramètres d'URL (avec un corps media brut).",
   'subs.synced.response.p': 'Une réponse 200 est au format JSON :',
@@ -439,7 +441,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     "Champs manquants ou invalides : aucun sous-titre, aucun audio, ou un speech qui n'est pas composé de paires [start, end].",
   'subs.synced.error.401':
-    'Aucune clé, ou le lien de téléchargement de url est invalide ou expiré.',
+    "Aucune clé, le lien de téléchargement de url est invalide ou expiré, ou un envoi multipart de plus de 8 MB n'a pas de key dans les paramètres d'URL.",
   'subs.synced.error.403':
     'La clé est gratuite (Wyzie Synced nécessite Pro), invalide ou en pause.',
   'subs.synced.error.404':
@@ -449,9 +451,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     "Le sous-titre ne s'aligne sur l'audio à aucun décalage ni aucune fréquence d'images (probablement un autre montage ou un autre épisode), l'audio contient trop peu de parole, ou le fichier ne peut pas être décodé.",
   'subs.synced.error.429':
-    "La clé ne peut pas payer : une synchronisation nécessite qu'il reste au moins 5 requêtes, ce qui est vérifié avant tout traitement.",
+    "La clé ne peut pas payer : une synchronisation nécessite qu'il reste au moins 5 requêtes, ce qui est vérifié avant tout traitement. Ou 429 Too many syncs : une clé peut lancer 60 synchronisations par heure.",
   'subs.synced.error.503':
-    "Le serveur est occupé à décoder d'autres fichiers envoyés, ou la recherche est momentanément indisponible. Réessayez un peu plus tard, ou envoyez speech.",
+    "Le serveur est occupé à décoder ou à lire d'autres fichiers envoyés, ou la recherche est momentanément indisponible. Réessayez un peu plus tard, ou envoyez speech.",
   'subs.synced.lib.p':
     'wyzie-lib fournit detectSpeech (le même détecteur que celui que le site exécute dans votre navigateur) et syncSubtitle :',
   'subs.synced.how.step1':
@@ -467,6 +469,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     "Il faut de la parole : les films avec peu de dialogues, ou dont l'audio est surtout musical, peuvent ne pas se synchroniser.",
   'subs.synced.limit3': "Les décalages jusqu'à ±10 minutes sont détectés.",
+
+  // Subs Status API Page
+  'subs.status.title': 'API de statut',
+  'subs.status.p1':
+    "GET https://sub.wyzie.io/status/api renvoie le même statut que la [page de statut](https://sub.wyzie.io/status), au format JSON pour votre propre supervision : si l'API est en ligne, l'état de chaque source, la disponibilité sur 24 heures, 7, 30 et 90 jours, un historique jour par jour et les incidents récents. Aucune clé n'est nécessaire, et c'est gratuit.",
+  'subs.status.note':
+    "Elle est publique (CORS ouvert) et mise en cache pendant 60 secondes : l'interroger plus d'une fois par minute renvoie donc la même réponse. Les sources sont désignées par leur nom de code, comme dans /sources.",
+  'subs.status.param.days':
+    "Nombre de jours d'historique quotidien dans chaque tableau history, du plus récent au plus ancien : de 0 à 90 (par défaut 90). 0 omet history pour une réponse plus légère.",
+  'subs.status.param.format':
+    'shields renvoie un [badge endpoint shields.io](https://shields.io/badges/endpoint-badge) au lieu du rapport.',
+  'subs.status.param.source':
+    'Avec format=shields : un badge pour une seule source (sa disponibilité sur 30 jours, ou paused) au lieu du statut global.',
+  'subs.status.field.status':
+    'operational (toutes les sources passent leurs vérifications), degraded (une source en pause ou qui échoue à une vérification) ou partial_outage (plus de la moitié des sources en pause).',
+  'subs.status.field.summary':
+    'la même chose en une phrase, par ex. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    "date de début du suivi de la disponibilité. La période antérieure n'est pas comptée : les fenêtres qui remontent plus loin couvrent donc moins de temps (ou valent null).",
+  'subs.status.field.api':
+    "l'API elle-même : son uptime et son history. status vaut toujours operational dans une réponse que vous avez reçue.",
+  'subs.status.field.sources':
+    'une entrée par source : tier (free ou paid), le statut de la dernière vérification pour les films et la TV, latencyMs, lastChecked et nextCheck, ainsi que uptime et history.',
+  'subs.status.field.state':
+    "online, suspect (a échoué à une vérification ; revérifiée dans les 5 minutes) ou paused (a échoué à deux vérifications consécutives). Une source en pause a listed: false : elle est retirée de /sources et de source=all jusqu'à ce qu'une vérification réussisse, et pausedSince indique depuis quand.",
+  'subs.status.field.uptime':
+    "pourcentage de chaque fenêtre pendant lequel l'API ou la source était disponible, arrondi à l'inférieur à 3 décimales (toute indisponibilité apparaît donc sous 100), ou null en l'absence de données.",
+  'subs.status.field.history':
+    'une entrée par jour UTC : date, uptime et downMinutes (null avant le début du suivi).',
+  'subs.status.field.incidents':
+    "mises en pause de sources au cours des 30 derniers jours, de la plus récente à la plus ancienne : start, end (null tant qu'elle est en cours) et minutes.",
+  'subs.status.how.api':
+    "Disponibilité de l'API : tant que l'API tourne, le serveur enregistre un signal de vie (heartbeat) chaque minute. Une minute sans signal compte comme une indisponibilité. La mesure se fait sur notre serveur : un problème situé uniquement entre vous et Cloudflare n'apparaîtra donc pas ici.",
+  'subs.status.how.sources':
+    "Disponibilité des sources : chaque source est vérifiée toutes les heures avec une vraie recherche et un vrai téléchargement. Le temps pendant lequel une source est en pause compte comme une indisponibilité, depuis sa première vérification échouée jusqu'à ce qu'une vérification réussisse. Une seule vérification échouée ne compte pas, pas plus qu'une source que nous mettons en pause manuellement.",
+  'subs.status.how.tracking': 'Le suivi a commencé le 24 septembre 2026.',
+  'subs.status.badge.p':
+    'Ajoutez ?format=shields pour obtenir un badge shields.io pour votre README ou votre page de statut :',
+  'subs.status.use.p':
+    "Pour choisir les sources dans votre application, /sources ne liste déjà que les sources actives. L'API de statut sert à montrer à vos utilisateurs ce qui fonctionne, à vous alerter vous-même ou à décider quand réessayer :",
+  'subs.status.news.p':
+    "Les annonces concernant l'API et la boutique (nouvelles fonctionnalités, changements qui affectent votre application) sont publiées sur [sub.wyzie.io/news](https://sub.wyzie.io/news), par e-mail si vous vous y abonnez, ou par [RSS](https://sub.wyzie.io/news/feed.xml).",
 
   // Subs API Keys Page
   'subs.keys.title': 'Clés API',
@@ -584,13 +628,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     "**Génération d'IPv6 aléatoire** : Crée des adresses IPv6 aléatoires depuis votre préfixe /48 pour chaque requête",
   'i6shark.intro.feature2':
-    '**Support complet des méthodes HTTP** : GET, POST, PUT, DELETE et toutes les autres méthodes HTTP',
+    '**Méthodes HTTP** : GET, HEAD et POST ; toute autre méthode reçoit une erreur 405',
   'i6shark.intro.feature3':
     '**Authentification HMAC-SHA256** : Authentification sécurisée par clé API via des jetons basés sur le user-agent',
   'i6shark.intro.feature4':
     "**Gestion intelligente du pool d'IP** : Rotation automatique d'IP avec taille de pool configurable. Gestion intelligente du cycle de vie des IP. Comptage des requêtes par IP. Nettoyage des IP inutilisées selon un seuil d'inactivité.",
   'i6shark.intro.feature5':
-    "**Traitement avancé des requêtes** : Transfert d'en-têtes personnalisés. Suppression des en-têtes Cloudflare et CDN. Support de multiples formats de paramètres URL. Repli optionnel sur l'IP système par défaut.",
+    "**Traitement sécurisé des requêtes** : Seuls les en-têtes de requête d'une liste autorisée sont transmis, jamais le jeton API ni les en-têtes Cloudflare et de transfert. Les destinations sur des réseaux loopback, privés, link-local et autres réseaux internes (y compris les propres adresses du serveur) sont refusées, après la résolution DNS et à chaque redirection (5 au maximum). Support de multiples formats de paramètres URL. Repli optionnel sur l'IP système par défaut.",
   'i6shark.intro.feature7':
     "**Maintenance automatique** : Vidage périodique du pool d'IP. Validation et nettoyage des sous-réseaux. Mise en pool de connexions et optimisation keepalive.",
   'i6shark.intro.feature8':
@@ -620,7 +664,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'Clonez le dépôt vers /opt/i6.shark :',
   'i6shark.hosting.step2': 'Configurez les constantes dans src/consts.go :',
   'i6shark.hosting.step2.note':
-    'Mettez à jour SharedSecret, IPv6Prefix et Interface pour correspondre à votre serveur. Les autres constantes de réglage ont des valeurs par défaut sensées et ne nécessitent généralement pas de modifications.',
+    "Mettez à jour IPv6Prefix et Interface pour correspondre à votre serveur. Le secret partagé va dans l'environnement (étape suivante), pas dans ce fichier ; SharedSecret n'est qu'une valeur de repli lorsque I6_SHARED_SECRET n'est pas défini. Les autres constantes de réglage ont des valeurs par défaut sensées et ne nécessitent généralement pas de modifications.",
+  'i6shark.hosting.stepSecret':
+    "Placez le secret partagé dans un fichier d'environnement lisible uniquement par root. Utilisez la même valeur dans votre client (pour Wyzie Subs, I6_PROXY_SECRET) :",
   'i6shark.hosting.step3': "Compilez l'application :",
   'i6shark.hosting.step4': 'Créez le service systemd :',
   'i6shark.hosting.step5': 'Activez et démarrez le service :',
@@ -634,7 +680,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'Authentification API',
   'i6shark.hosting.auth.p':
-    "Les jetons API sont générés via HMAC-SHA256 avec une clé secrète partagée. L'entrée pour la génération de clé est l'en-tête user-agent. Consultez la fonction validateAPIToken dans le code source pour les détails d'implémentation.",
+    "Les jetons API sont générés via HMAC-SHA256 avec le secret partagé (I6_SHARED_SECRET) sur l'en-tête user-agent, et envoyés dans l'en-tête API-Token, que le proxy ne transmet jamais en amont. Consultez la fonction validateAPIToken dans le code source pour les détails d'implémentation. Si un secret venait à fuiter, définissez-en un nouveau et redémarrez le service.",
 
   // Plugins
   'plugins.common.required': 'Requis',

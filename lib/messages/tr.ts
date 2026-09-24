@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'Tüm istekler için bir API anahtarı gereklidir. [store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden ücretsiz anahtar alın (e-posta doğrulaması, günde 1.000 istek). Daha yüksek kullanım için [Pro ve üst doldurma planları](https://store.wyzie.io) mevcuttur. Ayrıntılar için API Anahtarları sayfasına bakın.',
   'subs.intro.note.npm':
     "TypeScript veya JavaScript'e aşinaysanız NPM paketini şiddetle tavsiye ederiz",
+  'subs.intro.note.status':
+    "Çalışma süresi ve olaylar: [sub.wyzie.io/status](https://sub.wyzie.io/status) ve [Durum API'si](/subs/usage/status). API ve mağaza hakkındaki haberler: [sub.wyzie.io/news](https://sub.wyzie.io/news).",
   'subs.intro.btn.npm': 'NPM Paketi',
   'subs.intro.btn.direct': 'Doğrudan Çekme',
 
@@ -293,7 +295,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'Giriş AI çevirisi bir altyazıysa true, normal kazınmış altyazılar için false. Yalnızca birini veya diğerini istediğinizde istemci taraflı filtre olarak kullanın.',
   'subs.direct.download.p':
-    "Bir /search yanıtındaki her url, https://sub.wyzie.io/c/... adresine işaret eder ve bir tok sorgu parametresi taşır. tok şifrelenmiştir, bu yüzden API anahtarınızı açığa çıkarmaz ve 60 gün boyunca geçerli kalır. URL'yi olduğu gibi kullanın. Bir arama 1 istek, her indirme de 1 istek daha harcar ve bunlar aramayı yapan anahtara faturalandırılır. O anahtar bir indirmenin bedelini karşılayamadığında bağlantı reddedilir:",
+    "Bir /search yanıtındaki her url, https://sub.wyzie.io/c/... adresine işaret eder ve bir tok sorgu parametresi taşır. tok şifrelenmiştir, bu yüzden API anahtarınızı açığa çıkarmaz ve 60 gün boyunca geçerli kalır. Her bağlantının yalnızca o dosyayı açan kendi tok'u vardır, bu yüzden URL'yi olduğu gibi kullanın (indirme seçenekleri eklemek sorun değildir). Bir arama 1 istek, her indirme de 1 istek daha harcar ve bunlar aramayı yapan anahtara faturalandırılır. O anahtar bir indirmenin bedelini karşılayamadığında bağlantı reddedilir:",
   'subs.direct.dl.p':
     "Döndürülen içeriği değiştirmek için bunları bir indirme URL'sine ekleyin. Önbellekte olsun ya da olmasın her indirmede çalışırlar ve ek bir maliyetleri yoktur (aşağıdaki dual hariç). X-Subtitle-Transforms yanıt başlığı, nelerin uygulandığını sayılarıyla birlikte listeler.",
   'subs.direct.dl.param.to':
@@ -408,7 +410,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     "İnsanların konuştuğu yerler: saniye cinsinden [[start, end], …], herhangi bir ses etkinliği algılayıcısından (wyzie-lib'in detectSpeech'i, Silero VAD, webrtcvad). 2 saatlik bir film kabaca 2.000 segment, yani yaklaşık 40 KB JSON eder.",
   'subs.synced.param.media':
-    'Ya da ses/video dosyasının kendisi: ham istek gövdesi olarak (diğer alanlar sorgu dizesinde) veya media multipart alanı olarak. En fazla 95 MB; bu yüzden tam bir film için yalnızca ses parçasını yükleyin.',
+    "Ya da ses/video dosyasının kendisi: ham istek gövdesi olarak (diğer alanlar sorgu dizesinde) veya media multipart alanı olarak. En fazla 95 MB; bu yüzden tam bir film için yalnızca ses parçasını yükleyin. 8 MB'ı aşan bir multipart yüklemede key'i sorgu dizesine koyun: dosya okunmadan önce kontrol edilir.",
   'subs.synced.fields.note':
     'Alanlar bir JSON gövdesinde, multipart formda veya sorgu dizesinde (ham bir media gövdesiyle) gönderilir.',
   'subs.synced.response.p': '200 yanıtı JSON biçimindedir:',
@@ -428,7 +430,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'Eksik veya geçersiz alanlar: altyazı yok, ses yok ya da speech [start, end] çiftlerinden oluşmuyor.',
   'subs.synced.error.401':
-    "Anahtar yok ya da url'deki indirme bağlantısı geçersiz veya süresi dolmuş.",
+    "Anahtar yok, url'deki indirme bağlantısı geçersiz veya süresi dolmuş ya da 8 MB'ı aşan bir multipart yüklemede sorgu dizesinde key yok.",
   'subs.synced.error.403':
     'Anahtar ücretsiz (Wyzie Synced için Pro gerekir), geçersiz veya askıya alınmış.',
   'subs.synced.error.404': 'Bu başlık için o dilde metin altyazı yok.',
@@ -437,9 +439,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Altyazı hiçbir kaydırma veya kare hızında sesle hizalanmıyor (muhtemelen farklı bir kurgu ya da bölüm), seste çok az konuşma var veya dosyanın kodu çözülemiyor.',
   'subs.synced.error.429':
-    'Anahtar ödeyemiyor: bir senkronizasyon için en az 5 istek kalmış olmalıdır ve bu, herhangi bir işlem başlamadan önce kontrol edilir.',
+    'Anahtar ödeyemiyor: bir senkronizasyon için en az 5 istek kalmış olmalıdır ve bu, herhangi bir işlem başlamadan önce kontrol edilir. Ya da 429 Too many syncs: bir anahtar saatte 60 senkronizasyon başlatabilir.',
   'subs.synced.error.503':
-    'Sunucu diğer yüklemelerin kodunu çözmekle meşgul ya da arama kısa süreliğine kullanılamıyor. Biraz sonra yeniden deneyin ya da speech gönderin.',
+    'Sunucu diğer yüklemelerin kodunu çözmekle veya onları okumakla meşgul ya da arama kısa süreliğine kullanılamıyor. Biraz sonra yeniden deneyin ya da speech gönderin.',
   'subs.synced.lib.p':
     'wyzie-lib, detectSpeech (sitenin tarayıcınızda çalıştırdığı algılayıcının aynısı) ve syncSubtitle içerir:',
   'subs.synced.how.step1':
@@ -455,6 +457,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'Konuşma gerektirir: az diyaloglu filmler veya çoğunlukla müzikten oluşan sesler senkronize edilemeyebilir.',
   'subs.synced.limit3': '±10 dakikaya kadar olan kaymalar bulunur.',
+
+  // Subs Status API Page
+  'subs.status.title': "Durum API'si",
+  'subs.status.p1':
+    "GET https://sub.wyzie.io/status/api, [durum sayfasının](https://sub.wyzie.io/status) gösterdiği durumun aynısını kendi izlemeniz için JSON olarak döndürür: API'nin çalışıp çalışmadığı, her kaynağın durumu, 24 saatlik ve 7, 30 ve 90 günlük çalışma süresi, gün gün geçmiş ve son olaylar. Anahtar gerekmez ve hiçbir ücreti yoktur.",
+  'subs.status.note':
+    "Herkese açıktır (CORS açık) ve 60 saniye boyunca önbelleğe alınır; bu yüzden dakikada birden fazla sorgulamak aynı yanıtı döndürür. Kaynaklar, /sources'taki gibi kod adlarıyla anılır.",
+  'subs.status.param.days':
+    "Her history dizisindeki günlük geçmişin gün sayısı, en yenisi önce: 0 ile 90 arası (varsayılan 90). 0, daha küçük bir yanıt için history'yi dışarıda bırakır.",
+  'subs.status.param.format':
+    'shields, rapor yerine bir [shields.io endpoint rozeti](https://shields.io/badges/endpoint-badge) döndürür.',
+  'subs.status.param.source':
+    'format=shields ile: genel durum yerine tek bir kaynak için rozet (30 günlük çalışma süresi veya paused).',
+  'subs.status.field.status':
+    'operational (tüm kaynaklar kontrolleri geçiyor), degraded (bir kaynak duraklatılmış veya bir kontrolde başarısız) ya da partial_outage (kaynakların yarısından fazlası duraklatılmış).',
+  'subs.status.field.summary':
+    'aynı bilgi tek cümleyle, ör. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'çalışma süresi takibinin başladığı zaman. Önceki süre sayılmaz, bu yüzden daha geriye uzanan zaman aralıkları daha az süreyi kapsar (veya null olur).',
+  'subs.status.field.api':
+    "API'nin kendisi: uptime ve history bilgileri. Aldığınız bir yanıtta status her zaman operational'dır.",
+  'subs.status.field.sources':
+    'kaynak başına bir girdi: tier (free veya paid), filmler ve TV için son kontrolün durumu, latencyMs, lastChecked ve nextCheck, ayrıca uptime ve history.',
+  'subs.status.field.state':
+    'online, suspect (bir kontrolde başarısız oldu; 5 dakika içinde yeniden kontrol edilir) veya paused (art arda iki kontrolde başarısız oldu). Duraklatılmış bir kaynakta listed: false olur: bir kontrol başarılı olana kadar /sources ve source=all dışında kalır; pausedSince ne zamandan beri duraklatıldığını gösterir.',
+  'subs.status.field.uptime':
+    "her zaman aralığında API'nin veya kaynağın çalıştığı sürenin yüzdesi, 3 ondalık basamağa aşağı yuvarlanır (böylece her kesinti 100'ün altında görünür); henüz veri yoksa null.",
+  'subs.status.field.history':
+    'UTC günü başına bir girdi: date, uptime ve downMinutes (takip başlamadan önce null).',
+  'subs.status.field.incidents':
+    'son 30 gündeki kaynak duraklatmaları, en yenisi önce: start, end (devam ederken null) ve minutes.',
+  'subs.status.how.api':
+    'API çalışma süresi: API çalıştığı sürece sunucu her dakika bir heartbeat kaydeder. Heartbeat olmayan bir dakika kesinti sayılır. Ölçüm kendi sunucumuzda yapılır, bu yüzden yalnızca sizinle Cloudflare arasındaki bir sorun burada görünmez.',
+  'subs.status.how.sources':
+    'Kaynak çalışma süresi: her kaynak saatte bir, gerçek bir arama ve indirmeyle kontrol edilir. Bir kaynağın duraklatıldığı süre, ilk başarısız kontrolünden bir kontrol başarılı olana kadar kesinti sayılır. Tek bir başarısız kontrol tek başına sayılmaz; elle duraklattığımız bir kaynak da sayılmaz.',
+  'subs.status.how.tracking': "Takip 24 Eylül 2026'da başladı.",
+  'subs.status.badge.p':
+    "README'niz veya durum sayfanız için bir shields.io rozeti almak üzere ?format=shields ekleyin:",
+  'subs.status.use.p':
+    "Uygulamanızda kaynak seçmek için /sources zaten yalnızca etkin olanları listeler. Durum API'si, kullanıcılarınıza neyin çalıştığını göstermek, kendinizi uyarmak veya ne zaman yeniden deneyeceğinize karar vermek içindir:",
+  'subs.status.news.p':
+    'API ve mağazayla ilgili duyurular (yeni özellikler, uygulamanızı etkileyen değişiklikler) [sub.wyzie.io/news](https://sub.wyzie.io/news) adresinde, oraya abone olursanız e-postayla veya [RSS](https://sub.wyzie.io/news/feed.xml) ile yayınlanır.',
 
   // Subs API Keys Page
   'subs.keys.title': 'API Anahtarları',
@@ -571,13 +615,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Rastgele IPv6 Oluşturma**: Her istek için /48 ön ekinizden rastgele IPv6 adresleri oluşturur',
   'i6shark.intro.feature2':
-    '**Tam HTTP Yöntemi Desteği**: GET, POST, PUT, DELETE ve diğer tüm HTTP yöntemleri',
+    '**HTTP Yöntemleri**: GET, HEAD ve POST; diğer her şey 405 alır',
   'i6shark.intro.feature3':
     "**HMAC-SHA256 Kimlik Doğrulaması**: Kullanıcı aracısı tabanlı token'lar kullanılarak güvenli API anahtarı kimlik doğrulaması",
   'i6shark.intro.feature4':
     '**Akıllı IP Havuzu Yönetimi**: Yapılandırılabilir havuz boyutuyla otomatik IP rotasyonu. Akıllı IP yaşam döngüsü yönetimi. IP başına istek sayımı. Etkinlik dışı kalma eşiğine göre kullanılmayan IP temizliği.',
   'i6shark.intro.feature5':
-    "**Gelişmiş İstek İşleme**: Özel başlık yönlendirme. Cloudflare ve CDN başlık temizliği. Birden fazla URL parametre biçimi desteği. Sistem varsayılan IP'ye isteğe bağlı yedek.",
+    "**Güvenli İstek İşleme**: Yalnızca izin listesindeki istek başlıkları iletilir; API token'ı veya Cloudflare ve iletim (forwarding) başlıkları asla iletilmez. Loopback, özel, link-local ve diğer dahili ağlardaki hedefler (sunucunun kendi adresleri dahil) DNS çözümlemesinden sonra ve her yönlendirmede (en fazla 5) reddedilir. Birden fazla URL parametre biçimi desteği. Sistem varsayılan IP'ye isteğe bağlı yedek.",
   'i6shark.intro.feature7':
     '**Otomatik Bakım**: Periyodik IP havuzu temizleme. Subnet doğrulama ve temizlik. Bağlantı havuzlama ve keepalive optimizasyonu.',
   'i6shark.intro.feature8':
@@ -606,7 +650,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': "Depoyu /opt/i6.shark'a klonlayın:",
   'i6shark.hosting.step2': 'src/consts.go içindeki sabitleri yapılandırın:',
   'i6shark.hosting.step2.note':
-    "SharedSecret, IPv6Prefix ve Interface'i sunucunuzla eşleşecek şekilde güncelleyin. Kalan ayar sabitleri makul varsayılanlara sahiptir ve genellikle değiştirilmesi gerekmez.",
+    "IPv6Prefix ve Interface'i sunucunuzla eşleşecek şekilde güncelleyin. Paylaşılan gizli anahtar bu dosyaya değil, ortama (sonraki adım) konur; SharedSecret yalnızca I6_SHARED_SECRET ayarlanmamışsa kullanılan bir yedektir. Kalan ayar sabitleri makul varsayılanlara sahiptir ve genellikle değiştirilmesi gerekmez.",
+  'i6shark.hosting.stepSecret':
+    "Paylaşılan gizli anahtarı yalnızca root'un okuyabildiği bir ortam dosyasına koyun. Aynı değeri istemcinizde de kullanın (Wyzie Subs için I6_PROXY_SECRET):",
   'i6shark.hosting.step3': 'Uygulamayı derleyin:',
   'i6shark.hosting.step4': 'systemd servisini oluşturun:',
   'i6shark.hosting.step5': 'Servisi etkinleştirin ve başlatın:',
@@ -620,7 +666,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'API Kimlik Doğrulaması',
   'i6shark.hosting.auth.p':
-    "API token'ları, paylaşılan gizli anahtar kullanılarak HMAC-SHA256 ile oluşturulur. Anahtar oluşturma girdisi user-agent başlığıdır. Uygulama ayrıntıları için kaynak kodundaki validateAPIToken fonksiyonuna bakın.",
+    "API token'ları, paylaşılan gizli anahtarla (I6_SHARED_SECRET) user-agent başlığı üzerinden HMAC-SHA256 ile oluşturulur ve proxy'nin hiçbir zaman hedef sunucuya iletmediği API-Token başlığında gönderilir. Uygulama ayrıntıları için kaynak kodundaki validateAPIToken fonksiyonuna bakın. Gizli anahtar bir gün sızarsa yenisini ayarlayın ve hizmeti yeniden başlatın.",
 
   // Plugins
   'plugins.common.required': 'Gerekli',

@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'सभी requests के लिए API key आवश्यक है। [store.wyzie.io/redeem](https://store.wyzie.io/redeem) पर मुफ्त key प्राप्त करें (email वेरिफिकेशन, 1,000 requests/दिन)। अधिक उपयोग के लिए, [Pro और top-up प्लान](https://store.wyzie.io) उपलब्ध हैं। विवरण के लिए API Keys पृष्ठ देखें।',
   'subs.intro.note.npm':
     'यदि आप TypeScript या JavaScript से परिचित हैं तो हम दृढ़ता से NPM पैकेज की सलाह देते हैं',
+  'subs.intro.note.status':
+    'Uptime और incidents: [sub.wyzie.io/status](https://sub.wyzie.io/status) और [Status API](/subs/usage/status)। API और store से जुड़ी खबरें: [sub.wyzie.io/news](https://sub.wyzie.io/news)।',
   'subs.intro.btn.npm': 'NPM पैकेज',
   'subs.intro.btn.direct': 'सीधी फेचिंग',
 
@@ -293,7 +295,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true यदि entry एक AI-translated सबटाइटल है, सामान्य scraped सबटाइटल के लिए false। इसे client-side filter के रूप में उपयोग करें जब आप केवल एक या दूसरा चाहते हों।',
   'subs.direct.download.p':
-    '/search response का हर url https://sub.wyzie.io/c/... की ओर point करता है और उसमें एक tok query parameter होता है। tok encrypted होता है, इसलिए यह आपकी API key को उजागर नहीं करता, और यह 60 दिनों तक valid रहता है। URL को जैसा है वैसा ही उपयोग करें। एक search पर 1 request खर्च होती है और हर download पर 1 और, जो उस key पर bill होती है जिसने search चलाया था। जब वह key किसी download का भुगतान नहीं कर सकती, तो link अस्वीकार कर दिया जाता है:',
+    '/search response का हर url https://sub.wyzie.io/c/... की ओर point करता है और उसमें एक tok query parameter होता है। tok encrypted होता है, इसलिए यह आपकी API key को उजागर नहीं करता, और यह 60 दिनों तक valid रहता है। हर link का अपना tok होता है जो सिर्फ़ उसी फ़ाइल को खोलता है, इसलिए URL को जैसा है वैसा ही उपयोग करें (download options जोड़ना ठीक है)। एक search पर 1 request खर्च होती है और हर download पर 1 और, जो उस key पर bill होती है जिसने search चलाया था। जब वह key किसी download का भुगतान नहीं कर सकती, तो link अस्वीकार कर दिया जाता है:',
   'subs.direct.dl.p':
     'Download URL जो वापस करता है उसे बदलने के लिए इन्हें उसमें जोड़ें। ये हर download पर काम करते हैं, चाहे वह cached हो या नहीं, और इनका कोई अतिरिक्त खर्च नहीं है (नीचे दिए dual को छोड़कर)। X-Subtitle-Transforms response header बताता है कि क्या-क्या लागू किया गया, गिनती के साथ।',
   'subs.direct.dl.param.to':
@@ -408,7 +410,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     'लोग कहाँ बोलते हैं: सेकंड में [[start, end], …], किसी भी voice activity detector से (wyzie-lib का detectSpeech, Silero VAD, webrtcvad)। 2 घंटे की फिल्म में लगभग 2,000 segments होते हैं, यानी करीब 40 KB JSON।',
   'subs.synced.param.media':
-    'या स्वयं audio/video फ़ाइल: raw request body के रूप में (बाकी fields query string में), या multipart field media के रूप में। अधिकतम 95 MB, इसलिए पूरी फिल्म के लिए केवल audio track upload करें।',
+    'या स्वयं audio/video फ़ाइल: raw request body के रूप में (बाकी fields query string में), या multipart field media के रूप में। अधिकतम 95 MB, इसलिए पूरी फिल्म के लिए केवल audio track upload करें। 8 MB से बड़े multipart upload के लिए key को query string में रखें: फ़ाइल पढ़ने से पहले इसकी जांच होती है।',
   'subs.synced.fields.note':
     'Fields को JSON body, multipart form, या query string (raw media body के साथ) में भेजें।',
   'subs.synced.response.p': '200 response JSON होता है:',
@@ -429,7 +431,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'Fields गायब या अमान्य हैं: कोई सबटाइटल नहीं, कोई audio नहीं, या ऐसा speech जो [start, end] जोड़ियों में नहीं है।',
   'subs.synced.error.401':
-    'कोई key नहीं, या url का download link अमान्य या expired है।',
+    'कोई key नहीं, url का download link अमान्य या expired है, या 8 MB से बड़े multipart upload की query string में key नहीं है।',
   'subs.synced.error.403':
     'Key मुफ्त है (Wyzie Synced के लिए Pro आवश्यक है), अमान्य है, या hold पर है।',
   'subs.synced.error.404':
@@ -439,9 +441,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'सबटाइटल किसी भी offset या frame rate पर audio से मेल नहीं खाता (शायद कोई दूसरा cut या episode है), audio में बहुत कम speech है, या फ़ाइल decode नहीं हो सकती।',
   'subs.synced.error.429':
-    'Key भुगतान नहीं कर सकती: एक sync के लिए कम से कम 5 requests बची होनी चाहिए, और यह कोई भी काम शुरू होने से पहले जांचा जाता है।',
+    'Key भुगतान नहीं कर सकती: एक sync के लिए कम से कम 5 requests बची होनी चाहिए, और यह कोई भी काम शुरू होने से पहले जांचा जाता है। या 429 Too many syncs: एक key एक घंटे में 60 syncs शुरू कर सकती है।',
   'subs.synced.error.503':
-    'अन्य uploads को decode करने में व्यस्त है, या search कुछ समय के लिए अनुपलब्ध है। थोड़ी देर बाद फिर से प्रयास करें, या speech भेजें।',
+    'अन्य uploads को decode करने या पढ़ने में व्यस्त है, या search कुछ समय के लिए अनुपलब्ध है। थोड़ी देर बाद फिर से प्रयास करें, या speech भेजें।',
   'subs.synced.lib.p':
     'wyzie-lib में detectSpeech (वही detector जो साइट आपके browser में चलाती है) और syncSubtitle हैं:',
   'subs.synced.how.step1':
@@ -457,6 +459,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'इसे speech की आवश्यकता है: कम संवाद वाली फिल्में, या ज़्यादातर संगीत वाला audio, शायद sync न हो।',
   'subs.synced.limit3': '±10 मिनट तक के offsets खोजे जाते हैं।',
+
+  // Subs Status API Page
+  'subs.status.title': 'Status API',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api वही status देता है जो [status page](https://sub.wyzie.io/status) दिखाता है, आपकी अपनी monitoring के लिए JSON के रूप में: API चल रहा है या नहीं, हर स्रोत की स्थिति, 24 घंटे, 7, 30 और 90 दिनों का uptime, दिन-ब-दिन history और हाल के incidents। कोई key नहीं चाहिए, और इसका कोई खर्च नहीं है।',
+  'subs.status.note':
+    'यह public है (CORS खुला) और 60 सेकंड के लिए cache होता है, इसलिए एक मिनट में एक से ज़्यादा बार poll करने पर वही जवाब मिलता है। स्रोतों को /sources की तरह उनके codename से पहचाना जाता है।',
+  'subs.status.param.days':
+    'हर history array में दिन-वार history के कितने दिन, सबसे नए पहले: 0 से 90 (डिफ़ॉल्ट 90)। 0 देने पर छोटे response के लिए history हटा दी जाती है।',
+  'subs.status.param.format':
+    'shields रिपोर्ट की जगह एक [shields.io endpoint badge](https://shields.io/badges/endpoint-badge) लौटाता है।',
+  'subs.status.param.source':
+    'format=shields के साथ: पूरे status की जगह एक स्रोत का badge (उसका 30-दिन का uptime, या paused)।',
+  'subs.status.field.status':
+    'operational (हर स्रोत checks पास कर रहा है), degraded (कोई स्रोत paused है या किसी check में fail हो रहा है) या partial_outage (आधे से ज़्यादा स्रोत paused हैं)।',
+  'subs.status.field.summary':
+    'यही बात एक वाक्य में, जैसे "API operational; 2 of 7 sources paused"।',
+  'subs.status.field.trackingSince':
+    'uptime tracking कब शुरू हुई। उससे पहले का समय नहीं गिना जाता, इसलिए जो windows और पीछे तक जाती हैं वे कम समय cover करती हैं (या null होती हैं)।',
+  'subs.status.field.api':
+    'खुद API: उसका uptime और history। आपको मिले किसी भी response में status हमेशा operational होता है।',
+  'subs.status.field.sources':
+    'हर स्रोत के लिए एक entry: tier (free या paid), movies और TV के लिए पिछले check का status, latencyMs, lastChecked और nextCheck, साथ में uptime और history।',
+  'subs.status.field.state':
+    'online, suspect (एक check में fail हुआ; 5 मिनट के अंदर दोबारा check होता है) या paused (लगातार दो checks में fail हुआ)। paused स्रोत में listed: false होता है: कोई check पास होने तक वह /sources और source=all से बाहर रहता है, और pausedSince बताता है कि कब से।',
+  'subs.status.field.uptime':
+    'हर window का वह प्रतिशत जिसमें API या स्रोत चालू था, 3 दशमलव स्थानों तक नीचे की ओर round किया गया (ताकि कोई भी downtime 100 से नीचे दिखे), या अभी data न होने पर null।',
+  'subs.status.field.history':
+    'हर UTC दिन के लिए एक entry: date, uptime और downMinutes (tracking शुरू होने से पहले null)।',
+  'subs.status.field.incidents':
+    'पिछले 30 दिनों में स्रोतों के pause, सबसे नए पहले: start, end (जारी रहने तक null) और minutes।',
+  'subs.status.how.api':
+    'API uptime: जब तक API चलता है, server हर मिनट एक heartbeat record करता है। बिना heartbeat वाला मिनट down गिना जाता है। यह हमारे server पर मापा जाता है, इसलिए कोई समस्या जो सिर्फ़ आपके और Cloudflare के बीच हो, यहां नहीं दिखेगी।',
+  'subs.status.how.sources':
+    'स्रोत uptime: हर स्रोत को हर घंटे एक असली search और download से check किया जाता है। जितने समय कोई स्रोत paused रहता है, वह down गिना जाता है, उसके पहले failed check से लेकर किसी check के पास होने तक। अकेला एक failed check नहीं गिना जाता, और न ही वह स्रोत जिसे हम हाथ से pause करते हैं।',
+  'subs.status.how.tracking': 'Tracking 24 सितंबर 2026 को शुरू हुई।',
+  'subs.status.badge.p':
+    'अपने README या status page के लिए shields.io badge पाने के लिए ?format=shields जोड़ें:',
+  'subs.status.use.p':
+    'अपने app में स्रोत चुनने के लिए, /sources पहले से ही सिर्फ़ live स्रोतों की सूची देता है। Status API अपने users को यह दिखाने के लिए है कि क्या चल रहा है, खुद को alert करने के लिए, या यह तय करने के लिए कि कब retry करना है:',
+  'subs.status.news.p':
+    'API और store से जुड़ी घोषणाएं (नए features, ऐसे बदलाव जो आपके app पर असर डालते हैं) [sub.wyzie.io/news](https://sub.wyzie.io/news) पर पोस्ट की जाती हैं, वहां subscribe करने पर email से, या [RSS](https://sub.wyzie.io/news/feed.xml) से भी मिलती हैं।',
 
   // Subs API Keys Page
   'subs.keys.title': 'API Keys',
@@ -571,13 +615,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Random IPv6 Generation**: प्रत्येक request के लिए आपके /48 prefix से random IPv6 पते बनाता है',
   'i6shark.intro.feature2':
-    '**Full HTTP Method Support**: GET, POST, PUT, DELETE, और अन्य सभी HTTP methods',
+    '**HTTP Methods**: GET, HEAD और POST; बाकी सब पर 405 मिलता है',
   'i6shark.intro.feature3':
     '**HMAC-SHA256 Authentication**: user-agent आधारित tokens का उपयोग करके सुरक्षित API key authentication',
   'i6shark.intro.feature4':
     '**Intelligent IP Pool Management**: configurable pool size के साथ automatic IP rotation। Smart IP lifecycle management। प्रति-IP request counting। inactivity threshold के आधार पर unused IP cleanup।',
   'i6shark.intro.feature5':
-    '**Advanced Request Handling**: Custom header forwarding। Cloudflare और CDN header stripping। एकाधिक URL parameter formats का समर्थन। system default IP पर optional fallback।',
+    '**Safe Request Handling**: सिर्फ़ allowlist में शामिल request headers ही forward होते हैं, API token या Cloudflare और forwarding headers कभी नहीं। loopback, private, link-local और अन्य internal networks पर मौजूद destinations (server के अपने addresses सहित) DNS resolve होने के बाद और हर redirect पर (अधिकतम 5) अस्वीकार कर दिए जाते हैं। एकाधिक URL parameter formats का समर्थन। system default IP पर optional fallback।',
   'i6shark.intro.feature7':
     '**Automatic Maintenance**: Periodic IP pool flushing। Subnet validation और cleanup। Connection pooling और keepalive optimization।',
   'i6shark.intro.feature8':
@@ -606,7 +650,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'repository को /opt/i6.shark पर clone करें:',
   'i6shark.hosting.step2': 'src/consts.go में constants configure करें:',
   'i6shark.hosting.step2.note':
-    'SharedSecret, IPv6Prefix, और Interface को अपने server से match करने के लिए update करें। शेष tuning constants के sensible defaults हैं और आमतौर पर बदलाव की आवश्यकता नहीं होती।',
+    'IPv6Prefix और Interface को अपने server से match करने के लिए update करें। shared secret इस फ़ाइल में नहीं, बल्कि environment में जाता है (अगला step); SharedSecret सिर्फ़ तब fallback है जब I6_SHARED_SECRET set न हो। शेष tuning constants के sensible defaults हैं और आमतौर पर बदलाव की आवश्यकता नहीं होती।',
+  'i6shark.hosting.stepSecret':
+    'shared secret को ऐसी environment फ़ाइल में रखें जिसे सिर्फ़ root पढ़ सके। अपने client में भी वही value इस्तेमाल करें (Wyzie Subs के लिए, I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'application build करें:',
   'i6shark.hosting.step4': 'systemd service बनाएं:',
   'i6shark.hosting.step5': 'service को enable और start करें:',
@@ -620,7 +666,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'API Authentication',
   'i6shark.hosting.auth.p':
-    'API tokens एक shared secret key के साथ HMAC-SHA256 का उपयोग करके generate होते हैं। key generation के लिए input user-agent header है। implementation details के लिए source code में validateAPIToken function देखें।',
+    'API tokens shared secret (I6_SHARED_SECRET) के साथ user-agent header पर HMAC-SHA256 का उपयोग करके generate होते हैं, और API-Token header में भेजे जाते हैं, जिसे proxy कभी upstream forward नहीं करता। implementation details के लिए source code में validateAPIToken function देखें। अगर कभी secret leak हो जाए, तो नया secret set करें और service को restart करें।',
 
   // Plugins
   'plugins.common.required': 'आवश्यक',

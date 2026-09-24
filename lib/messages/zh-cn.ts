@@ -37,6 +37,8 @@ const messages: Record<string, string> = {
     '所有请求都需要 API 密钥。请在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取免费密钥（邮箱验证，每天 1,000 次请求）。如需更高用量，可选择 [Pro 方案及补充包](https://store.wyzie.io)。详情请参阅 API 密钥页面。',
   'subs.intro.note.npm':
     '如果你熟悉 TypeScript 或 JavaScript，我们强烈推荐使用 NPM 包',
+  'subs.intro.note.status':
+    '正常运行时间与故障：[sub.wyzie.io/status](https://sub.wyzie.io/status) 和 [状态 API](/subs/usage/status)。API 与商店的新闻：[sub.wyzie.io/news](https://sub.wyzie.io/news)。',
   'subs.intro.btn.npm': 'NPM 包',
   'subs.intro.btn.direct': '直接请求',
 
@@ -266,7 +268,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     '若为 AI 翻译字幕则为 true，普通抓取字幕则为 false。当你只需要其中一种时，可在客户端用此字段进行过滤。',
   'subs.direct.download.p':
-    '/search 响应中的每个 url 都指向 https://sub.wyzie.io/c/...，并带有 tok 查询参数。tok 经过加密，因此不会暴露你的 API 密钥，有效期为 60 天。请原样使用该 URL。每次搜索消耗 1 次请求，每次下载另外消耗 1 次，均计入执行该搜索的密钥。当该密钥无法支付下载费用时，链接会被拒绝：',
+    '/search 响应中的每个 url 都指向 https://sub.wyzie.io/c/...，并带有 tok 查询参数。tok 经过加密，因此不会暴露你的 API 密钥，有效期为 60 天。每个链接都有自己的 tok，只能打开对应的文件，因此请原样使用该 URL（添加下载选项没有问题）。每次搜索消耗 1 次请求，每次下载另外消耗 1 次，均计入执行该搜索的密钥。当该密钥无法支付下载费用时，链接会被拒绝：',
   'subs.direct.dl.p':
     '将这些参数添加到下载 URL 中，即可改变返回的内容。它们适用于每次下载（无论是否命中缓存），且不额外收费（下文的 dual 除外）。X-Subtitle-Transforms 响应头会列出实际应用的处理及相应数量。',
   'subs.direct.dl.param.to':
@@ -375,7 +377,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     '有人说话的时间段：以秒为单位的 [[start, end], …]，可由任意语音活动检测器生成（wyzie-lib 的 detectSpeech、Silero VAD、webrtcvad）。一部 2 小时的电影大约有 2,000 个片段，约 40 KB 的 JSON。',
   'subs.synced.param.media':
-    '或者直接提供音频/视频文件本身：作为原始请求体（其他字段放在查询字符串中），或作为 multipart 字段 media。最大 95 MB，因此对于完整的电影，请只上传音轨。',
+    '或者直接提供音频/视频文件本身：作为原始请求体（其他字段放在查询字符串中），或作为 multipart 字段 media。最大 95 MB，因此对于完整的电影，请只上传音轨。对于超过 8 MB 的 multipart 上传，请把 key 放在查询字符串中：它会在读取文件之前被检查。',
   'subs.synced.fields.note':
     '字段可以放在 JSON 请求体、multipart 表单或查询字符串中（配合原始 media 请求体）。',
   'subs.synced.response.p': '200 响应为 JSON 格式：',
@@ -394,7 +396,8 @@ const messages: Record<string, string> = {
     '错误以 JSON 格式返回，包含 message 和 details。被拒绝和失败的同步不计费。',
   'subs.synced.error.400':
     '字段缺失或无效：未指定字幕、没有音频，或 speech 不是由 [start, end] 数对组成。',
-  'subs.synced.error.401': '未提供密钥，或 url 中的下载链接无效或已过期。',
+  'subs.synced.error.401':
+    '未提供密钥、url 中的下载链接无效或已过期，或者超过 8 MB 的 multipart 上传未在查询字符串中提供 key。',
   'subs.synced.error.403':
     '密钥为免费密钥（Wyzie Synced 需要 Pro）、无效或已被暂停。',
   'subs.synced.error.404': '该标题没有该语言的文本字幕。',
@@ -403,9 +406,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     '在任何偏移量或帧率下，字幕都无法与音频对齐（可能是其他剪辑版本或其他剧集），音频中的语音太少，或文件无法解码。',
   'subs.synced.error.429':
-    '密钥余额不足：一次同步至少需要剩余 5 次请求，会在开始任何处理之前检查。',
+    '密钥余额不足：一次同步至少需要剩余 5 次请求，会在开始任何处理之前检查。或者 429 Too many syncs：每个密钥每小时最多可发起 60 次同步。',
   'subs.synced.error.503':
-    '正忙于解码其他上传的文件，或搜索暂时不可用。请稍后重试，或改为发送 speech。',
+    '正忙于解码或读取其他上传的文件，或搜索暂时不可用。请稍后重试，或改为发送 speech。',
   'subs.synced.lib.p':
     'wyzie-lib 提供 detectSpeech（与网站在你浏览器中运行的检测器相同）和 syncSubtitle：',
   'subs.synced.how.step1':
@@ -421,6 +424,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     '它依赖语音：对白很少的影片或以音乐为主的音频可能无法同步。',
   'subs.synced.limit3': '可检测的偏移最多为 ±10 分钟。',
+
+  // Subs Status API Page
+  'subs.status.title': '状态 API',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api 返回的状态与[状态页面](https://sub.wyzie.io/status)显示的一致，以 JSON 格式供你自行监控：API 是否在线、每个来源的状态、24 小时及 7、30、90 天的正常运行时间、逐日历史以及近期故障。无需密钥，也不产生任何费用。',
+  'subs.status.note':
+    '该接口是公开的（CORS 开放），并缓存 60 秒，因此每分钟轮询超过一次会得到相同的结果。来源以代号命名，与 /sources 中一致。',
+  'subs.status.param.days':
+    '每个 history 数组中逐日历史的天数，最新的在前：0 到 90（默认 90）。设为 0 时省略 history，响应更小。',
+  'subs.status.param.format':
+    'shields 返回一个 [shields.io endpoint 徽章](https://shields.io/badges/endpoint-badge)，而不是报告。',
+  'subs.status.param.source':
+    '与 format=shields 一起使用：返回单个来源的徽章（其 30 天正常运行时间，或 paused），而不是整体状态。',
+  'subs.status.field.status':
+    'operational（所有来源均通过检查）、degraded（有来源已暂停或未通过检查）或 partial_outage（超过一半的来源已暂停）。',
+  'subs.status.field.summary':
+    '用一句话概括同样的内容，例如 "API operational; 2 of 7 sources paused"。',
+  'subs.status.field.trackingSince':
+    '开始统计正常运行时间的时间。此前的时间不计入，因此回溯更久的时间窗口覆盖的时间更短（或为 null）。',
+  'subs.status.field.api':
+    'API 本身：它的 uptime 和 history。在你收到的响应中，status 始终为 operational。',
+  'subs.status.field.sources':
+    '每个来源一个条目：tier（free 或 paid）、上次检查对电影和电视剧的状态、latencyMs、lastChecked 和 nextCheck，以及 uptime 和 history。',
+  'subs.status.field.state':
+    'online、suspect（一次检查失败；5 分钟内重新检查）或 paused（连续两次检查失败）。已暂停的来源为 listed: false：在检查通过之前，它会被排除在 /sources 和 source=all 之外，pausedSince 表示暂停开始的时间。',
+  'subs.status.field.uptime':
+    'API 或来源在每个时间窗口内的正常运行百分比，向下取整到 3 位小数（因此任何停机都会低于 100），尚无数据时为 null。',
+  'subs.status.field.history':
+    '每个 UTC 日一个条目：date、uptime 和 downMinutes（统计开始前为 null）。',
+  'subs.status.field.incidents':
+    '过去 30 天内的来源暂停记录，最新的在前：start、end（仍在进行时为 null）和 minutes。',
+  'subs.status.how.api':
+    'API 正常运行时间：API 运行期间，服务器每分钟记录一次心跳。没有心跳的一分钟计为停机。该数据在我们的服务器上测量，因此仅存在于你与 Cloudflare 之间的问题不会在这里体现。',
+  'subs.status.how.sources':
+    '来源正常运行时间：每个来源每小时都会通过一次真实的搜索和下载进行检查。来源处于暂停状态的时间计为停机，从第一次检查失败起，直到有检查通过为止。仅一次检查失败不计入，我们手动暂停的来源也不计入。',
+  'subs.status.how.tracking': '统计始于 2026 年 9 月 24 日。',
+  'subs.status.badge.p':
+    '添加 ?format=shields 即可获取用于 README 或状态页面的 shields.io 徽章：',
+  'subs.status.use.p':
+    '要在你的应用中选择来源，/sources 已经只列出在线的来源。状态 API 用于向你的用户展示服务状态、给自己发送告警，或决定何时重试：',
+  'subs.status.news.p':
+    '有关 API 和商店的公告（新功能、影响你应用的变更）会发布在 [sub.wyzie.io/news](https://sub.wyzie.io/news)；你也可以在那里订阅邮件通知，或通过 [RSS](https://sub.wyzie.io/news/feed.xml) 获取。',
 
   // Subs API Keys Page
   'subs.keys.title': 'API 密钥',
@@ -533,13 +578,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**随机 IPv6 生成**：为每次请求从你的 /48 前缀中创建随机 IPv6 地址',
   'i6shark.intro.feature2':
-    '**完整 HTTP 方法支持**：GET、POST、PUT、DELETE 及所有其他 HTTP 方法',
+    '**HTTP 方法**：GET、HEAD 和 POST；其他方法会收到 405',
   'i6shark.intro.feature3':
     '**HMAC-SHA256 认证**：使用基于 User-Agent 令牌的安全 API 密钥认证',
   'i6shark.intro.feature4':
     '**智能 IP 池管理**：可配置池大小的自动 IP 轮换。智能 IP 生命周期管理。每个 IP 的请求计数。基于不活跃阈值的闲置 IP 清理。',
   'i6shark.intro.feature5':
-    '**高级请求处理**：自定义请求头转发。Cloudflare 及 CDN 请求头剥离。支持多种 URL 参数格式。可选回退到系统默认 IP。',
+    '**安全的请求处理**：只转发允许列表中的请求头，绝不转发 API 令牌以及 Cloudflare 和转发类请求头。位于环回、私有、链路本地及其他内部网络上的目标地址（包括服务器自身的地址）会被拒绝，在 DNS 解析后以及每次重定向时（最多 5 次）都会检查。支持多种 URL 参数格式。可选回退到系统默认 IP。',
   'i6shark.intro.feature7':
     '**自动维护**：定期清空 IP 池。子网验证与清理。连接池与长连接优化。',
   'i6shark.intro.feature8':
@@ -564,7 +609,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': '将仓库克隆到 /opt/i6.shark：',
   'i6shark.hosting.step2': '在 src/consts.go 中配置常量：',
   'i6shark.hosting.step2.note':
-    '根据你的服务器情况更新 SharedSecret、IPv6Prefix 和 Interface。其余调优常量有合理的默认值，通常无需修改。',
+    '根据你的服务器情况更新 IPv6Prefix 和 Interface。共享密钥应放在环境变量中（下一步），而不是这个文件里；只有在未设置 I6_SHARED_SECRET 时，SharedSecret 才作为后备值使用。其余调优常量有合理的默认值，通常无需修改。',
+  'i6shark.hosting.stepSecret':
+    '将共享密钥放入只有 root 可读的环境文件中。在你的客户端中使用相同的值（对于 Wyzie Subs，即 I6_PROXY_SECRET）：',
   'i6shark.hosting.step3': '构建应用：',
   'i6shark.hosting.step4': '创建 systemd 服务：',
   'i6shark.hosting.step5': '启用并启动服务：',
@@ -577,7 +624,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'API 认证',
   'i6shark.hosting.auth.p':
-    'API 令牌使用 HMAC-SHA256 算法和共享密钥生成，密钥生成的输入为 User-Agent 请求头。实现细节请参阅源代码中的 validateAPIToken 函数。',
+    'API 令牌使用共享密钥（I6_SHARED_SECRET）对 User-Agent 请求头进行 HMAC-SHA256 计算生成，并通过 API-Token 请求头发送，代理绝不会将该请求头转发到上游。实现细节请参阅源代码中的 validateAPIToken 函数。如果密钥泄露，请设置新的密钥并重启服务。',
 
   // Plugins
   'plugins.common.required': '必填',

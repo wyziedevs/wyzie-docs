@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'API ključ je obavezan za sve zahteve. Nabavite besplatni ključ na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifikacija emaila, 1.000 zahteva dnevno). Za veće korišćenje dostupni su [Pro i top-up planovi](https://store.wyzie.io). Pogledajte stranicu API ključevi za detalje.',
   'subs.intro.note.npm':
     'Toplo preporučujemo NPM paket ako ste upoznati sa TypeScript-om ili JavaScript-om',
+  'subs.intro.note.status':
+    'Dostupnost i incidenti: [sub.wyzie.io/status](https://sub.wyzie.io/status) i [API za status](/subs/usage/status). Vesti o API-ju i prodavnici: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'NPM paket',
   'subs.intro.btn.direct': 'Direktno preuzimanje',
 
@@ -292,7 +294,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true ako je unos AI-prevedeni titl, false za normalne skrejpovane titlove. Koristite kao filter na strani klijenta kada želite samo jednu od dve opcije.',
   'subs.direct.download.p':
-    'Svaki url u /search odgovoru pokazuje na https://sub.wyzie.io/c/... i nosi query parametar tok. tok je šifrovan, pa ne otkriva vaš API ključ, i važi 60 dana. Koristite URL onakav kakav jeste. Pretraga košta 1 zahtev, a svako preuzimanje još 1, što se naplaćuje ključu kojim je pretraga izvršena. Kada taj ključ ne može da plati preuzimanje, link se odbija:',
+    'Svaki url u /search odgovoru pokazuje na https://sub.wyzie.io/c/... i nosi query parametar tok. tok je šifrovan, pa ne otkriva vaš API ključ, i važi 60 dana. Svaki link ima sopstveni tok koji otvara samo taj fajl, pa koristite URL onakav kakav jeste (dodavanje opcija za preuzimanje je u redu). Pretraga košta 1 zahtev, a svako preuzimanje još 1, što se naplaćuje ključu kojim je pretraga izvršena. Kada taj ključ ne može da plati preuzimanje, link se odbija:',
   'subs.direct.dl.p':
     'Dodajte ih na URL za preuzimanje da biste promenili ono što vraća. Rade na svakom preuzimanju, iz keša ili ne, i ne koštaju ništa dodatno (osim dual, ispod). Zaglavlje odgovora X-Subtitle-Transforms navodi šta je primenjeno i koliko puta.',
   'subs.direct.dl.param.to':
@@ -406,7 +408,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     'Delovi u kojima ljudi govore: [[start, end], …] u sekundama, iz bilo kog detektora glasovne aktivnosti (detectSpeech iz wyzie-lib, Silero VAD, webrtcvad). Film od 2 sata ima otprilike 2.000 segmenata, oko 40 KB JSON-a.',
   'subs.synced.param.media':
-    'Ili sam audio/video fajl: kao sirovo telo zahteva (sa ostalim poljima u query stringu) ili kao multipart polje media. Do 95 MB, pa za ceo film otpremite samo audio zapis.',
+    'Ili sam audio/video fajl: kao sirovo telo zahteva (sa ostalim poljima u query stringu) ili kao multipart polje media. Do 95 MB, pa za ceo film otpremite samo audio zapis. Za multipart otpremanje veće od 8 MB stavite key u query string: proverava se pre čitanja fajla.',
   'subs.synced.fields.note':
     'Polja se šalju u JSON telu, multipart formi ili query stringu (uz sirovo media telo).',
   'subs.synced.response.p': 'Odgovor 200 je JSON:',
@@ -427,7 +429,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'Nedostajuća ili neispravna polja: nema titla, nema zvuka ili speech nije u obliku parova [start, end].',
   'subs.synced.error.401':
-    'Nema ključa ili je link za preuzimanje prosleđen u url neispravan ili istekao.',
+    'Nema ključa, link za preuzimanje prosleđen u url je neispravan ili istekao, ili multipart otpremanje veće od 8 MB nema key u query stringu.',
   'subs.synced.error.403':
     'Ključ je besplatan (Wyzie Synced zahteva Pro), neispravan ili pauziran.',
   'subs.synced.error.404':
@@ -437,9 +439,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Titl se ne poklapa sa zvukom ni pri jednom pomaku ni brzini kadrova (verovatno je u pitanju druga verzija filma ili epizoda), zvuk sadrži premalo govora ili fajl ne može da se dekodira.',
   'subs.synced.error.429':
-    'Ključ ne može da plati: za sinhronizaciju mora da preostane najmanje 5 zahteva, što se proverava pre bilo kakvog rada.',
+    'Ključ ne može da plati: za sinhronizaciju mora da preostane najmanje 5 zahteva, što se proverava pre bilo kakvog rada. Ili 429 Too many syncs: ključ može da pokrene 60 sinhronizacija na sat.',
   'subs.synced.error.503':
-    'Server je zauzet dekodiranjem drugih otpremljenih fajlova ili je pretraga nakratko nedostupna. Pokušajte ponovo uskoro ili pošaljite speech.',
+    'Server je zauzet dekodiranjem ili čitanjem drugih otpremljenih fajlova ili je pretraga nakratko nedostupna. Pokušajte ponovo uskoro ili pošaljite speech.',
   'subs.synced.lib.p':
     'wyzie-lib sadrži detectSpeech (isti detektor koji sajt pokreće u vašem browseru) i syncSubtitle:',
   'subs.synced.how.step1':
@@ -455,6 +457,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'Potreban mu je govor: filmovi sa malo dijaloga ili zvuk koji je uglavnom muzika možda se neće sinhronizovati.',
   'subs.synced.limit3': 'Pronalaze se pomaci do ±10 minuta.',
+
+  // Subs Status API Page
+  'subs.status.title': 'API za status',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api vraća isti status koji prikazuje [statusna stranica](https://sub.wyzie.io/status), kao JSON za vaše sopstveno praćenje: da li API radi, stanje svakog izvora, dostupnost u poslednja 24 sata, 7, 30 i 90 dana, istoriju po danima i nedavne incidente. Ključ nije potreban i ništa ne košta.',
+  'subs.status.note':
+    'Endpoint je javan (CORS otvoren) i kešira se 60 sekundi, pa upiti češći od jednom u minuti vraćaju isti odgovor. Izvori se navode po kodnom imenu, kao u /sources.',
+  'subs.status.param.days':
+    'Broj dana dnevne istorije u svakom history nizu, od najnovijeg: od 0 do 90 (podrazumevano 90). 0 izostavlja history radi manjeg odgovora.',
+  'subs.status.param.format':
+    'shields vraća [shields.io endpoint bedž](https://shields.io/badges/endpoint-badge) umesto izveštaja.',
+  'subs.status.param.source':
+    'Uz format=shields: bedž za jedan izvor (njegova dostupnost za 30 dana ili paused) umesto ukupnog statusa.',
+  'subs.status.field.status':
+    'operational (svi izvori prolaze provere), degraded (neki izvor je pauziran ili ne prolazi proveru) ili partial_outage (više od polovine izvora je pauzirano).',
+  'subs.status.field.summary':
+    'isto to u jednoj rečenici, npr. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'kada je počelo praćenje dostupnosti. Ranije vreme se ne računa, pa prozori koji sežu dalje unazad pokrivaju manje (ili su null).',
+  'subs.status.field.api':
+    'sam API: njegovi uptime i history. status je uvek operational u odgovoru koji ste primili.',
+  'subs.status.field.sources':
+    'jedan unos po izvoru: tier (free ili paid), status poslednje provere za filmove i TV serije, latencyMs, lastChecked i nextCheck, kao i uptime i history.',
+  'subs.status.field.state':
+    'online, suspect (pao je na jednoj proveri; ponovo se proverava u roku od 5 minuta) ili paused (pao je na dve provere zaredom). Pauzirani izvor ima listed: false: izostavljen je iz /sources i source=all dok neka provera ne prođe, a pausedSince pokazuje od kada.',
+  'subs.status.field.uptime':
+    'procenat svakog prozora u kome su API ili izvor radili, zaokružen naniže na 3 decimale (pa se svaki prekid vidi kao vrednost ispod 100), ili null ako još nema podataka.',
+  'subs.status.field.history':
+    'jedan unos po UTC danu: date, uptime i downMinutes (null pre početka praćenja).',
+  'subs.status.field.incidents':
+    'pauze izvora iz poslednjih 30 dana, od najnovije: start, end (null dok traje) i minutes.',
+  'subs.status.how.api':
+    'Dostupnost API-ja: dok API radi, server svakog minuta beleži heartbeat. Minut bez njega računa se kao prekid. Meri se na našem serveru, pa se problem koji postoji samo između vas i Cloudflare-a ovde neće videti.',
+  'subs.status.how.sources':
+    'Dostupnost izvora: svaki izvor se proverava na svakih sat vremena pravom pretragom i preuzimanjem. Vreme dok je izvor pauziran računa se kao prekid, od njegove prve neuspele provere dok neka provera ne prođe. Jedna neuspela provera sama po sebi se ne računa, kao ni izvor koji ručno pauziramo.',
+  'subs.status.how.tracking': 'Praćenje je počelo 24. septembra 2026.',
+  'subs.status.badge.p':
+    'Dodajte ?format=shields da biste dobili shields.io bedž za svoj README ili statusnu stranicu:',
+  'subs.status.use.p':
+    'Za izbor izvora u vašoj aplikaciji, /sources već navodi samo aktivne. API za status služi da korisnicima pokažete šta radi, da upozorite sebe ili da odlučite kada da ponovite pokušaj:',
+  'subs.status.news.p':
+    'Obaveštenja o API-ju i prodavnici (nove funkcije, promene koje utiču na vašu aplikaciju) objavljuju se na [sub.wyzie.io/news](https://sub.wyzie.io/news), putem e-pošte ako se tamo pretplatite, ili preko [RSS-a](https://sub.wyzie.io/news/feed.xml).',
 
   // Subs API Keys Page
   'subs.keys.title': 'API ključevi',
@@ -570,13 +614,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Nasumično generisanje IPv6**: Kreira nasumične IPv6 adrese iz vašeg /48 prefiksa za svaki zahtev',
   'i6shark.intro.feature2':
-    '**Puna podrška za HTTP metode**: GET, POST, PUT, DELETE i sve ostale HTTP metode',
+    '**HTTP metode**: GET, HEAD i POST; sve ostalo dobija 405',
   'i6shark.intro.feature3':
     '**HMAC-SHA256 autentifikacija**: Bezbedna autentifikacija API ključa koristeći tokene zasnovane na user-agent-u',
   'i6shark.intro.feature4':
     '**Inteligentno upravljanje IP skupom**: Automatska rotacija IP adresa sa podesivom veličinom skupa. Pametno upravljanje životnim ciklusom IP adresa. Brojanje zahteva po IP adresi. Čišćenje nekorišćenih IP adresa na osnovu praga neaktivnosti.',
   'i6shark.intro.feature5':
-    '**Napredno rukovanje zahtevima**: Prosleđivanje prilagođenih zaglavlja. Uklanjanje Cloudflare i CDN zaglavlja. Podrška za više formata URL parametara. Opcionalni povratak na podrazumevanu sistemsku IP adresu.',
+    '**Bezbedno rukovanje zahtevima**: Prosleđuju se samo zaglavlja zahteva sa liste dozvoljenih, nikada API token niti Cloudflare i forwarding zaglavlja. Odredišta u loopback, privatnim, link-local i drugim internim mrežama (uključujući sopstvene adrese servera) se odbijaju, nakon DNS razrešavanja i pri svakom preusmeravanju (najviše 5). Podrška za više formata URL parametara. Opcionalni povratak na podrazumevanu sistemsku IP adresu.',
   'i6shark.intro.feature7':
     '**Automatsko održavanje**: Periodično pražnjenje IP skupa. Validacija i čišćenje podmreže. Optimizacija connection pooling-a i keepalive-a.',
   'i6shark.intro.feature8':
@@ -606,7 +650,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'Klonirajte repozitorijum u /opt/i6.shark:',
   'i6shark.hosting.step2': 'Konfigurišite konstante u src/consts.go:',
   'i6shark.hosting.step2.note':
-    'Ažurirajte SharedSecret, IPv6Prefix i Interface da odgovaraju vašem serveru. Preostale konstante za podešavanje imaju razumne podrazumevane vrednosti i obično ne zahtevaju izmene.',
+    'Ažurirajte IPv6Prefix i Interface da odgovaraju vašem serveru. Deljena tajna ide u okruženje (sledeći korak), a ne u ovaj fajl; SharedSecret je samo rezervna vrednost kada I6_SHARED_SECRET nije postavljen. Preostale konstante za podešavanje imaju razumne podrazumevane vrednosti i obično ne zahtevaju izmene.',
+  'i6shark.hosting.stepSecret':
+    'Stavite deljenu tajnu u fajl okruženja koji može da čita samo root. Koristite istu vrednost u svom klijentu (za Wyzie Subs, I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'Izgradite aplikaciju:',
   'i6shark.hosting.step4': 'Kreirajte systemd servis:',
   'i6shark.hosting.step5': 'Omogućite i pokrenite servis:',
@@ -620,7 +666,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'API autentifikacija',
   'i6shark.hosting.auth.p':
-    'API tokeni se generišu korišćenjem HMAC-SHA256 sa deljenim tajnim ključem. Ulaz za generisanje ključa je user-agent zaglavlje. Pogledajte funkciju validateAPIToken u izvornom kodu za detalje implementacije.',
+    'API tokeni se generišu korišćenjem HMAC-SHA256 sa deljenom tajnom (I6_SHARED_SECRET) nad user-agent zaglavljem i šalju se u API-Token zaglavlju, koje proxy nikada ne prosleđuje dalje. Pogledajte funkciju validateAPIToken u izvornom kodu za detalje implementacije. Ako tajna ikada procuri, postavite novu i ponovo pokrenite servis.',
 
   // Plugins
   'plugins.common.required': 'Obavezno',

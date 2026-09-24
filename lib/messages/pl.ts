@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'Klucz API jest wymagany dla wszystkich żądań. Pobierz darmowy klucz na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (weryfikacja e-mail, 1 000 żądań dziennie). Dla wyższego zużycia dostępne są [plany Pro i doładowania](https://store.wyzie.io). Szczegóły znajdziesz na stronie Klucze API.',
   'subs.intro.note.npm':
     'Zdecydowanie zalecamy pakiet NPM, jeśli znasz TypeScript lub JavaScript',
+  'subs.intro.note.status':
+    'Dostępność i incydenty: [sub.wyzie.io/status](https://sub.wyzie.io/status) oraz [API statusu](/subs/usage/status). Aktualności o API i sklepie: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'Pakiet NPM',
   'subs.intro.btn.direct': 'Bezpośrednie pobieranie',
 
@@ -293,7 +295,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true, jeśli wpis jest napisem przetłumaczonym przez AI, false dla zwykłych pobranych napisów. Użyj jako filtra po stronie klienta, gdy chcesz tylko jednego lub drugiego.',
   'subs.direct.download.p':
-    'Każdy url w odpowiedzi /search wskazuje na https://sub.wyzie.io/c/... i zawiera parametr zapytania tok. tok jest zaszyfrowany, więc nie ujawnia Twojego klucza API, i pozostaje ważny przez 60 dni. Używaj adresu URL bez zmian. Wyszukiwanie kosztuje 1 żądanie, a każde pobranie kolejne 1, co obciąża klucz, który wykonał wyszukiwanie. Gdy ten klucz nie może pokryć kosztu pobrania, link zostaje odrzucony:',
+    'Każdy url w odpowiedzi /search wskazuje na https://sub.wyzie.io/c/... i zawiera parametr zapytania tok. tok jest zaszyfrowany, więc nie ujawnia Twojego klucza API, i pozostaje ważny przez 60 dni. Każdy link ma własny tok, który otwiera tylko ten plik, więc używaj adresu URL bez zmian (dodawanie opcji pobierania jest w porządku). Wyszukiwanie kosztuje 1 żądanie, a każde pobranie kolejne 1, co obciąża klucz, który wykonał wyszukiwanie. Gdy ten klucz nie może pokryć kosztu pobrania, link zostaje odrzucony:',
   'subs.direct.dl.p':
     'Dodaj je do adresu URL pobierania, aby zmienić to, co zwraca. Działają przy każdym pobraniu, z cache czy bez, i nie kosztują nic dodatkowo (z wyjątkiem dual, patrz niżej). Nagłówek odpowiedzi X-Subtitle-Transforms wymienia, co zostało zastosowane, wraz z liczbą zmian.',
   'subs.direct.dl.param.to':
@@ -407,7 +409,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     'Fragmenty, w których ktoś mówi: [[start, end], …] w sekundach, z dowolnego detektora aktywności głosowej (detectSpeech z wyzie-lib, Silero VAD, webrtcvad). 2-godzinny film to około 2 000 segmentów, czyli ok. 40 KB danych JSON.',
   'subs.synced.param.media':
-    'Albo sam plik audio/wideo: jako surowa treść żądania (z pozostałymi polami w parametrach zapytania) lub jako pole multipart media. Do 95 MB, więc w przypadku pełnego filmu wyślij samą ścieżkę dźwiękową.',
+    'Albo sam plik audio/wideo: jako surowa treść żądania (z pozostałymi polami w parametrach zapytania) lub jako pole multipart media. Do 95 MB, więc w przypadku pełnego filmu wyślij samą ścieżkę dźwiękową. Przy przesyłaniu multipart powyżej 8 MB umieść key w parametrach zapytania: jest sprawdzany przed odczytaniem pliku.',
   'subs.synced.fields.note':
     'Pola można przesłać w treści JSON, w formularzu multipart lub w parametrach zapytania (z surową treścią media).',
   'subs.synced.response.p': 'Odpowiedź 200 ma format JSON:',
@@ -428,7 +430,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'Brakujące lub nieprawidłowe pola: brak napisów, brak dźwięku albo speech, które nie jest listą par [start, end].',
   'subs.synced.error.401':
-    'Brak klucza albo link do pobrania w url jest nieprawidłowy lub wygasł.',
+    'Brak klucza, link do pobrania w url jest nieprawidłowy lub wygasł albo przesyłanie multipart powyżej 8 MB nie ma key w parametrach zapytania.',
   'subs.synced.error.403':
     'Klucz jest darmowy (Wyzie Synced wymaga Pro), nieprawidłowy lub wstrzymany.',
   'subs.synced.error.404':
@@ -438,9 +440,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Napisy nie pasują do dźwięku przy żadnym przesunięciu ani liczbie klatek (prawdopodobnie inna wersja montażowa lub inny odcinek), w dźwięku jest za mało mowy albo nie da się zdekodować pliku.',
   'subs.synced.error.429':
-    'Klucz nie może zapłacić: synchronizacja wymaga, aby zostało co najmniej 5 żądań, co jest sprawdzane przed rozpoczęciem jakiejkolwiek pracy.',
+    'Klucz nie może zapłacić: synchronizacja wymaga, aby zostało co najmniej 5 żądań, co jest sprawdzane przed rozpoczęciem jakiejkolwiek pracy. Albo 429 Too many syncs: klucz może rozpocząć 60 synchronizacji na godzinę.',
   'subs.synced.error.503':
-    'Serwer dekoduje inne przesłane pliki albo wyszukiwanie jest chwilowo niedostępne. Spróbuj ponownie za chwilę lub wyślij speech.',
+    'Serwer dekoduje lub odczytuje inne przesłane pliki albo wyszukiwanie jest chwilowo niedostępne. Spróbuj ponownie za chwilę lub wyślij speech.',
   'subs.synced.lib.p':
     'wyzie-lib udostępnia detectSpeech (ten sam detektor, który strona uruchamia w Twojej przeglądarce) oraz syncSubtitle:',
   'subs.synced.how.step1':
@@ -456,6 +458,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'Potrzebna jest mowa: filmy z niewielką ilością dialogów lub z dźwiękiem złożonym głównie z muzyki mogą się nie zsynchronizować.',
   'subs.synced.limit3': 'Wykrywane są przesunięcia do ±10 minut.',
+
+  // Subs Status API Page
+  'subs.status.title': 'API statusu',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api zwraca ten sam status, który pokazuje [strona statusu](https://sub.wyzie.io/status), w formacie JSON do Twojego własnego monitoringu: czy API działa, stan każdego źródła, dostępność w ciągu 24 godzin, 7, 30 i 90 dni, historię dzień po dniu oraz ostatnie incydenty. Klucz nie jest potrzebny i nic to nie kosztuje.',
+  'subs.status.note':
+    'Endpoint jest publiczny (otwarty CORS) i buforowany przez 60 sekund, więc odpytywanie częściej niż raz na minutę zwraca tę samą odpowiedź. Źródła są oznaczane nazwami kodowymi, tak jak w /sources.',
+  'subs.status.param.days':
+    'Liczba dni historii dziennej w każdej tablicy history, od najnowszych: od 0 do 90 (domyślnie 90). 0 pomija history, co daje mniejszą odpowiedź.',
+  'subs.status.param.format':
+    'shields zwraca [odznakę endpoint shields.io](https://shields.io/badges/endpoint-badge) zamiast raportu.',
+  'subs.status.param.source':
+    'Z format=shields: odznaka dla jednego źródła (jego dostępność z 30 dni albo paused) zamiast ogólnego statusu.',
+  'subs.status.field.status':
+    'operational (każde źródło przechodzi kontrole), degraded (źródło jest wstrzymane lub nie przechodzi kontroli) albo partial_outage (ponad połowa źródeł jest wstrzymana).',
+  'subs.status.field.summary':
+    'to samo w jednym zdaniu, np. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'kiedy rozpoczęto śledzenie dostępności. Wcześniejszy czas nie jest liczony, więc okna sięgające dalej wstecz obejmują mniej (lub mają wartość null).',
+  'subs.status.field.api':
+    'samo API: jego uptime i history. status w otrzymanej przez Ciebie odpowiedzi zawsze ma wartość operational.',
+  'subs.status.field.sources':
+    'jeden wpis na źródło: tier (free lub paid), status ostatniej kontroli dla filmów i TV, latencyMs, lastChecked i nextCheck, a także uptime i history.',
+  'subs.status.field.state':
+    'online, suspect (nie przeszło jednej kontroli; ponowna kontrola w ciągu 5 minut) albo paused (nie przeszło dwóch kontroli z rzędu). Wstrzymane źródło ma listed: false: znika z /sources i source=all, dopóki kontrola nie zakończy się powodzeniem, a pausedSince podaje, od kiedy.',
+  'subs.status.field.uptime':
+    'procent każdego okna, w którym API lub źródło działało, zaokrąglony w dół do 3 miejsc po przecinku (więc każda przerwa daje wynik poniżej 100), albo null, jeśli nie ma jeszcze danych.',
+  'subs.status.field.history':
+    'jeden wpis na dzień UTC: date, uptime i downMinutes (null przed rozpoczęciem śledzenia).',
+  'subs.status.field.incidents':
+    'wstrzymania źródeł z ostatnich 30 dni, od najnowszych: start, end (null, dopóki trwa) i minutes.',
+  'subs.status.how.api':
+    'Dostępność API: gdy API działa, serwer co minutę zapisuje sygnał życia (heartbeat). Minuta bez niego liczy się jako niedostępność. Pomiar odbywa się na naszym serwerze, więc problem występujący tylko między Tobą a Cloudflare nie będzie tu widoczny.',
+  'subs.status.how.sources':
+    'Dostępność źródeł: każde źródło jest sprawdzane co godzinę prawdziwym wyszukiwaniem i pobraniem. Czas, w którym źródło jest wstrzymane, liczy się jako niedostępność, od pierwszej nieudanej kontroli do momentu, gdy kontrola się powiedzie. Pojedyncza nieudana kontrola się nie liczy, podobnie jak źródło wstrzymane przez nas ręcznie.',
+  'subs.status.how.tracking': 'Śledzenie rozpoczęło się 24 września 2026 r.',
+  'subs.status.badge.p':
+    'Dodaj ?format=shields, aby uzyskać odznakę shields.io do swojego README lub strony statusu:',
+  'subs.status.use.p':
+    'Do wyboru źródeł w Twojej aplikacji służy /sources, które już wymienia tylko działające. API statusu służy do pokazywania użytkownikom, co działa, powiadamiania samego siebie lub decydowania, kiedy ponowić próbę:',
+  'subs.status.news.p':
+    'Ogłoszenia dotyczące API i sklepu (nowe funkcje, zmiany wpływające na Twoją aplikację) są publikowane na [sub.wyzie.io/news](https://sub.wyzie.io/news), e-mailem, jeśli się tam zapiszesz, lub przez [RSS](https://sub.wyzie.io/news/feed.xml).',
 
   // Subs API Keys Page
   'subs.keys.title': 'Klucze API',
@@ -573,13 +617,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Losowe generowanie IPv6**: Tworzy losowe adresy IPv6 z Twojego prefiksu /48 dla każdego żądania',
   'i6shark.intro.feature2':
-    '**Pełna obsługa metod HTTP**: GET, POST, PUT, DELETE i wszystkie inne metody HTTP',
+    '**Metody HTTP**: GET, HEAD i POST; każda inna metoda dostaje 405',
   'i6shark.intro.feature3':
     '**Uwierzytelnianie HMAC-SHA256**: Bezpieczne uwierzytelnianie klucza API przy użyciu tokenów opartych na user-agent',
   'i6shark.intro.feature4':
     '**Inteligentne zarządzanie pulą IP**: Automatyczna rotacja IP z konfigurowalnym rozmiarem puli. Inteligentne zarządzanie cyklem życia IP. Licznik żądań na IP. Czyszczenie nieużywanych IP na podstawie progu nieaktywności.',
   'i6shark.intro.feature5':
-    '**Zaawansowana obsługa żądań**: Przekazywanie niestandardowych nagłówków. Usuwanie nagłówków Cloudflare i CDN. Obsługa wielu formatów parametrów URL. Opcjonalny fallback do systemowego domyślnego IP.',
+    '**Bezpieczna obsługa żądań**: Przekazywane są tylko nagłówki żądania z listy dozwolonych, nigdy token API ani nagłówki Cloudflare i nagłówki przekazywania (forwarding). Cele w sieciach loopback, prywatnych, link-local i innych sieciach wewnętrznych (w tym własne adresy serwera) są odrzucane, po rozwiązaniu DNS i przy każdym przekierowaniu (maksymalnie 5). Obsługa wielu formatów parametrów URL. Opcjonalny fallback do systemowego domyślnego IP.',
   'i6shark.intro.feature7':
     '**Automatyczna konserwacja**: Periodyczne opróżnianie puli IP. Walidacja i czyszczenie podsieci. Optymalizacja buforowania połączeń i keepalive.',
   'i6shark.intro.feature8':
@@ -608,7 +652,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'Sklonuj repozytorium do /opt/i6.shark:',
   'i6shark.hosting.step2': 'Skonfiguruj stałe w src/consts.go:',
   'i6shark.hosting.step2.note':
-    'Zaktualizuj SharedSecret, IPv6Prefix i Interface, aby pasowały do Twojego serwera. Pozostałe stałe konfiguracyjne mają rozsądne wartości domyślne i zazwyczaj nie wymagają zmian.',
+    'Zaktualizuj IPv6Prefix i Interface, aby pasowały do Twojego serwera. Współdzielony sekret trafia do środowiska (następny krok), a nie do tego pliku; SharedSecret jest tylko wartością zapasową, gdy I6_SHARED_SECRET nie jest ustawiony. Pozostałe stałe konfiguracyjne mają rozsądne wartości domyślne i zazwyczaj nie wymagają zmian.',
+  'i6shark.hosting.stepSecret':
+    'Umieść współdzielony sekret w pliku środowiskowym dostępnym tylko dla roota. Użyj tej samej wartości w swoim kliencie (dla Wyzie Subs: I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'Zbuduj aplikację:',
   'i6shark.hosting.step4': 'Utwórz usługę systemd:',
   'i6shark.hosting.step5': 'Włącz i uruchom usługę:',
@@ -622,7 +668,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'Uwierzytelnianie API',
   'i6shark.hosting.auth.p':
-    'Tokeny API są generowane przy użyciu HMAC-SHA256 ze współdzielonym kluczem tajnym. Dane wejściowe do generowania klucza to nagłówek user-agent. Szczegóły implementacji znajdziesz w funkcji validateAPIToken w kodzie źródłowym.',
+    'Tokeny API są generowane przy użyciu HMAC-SHA256 ze współdzielonym sekretem (I6_SHARED_SECRET) na podstawie nagłówka user-agent i wysyłane w nagłówku API-Token, którego proxy nigdy nie przekazuje dalej. Szczegóły implementacji znajdziesz w funkcji validateAPIToken w kodzie źródłowym. Jeśli sekret kiedykolwiek wycieknie, ustaw nowy i uruchom usługę ponownie.',
 
   // Plugins
   'plugins.common.required': 'Wymagane',

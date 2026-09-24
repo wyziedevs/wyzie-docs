@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'API key diperlukan untuk semua permintaan. Dapatkan kunci gratis di [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifikasi email, 1.000 permintaan/hari). Untuk penggunaan lebih tinggi, tersedia [paket Pro dan top-up](https://store.wyzie.io). Lihat halaman API Keys untuk detailnya.',
   'subs.intro.note.npm':
     'Kami sangat menyarankan paket NPM jika Anda familiar dengan TypeScript atau JavaScript',
+  'subs.intro.note.status':
+    'Uptime dan insiden: [sub.wyzie.io/status](https://sub.wyzie.io/status) dan [Status API](/subs/usage/status). Berita seputar API dan toko: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'Paket NPM',
   'subs.intro.btn.direct': 'Pengambilan Langsung',
 
@@ -296,7 +298,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true jika entri adalah subtitle hasil terjemahan AI, false untuk subtitle yang diambil secara normal. Gunakan sebagai filter sisi klien saat Anda hanya menginginkan salah satunya.',
   'subs.direct.download.p':
-    'Setiap url dalam respons /search mengarah ke https://sub.wyzie.io/c/... dan membawa parameter query tok. tok dienkripsi, sehingga tidak mengungkapkan API key Anda, dan tetap berlaku selama 60 hari. Gunakan URL apa adanya. Satu pencarian membutuhkan 1 permintaan dan setiap unduhan 1 permintaan lagi, yang ditagihkan ke kunci yang menjalankan pencarian. Jika kunci tersebut tidak dapat membayar sebuah unduhan, tautan akan ditolak:',
+    'Setiap url dalam respons /search mengarah ke https://sub.wyzie.io/c/... dan membawa parameter query tok. tok dienkripsi, sehingga tidak mengungkapkan API key Anda, dan tetap berlaku selama 60 hari. Setiap tautan memiliki tok sendiri yang hanya membuka file tersebut, jadi gunakan URL apa adanya (menambahkan opsi unduhan tidak masalah). Satu pencarian membutuhkan 1 permintaan dan setiap unduhan 1 permintaan lagi, yang ditagihkan ke kunci yang menjalankan pencarian. Jika kunci tersebut tidak dapat membayar sebuah unduhan, tautan akan ditolak:',
   'subs.direct.dl.p':
     'Tambahkan opsi ini ke URL unduhan untuk mengubah apa yang dikembalikannya. Opsi ini berlaku di setiap unduhan, baik dari cache maupun tidak, dan tidak dikenakan biaya tambahan (kecuali dual, di bawah). Header respons X-Subtitle-Transforms mencantumkan apa saja yang diterapkan, beserta jumlahnya.',
   'subs.direct.dl.param.to':
@@ -411,7 +413,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     'Bagian di mana orang berbicara: [[start, end], …] dalam detik, dari detektor aktivitas suara apa pun (detectSpeech dari wyzie-lib, Silero VAD, webrtcvad). Film berdurasi 2 jam kira-kira berisi 2.000 segmen, sekitar 40 KB JSON.',
   'subs.synced.param.media':
-    'Atau file audio/video itu sendiri: sebagai body permintaan mentah (dengan kolom lainnya di query string), atau sebagai kolom multipart media. Maksimal 95 MB, jadi untuk film penuh, unggah trek audionya saja.',
+    'Atau file audio/video itu sendiri: sebagai body permintaan mentah (dengan kolom lainnya di query string), atau sebagai kolom multipart media. Maksimal 95 MB, jadi untuk film penuh, unggah trek audionya saja. Untuk unggahan multipart di atas 8 MB, letakkan key di query string: key diperiksa sebelum file dibaca.',
   'subs.synced.fields.note':
     'Kolom dikirim dalam body JSON, form multipart, atau query string (dengan body media mentah).',
   'subs.synced.response.p': 'Respons 200 berupa JSON:',
@@ -432,7 +434,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'Kolom hilang atau tidak valid: tidak ada subtitle, tidak ada audio, atau speech yang bukan berupa pasangan [start, end].',
   'subs.synced.error.401':
-    'Tidak ada kunci, atau tautan unduhan pada url tidak valid atau sudah kedaluwarsa.',
+    'Tidak ada kunci, tautan unduhan pada url tidak valid atau sudah kedaluwarsa, atau unggahan multipart di atas 8 MB tidak memiliki key di query string.',
   'subs.synced.error.403':
     'Kunci tersebut gratis (Wyzie Synced memerlukan Pro), tidak valid, atau sedang ditangguhkan.',
   'subs.synced.error.404':
@@ -442,9 +444,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Subtitle tidak selaras dengan audio pada offset atau frame rate mana pun (kemungkinan versi atau episode lain), audio terlalu sedikit mengandung ucapan, atau file tidak dapat didekode.',
   'subs.synced.error.429':
-    'Kunci tidak dapat membayar: sinkronisasi memerlukan sisa minimal 5 permintaan, yang diperiksa sebelum pekerjaan apa pun dimulai.',
+    'Kunci tidak dapat membayar: sinkronisasi memerlukan sisa minimal 5 permintaan, yang diperiksa sebelum pekerjaan apa pun dimulai. Atau 429 Too many syncs: satu kunci dapat memulai 60 sinkronisasi per jam.',
   'subs.synced.error.503':
-    'Sedang sibuk mendekode unggahan lain, atau pencarian sementara tidak tersedia. Coba lagi sebentar lagi, atau kirim speech.',
+    'Sedang sibuk mendekode atau membaca unggahan lain, atau pencarian sementara tidak tersedia. Coba lagi sebentar lagi, atau kirim speech.',
   'subs.synced.lib.p':
     'wyzie-lib memiliki detectSpeech (detektor yang sama dengan yang dijalankan situs di browser Anda) dan syncSubtitle:',
   'subs.synced.how.step1':
@@ -460,6 +462,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'Fitur ini membutuhkan ucapan: film dengan sedikit dialog, atau audio yang sebagian besar berisi musik, mungkin tidak dapat disinkronkan.',
   'subs.synced.limit3': 'Offset hingga ±10 menit dapat ditemukan.',
+
+  // Subs Status API Page
+  'subs.status.title': 'Status API',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api berisi status yang sama dengan yang ditampilkan [halaman status](https://sub.wyzie.io/status), dalam format JSON untuk pemantauan Anda sendiri: apakah API aktif, kondisi setiap sumber, uptime selama 24 jam, 7, 30, dan 90 hari, riwayat per hari, serta insiden terbaru. Tidak perlu kunci, dan gratis.',
+  'subs.status.note':
+    'Endpoint ini publik (CORS terbuka) dan di-cache selama 60 detik, jadi polling lebih dari sekali per menit akan mengembalikan jawaban yang sama. Sumber disebut dengan nama kodenya, seperti di /sources.',
+  'subs.status.param.days':
+    'Jumlah hari riwayat harian dalam setiap array history, terbaru lebih dulu: 0 hingga 90 (default 90). 0 menghilangkan history agar respons lebih kecil.',
+  'subs.status.param.format':
+    'shields mengembalikan [endpoint badge shields.io](https://shields.io/badges/endpoint-badge), bukan laporan.',
+  'subs.status.param.source':
+    'Dengan format=shields: badge untuk satu sumber (uptime 30 harinya, atau paused), bukan status keseluruhan.',
+  'subs.status.field.status':
+    'operational (semua sumber lolos pemeriksaan), degraded (ada sumber yang dijeda atau gagal dalam pemeriksaan) atau partial_outage (lebih dari separuh sumber dijeda).',
+  'subs.status.field.summary':
+    'hal yang sama dalam satu kalimat, mis. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'kapan pelacakan uptime dimulai. Waktu sebelumnya tidak dihitung, sehingga jendela waktu yang menjangkau lebih jauh ke belakang mencakup lebih sedikit (atau bernilai null).',
+  'subs.status.field.api':
+    'API itu sendiri: uptime dan history-nya. status selalu operational dalam respons yang Anda terima.',
+  'subs.status.field.sources':
+    'satu entri per sumber: tier (free atau paid), status pemeriksaan terakhir untuk film dan TV, latencyMs, lastChecked dan nextCheck, serta uptime dan history.',
+  'subs.status.field.state':
+    'online, suspect (gagal satu pemeriksaan; diperiksa ulang dalam 5 menit) atau paused (gagal dua pemeriksaan berturut-turut). Sumber yang dijeda memiliki listed: false: sumber itu dikeluarkan dari /sources dan source=all sampai ada pemeriksaan yang lolos, dan pausedSince menunjukkan sejak kapan.',
+  'subs.status.field.uptime':
+    'persentase waktu dari setiap jendela ketika API atau sumber aktif, dibulatkan ke bawah hingga 3 desimal (sehingga downtime sekecil apa pun tampil di bawah 100), atau null jika belum ada data.',
+  'subs.status.field.history':
+    'satu entri per hari UTC: date, uptime, dan downMinutes (null sebelum pelacakan dimulai).',
+  'subs.status.field.incidents':
+    'jeda sumber dalam 30 hari terakhir, terbaru lebih dulu: start, end (null selama masih berlangsung) dan minutes.',
+  'subs.status.how.api':
+    'Uptime API: selama API berjalan, server mencatat heartbeat setiap menit. Satu menit tanpa heartbeat dihitung sebagai down. Pengukuran dilakukan di server kami, jadi masalah yang hanya terjadi antara Anda dan Cloudflare tidak akan terlihat di sini.',
+  'subs.status.how.sources':
+    'Uptime sumber: setiap sumber diperiksa setiap jam dengan pencarian dan unduhan sungguhan. Waktu selama sumber dijeda dihitung sebagai down, mulai dari pemeriksaan gagal pertamanya hingga ada pemeriksaan yang lolos. Satu pemeriksaan gagal saja tidak dihitung, begitu pula sumber yang kami jeda secara manual.',
+  'subs.status.how.tracking': 'Pelacakan dimulai pada 24 September 2026.',
+  'subs.status.badge.p':
+    'Tambahkan ?format=shields untuk mendapatkan badge shields.io untuk README atau halaman status Anda:',
+  'subs.status.use.p':
+    'Untuk memilih sumber di aplikasi Anda, /sources sudah hanya mencantumkan sumber yang aktif. Status API berguna untuk menunjukkan kepada pengguna Anda apa yang sedang berjalan, memberi peringatan kepada diri sendiri, atau memutuskan kapan harus mencoba lagi:',
+  'subs.status.news.p':
+    'Pengumuman tentang API dan toko (fitur baru, perubahan yang memengaruhi aplikasi Anda) dipublikasikan di [sub.wyzie.io/news](https://sub.wyzie.io/news), melalui email jika Anda berlangganan di sana, atau melalui [RSS](https://sub.wyzie.io/news/feed.xml).',
 
   // Subs API Keys Page
   'subs.keys.title': 'API Keys',
@@ -579,13 +623,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Pembuatan IPv6 Acak**: Membuat alamat IPv6 acak dari prefiks /48 Anda untuk setiap permintaan',
   'i6shark.intro.feature2':
-    '**Dukungan Metode HTTP Penuh**: GET, POST, PUT, DELETE, dan semua metode HTTP lainnya',
+    '**Metode HTTP**: GET, HEAD, dan POST; metode lain mendapat 405',
   'i6shark.intro.feature3':
     '**Autentikasi HMAC-SHA256**: Autentikasi API key yang aman menggunakan token berbasis user-agent',
   'i6shark.intro.feature4':
     '**Manajemen Pool IP Cerdas**: Rotasi IP otomatis dengan ukuran pool yang dapat dikonfigurasi. Manajemen siklus hidup IP yang cerdas. Penghitungan permintaan per IP. Pembersihan IP yang tidak digunakan berdasarkan ambang batas tidak aktif.',
   'i6shark.intro.feature5':
-    '**Penanganan Permintaan Lanjutan**: Penerusan header kustom. Penghapusan header Cloudflare dan CDN. Dukungan untuk berbagai format parameter URL. Fallback opsional ke IP default sistem.',
+    '**Penanganan Permintaan yang Aman**: Hanya header permintaan dalam allowlist yang diteruskan, tidak pernah token API atau header Cloudflare dan header penerusan (forwarding). Tujuan di jaringan loopback, privat, link-local, dan jaringan internal lainnya (termasuk alamat milik server itu sendiri) ditolak, setelah resolusi DNS dan pada setiap redirect (maksimal 5). Dukungan untuk berbagai format parameter URL. Fallback opsional ke IP default sistem.',
   'i6shark.intro.feature7':
     '**Pemeliharaan Otomatis**: Pembersihan pool IP secara berkala. Validasi dan pembersihan subnet. Optimasi connection pooling dan keepalive.',
   'i6shark.intro.feature8':
@@ -614,7 +658,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'Clone repositori ke /opt/i6.shark:',
   'i6shark.hosting.step2': 'Konfigurasikan konstanta di src/consts.go:',
   'i6shark.hosting.step2.note':
-    'Perbarui SharedSecret, IPv6Prefix, dan Interface agar sesuai dengan server Anda. Konstanta penyetelan lainnya memiliki default yang wajar dan biasanya tidak perlu diubah.',
+    'Perbarui IPv6Prefix dan Interface agar sesuai dengan server Anda. Rahasia bersama disimpan di environment (langkah berikutnya), bukan di file ini; SharedSecret hanya menjadi fallback ketika I6_SHARED_SECRET tidak diatur. Konstanta penyetelan lainnya memiliki default yang wajar dan biasanya tidak perlu diubah.',
+  'i6shark.hosting.stepSecret':
+    'Simpan rahasia bersama di file environment yang hanya dapat dibaca root. Gunakan nilai yang sama di klien Anda (untuk Wyzie Subs, I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'Build aplikasinya:',
   'i6shark.hosting.step4': 'Buat layanan systemd:',
   'i6shark.hosting.step5': 'Aktifkan dan mulai layanan:',
@@ -628,7 +674,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'Autentikasi API',
   'i6shark.hosting.auth.p':
-    'Token API dibuat menggunakan HMAC-SHA256 dengan kunci rahasia bersama. Input untuk pembuatan kunci adalah header user-agent. Lihat fungsi validateAPIToken dalam kode sumber untuk detail implementasi.',
+    'Token API dibuat menggunakan HMAC-SHA256 dengan rahasia bersama (I6_SHARED_SECRET) atas header user-agent, lalu dikirim dalam header API-Token, yang tidak pernah diteruskan proxy ke upstream. Lihat fungsi validateAPIToken dalam kode sumber untuk detail implementasi. Jika sebuah rahasia bocor, atur rahasia baru dan mulai ulang layanan.',
 
   // Plugins
   'plugins.common.required': 'Wajib',

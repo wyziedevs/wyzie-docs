@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'API key là bắt buộc cho tất cả các yêu cầu. Lấy key miễn phí tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (xác minh email, 1.000 yêu cầu/ngày). Để sử dụng nhiều hơn, [các gói Pro và nạp thêm](https://store.wyzie.io) đã có sẵn. Xem trang API Keys để biết chi tiết.',
   'subs.intro.note.npm':
     'Chúng tôi khuyến nghị mạnh mẽ sử dụng gói NPM nếu bạn quen thuộc với TypeScript hoặc JavaScript',
+  'subs.intro.note.status':
+    'Thời gian hoạt động và sự cố: [sub.wyzie.io/status](https://sub.wyzie.io/status) và [Status API](/subs/usage/status). Tin tức về API và cửa hàng: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'Gói NPM',
   'subs.intro.btn.direct': 'Gọi trực tiếp',
 
@@ -298,7 +300,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true nếu mục là phụ đề được dịch bởi AI, false cho phụ đề được scrape bình thường. Dùng nó như bộ lọc phía client khi bạn chỉ muốn một trong hai.',
   'subs.direct.download.p':
-    'Mọi url trong phản hồi /search đều trỏ đến https://sub.wyzie.io/c/... và mang tham số truy vấn tok. tok được mã hóa nên không làm lộ API key của bạn, và có hiệu lực trong 60 ngày. Hãy dùng URL nguyên trạng. Một lần tìm kiếm tốn 1 yêu cầu và mỗi lượt tải xuống tốn thêm 1 yêu cầu, được tính vào key đã thực hiện tìm kiếm. Khi key đó không đủ khả năng chi trả cho một lượt tải xuống, liên kết sẽ bị từ chối:',
+    'Mọi url trong phản hồi /search đều trỏ đến https://sub.wyzie.io/c/... và mang tham số truy vấn tok. tok được mã hóa nên không làm lộ API key của bạn, và có hiệu lực trong 60 ngày. Mỗi liên kết có tok riêng chỉ mở được đúng file đó, nên hãy dùng URL nguyên trạng (thêm tùy chọn tải xuống thì không sao). Một lần tìm kiếm tốn 1 yêu cầu và mỗi lượt tải xuống tốn thêm 1 yêu cầu, được tính vào key đã thực hiện tìm kiếm. Khi key đó không đủ khả năng chi trả cho một lượt tải xuống, liên kết sẽ bị từ chối:',
   'subs.direct.dl.p':
     'Thêm các tham số này vào URL tải xuống để thay đổi nội dung trả về. Chúng hoạt động với mọi lượt tải xuống, dù đã được lưu đệm hay chưa, và không tốn thêm yêu cầu nào (trừ dual, xem bên dưới). Header phản hồi X-Subtitle-Transforms liệt kê những gì đã được áp dụng, kèm số lượng.',
   'subs.direct.dl.param.to':
@@ -413,7 +415,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     'Những chỗ có người nói: [[start, end], …] tính bằng giây, từ bất kỳ bộ phát hiện hoạt động giọng nói nào (detectSpeech của wyzie-lib, Silero VAD, webrtcvad). Một bộ phim 2 giờ có khoảng 2.000 đoạn, tương đương khoảng 40 KB JSON.',
   'subs.synced.param.media':
-    'Hoặc chính file âm thanh/video: dưới dạng phần thân yêu cầu thô (các trường khác đặt trong chuỗi truy vấn), hoặc dưới dạng trường multipart media. Tối đa 95 MB, nên với một bộ phim đầy đủ, hãy chỉ tải lên track âm thanh.',
+    'Hoặc chính file âm thanh/video: dưới dạng phần thân yêu cầu thô (các trường khác đặt trong chuỗi truy vấn), hoặc dưới dạng trường multipart media. Tối đa 95 MB, nên với một bộ phim đầy đủ, hãy chỉ tải lên track âm thanh. Với lượt tải lên multipart trên 8 MB, hãy đặt key trong chuỗi truy vấn: key được kiểm tra trước khi file được đọc.',
   'subs.synced.fields.note':
     'Các trường được đặt trong phần thân JSON, form multipart, hoặc chuỗi truy vấn (kèm phần thân media thô).',
   'subs.synced.response.p': 'Phản hồi 200 có dạng JSON:',
@@ -433,7 +435,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'Thiếu trường hoặc trường không hợp lệ: không có phụ đề, không có âm thanh, hoặc speech không phải là các cặp [start, end].',
   'subs.synced.error.401':
-    'Không có key, hoặc liên kết tải xuống trong url không hợp lệ hoặc đã hết hạn.',
+    'Không có key, liên kết tải xuống trong url không hợp lệ hoặc đã hết hạn, hoặc lượt tải lên multipart trên 8 MB không có key trong chuỗi truy vấn.',
   'subs.synced.error.403':
     'Key là key miễn phí (Wyzie Synced cần Pro), không hợp lệ, hoặc đang bị tạm dừng.',
   'subs.synced.error.404':
@@ -443,9 +445,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Phụ đề không khớp với âm thanh ở bất kỳ độ lệch hay tốc độ khung hình nào (có thể là một phiên bản dựng hoặc một tập khác), âm thanh có quá ít lời nói, hoặc không thể giải mã file.',
   'subs.synced.error.429':
-    'Key không đủ khả năng chi trả: một lần đồng bộ cần còn ít nhất 5 yêu cầu, và điều này được kiểm tra trước khi bắt đầu bất kỳ xử lý nào.',
+    'Key không đủ khả năng chi trả: một lần đồng bộ cần còn ít nhất 5 yêu cầu, và điều này được kiểm tra trước khi bắt đầu bất kỳ xử lý nào. Hoặc 429 Too many syncs: mỗi key có thể bắt đầu 60 lần đồng bộ mỗi giờ.',
   'subs.synced.error.503':
-    'Đang bận giải mã các file tải lên khác, hoặc tìm kiếm tạm thời không khả dụng. Hãy thử lại sau giây lát, hoặc gửi speech.',
+    'Đang bận giải mã hoặc đọc các file tải lên khác, hoặc tìm kiếm tạm thời không khả dụng. Hãy thử lại sau giây lát, hoặc gửi speech.',
   'subs.synced.lib.p':
     'wyzie-lib có detectSpeech (cùng bộ phát hiện mà trang web chạy trong trình duyệt của bạn) và syncSubtitle:',
   'subs.synced.how.step1':
@@ -461,6 +463,49 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'Cần có lời nói: phim ít lời thoại, hoặc âm thanh chủ yếu là nhạc, có thể không đồng bộ được.',
   'subs.synced.limit3': 'Có thể tìm được độ lệch lên đến ±10 phút.',
+
+  // Subs Status API Page
+  'subs.status.title': 'Status API',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api trả về cùng trạng thái mà [trang trạng thái](https://sub.wyzie.io/status) hiển thị, dưới dạng JSON để bạn tự giám sát: API có đang hoạt động không, tình trạng của từng nguồn, thời gian hoạt động trong 24 giờ, 7, 30 và 90 ngày, lịch sử theo từng ngày và các sự cố gần đây. Không cần key và không tốn phí.',
+  'subs.status.note':
+    'Endpoint này công khai (CORS mở) và được lưu bộ nhớ đệm trong 60 giây, nên truy vấn nhiều hơn một lần mỗi phút sẽ nhận cùng một câu trả lời. Các nguồn được gọi theo tên mã, giống như trong /sources.',
+  'subs.status.param.days':
+    'Số ngày lịch sử theo ngày trong mỗi mảng history, mới nhất trước: 0 đến 90 (mặc định 90). 0 bỏ history ra để phản hồi nhỏ hơn.',
+  'subs.status.param.format':
+    'shields trả về một [huy hiệu endpoint của shields.io](https://shields.io/badges/endpoint-badge) thay cho báo cáo.',
+  'subs.status.param.source':
+    'Dùng với format=shields: huy hiệu cho một nguồn (thời gian hoạt động 30 ngày của nguồn đó, hoặc paused) thay cho trạng thái chung.',
+  'subs.status.field.status':
+    'operational (mọi nguồn đều vượt qua kiểm tra), degraded (một nguồn bị tạm dừng hoặc không vượt qua một lần kiểm tra) hoặc partial_outage (hơn một nửa số nguồn bị tạm dừng).',
+  'subs.status.field.summary':
+    'nội dung tương tự trong một câu, ví dụ "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'thời điểm bắt đầu theo dõi thời gian hoạt động. Khoảng thời gian trước đó không được tính, nên các khung thời gian kéo dài xa hơn sẽ bao phủ ít hơn (hoặc là null).',
+  'subs.status.field.api':
+    'chính API: uptime và history của nó. status luôn là operational trong phản hồi mà bạn nhận được.',
+  'subs.status.field.sources':
+    'mỗi nguồn một mục: tier (free hoặc paid), trạng thái của lần kiểm tra gần nhất cho phim và TV, latencyMs, lastChecked và nextCheck, cùng với uptime và history.',
+  'subs.status.field.state':
+    'online, suspect (không vượt qua một lần kiểm tra; được kiểm tra lại trong vòng 5 phút) hoặc paused (không vượt qua hai lần kiểm tra liên tiếp). Nguồn bị tạm dừng có listed: false: nó bị loại khỏi /sources và source=all cho đến khi vượt qua một lần kiểm tra, và pausedSince cho biết từ khi nào.',
+  'subs.status.field.uptime':
+    'tỷ lệ phần trăm thời gian trong mỗi khung mà API hoặc nguồn hoạt động, làm tròn xuống 3 chữ số thập phân (nên bất kỳ thời gian ngừng nào cũng hiển thị dưới 100), hoặc null khi chưa có dữ liệu.',
+  'subs.status.field.history':
+    'mỗi ngày UTC một mục: date, uptime và downMinutes (null trước khi bắt đầu theo dõi).',
+  'subs.status.field.incidents':
+    'các lần tạm dừng nguồn trong 30 ngày qua, mới nhất trước: start, end (null khi vẫn đang diễn ra) và minutes.',
+  'subs.status.how.api':
+    'Thời gian hoạt động của API: khi API đang chạy, máy chủ ghi lại một heartbeat mỗi phút. Một phút không có heartbeat được tính là ngừng hoạt động. Việc đo được thực hiện trên máy chủ của chúng tôi, nên sự cố chỉ xảy ra giữa bạn và Cloudflare sẽ không hiển thị ở đây.',
+  'subs.status.how.sources':
+    'Thời gian hoạt động của nguồn: mỗi nguồn được kiểm tra hằng giờ bằng một lượt tìm kiếm và tải xuống thật. Thời gian một nguồn bị tạm dừng được tính là ngừng hoạt động, từ lần kiểm tra thất bại đầu tiên cho đến khi có một lần kiểm tra thành công. Chỉ một lần kiểm tra thất bại thì không tính, và nguồn do chúng tôi tạm dừng thủ công cũng không tính.',
+  'subs.status.how.tracking':
+    'Việc theo dõi bắt đầu từ ngày 24 tháng 9 năm 2026.',
+  'subs.status.badge.p':
+    'Thêm ?format=shields để nhận huy hiệu shields.io cho README hoặc trang trạng thái của bạn:',
+  'subs.status.use.p':
+    'Để chọn nguồn trong ứng dụng của bạn, /sources đã chỉ liệt kê các nguồn đang hoạt động. Status API dùng để cho người dùng của bạn thấy những gì đang hoạt động, tự cảnh báo cho bạn hoặc quyết định khi nào nên thử lại:',
+  'subs.status.news.p':
+    'Các thông báo về API và cửa hàng (tính năng mới, thay đổi ảnh hưởng đến ứng dụng của bạn) được đăng tại [sub.wyzie.io/news](https://sub.wyzie.io/news), qua email nếu bạn đăng ký ở đó, hoặc qua [RSS](https://sub.wyzie.io/news/feed.xml).',
 
   // Subs API Keys Page
   'subs.keys.title': 'API Keys',
@@ -575,13 +620,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Tạo IPv6 ngẫu nhiên**: Tạo các địa chỉ IPv6 ngẫu nhiên từ tiền tố /48 của bạn cho mỗi yêu cầu',
   'i6shark.intro.feature2':
-    '**Hỗ trợ đầy đủ các phương thức HTTP**: GET, POST, PUT, DELETE, và tất cả các phương thức HTTP khác',
+    '**Phương thức HTTP**: GET, HEAD và POST; mọi phương thức khác nhận 405',
   'i6shark.intro.feature3':
     '**Xác thực HMAC-SHA256**: Xác thực API key an toàn sử dụng token dựa trên user-agent',
   'i6shark.intro.feature4':
     '**Quản lý nhóm IP thông minh**: Xoay vòng IP tự động với kích thước nhóm có thể cấu hình. Quản lý vòng đời IP thông minh. Đếm yêu cầu theo từng IP. Dọn dẹp IP không sử dụng dựa trên ngưỡng không hoạt động.',
   'i6shark.intro.feature5':
-    '**Xử lý yêu cầu nâng cao**: Chuyển tiếp header tùy chỉnh. Loại bỏ header Cloudflare và CDN. Hỗ trợ nhiều định dạng tham số URL. Dự phòng tùy chọn về IP mặc định của hệ thống.',
+    '**Xử lý yêu cầu an toàn**: Chỉ các header yêu cầu nằm trong danh sách cho phép mới được chuyển tiếp, không bao giờ chuyển tiếp token API hay các header của Cloudflare và header chuyển tiếp (forwarding). Các đích đến trên mạng loopback, mạng riêng, link-local và các mạng nội bộ khác (bao gồm cả địa chỉ của chính máy chủ) đều bị từ chối, sau khi phân giải DNS và ở mỗi lần chuyển hướng (tối đa 5). Hỗ trợ nhiều định dạng tham số URL. Dự phòng tùy chọn về IP mặc định của hệ thống.',
   'i6shark.intro.feature7':
     '**Bảo trì tự động**: Xả nhóm IP định kỳ. Xác thực và dọn dẹp subnet. Tối ưu hóa kết nối pooling và keepalive.',
   'i6shark.intro.feature8':
@@ -609,7 +654,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'Clone kho vào /opt/i6.shark:',
   'i6shark.hosting.step2': 'Cấu hình các hằng số trong src/consts.go:',
   'i6shark.hosting.step2.note':
-    'Cập nhật SharedSecret, IPv6Prefix, và Interface để phù hợp với máy chủ của bạn. Các hằng số tinh chỉnh còn lại có giá trị mặc định hợp lý và thường không cần thay đổi.',
+    'Cập nhật IPv6Prefix và Interface để phù hợp với máy chủ của bạn. Khóa bí mật chia sẻ được đặt trong biến môi trường (bước tiếp theo), không phải trong file này; SharedSecret chỉ là giá trị dự phòng khi I6_SHARED_SECRET chưa được đặt. Các hằng số tinh chỉnh còn lại có giá trị mặc định hợp lý và thường không cần thay đổi.',
+  'i6shark.hosting.stepSecret':
+    'Đặt khóa bí mật chia sẻ vào một file môi trường mà chỉ root mới đọc được. Dùng cùng giá trị đó trong client của bạn (với Wyzie Subs là I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'Build ứng dụng:',
   'i6shark.hosting.step4': 'Tạo dịch vụ systemd:',
   'i6shark.hosting.step5': 'Bật và khởi động dịch vụ:',
@@ -623,7 +670,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'Xác thực API',
   'i6shark.hosting.auth.p':
-    'Token API được tạo bằng HMAC-SHA256 với khóa bí mật chia sẻ. Đầu vào để tạo khóa là header user-agent. Xem hàm validateAPIToken trong mã nguồn để biết chi tiết triển khai.',
+    'Token API được tạo bằng HMAC-SHA256 với khóa bí mật chia sẻ (I6_SHARED_SECRET) trên header user-agent, và được gửi trong header API-Token, header mà proxy không bao giờ chuyển tiếp lên máy chủ đích. Xem hàm validateAPIToken trong mã nguồn để biết chi tiết triển khai. Nếu khóa bí mật bị lộ, hãy đặt một khóa mới và khởi động lại dịch vụ.',
 
   // Plugins
   'plugins.common.required': 'Bắt buộc',

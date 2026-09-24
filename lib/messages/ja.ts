@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'すべてのリクエストには API キーが必要です。[store.wyzie.io/redeem](https://store.wyzie.io/redeem) で無料キーを取得してください（メール認証、1日 1,000 リクエスト）。より高い使用量には [Pro およびトップアッププラン](https://store.wyzie.io) もご利用いただけます。詳細は API キーのページをご覧ください。',
   'subs.intro.note.npm':
     'TypeScript または JavaScript に慣れている方には NPM パッケージを強くお勧めします',
+  'subs.intro.note.status':
+    '稼働状況とインシデント：[sub.wyzie.io/status](https://sub.wyzie.io/status) と [ステータス API](/subs/usage/status)。API とストアに関するニュース：[sub.wyzie.io/news](https://sub.wyzie.io/news)。',
   'subs.intro.btn.npm': 'NPM パッケージ',
   'subs.intro.btn.direct': '直接フェッチ',
 
@@ -290,7 +292,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'AI 翻訳字幕の場合は true、通常のスクレイピング字幕の場合は false。どちらか一方のみが必要な場合のクライアントサイドフィルターとして使用できます。',
   'subs.direct.download.p':
-    '/search レスポンスに含まれるすべての url は https://sub.wyzie.io/c/... を指し、tok クエリパラメータが付いています。tok は暗号化されているため API キーが露出することはなく、60 日間有効です。URL はそのまま使用してください。検索には 1 リクエスト、各ダウンロードにはさらに 1 リクエストかかり、検索を実行したキーに課金されます。そのキーでダウンロード分を支払えない場合、リンクは拒否されます：',
+    '/search レスポンスに含まれるすべての url は https://sub.wyzie.io/c/... を指し、tok クエリパラメータが付いています。tok は暗号化されているため API キーが露出することはなく、60 日間有効です。リンクごとにそのファイルだけを開ける専用の tok が付いているので、URL はそのまま使用してください（ダウンロードオプションの追加は問題ありません）。検索には 1 リクエスト、各ダウンロードにはさらに 1 リクエストかかり、検索を実行したキーに課金されます。そのキーでダウンロード分を支払えない場合、リンクは拒否されます：',
   'subs.direct.dl.p':
     'ダウンロード URL にこれらを追加すると、返される内容を変更できます。キャッシュの有無にかかわらずすべてのダウンロードで機能し、追加コストはかかりません（下記の dual を除く）。X-Subtitle-Transforms レスポンスヘッダーには、適用された処理が件数とともに一覧表示されます。',
   'subs.direct.dl.param.to':
@@ -403,7 +405,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     '人が話している区間：秒単位の [[start, end], …]。任意の音声区間検出器（wyzie-lib の detectSpeech、Silero VAD、webrtcvad）の出力を使用できます。2 時間の映画でおよそ 2,000 セグメント、JSON で約 40 KB になります。',
   'subs.synced.param.media':
-    'または音声/動画ファイルそのもの：生のリクエストボディとして（その他のフィールドはクエリ文字列で指定）、または multipart フィールド media として送信します。上限は 95 MB なので、映画全体の場合は音声トラックだけをアップロードしてください。',
+    'または音声/動画ファイルそのもの：生のリクエストボディとして（その他のフィールドはクエリ文字列で指定）、または multipart フィールド media として送信します。上限は 95 MB なので、映画全体の場合は音声トラックだけをアップロードしてください。8 MB を超える multipart アップロードでは key をクエリ文字列に入れてください。key はファイルを読み込む前にチェックされます。',
   'subs.synced.fields.note':
     'フィールドは JSON ボディ、multipart フォーム、またはクエリ文字列（生の media ボディを送る場合）で指定します。',
   'subs.synced.response.p': '200 レスポンスは JSON です：',
@@ -424,7 +426,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'フィールドが欠落しているか無効です：字幕の指定がない、音声がない、または speech が [start, end] のペアになっていません。',
   'subs.synced.error.401':
-    'キーがない、または url のダウンロードリンクが無効か期限切れです。',
+    'キーがない、url のダウンロードリンクが無効か期限切れ、または 8 MB を超える multipart アップロードでクエリ文字列に key がありません。',
   'subs.synced.error.403':
     'キーが無料キー（Wyzie Synced には Pro が必要）、無効、または一時停止中です。',
   'subs.synced.error.404':
@@ -434,9 +436,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'どのオフセットやフレームレートでも字幕が音声と一致しない（別の編集版やエピソードの可能性が高い）、音声に含まれる発話が少なすぎる、またはファイルをデコードできません。',
   'subs.synced.error.429':
-    'キーで支払えません。同期には少なくとも 5 リクエストの残りが必要で、処理を始める前に確認されます。',
+    'キーで支払えません。同期には少なくとも 5 リクエストの残りが必要で、処理を始める前に確認されます。または 429 Too many syncs：1 つのキーで開始できる同期は 1 時間に 60 回までです。',
   'subs.synced.error.503':
-    '他のアップロードのデコードで混雑しているか、検索が一時的に利用できません。しばらくしてから再試行するか、speech を送信してください。',
+    '他のアップロードのデコードまたは読み込みで混雑しているか、検索が一時的に利用できません。しばらくしてから再試行するか、speech を送信してください。',
   'subs.synced.lib.p':
     'wyzie-lib には detectSpeech（サイトがブラウザ内で実行しているのと同じ検出器）と syncSubtitle があります：',
   'subs.synced.how.step1':
@@ -452,6 +454,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     '発話が必要です。セリフの少ない映画や、大部分が音楽の音声は同期できない場合があります。',
   'subs.synced.limit3': '検出できるオフセットは最大 ±10 分です。',
+
+  // Subs Status API Page
+  'subs.status.title': 'ステータス API',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api は、[ステータスページ](https://sub.wyzie.io/status)に表示されるものと同じステータスを、独自の監視に使える JSON として返します。API が稼働しているか、各ソースの状態、24 時間・7 日・30 日・90 日の稼働率、日ごとの履歴、最近のインシデントが含まれます。キーは不要で、費用もかかりません。',
+  'subs.status.note':
+    'このエンドポイントは公開されており（CORS オープン）、60 秒間キャッシュされるため、1 分に 1 回より頻繁にポーリングしても同じ応答が返ります。ソースは /sources と同じくコードネームで示されます。',
+  'subs.status.param.days':
+    '各 history 配列に含める日ごとの履歴の日数（新しい順）：0〜90（デフォルト 90）。0 にすると history が省かれ、レスポンスが小さくなります。',
+  'subs.status.param.format':
+    'shields を指定すると、レポートの代わりに [shields.io エンドポイントバッジ](https://shields.io/badges/endpoint-badge)を返します。',
+  'subs.status.param.source':
+    'format=shields と併用：全体のステータスの代わりに、1 つのソースのバッジ（その 30 日間の稼働率、または paused）を返します。',
+  'subs.status.field.status':
+    'operational（すべてのソースがチェックに合格）、degraded（一時停止中またはチェックに失敗しているソースがある）、または partial_outage（半数を超えるソースが一時停止中）。',
+  'subs.status.field.summary':
+    '同じ内容を 1 文で表したもの。例: "API operational; 2 of 7 sources paused"。',
+  'subs.status.field.trackingSince':
+    '稼働率の計測が始まった日時。それ以前の時間はカウントされないため、それより前までさかのぼる期間は対象範囲が短くなります（または null になります）。',
+  'subs.status.field.api':
+    'API 自体：その uptime と history。受け取ったレスポンスでは、status は常に operational です。',
+  'subs.status.field.sources':
+    'ソースごとに 1 エントリ：tier（free または paid）、映画とテレビ番組それぞれの直近のチェックのステータス、latencyMs、lastChecked と nextCheck、さらに uptime と history。',
+  'subs.status.field.state':
+    'online、suspect（チェックに 1 回失敗。5 分以内に再チェック）、または paused（2 回連続でチェックに失敗）。一時停止中のソースは listed: false となり、チェックに合格するまで /sources と source=all から除外されます。pausedSince はいつから停止しているかを示します。',
+  'subs.status.field.uptime':
+    '各期間のうち API またはソースが稼働していた割合（%）。小数点以下 3 桁に切り捨てられるため、わずかでも停止時間があれば 100 未満になります。まだデータがない場合は null です。',
+  'subs.status.field.history':
+    'UTC の 1 日ごとに 1 エントリ：date、uptime、downMinutes（計測開始前は null）。',
+  'subs.status.field.incidents':
+    '過去 30 日間のソースの一時停止（新しい順）：start、end（継続中は null）、minutes。',
+  'subs.status.how.api':
+    'API の稼働率：API が動作している間、サーバーは毎分ハートビートを記録します。ハートビートのない 1 分間は停止としてカウントされます。計測は当社のサーバー上で行われるため、お使いの環境と Cloudflare の間だけで起きている問題はここには表示されません。',
+  'subs.status.how.sources':
+    'ソースの稼働率：すべてのソースは 1 時間ごとに実際の検索とダウンロードでチェックされます。ソースが一時停止されている時間は、最初にチェックに失敗した時点からチェックに合格するまで、停止としてカウントされます。1 回だけのチェック失敗はカウントされず、手動で一時停止したソースもカウントされません。',
+  'subs.status.how.tracking': '計測は 2026 年 9 月 24 日に開始しました。',
+  'subs.status.badge.p':
+    '?format=shields を付けると、README やステータスページ用の shields.io バッジを取得できます：',
+  'subs.status.use.p':
+    'アプリでソースを選ぶ場合、/sources はすでに稼働中のソースだけを返します。ステータス API は、ユーザーに稼働状況を示したり、自分宛てにアラートを出したり、再試行のタイミングを判断したりするためのものです：',
+  'subs.status.news.p':
+    'API とストアに関するお知らせ（新機能、アプリに影響する変更）は [sub.wyzie.io/news](https://sub.wyzie.io/news) に掲載されます。そこで購読すればメールでも受け取れるほか、[RSS](https://sub.wyzie.io/news/feed.xml) でも配信しています。',
 
   // Subs API Keys Page
   'subs.keys.title': 'API キー',
@@ -570,13 +614,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**ランダム IPv6 生成**: /48 プレフィックスからリクエストごとにランダムな IPv6 アドレスを作成',
   'i6shark.intro.feature2':
-    '**完全な HTTP メソッドサポート**: GET、POST、PUT、DELETE、その他すべての HTTP メソッド',
+    '**HTTP メソッド**: GET、HEAD、POST。それ以外には 405 が返されます',
   'i6shark.intro.feature3':
     '**HMAC-SHA256 認証**: ユーザーエージェントベースのトークンを使用した安全な API キー認証',
   'i6shark.intro.feature4':
     '**インテリジェントな IP プール管理**: 設定可能なプールサイズによる自動 IP ローテーション。スマートな IP ライフサイクル管理。IP ごとのリクエスト数カウント。非アクティブしきい値に基づく未使用 IP のクリーンアップ。',
   'i6shark.intro.feature5':
-    '**高度なリクエスト処理**: カスタムヘッダー転送。Cloudflare および CDN ヘッダーの除去。複数の URL パラメータ形式のサポート。システムデフォルト IP へのオプションのフォールバック。',
+    '**安全なリクエスト処理**: 許可リストにあるリクエストヘッダーのみを転送し、API トークンや Cloudflare・転送関連のヘッダーは決して転送しません。ループバック、プライベート、リンクローカル、その他の内部ネットワーク上の宛先（サーバー自身のアドレスを含む）は、DNS 解決後およびすべてのリダイレクト時（最大 5 回）に拒否されます。複数の URL パラメータ形式のサポート。システムデフォルト IP へのオプションのフォールバック。',
   'i6shark.intro.feature7':
     '**自動メンテナンス**: 定期的な IP プールフラッシュ。サブネットの検証とクリーンアップ。接続プーリングとキープアライブ最適化。',
   'i6shark.intro.feature8':
@@ -606,7 +650,9 @@ const messages: Record<string, string> = {
     'リポジトリを /opt/i6.shark にクローンしてください：',
   'i6shark.hosting.step2': 'src/consts.go の定数を設定してください：',
   'i6shark.hosting.step2.note':
-    'SharedSecret、IPv6Prefix、Interface をサーバーに合わせて更新してください。残りのチューニング定数はデフォルト値で問題なく、通常変更は不要です。',
+    'IPv6Prefix と Interface をサーバーに合わせて更新してください。共有シークレットはこのファイルではなく環境変数に設定します（次のステップ）。SharedSecret は I6_SHARED_SECRET が未設定の場合のフォールバックにすぎません。残りのチューニング定数はデフォルト値で問題なく、通常変更は不要です。',
+  'i6shark.hosting.stepSecret':
+    '共有シークレットを root だけが読める環境ファイルに保存します。クライアントでも同じ値を使用してください（Wyzie Subs の場合は I6_PROXY_SECRET）：',
   'i6shark.hosting.step3': 'アプリケーションをビルドしてください：',
   'i6shark.hosting.step4': 'systemd サービスを作成してください：',
   'i6shark.hosting.step5': 'サービスを有効化して起動してください：',
@@ -620,7 +666,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'API 認証',
   'i6shark.hosting.auth.p':
-    'API トークンは共有秘密鍵を使用した HMAC-SHA256 で生成されます。キー生成の入力はユーザーエージェントヘッダーです。実装の詳細はソースコードの validateAPIToken 関数をご覧ください。',
+    'API トークンは、共有シークレット（I6_SHARED_SECRET）を使ってユーザーエージェントヘッダーから HMAC-SHA256 で生成され、API-Token ヘッダーで送信されます。このヘッダーがプロキシから転送先へ送られることはありません。実装の詳細はソースコードの validateAPIToken 関数をご覧ください。シークレットが漏洩した場合は、新しい値を設定してサービスを再起動してください。',
 
   // Plugins
   'plugins.common.required': '必須',

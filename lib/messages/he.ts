@@ -37,6 +37,8 @@ const messages: Record<string, string> = {
     'נדרש מפתח API לכל הבקשות. קבל מפתח חינמי בכתובת [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (אימות מייל, 1,000 בקשות ביום). לשימוש אינטנסיבי יותר, זמינות [תוכניות Pro ותוספות](https://store.wyzie.io). ראה את דף מפתחות API לפרטים.',
   'subs.intro.note.npm':
     'אנו ממליצים בחום על חבילת ה-NPM אם אתה מכיר TypeScript או JavaScript',
+  'subs.intro.note.status':
+    'זמינות ותקלות: [sub.wyzie.io/status](https://sub.wyzie.io/status) ו-[API הסטטוס](/subs/usage/status). חדשות על ה-API והחנות: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'חבילת NPM',
   'subs.intro.btn.direct': 'שליפה ישירה',
 
@@ -275,7 +277,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true אם הרשומה היא כתובית מתורגמת על ידי בינה מלאכותית, false לכתוביות נאספות רגילות. השתמש בזה כפילטר צד-לקוח כאשר אתה רוצה רק אחד מהשניים.',
   'subs.direct.download.p':
-    'כל url בתגובת /search מצביע ל-https://sub.wyzie.io/c/... ונושא פרמטר שאילתה tok. ה-tok מוצפן, כך שאינו חושף את מפתח ה-API שלך, והוא נשאר תקף למשך 60 יום. השתמש ב-URL כפי שהוא. חיפוש עולה 1 בקשה וכל הורדה עולה 1 נוספת, שמחויבת למפתח שביצע את החיפוש. כאשר מפתח זה אינו יכול לשלם עבור הורדה, הקישור נדחה:',
+    'כל url בתגובת /search מצביע ל-https://sub.wyzie.io/c/... ונושא פרמטר שאילתה tok. ה-tok מוצפן, כך שאינו חושף את מפתח ה-API שלך, והוא נשאר תקף למשך 60 יום. לכל קישור יש tok משלו שפותח רק את הקובץ הזה, לכן השתמש ב-URL כפי שהוא (מותר להוסיף אפשרויות הורדה). חיפוש עולה 1 בקשה וכל הורדה עולה 1 נוספת, שמחויבת למפתח שביצע את החיפוש. כאשר מפתח זה אינו יכול לשלם עבור הורדה, הקישור נדחה:',
   'subs.direct.dl.p':
     'הוסף אותן ל-URL של הורדה כדי לשנות את מה שהוא מחזיר. הן פועלות על כל הורדה, מהמטמון או לא, ואינן עולות דבר נוסף (מלבד dual, להלן). כותרת התגובה X-Subtitle-Transforms מפרטת מה הוחל, כולל ספירות.',
   'subs.direct.dl.param.to':
@@ -387,7 +389,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     'היכן אנשים מדברים: [[start, end], …] בשניות, מכל גלאי פעילות קולית (detectSpeech של wyzie-lib, Silero VAD, webrtcvad). סרט באורך 2 שעות הוא בערך 2,000 מקטעים, כ-40 KB של JSON.',
   'subs.synced.param.media':
-    'או קובץ האודיו/וידאו עצמו: כגוף בקשה גולמי (עם שאר השדות במחרוזת השאילתה), או כשדה ה-multipart בשם media. עד 95 MB, כך שעבור סרט מלא העלה את רצועת האודיו בלבד.',
+    'או קובץ האודיו/וידאו עצמו: כגוף בקשה גולמי (עם שאר השדות במחרוזת השאילתה), או כשדה ה-multipart בשם media. עד 95 MB, כך שעבור סרט מלא העלה את רצועת האודיו בלבד. בהעלאת multipart מעל 8 MB, שים את key במחרוזת השאילתה: הוא נבדק לפני שהקובץ נקרא.',
   'subs.synced.fields.note':
     'השדות נשלחים בגוף JSON, בטופס multipart, או במחרוזת השאילתה (עם גוף media גולמי).',
   'subs.synced.response.p': 'תגובת 200 היא JSON:',
@@ -407,7 +409,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'שדות חסרים או לא תקינים: אין כתובית, אין אודיו, או speech שאינו זוגות של [start, end].',
   'subs.synced.error.401':
-    'אין מפתח, או שקישור ההורדה ב-url אינו תקף או שפג תוקפו.',
+    'אין מפתח, קישור ההורדה ב-url אינו תקף או שפג תוקפו, או שבהעלאת multipart מעל 8 MB אין key במחרוזת השאילתה.',
   'subs.synced.error.403':
     'המפתח חינמי (Wyzie Synced דורש Pro), לא תקף, או מושהה.',
   'subs.synced.error.404': 'אין כתוביות טקסט בשפה זו עבור הכותר.',
@@ -416,9 +418,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'הכתובית אינה מתיישרת עם האודיו בשום היסט או קצב פריימים (כנראה גרסת עריכה או פרק אחרים), יש באודיו מעט מדי דיבור, או שלא ניתן לפענח את הקובץ.',
   'subs.synced.error.429':
-    'המפתח אינו יכול לשלם: סנכרון דורש שיישארו לפחות 5 בקשות, וזה נבדק לפני שמתחילה עבודה כלשהי.',
+    'המפתח אינו יכול לשלם: סנכרון דורש שיישארו לפחות 5 בקשות, וזה נבדק לפני שמתחילה עבודה כלשהי. או 429 Too many syncs: מפתח יכול להתחיל 60 סנכרונים בשעה.',
   'subs.synced.error.503':
-    'השרת עסוק בפענוח העלאות אחרות, או שהחיפוש אינו זמין לזמן קצר. נסה שוב בעוד רגע, או שלח speech.',
+    'השרת עסוק בפענוח או בקריאה של העלאות אחרות, או שהחיפוש אינו זמין לזמן קצר. נסה שוב בעוד רגע, או שלח speech.',
   'subs.synced.lib.p':
     'wyzie-lib כולל את detectSpeech (אותו גלאי שהאתר מריץ בדפדפן שלך) ואת syncSubtitle:',
   'subs.synced.how.step1':
@@ -434,6 +436,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'הוא זקוק לדיבור: ייתכן שסרטים עם מעט דיאלוג, או אודיו שרובו מוזיקה, לא יסתנכרנו.',
   'subs.synced.limit3': 'נמצאים היסטים של עד ±10 דקות.',
+
+  // Subs Status API Page
+  'subs.status.title': 'API סטטוס',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api מחזיר את אותו סטטוס שמוצג ב[דף הסטטוס](https://sub.wyzie.io/status), כ-JSON לניטור שלך: האם ה-API פעיל, מצבו של כל מקור, הזמינות ב-24 השעות האחרונות וב-7, 30 ו-90 ימים, היסטוריה יום אחר יום ותקלות אחרונות. לא נדרש מפתח, וזה לא עולה כלום.',
+  'subs.status.note':
+    'נקודת הקצה ציבורית (CORS פתוח) ונשמרת במטמון ל-60 שניות, כך ששאילתות בתדירות גבוהה מפעם בדקה מחזירות את אותה תשובה. המקורות נקראים לפי שם הקוד שלהם, כמו ב-/sources.',
+  'subs.status.param.days':
+    'מספר ימי ההיסטוריה היומית בכל מערך history, מהחדש לישן: 0 עד 90 (ברירת מחדל 90). 0 משמיט את history לקבלת תגובה קטנה יותר.',
+  'subs.status.param.format':
+    'shields מחזיר [תג endpoint של shields.io](https://shields.io/badges/endpoint-badge) במקום הדוח.',
+  'subs.status.param.source':
+    'עם format=shields: תג עבור מקור אחד (הזמינות שלו ב-30 יום, או paused) במקום הסטטוס הכולל.',
+  'subs.status.field.status':
+    'operational (כל המקורות עוברים את הבדיקות), degraded (מקור מושהה או נכשל בבדיקה) או partial_outage (יותר ממחצית המקורות מושהים).',
+  'subs.status.field.summary':
+    'אותו הדבר במשפט אחד, למשל "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'מתי החל מעקב הזמינות. זמן מוקדם יותר אינו נספר, ולכן חלונות שמגיעים אחורה יותר מכסים פחות (או שהם null).',
+  'subs.status.field.api':
+    'ה-API עצמו: ה-uptime וה-history שלו. ה-status תמיד operational בתגובה שקיבלת.',
+  'subs.status.field.sources':
+    'רשומה אחת לכל מקור: tier (free או paid), הסטטוס של הבדיקה האחרונה לסרטים ולטלוויזיה, latencyMs, lastChecked ו-nextCheck, וגם uptime ו-history.',
+  'subs.status.field.state':
+    'online, suspect (נכשל בבדיקה אחת; נבדק שוב תוך 5 דקות) או paused (נכשל בשתי בדיקות ברצף). למקור מושהה יש listed: false: הוא מוצא מ-/sources ומ-source=all עד שבדיקה עוברת, ו-pausedSince מציין ממתי.',
+  'subs.status.field.uptime':
+    'אחוז הזמן בכל חלון שבו ה-API או המקור פעלו, מעוגל כלפי מטה ל-3 ספרות אחרי הנקודה (כך שכל השבתה מופיעה מתחת ל-100), או null כשעדיין אין נתונים.',
+  'subs.status.field.history':
+    'רשומה אחת לכל יום UTC: date, uptime ו-downMinutes (null לפני תחילת המעקב).',
+  'subs.status.field.incidents':
+    'השהיות של מקורות מ-30 הימים האחרונים, מהחדשה לישנה: start, end (null כל עוד היא נמשכת) ו-minutes.',
+  'subs.status.how.api':
+    'זמינות ה-API: כל עוד ה-API פועל, השרת רושם heartbeat בכל דקה. דקה בלי heartbeat נספרת כהשבתה. המדידה נעשית בשרת שלנו, כך שבעיה שקיימת רק בינך לבין Cloudflare לא תופיע כאן.',
+  'subs.status.how.sources':
+    'זמינות המקורות: כל מקור נבדק מדי שעה באמצעות חיפוש והורדה אמיתיים. הזמן שבו מקור מושהה נספר כהשבתה, מהבדיקה הכושלת הראשונה שלו ועד שבדיקה עוברת. בדיקה כושלת אחת בלבד אינה נספרת, וגם לא מקור שאנו משהים ידנית.',
+  'subs.status.how.tracking': 'המעקב החל ב-24 בספטמבר 2026.',
+  'subs.status.badge.p':
+    'הוסף ?format=shields כדי לקבל תג shields.io עבור ה-README או דף הסטטוס שלך:',
+  'subs.status.use.p':
+    'כדי לבחור מקורות באפליקציה שלך, /sources כבר מציג רק את המקורות הפעילים. API הסטטוס נועד להראות למשתמשים שלך מה פועל, להתריע לעצמך או להחליט מתי לנסות שוב:',
+  'subs.status.news.p':
+    'הודעות על ה-API והחנות (תכונות חדשות, שינויים שמשפיעים על האפליקציה שלך) מתפרסמות ב-[sub.wyzie.io/news](https://sub.wyzie.io/news), במייל אם נרשמת שם, או דרך [RSS](https://sub.wyzie.io/news/feed.xml).',
 
   // Subs API Keys Page
   'subs.keys.title': 'מפתחות API',
@@ -546,13 +590,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**יצירת IPv6 אקראית**: יוצר כתובות IPv6 אקראיות מקידומת ה-/48 שלך לכל בקשה',
   'i6shark.intro.feature2':
-    '**תמיכה מלאה בשיטות HTTP**: GET, POST, PUT, DELETE וכל שיטות ה-HTTP האחרות',
+    '**שיטות HTTP**: GET, HEAD ו-POST; כל שיטה אחרת מקבלת 405',
   'i6shark.intro.feature3':
     '**אימות HMAC-SHA256**: אימות מפתח API מאובטח באמצעות אסימונים מבוססי user-agent',
   'i6shark.intro.feature4':
     '**ניהול בריכת IP חכם**: סיבוב IP אוטומטי עם גודל בריכה הניתן להגדרה. ניהול מחזור חיים חכם של IP. ספירת בקשות לכל IP. ניקוי IP שאינו בשימוש בהתבסס על סף חוסר פעילות.',
   'i6shark.intro.feature5':
-    '**טיפול מתקדם בבקשות**: העברת כותרות מותאמות אישית. הסרת כותרות Cloudflare ו-CDN. תמיכה בפורמטים מרובים של פרמטרי URL. חזרה אופציונלית ל-IP ברירת המחדל של המערכת.',
+    '**טיפול בטוח בבקשות**: רק כותרות בקשה מרשימת היתרים מועברות, ולעולם לא אסימון ה-API או כותרות Cloudflare וכותרות העברה (forwarding). יעדים ברשתות loopback, פרטיות, link-local ורשתות פנימיות אחרות (כולל הכתובות של השרת עצמו) נדחים, לאחר פענוח DNS ובכל הפניה מחדש (עד 5). תמיכה בפורמטים מרובים של פרמטרי URL. חזרה אופציונלית ל-IP ברירת המחדל של המערכת.',
   'i6shark.intro.feature7':
     '**תחזוקה אוטומטית**: שטיפה תקופתית של בריכת ה-IP. אימות וניקוי subnet. אגירת חיבורים ואופטימיזציית keepalive.',
   'i6shark.intro.feature8':
@@ -577,7 +621,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'שכפל את המאגר לתיקייה /opt/i6.shark:',
   'i6shark.hosting.step2': 'הגדר קבועים ב-src/consts.go:',
   'i6shark.hosting.step2.note':
-    'עדכן את SharedSecret, IPv6Prefix ו-Interface כך שיתאימו לשרת שלך. לקבועי הכוונון הנותרים יש ברירות מחדל סבירות ובדרך כלל אין צורך לשנות אותם.',
+    'עדכן את IPv6Prefix ו-Interface כך שיתאימו לשרת שלך. הסוד המשותף נכנס לסביבה (השלב הבא), לא לקובץ הזה; SharedSecret הוא רק ערך גיבוי כאשר I6_SHARED_SECRET אינו מוגדר. לקבועי הכוונון הנותרים יש ברירות מחדל סבירות ובדרך כלל אין צורך לשנות אותם.',
+  'i6shark.hosting.stepSecret':
+    'שים את הסוד המשותף בקובץ סביבה שרק root יכול לקרוא. השתמש באותו ערך בלקוח שלך (עבור Wyzie Subs: I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'בנה את האפליקציה:',
   'i6shark.hosting.step4': 'צור את שירות ה-systemd:',
   'i6shark.hosting.step5': 'הפעל והתחל את השירות:',
@@ -591,7 +637,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'אימות API',
   'i6shark.hosting.auth.p':
-    'אסימוני API נוצרים באמצעות HMAC-SHA256 עם מפתח סוד משותף. הקלט ליצירת המפתח הוא כותרת ה-user-agent. ראה את הפונקציה validateAPIToken בקוד המקור לפרטי מימוש.',
+    'אסימוני API נוצרים באמצעות HMAC-SHA256 עם הסוד המשותף (I6_SHARED_SECRET) על כותרת ה-user-agent, ונשלחים בכותרת API-Token, שהפרוקסי לעולם אינו מעביר הלאה ליעד. ראה את הפונקציה validateAPIToken בקוד המקור לפרטי מימוש. אם סוד דולף אי פעם, הגדר סוד חדש והפעל מחדש את השירות.',
 
   // Plugins
   'plugins.common.required': 'נדרש',

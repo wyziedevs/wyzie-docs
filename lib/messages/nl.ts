@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'Voor alle verzoeken is een API-sleutel vereist. Haal een gratis sleutel op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (e-mailverificatie, 1.000 verzoeken/dag). Voor intensiever gebruik zijn [Pro- en opwaardeerplannen](https://store.wyzie.io) beschikbaar. Zie de pagina API-sleutels voor meer details.',
   'subs.intro.note.npm':
     'We raden het NPM-pakket sterk aan als je bekend bent met TypeScript of JavaScript',
+  'subs.intro.note.status':
+    'Uptime en incidenten: [sub.wyzie.io/status](https://sub.wyzie.io/status) en de [Status-API](/subs/usage/status). Nieuws over de API en de store: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'NPM-pakket',
   'subs.intro.btn.direct': 'Rechtstreeks ophalen',
 
@@ -299,7 +301,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true als het item een AI-vertaalde ondertitel is, false voor normale gescrapte ondertitels. Gebruik het als een filter aan de clientzijde als je alleen het een of het ander wilt.',
   'subs.direct.download.p':
-    'Elke url in een /search-antwoord verwijst naar https://sub.wyzie.io/c/... en bevat een tok-queryparameter. tok is versleuteld, zodat het je API-sleutel niet prijsgeeft, en blijft 60 dagen geldig. Gebruik de URL ongewijzigd. Een zoekopdracht kost 1 verzoek en elke download kost er 1 extra, in rekening gebracht bij de sleutel die de zoekopdracht uitvoerde. Als die sleutel een download niet kan betalen, wordt de link geweigerd:',
+    'Elke url in een /search-antwoord verwijst naar https://sub.wyzie.io/c/... en bevat een tok-queryparameter. tok is versleuteld, zodat het je API-sleutel niet prijsgeeft, en blijft 60 dagen geldig. Elke link heeft een eigen tok die alleen dat bestand opent, dus gebruik de URL ongewijzigd (downloadopties toevoegen mag). Een zoekopdracht kost 1 verzoek en elke download kost er 1 extra, in rekening gebracht bij de sleutel die de zoekopdracht uitvoerde. Als die sleutel een download niet kan betalen, wordt de link geweigerd:',
   'subs.direct.dl.p':
     'Voeg deze toe aan een download-URL om te wijzigen wat die teruggeeft. Ze werken bij elke download, gecached of niet, en kosten niets extra (behalve dual, zie hieronder). De antwoordheader X-Subtitle-Transforms vermeldt wat er is toegepast, met aantallen.',
   'subs.direct.dl.param.to':
@@ -414,7 +416,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     "Waar er gesproken wordt: [[start, end], …] in seconden, van een willekeurige spraakactiviteitsdetector (detectSpeech van wyzie-lib, Silero VAD, webrtcvad). Een film van 2 uur is ongeveer 2.000 segmenten, zo'n 40 KB JSON.",
   'subs.synced.param.media':
-    'Of het audio-/videobestand zelf: als ruwe verzoekbody (met de andere velden in de querystring), of als multipart-veld media. Tot 95 MB, dus upload voor een volledige film alleen het audiospoor.',
+    'Of het audio-/videobestand zelf: als ruwe verzoekbody (met de andere velden in de querystring), of als multipart-veld media. Tot 95 MB, dus upload voor een volledige film alleen het audiospoor. Zet bij een multipart-upload van meer dan 8 MB key in de querystring: die wordt gecontroleerd voordat het bestand wordt gelezen.',
   'subs.synced.fields.note':
     'Velden gaan in een JSON-body, een multipart-formulier of de querystring (bij een ruwe media-body).',
   'subs.synced.response.p': 'Een 200-antwoord is JSON:',
@@ -435,7 +437,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'Ontbrekende of ongeldige velden: geen ondertitel, geen audio, of speech die niet uit [start, end]-paren bestaat.',
   'subs.synced.error.401':
-    'Geen sleutel, of de downloadlink in url is ongeldig of verlopen.',
+    'Geen sleutel, de downloadlink in url is ongeldig of verlopen, of een multipart-upload van meer dan 8 MB heeft geen key in de querystring.',
   'subs.synced.error.403':
     'De sleutel is gratis (Wyzie Synced vereist Pro), ongeldig of gepauzeerd.',
   'subs.synced.error.404': 'Geen tekstondertitels in die taal voor deze titel.',
@@ -444,9 +446,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'De ondertitel sluit bij geen enkele verschuiving of framerate aan op de audio (waarschijnlijk een andere versie of aflevering), de audio bevat te weinig spraak, of het bestand kan niet worden gedecodeerd.',
   'subs.synced.error.429':
-    'De sleutel kan niet betalen: voor een synchronisatie moeten er nog minstens 5 verzoeken over zijn, en dat wordt gecontroleerd voordat het werk begint.',
+    'De sleutel kan niet betalen: voor een synchronisatie moeten er nog minstens 5 verzoeken over zijn, en dat wordt gecontroleerd voordat het werk begint. Of 429 Too many syncs: een sleutel kan 60 synchronisaties per uur starten.',
   'subs.synced.error.503':
-    'Bezig met het decoderen van andere uploads, of zoeken is even niet beschikbaar. Probeer het zo opnieuw, of stuur speech.',
+    'Bezig met het decoderen of lezen van andere uploads, of zoeken is even niet beschikbaar. Probeer het zo opnieuw, of stuur speech.',
   'subs.synced.lib.p':
     'wyzie-lib heeft detectSpeech (dezelfde detector die de site in je browser draait) en syncSubtitle:',
   'subs.synced.how.step1':
@@ -462,6 +464,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'Er is spraak nodig: films met weinig dialoog, of audio die grotendeels uit muziek bestaat, synchroniseren mogelijk niet.',
   'subs.synced.limit3': 'Verschuivingen tot ±10 minuten worden gevonden.',
+
+  // Subs Status API Page
+  'subs.status.title': 'Status-API',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api geeft dezelfde status als de [statuspagina](https://sub.wyzie.io/status), als JSON voor je eigen monitoring: of de API online is, de toestand van elke bron, de uptime over 24 uur, 7, 30 en 90 dagen, een geschiedenis per dag en recente incidenten. Geen sleutel nodig, en het kost niets.',
+  'subs.status.note':
+    'Het endpoint is openbaar (CORS open) en wordt 60 seconden gecachet, dus vaker dan eens per minuut opvragen geeft hetzelfde antwoord. Bronnen worden aangeduid met hun codenaam, zoals in /sources.',
+  'subs.status.param.days':
+    'Aantal dagen geschiedenis per dag in elke history-array, nieuwste eerst: 0 tot 90 (standaard 90). Met 0 wordt history weggelaten voor een kleiner antwoord.',
+  'subs.status.param.format':
+    'shields geeft een [shields.io-endpointbadge](https://shields.io/badges/endpoint-badge) terug in plaats van het rapport.',
+  'subs.status.param.source':
+    'Met format=shields: een badge voor één bron (de uptime over 30 dagen, of paused) in plaats van de algemene status.',
+  'subs.status.field.status':
+    'operational (elke bron slaagt voor de controles), degraded (een bron is gepauzeerd of faalt bij een controle) of partial_outage (meer dan de helft van de bronnen is gepauzeerd).',
+  'subs.status.field.summary':
+    'hetzelfde in één zin, bijv. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'wanneer het bijhouden van de uptime begon. Eerdere tijd telt niet mee, dus vensters die verder teruggaan beslaan minder (of zijn null).',
+  'subs.status.field.api':
+    'de API zelf: de uptime en history ervan. status is altijd operational in een antwoord dat je hebt ontvangen.',
+  'subs.status.field.sources':
+    'één item per bron: tier (free of paid), de status van de laatste controle voor films en tv, latencyMs, lastChecked en nextCheck, plus uptime en history.',
+  'subs.status.field.state':
+    'online, suspect (één controle mislukt; binnen 5 minuten opnieuw gecontroleerd) of paused (twee controles achter elkaar mislukt). Een gepauzeerde bron heeft listed: false: hij staat niet in /sources en source=all totdat een controle slaagt, en pausedSince geeft aan sinds wanneer.',
+  'subs.status.field.uptime':
+    'percentage van elk venster waarin de API of bron online was, naar beneden afgerond op 3 decimalen (dus elke downtime komt onder 100 uit), of null als er nog geen gegevens zijn.',
+  'subs.status.field.history':
+    'één item per UTC-dag: date, uptime en downMinutes (null vóór het begin van het bijhouden).',
+  'subs.status.field.incidents':
+    'pauzes van bronnen uit de afgelopen 30 dagen, nieuwste eerst: start, end (null zolang de pauze duurt) en minutes.',
+  'subs.status.how.api':
+    'API-uptime: zolang de API draait, registreert de server elke minuut een heartbeat. Een minuut zonder heartbeat telt als down. Het wordt op onze server gemeten, dus een probleem dat alleen tussen jou en Cloudflare zit, is hier niet te zien.',
+  'subs.status.how.sources':
+    'Bron-uptime: elke bron wordt elk uur gecontroleerd met een echte zoekopdracht en download. De tijd dat een bron gepauzeerd is telt als down, vanaf de eerste mislukte controle totdat een controle slaagt. Eén mislukte controle alleen telt niet mee, en een bron die we handmatig pauzeren ook niet.',
+  'subs.status.how.tracking': 'Het bijhouden begon op 24 september 2026.',
+  'subs.status.badge.p':
+    'Voeg ?format=shields toe om een shields.io-badge te krijgen voor je README of statuspagina:',
+  'subs.status.use.p':
+    'Om bronnen te kiezen in je app, toont /sources al alleen de actieve. De Status-API is bedoeld om je gebruikers te laten zien wat werkt, jezelf te waarschuwen of te bepalen wanneer je het opnieuw probeert:',
+  'subs.status.news.p':
+    'Aankondigingen over de API en de store (nieuwe functies, wijzigingen die je app raken) worden gepubliceerd op [sub.wyzie.io/news](https://sub.wyzie.io/news), per e-mail als je je daar aanmeldt, of via [RSS](https://sub.wyzie.io/news/feed.xml).',
 
   // Subs API Keys Page
   'subs.keys.title': 'API-sleutels',
@@ -578,13 +622,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Willekeurige IPv6-generatie**: Maakt willekeurige IPv6-adressen aan vanuit je /48-prefix voor elk verzoek',
   'i6shark.intro.feature2':
-    '**Volledige HTTP-methodeondersteuning**: GET, POST, PUT, DELETE en alle andere HTTP-methoden',
+    '**HTTP-methoden**: GET, HEAD en POST; al het andere krijgt een 405',
   'i6shark.intro.feature3':
     '**HMAC-SHA256-authenticatie**: Veilige API-sleutelauthenticatie met op user-agent gebaseerde tokens',
   'i6shark.intro.feature4':
     "**Intelligent IP-poolbeheer**: Automatische IP-rotatie met configureerbare poolgrootte. Slim IP-levenscyclusbeheer. Verzoektelling per IP. Opruimen van ongebruikte IP's op basis van inactiviteitsdrempel.",
   'i6shark.intro.feature5':
-    '**Geavanceerde verzoekafhandeling**: Doorsturen van aangepaste headers. Cloudflare- en CDN-header-verwijdering. Ondersteuning voor meerdere URL-parameterformaten. Optionele terugval naar standaard systeem-IP.',
+    '**Veilige verzoekafhandeling**: Alleen request-headers op een allowlist worden doorgestuurd, nooit het API-token of Cloudflare- en forwarding-headers. Bestemmingen op loopback-, privé-, link-local- en andere interne netwerken (inclusief de eigen adressen van de server) worden geweigerd, na DNS-resolutie en bij elke redirect (maximaal 5). Ondersteuning voor meerdere URL-parameterformaten. Optionele terugval naar standaard systeem-IP.',
   'i6shark.intro.feature7':
     '**Automatisch onderhoud**: Periodiek doorspoelen van IP-pool. Subnetvalidatie en opruiming. Verbindingspooling en keepalive-optimalisatie.',
   'i6shark.intro.feature8':
@@ -613,7 +657,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'Kloon de repository naar /opt/i6.shark:',
   'i6shark.hosting.step2': 'Configureer constanten in src/consts.go:',
   'i6shark.hosting.step2.note':
-    'Werk SharedSecret, IPv6Prefix en Interface bij zodat ze overeenkomen met je server. De overige afstemconstanten hebben verstandige standaardwaarden en hoeven doorgaans niet te worden gewijzigd.',
+    'Werk IPv6Prefix en Interface bij zodat ze overeenkomen met je server. Het gedeelde geheim hoort in de omgeving (volgende stap), niet in dit bestand; SharedSecret is alleen een terugval als I6_SHARED_SECRET niet is ingesteld. De overige afstemconstanten hebben verstandige standaardwaarden en hoeven doorgaans niet te worden gewijzigd.',
+  'i6shark.hosting.stepSecret':
+    'Zet het gedeelde geheim in een omgevingsbestand dat alleen root kan lezen. Gebruik dezelfde waarde in je client (voor Wyzie Subs: I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'Bouw de applicatie:',
   'i6shark.hosting.step4': 'Maak de systemd-service aan:',
   'i6shark.hosting.step5': 'Schakel de service in en start hem:',
@@ -627,7 +673,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'API-authenticatie',
   'i6shark.hosting.auth.p':
-    'API-tokens worden gegenereerd met HMAC-SHA256 met een gedeelde geheime sleutel. De invoer voor sleutelgeneratie is de user-agent-header. Zie de validateAPIToken-functie in de broncode voor implementatiedetails.',
+    'API-tokens worden gegenereerd met HMAC-SHA256 met het gedeelde geheim (I6_SHARED_SECRET) over de user-agent-header, en verzonden in de API-Token-header, die de proxy nooit upstream doorstuurt. Zie de validateAPIToken-functie in de broncode voor implementatiedetails. Als een geheim ooit uitlekt, stel dan een nieuw in en herstart de service.',
 
   // Plugins
   'plugins.common.required': 'Vereist',

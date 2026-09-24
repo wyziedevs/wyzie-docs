@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'O cheie API este necesară pentru toate cererile. Obține o cheie gratuită la [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verificare prin email, 1.000 de cereri/zi). Pentru utilizare mai intensă, sunt disponibile [planuri Pro și reîncărcare](https://store.wyzie.io). Vezi pagina Chei API pentru detalii.',
   'subs.intro.note.npm':
     'Recomandăm cu tărie pachetul NPM dacă ești familiarizat cu TypeScript sau JavaScript',
+  'subs.intro.note.status':
+    'Disponibilitate și incidente: [sub.wyzie.io/status](https://sub.wyzie.io/status) și [API-ul de stare](/subs/usage/status). Noutăți despre API și magazin: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'Pachet NPM',
   'subs.intro.btn.direct': 'Accesare Directă',
 
@@ -300,7 +302,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true dacă intrarea este un subtitlu tradus de AI, false pentru subtitluri normale extrase. Folosește-l ca filtru pe partea clientului când vrei doar unul sau celălalt.',
   'subs.direct.download.p':
-    'Fiecare url dintr-un răspuns /search indică spre https://sub.wyzie.io/c/... și conține un parametru de interogare tok. tok este criptat, deci nu dezvăluie cheia ta API, și rămâne valabil 60 de zile. Folosește URL-ul exact așa cum este. O căutare costă 1 cerere și fiecare descărcare costă încă 1, taxate din cheia care a făcut căutarea. Când acea cheie nu poate plăti descărcarea, linkul este refuzat:',
+    'Fiecare url dintr-un răspuns /search indică spre https://sub.wyzie.io/c/... și conține un parametru de interogare tok. tok este criptat, deci nu dezvăluie cheia ta API, și rămâne valabil 60 de zile. Fiecare link are propriul tok, care deschide doar acel fișier, deci folosește URL-ul exact așa cum este (poți adăuga opțiuni de descărcare). O căutare costă 1 cerere și fiecare descărcare costă încă 1, taxate din cheia care a făcut căutarea. Când acea cheie nu poate plăti descărcarea, linkul este refuzat:',
   'subs.direct.dl.p':
     'Adaugă-le la un URL de descărcare pentru a schimba ce returnează. Funcționează la fiecare descărcare, din cache sau nu, și nu costă nimic în plus (cu excepția dual, mai jos). Antetul de răspuns X-Subtitle-Transforms enumeră ce s-a aplicat, cu numărul de modificări.',
   'subs.direct.dl.param.to':
@@ -415,7 +417,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     'Unde vorbesc oamenii: [[start, end], …] în secunde, de la orice detector de activitate vocală (detectSpeech din wyzie-lib, Silero VAD, webrtcvad). Un film de 2 ore are aproximativ 2.000 de segmente, circa 40 KB de JSON.',
   'subs.synced.param.media':
-    'Sau chiar fișierul audio/video: ca un corp brut al cererii (cu celelalte câmpuri în șirul de interogare) sau ca un câmp multipart media. Până la 95 MB, deci pentru un film întreg încarcă doar pista audio.',
+    'Sau chiar fișierul audio/video: ca un corp brut al cererii (cu celelalte câmpuri în șirul de interogare) sau ca un câmp multipart media. Până la 95 MB, deci pentru un film întreg încarcă doar pista audio. Pentru o încărcare multipart de peste 8 MB, pune key în șirul de interogare: este verificată înainte de citirea fișierului.',
   'subs.synced.fields.note':
     'Câmpurile pot fi trimise într-un corp JSON, într-un formular multipart sau în șirul de interogare (cu un corp media brut).',
   'subs.synced.response.p': 'Un răspuns 200 este în format JSON:',
@@ -436,7 +438,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     'Câmpuri lipsă sau invalide: niciun subtitlu, niciun audio sau speech care nu este format din perechi [start, end].',
   'subs.synced.error.401':
-    'Nicio cheie sau linkul de descărcare din url este invalid ori expirat.',
+    'Nicio cheie, linkul de descărcare din url este invalid ori expirat, sau o încărcare multipart de peste 8 MB nu are key în șirul de interogare.',
   'subs.synced.error.403':
     'Cheia este gratuită (Wyzie Synced necesită Pro), invalidă sau suspendată.',
   'subs.synced.error.404':
@@ -446,9 +448,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Subtitlul nu se aliniază cu sunetul la niciun decalaj sau rată de cadre (probabil altă versiune de montaj sau alt episod), sunetul conține prea puțină vorbire sau fișierul nu poate fi decodat.',
   'subs.synced.error.429':
-    'Cheia nu poate plăti: o sincronizare are nevoie de cel puțin 5 cereri rămase, lucru verificat înainte de începerea oricărei procesări.',
+    'Cheia nu poate plăti: o sincronizare are nevoie de cel puțin 5 cereri rămase, lucru verificat înainte de începerea oricărei procesări. Sau 429 Too many syncs: o cheie poate porni 60 de sincronizări pe oră.',
   'subs.synced.error.503':
-    'Serverul este ocupat cu decodarea altor încărcări sau căutarea este temporar indisponibilă. Reîncearcă în scurt timp sau trimite speech.',
+    'Serverul este ocupat cu decodarea sau citirea altor încărcări sau căutarea este temporar indisponibilă. Reîncearcă în scurt timp sau trimite speech.',
   'subs.synced.lib.p':
     'wyzie-lib include detectSpeech (același detector pe care site-ul îl rulează în browserul tău) și syncSubtitle:',
   'subs.synced.how.step1':
@@ -464,6 +466,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     'Are nevoie de vorbire: filmele cu puțin dialog sau cu un sunet format în mare parte din muzică s-ar putea să nu se sincronizeze.',
   'subs.synced.limit3': 'Sunt găsite decalaje de până la ±10 minute.',
+
+  // Subs Status API Page
+  'subs.status.title': 'API de stare',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api oferă aceeași stare pe care o arată [pagina de stare](https://sub.wyzie.io/status), ca JSON pentru propria ta monitorizare: dacă API-ul funcționează, starea fiecărei surse, disponibilitatea pe 24 de ore, 7, 30 și 90 de zile, un istoric zi cu zi și incidentele recente. Nu e nevoie de cheie și nu costă nimic.',
+  'subs.status.note':
+    'Este public (CORS deschis) și memorat în cache timp de 60 de secunde, deci o interogare mai deasă de o dată pe minut returnează același răspuns. Sursele sunt numite după numele de cod, ca în /sources.',
+  'subs.status.param.days':
+    'Zile de istoric zilnic în fiecare tablou history, cele mai noi primele: de la 0 la 90 (implicit 90). 0 omite history pentru un răspuns mai mic.',
+  'subs.status.param.format':
+    'shields returnează o [insignă endpoint shields.io](https://shields.io/badges/endpoint-badge) în locul raportului.',
+  'subs.status.param.source':
+    'Cu format=shields: o insignă pentru o singură sursă (disponibilitatea ei pe 30 de zile sau paused) în locul stării generale.',
+  'subs.status.field.status':
+    'operational (toate sursele trec verificările), degraded (o sursă suspendată sau care pică o verificare) sau partial_outage (mai mult de jumătate dintre surse sunt suspendate).',
+  'subs.status.field.summary':
+    'același lucru într-o propoziție, de ex. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'când a început urmărirea disponibilității. Timpul de dinainte nu se ia în calcul, deci ferestrele care merg mai departe în trecut acoperă mai puțin (sau sunt null).',
+  'subs.status.field.api':
+    'API-ul însuși: uptime și history ale sale. status este întotdeauna operational într-un răspuns pe care l-ai primit.',
+  'subs.status.field.sources':
+    'o intrare pentru fiecare sursă: tier (free sau paid), starea ultimei verificări pentru filme și TV, latencyMs, lastChecked și nextCheck, plus uptime și history.',
+  'subs.status.field.state':
+    'online, suspect (a picat o verificare; este reverificată în cel mult 5 minute) sau paused (a picat două verificări la rând). O sursă suspendată are listed: false: este scoasă din /sources și din source=all până când trece o verificare, iar pausedSince arată de când.',
+  'subs.status.field.uptime':
+    'procentul din fiecare fereastră în care API-ul sau sursa a funcționat, rotunjit în jos la 3 zecimale (astfel orice întrerupere apare sub 100), sau null dacă încă nu există date.',
+  'subs.status.field.history':
+    'o intrare pentru fiecare zi UTC: date, uptime și downMinutes (null înainte de începerea urmăririi).',
+  'subs.status.field.incidents':
+    'suspendări ale surselor din ultimele 30 de zile, cele mai noi primele: start, end (null cât timp este în desfășurare) și minutes.',
+  'subs.status.how.api':
+    'Disponibilitatea API-ului: cât timp API-ul rulează, serverul înregistrează un heartbeat în fiecare minut. Un minut fără heartbeat contează ca întrerupere. Se măsoară pe serverul nostru, deci o problemă doar între tine și Cloudflare nu va apărea aici.',
+  'subs.status.how.sources':
+    'Disponibilitatea surselor: fiecare sursă este verificată din oră în oră cu o căutare și o descărcare reale. Timpul în care o sursă este suspendată contează ca întrerupere, de la prima verificare picată până când trece o verificare. O singură verificare picată nu contează, și nici o sursă pe care o suspendăm manual.',
+  'subs.status.how.tracking': 'Urmărirea a început pe 24 septembrie 2026.',
+  'subs.status.badge.p':
+    'Adaugă ?format=shields pentru a obține o insignă shields.io pentru README-ul sau pagina ta de stare:',
+  'subs.status.use.p':
+    'Pentru a alege sursele în aplicația ta, /sources listează deja doar sursele active. API-ul de stare servește la a le arăta utilizatorilor tăi ce funcționează, la a te alerta sau la a decide când să reîncerci:',
+  'subs.status.news.p':
+    'Anunțurile despre API și magazin (funcții noi, schimbări care îți afectează aplicația) sunt publicate pe [sub.wyzie.io/news](https://sub.wyzie.io/news), prin e-mail dacă te abonezi acolo, sau prin [RSS](https://sub.wyzie.io/news/feed.xml).',
 
   // Subs API Keys Page
   'subs.keys.title': 'Chei API',
@@ -579,13 +623,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Generare Aleatoare de IPv6**: Creează adrese IPv6 aleatorii din prefixul tău /48 pentru fiecare cerere',
   'i6shark.intro.feature2':
-    '**Suport Complet pentru Metode HTTP**: GET, POST, PUT, DELETE și toate celelalte metode HTTP',
+    '**Metode HTTP**: GET, HEAD și POST; orice altceva primește un 405',
   'i6shark.intro.feature3':
     '**Autentificare HMAC-SHA256**: Autentificare securizată cu cheie API folosind tokenuri bazate pe user-agent',
   'i6shark.intro.feature4':
     '**Gestionare Inteligentă a Pool-ului de IP-uri**: Rotație automată a IP-urilor cu dimensiune de pool configurabilă. Gestionare inteligentă a ciclului de viață al IP-urilor. Numărarea cererilor per IP. Curățarea IP-urilor neutilizate bazată pe pragul de inactivitate.',
   'i6shark.intro.feature5':
-    '**Gestionare Avansată a Cererilor**: Redirecționare personalizată a antetelor. Eliminarea antetelor Cloudflare și CDN. Suport pentru mai multe formate de parametri URL. Fallback opțional la IP-ul implicit al sistemului.',
+    '**Gestionare Sigură a Cererilor**: Sunt transmise doar antetele de cerere dintr-o listă permisă, niciodată tokenul API sau antetele Cloudflare și cele de tip forwarding. Destinațiile din rețele loopback, private, link-local și alte rețele interne (inclusiv adresele proprii ale serverului) sunt refuzate, după rezolvarea DNS și la fiecare redirecționare (cel mult 5). Suport pentru mai multe formate de parametri URL. Fallback opțional la IP-ul implicit al sistemului.',
   'i6shark.intro.feature7':
     '**Întreținere Automată**: Golire periodică a pool-ului de IP-uri. Validarea și curățarea subnetului. Optimizarea pool-ului de conexiuni și keepalive.',
   'i6shark.intro.feature8':
@@ -614,7 +658,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'Clonează depozitul în /opt/i6.shark:',
   'i6shark.hosting.step2': 'Configurează constantele în src/consts.go:',
   'i6shark.hosting.step2.note':
-    'Actualizează SharedSecret, IPv6Prefix și Interface pentru a corespunde serverului tău. Constantele rămase de ajustare au valori implicite sensibile și de obicei nu necesită modificări.',
+    'Actualizează IPv6Prefix și Interface pentru a corespunde serverului tău. Secretul partajat se pune în mediu (pasul următor), nu în acest fișier; SharedSecret este doar o valoare de rezervă când I6_SHARED_SECRET nu este setat. Constantele rămase de ajustare au valori implicite sensibile și de obicei nu necesită modificări.',
+  'i6shark.hosting.stepSecret':
+    'Pune secretul partajat într-un fișier de mediu pe care doar root îl poate citi. Folosește aceeași valoare în clientul tău (pentru Wyzie Subs, I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'Construiește aplicația:',
   'i6shark.hosting.step4': 'Creează serviciul systemd:',
   'i6shark.hosting.step5': 'Activează și pornește serviciul:',
@@ -628,7 +674,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'Autentificare API',
   'i6shark.hosting.auth.p':
-    'Tokenurile API sunt generate folosind HMAC-SHA256 cu o cheie secretă partajată. Intrarea pentru generarea cheii este antetul user-agent. Vezi funcția validateAPIToken din codul sursă pentru detalii de implementare.',
+    'Tokenurile API sunt generate folosind HMAC-SHA256 cu secretul partajat (I6_SHARED_SECRET) peste antetul user-agent și sunt trimise în antetul API-Token, pe care proxy-ul nu îl transmite niciodată mai departe. Vezi funcția validateAPIToken din codul sursă pentru detalii de implementare. Dacă un secret este vreodată divulgat, setează unul nou și repornește serviciul.',
 
   // Plugins
   'plugins.common.required': 'Necesar',

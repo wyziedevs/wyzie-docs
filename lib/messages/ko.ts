@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     '모든 요청에는 API 키가 필요합니다. [store.wyzie.io/redeem](https://store.wyzie.io/redeem)에서 무료 키를 받으세요 (이메일 인증, 하루 1,000회 요청). 더 많은 사용량이 필요하다면 [Pro 및 충전 플랜](https://store.wyzie.io)을 이용하세요. 자세한 내용은 API 키 페이지를 참고하세요.',
   'subs.intro.note.npm':
     'TypeScript 또는 JavaScript에 익숙하다면 NPM 패키지 사용을 강력히 권장합니다',
+  'subs.intro.note.status':
+    '가동률과 인시던트: [sub.wyzie.io/status](https://sub.wyzie.io/status) 및 [상태 API](/subs/usage/status). API와 스토어 관련 소식: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'NPM 패키지',
   'subs.intro.btn.direct': '직접 호출',
 
@@ -283,7 +285,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'AI 번역 자막이면 true, 일반 스크래핑 자막이면 false. 어느 한 쪽만 원할 때 클라이언트 측 필터로 사용하세요.',
   'subs.direct.download.p':
-    '/search 응답의 모든 url은 https://sub.wyzie.io/c/... 주소를 가리키며 tok 쿼리 파라미터를 포함합니다. tok은 암호화되어 있어 API 키를 노출하지 않으며, 60일 동안 유효합니다. URL을 그대로 사용하세요. 검색은 1회 요청, 각 다운로드는 추가로 1회 요청이 차감되며, 검색을 실행한 키에 청구됩니다. 해당 키로 다운로드 비용을 지불할 수 없으면 링크가 거부됩니다:',
+    '/search 응답의 모든 url은 https://sub.wyzie.io/c/... 주소를 가리키며 tok 쿼리 파라미터를 포함합니다. tok은 암호화되어 있어 API 키를 노출하지 않으며, 60일 동안 유효합니다. 링크마다 해당 파일만 열 수 있는 고유한 tok이 있으므로 URL을 그대로 사용하세요(다운로드 옵션을 추가하는 것은 괜찮습니다). 검색은 1회 요청, 각 다운로드는 추가로 1회 요청이 차감되며, 검색을 실행한 키에 청구됩니다. 해당 키로 다운로드 비용을 지불할 수 없으면 링크가 거부됩니다:',
   'subs.direct.dl.p':
     '다운로드 URL에 다음 옵션을 추가하면 반환되는 내용을 바꿀 수 있습니다. 캐시 여부와 관계없이 모든 다운로드에서 작동하며, 추가 비용이 들지 않습니다 (아래 dual 제외). X-Subtitle-Transforms 응답 헤더에 적용된 항목과 그 횟수가 표시됩니다.',
   'subs.direct.dl.param.to':
@@ -394,7 +396,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     '사람이 말하는 구간: 초 단위의 [[start, end], …]. 어떤 음성 활동 감지기 (wyzie-lib의 detectSpeech, Silero VAD, webrtcvad)의 결과든 사용할 수 있습니다. 2시간짜리 영화는 약 2,000개 구간, JSON으로 약 40 KB입니다.',
   'subs.synced.param.media':
-    '또는 오디오/비디오 파일 자체: 원시 요청 본문으로 보내거나 (이 경우 다른 필드는 쿼리 문자열에 넣습니다), multipart 필드 media로 보냅니다. 최대 95 MB이므로 영화 전체라면 오디오 트랙만 업로드하세요.',
+    '또는 오디오/비디오 파일 자체: 원시 요청 본문으로 보내거나 (이 경우 다른 필드는 쿼리 문자열에 넣습니다), multipart 필드 media로 보냅니다. 최대 95 MB이므로 영화 전체라면 오디오 트랙만 업로드하세요. 8 MB를 넘는 multipart 업로드에서는 key를 쿼리 문자열에 넣으세요. key는 파일을 읽기 전에 확인됩니다.',
   'subs.synced.fields.note':
     '필드는 JSON 본문, multipart 폼, 또는 쿼리 문자열 (원시 media 본문을 보내는 경우)에 넣습니다.',
   'subs.synced.response.p': '200 응답은 JSON입니다:',
@@ -414,7 +416,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     '필드가 누락되었거나 잘못되었습니다: 자막이나 오디오가 없거나, speech가 [start, end] 쌍 형식이 아닙니다.',
   'subs.synced.error.401':
-    '키가 없거나, url의 다운로드 링크가 잘못되었거나 만료되었습니다.',
+    '키가 없거나, url의 다운로드 링크가 잘못되었거나 만료되었거나, 8 MB를 넘는 multipart 업로드의 쿼리 문자열에 key가 없습니다.',
   'subs.synced.error.403':
     '키가 무료 키이거나 (Wyzie Synced는 Pro 필요), 잘못되었거나, 일시 중지 상태입니다.',
   'subs.synced.error.404': '해당 제목에 그 언어의 텍스트 자막이 없습니다.',
@@ -423,9 +425,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     '어떤 오프셋이나 프레임 레이트에서도 자막이 오디오와 맞지 않거나 (다른 편집본이나 에피소드일 가능성이 높음), 오디오에 발화가 너무 적거나, 파일을 디코딩할 수 없습니다.',
   'subs.synced.error.429':
-    '키로 비용을 지불할 수 없습니다. 동기화에는 최소 5회 요청이 남아 있어야 하며, 작업을 시작하기 전에 확인합니다.',
+    '키로 비용을 지불할 수 없습니다. 동기화에는 최소 5회 요청이 남아 있어야 하며, 작업을 시작하기 전에 확인합니다. 또는 429 Too many syncs: 키 하나로 시간당 최대 60회까지 동기화를 시작할 수 있습니다.',
   'subs.synced.error.503':
-    '다른 업로드를 디코딩하느라 바쁘거나, 검색을 잠시 사용할 수 없습니다. 잠시 후 다시 시도하거나 speech를 보내세요.',
+    '다른 업로드를 디코딩하거나 읽느라 바쁘거나, 검색을 잠시 사용할 수 없습니다. 잠시 후 다시 시도하거나 speech를 보내세요.',
   'subs.synced.lib.p':
     'wyzie-lib에는 detectSpeech (사이트가 브라우저에서 실행하는 것과 동일한 감지기)와 syncSubtitle이 있습니다:',
   'subs.synced.how.step1':
@@ -441,6 +443,48 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     '발화가 필요합니다: 대사가 적은 영화나 대부분이 음악인 오디오는 동기화되지 않을 수 있습니다.',
   'subs.synced.limit3': '최대 ±10분까지의 오프셋을 찾을 수 있습니다.',
+
+  // Subs Status API Page
+  'subs.status.title': '상태 API',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api는 [상태 페이지](https://sub.wyzie.io/status)에 표시되는 것과 같은 상태를 자체 모니터링용 JSON으로 제공합니다. API 가동 여부, 각 소스의 상태, 24시간·7일·30일·90일 가동률, 일별 이력, 최근 인시던트가 포함됩니다. 키가 필요 없으며 비용도 들지 않습니다.',
+  'subs.status.note':
+    '이 엔드포인트는 공개되어 있고(CORS 허용) 60초 동안 캐시되므로, 1분에 한 번보다 자주 폴링해도 같은 응답이 반환됩니다. 소스는 /sources와 마찬가지로 코드명으로 표시됩니다.',
+  'subs.status.param.days':
+    '각 history 배열에 담을 일별 이력의 일수(최신순): 0~90(기본값 90). 0이면 history가 빠져 응답이 작아집니다.',
+  'subs.status.param.format':
+    'shields를 지정하면 보고서 대신 [shields.io 엔드포인트 배지](https://shields.io/badges/endpoint-badge)를 반환합니다.',
+  'subs.status.param.source':
+    'format=shields와 함께 사용: 전체 상태 대신 소스 하나에 대한 배지(해당 소스의 30일 가동률 또는 paused)를 반환합니다.',
+  'subs.status.field.status':
+    'operational(모든 소스가 점검 통과), degraded(일시 중지되었거나 점검에 실패한 소스가 있음) 또는 partial_outage(절반이 넘는 소스가 일시 중지됨).',
+  'subs.status.field.summary':
+    '같은 내용을 한 문장으로 나타낸 것. 예: "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    '가동률 추적이 시작된 시점. 그 이전 시간은 집계되지 않으므로, 더 이전까지 거슬러 올라가는 기간은 더 짧은 시간만 포함합니다(또는 null입니다).',
+  'subs.status.field.api':
+    'API 자체: API의 uptime과 history. 응답을 받았다면 status는 항상 operational입니다.',
+  'subs.status.field.sources':
+    '소스마다 항목 1개: tier(free 또는 paid), 영화와 TV 각각에 대한 마지막 점검 상태, latencyMs, lastChecked와 nextCheck, 그리고 uptime과 history.',
+  'subs.status.field.state':
+    'online, suspect(점검 1회 실패, 5분 이내에 재점검) 또는 paused(점검 2회 연속 실패). 일시 중지된 소스는 listed: false이며, 점검을 통과할 때까지 /sources와 source=all에서 제외됩니다. pausedSince는 언제부터 중지되었는지를 나타냅니다.',
+  'subs.status.field.uptime':
+    '각 기간 중 API 또는 소스가 가동된 비율(%)로, 소수점 이하 3자리로 내림하므로 조금이라도 중단이 있으면 100 미만으로 표시됩니다. 아직 데이터가 없으면 null입니다.',
+  'subs.status.field.history':
+    'UTC 기준 하루마다 항목 1개: date, uptime, downMinutes(추적 시작 전에는 null).',
+  'subs.status.field.incidents':
+    '최근 30일 동안의 소스 일시 중지(최신순): start, end(진행 중이면 null), minutes.',
+  'subs.status.how.api':
+    'API 가동률: API가 실행되는 동안 서버는 매분 하트비트를 기록합니다. 하트비트가 없는 1분은 중단으로 집계됩니다. 측정은 저희 서버에서 이루어지므로, 사용자와 Cloudflare 사이에서만 발생하는 문제는 여기에 나타나지 않습니다.',
+  'subs.status.how.sources':
+    '소스 가동률: 모든 소스는 매시간 실제 검색과 다운로드로 점검됩니다. 소스가 일시 중지된 시간은 첫 점검 실패 시점부터 점검을 통과할 때까지 중단으로 집계됩니다. 점검 1회 실패만으로는 집계되지 않으며, 저희가 수동으로 일시 중지한 소스도 집계되지 않습니다.',
+  'subs.status.how.tracking': '추적은 2026년 9월 24일에 시작되었습니다.',
+  'subs.status.badge.p':
+    '?format=shields를 추가하면 README나 상태 페이지에 넣을 shields.io 배지를 받을 수 있습니다:',
+  'subs.status.use.p':
+    '앱에서 소스를 고를 때는 /sources가 이미 가동 중인 소스만 나열합니다. 상태 API는 사용자에게 무엇이 가동 중인지 보여 주거나, 스스로 알림을 받거나, 언제 재시도할지 결정하는 데 사용합니다:',
+  'subs.status.news.p':
+    'API와 스토어에 관한 공지(새 기능, 앱에 영향을 주는 변경 사항)는 [sub.wyzie.io/news](https://sub.wyzie.io/news)에 게시되며, 그곳에서 구독하면 이메일로, 또는 [RSS](https://sub.wyzie.io/news/feed.xml)로도 받을 수 있습니다.',
 
   // Subs API Keys Page
   'subs.keys.title': 'API 키',
@@ -554,13 +598,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**무작위 IPv6 생성**: 각 요청마다 /48 프리픽스에서 무작위 IPv6 주소를 생성합니다',
   'i6shark.intro.feature2':
-    '**전체 HTTP 메서드 지원**: GET, POST, PUT, DELETE 및 모든 기타 HTTP 메서드',
+    '**HTTP 메서드**: GET, HEAD, POST. 그 외 메서드는 405를 받습니다',
   'i6shark.intro.feature3':
     '**HMAC-SHA256 인증**: user-agent 기반 토큰을 사용한 안전한 API 키 인증',
   'i6shark.intro.feature4':
     '**지능형 IP 풀 관리**: 설정 가능한 풀 크기로 자동 IP 로테이션. 스마트 IP 수명 주기 관리. IP별 요청 수 계산. 비활성 임계값 기반 미사용 IP 정리.',
   'i6shark.intro.feature5':
-    '**고급 요청 처리**: 커스텀 헤더 전달. Cloudflare 및 CDN 헤더 제거. 여러 URL 파라미터 형식 지원. 시스템 기본 IP로의 선택적 폴백.',
+    '**안전한 요청 처리**: 허용 목록에 있는 요청 헤더만 전달하며, API 토큰이나 Cloudflare 및 포워딩 헤더는 절대 전달하지 않습니다. 루프백, 사설, 링크 로컬 및 기타 내부 네트워크의 대상(서버 자체 주소 포함)은 DNS 조회 후와 모든 리디렉션 시(최대 5회) 거부됩니다. 여러 URL 파라미터 형식 지원. 시스템 기본 IP로의 선택적 폴백.',
   'i6shark.intro.feature7':
     '**자동 유지 관리**: 주기적인 IP 풀 플러싱. 서브넷 검증 및 정리. 연결 풀링 및 keepalive 최적화.',
   'i6shark.intro.feature8':
@@ -587,7 +631,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': '저장소를 /opt/i6.shark에 클론하세요:',
   'i6shark.hosting.step2': 'src/consts.go에서 상수를 설정하세요:',
   'i6shark.hosting.step2.note':
-    '서버에 맞게 SharedSecret, IPv6Prefix, Interface를 업데이트하세요. 나머지 튜닝 상수는 기본값이 적절하게 설정되어 있어 일반적으로 변경할 필요가 없습니다.',
+    '서버에 맞게 IPv6Prefix와 Interface를 업데이트하세요. 공유 시크릿은 이 파일이 아니라 환경 변수에 넣습니다(다음 단계). SharedSecret은 I6_SHARED_SECRET이 설정되지 않았을 때의 폴백일 뿐입니다. 나머지 튜닝 상수는 기본값이 적절하게 설정되어 있어 일반적으로 변경할 필요가 없습니다.',
+  'i6shark.hosting.stepSecret':
+    '공유 시크릿을 root만 읽을 수 있는 환경 파일에 넣으세요. 클라이언트에서도 같은 값을 사용하세요(Wyzie Subs의 경우 I6_PROXY_SECRET):',
   'i6shark.hosting.step3': '애플리케이션을 빌드하세요:',
   'i6shark.hosting.step4': 'systemd 서비스를 생성하세요:',
   'i6shark.hosting.step5': '서비스를 활성화하고 시작하세요:',
@@ -601,7 +647,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'API 인증',
   'i6shark.hosting.auth.p':
-    'API 토큰은 공유 비밀 키를 사용하여 HMAC-SHA256으로 생성됩니다. 키 생성의 입력값은 user-agent 헤더입니다. 구현 세부 사항은 소스 코드의 validateAPIToken 함수를 참고하세요.',
+    'API 토큰은 공유 시크릿(I6_SHARED_SECRET)으로 user-agent 헤더에 대해 HMAC-SHA256을 계산해 생성되며, API-Token 헤더로 전송됩니다. 프록시는 이 헤더를 업스트림으로 절대 전달하지 않습니다. 구현 세부 사항은 소스 코드의 validateAPIToken 함수를 참고하세요. 시크릿이 유출되면 새 값을 설정하고 서비스를 재시작하세요.',
 
   // Plugins
   'plugins.common.required': '필수',
