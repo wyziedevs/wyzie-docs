@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Uvod u Wyzie Subs',
   'subs.intro.p1':
     'Wyzie Subs je API za preuzimanje titlova sa besplatnim nivoom. Postoje dva načina za slanje zahteva API-ju: korišćenjem našeg NPM paketa ili direktnim pozivanjem Wyzie API-ja. Preporučujem korišćenje našeg paketa, mada nekima tipovi mogu izgledati glomazno. Da biste koristili API, najpre morate doneti tu odluku.',
-  'subs.intro.note.ai':
-    'AI prevod je aktivan za Pro ključeve. Bilo koji naslov, 80+ ciljnih jezika, streamuje se nazad redosledom titla kako se grupe završavaju.',
   'subs.intro.important.apikey':
     'API ključ je obavezan za sve zahteve. Nabavite besplatni ključ na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifikacija emaila, 1.000 zahteva dnevno). Za veće korišćenje dostupni su [Pro i top-up planovi](https://store.wyzie.io). Pogledajte stranicu API ključevi za detalje.',
   'subs.intro.note.npm':
@@ -313,6 +311,12 @@ const messages: Record<string, string> = {
     'Dodaje drugi jezik (ISO 639-1 kod) ispod svakog reda, usklađen sa tajmingom ovog fajla. Košta 1 dodatni zahtev, i to samo kada se pronađe podudaranje; u suprotnom se fajl vraća sam, sa `X-Dual: unavailable`.',
   'subs.direct.dl.after':
     'Opcije se mogu kombinovati, npr. `&to=vtt&sdh=strip&offset=-1.5`. Linkovi već sadrže `format`, `encoding`, `id` i (za epizode) `season` i `episode`: ostavite ih onakve kakvi jesu. `autoUnzip=false` vraća arhivu u izvornom obliku.',
+  'subs.direct.oneCall.p':
+    'Sa API ključem, GET /download vraća sam fajl titla u jednom pozivu: pretražuje sa vašim ključem i istim parametrima kao /search (language je podrazumevano en), bira najbolje podudaranje i isporučuje ga. To košta 2 zahteva, isto kao pretraga plus preuzimanje. Opcije preuzimanja kao što su to i offset primenjuju se na fajl.',
+  'subs.direct.oneCall.pick':
+    'Najbolje podudaranje je prvi rezultat pretrage, pri čemu se prednost daje SRT, WebVTT i ASS fajlovima osim ako ne postavite format, i fajlovima bez teksta za osobe oštećenog sluha osim ako ne postavite hi=true. Suzite izbor pomoću release, filename, source ili origin. Zaglavlja odgovora X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language i X-Subtitle-Url pokazuju koji je fajl izabran. Greške su iste kao za /search i linkove za preuzimanje.',
+  'subs.direct.oneCall.keyless':
+    'Bez ključa, [stranica za preuzimanje](https://sub.wyzie.io/download) služi za ručno pronalaženje jednog ili dva titla. Njeni linkovi otvaraju samo fajl za koji su napravljeni, sa mreže sa koje je izvršena pretraga, a stranica ima ograničenja po satu. Za bilo šta automatizovano koristite ključ.',
   'subs.direct.headers.p':
     'Svaki /search odgovor sadrži zaglavlje X-Total-Count sa ukupnim brojem rezultata. Kada prosledite limit, sadrži i:',
   'subs.direct.header.xpage': 'vraćena stranica.',
@@ -324,7 +328,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI prevod titlova',
   'subs.translate.important':
-    'AI prevod je **Pro funkcija**; besplatni ključevi dobijaju 403 Upgrade required. Svaki poziv košta **100 zahteva** iz stanja vašeg ključa, uključujući i pogotke keša. Ako poziv ne uspe pre bilo kakvog izlaza (titl nije pronađen, pretraga ili preuzimanje nisu uspeli ili je server zauzet), tih 100 zahteva vam se automatski vraća.',
+    'AI prevod je **Pro funkcija**; besplatni ključevi dobijaju 403 Upgrade required. Svaki poziv košta **25 zahteva** iz stanja vašeg ključa, uključujući i pogotke keša. Ako poziv ne uspe pre bilo kakvog izlaza (titl nije pronađen, pretraga ili preuzimanje nisu uspeli ili je server zauzet), tih 25 zahteva vam se automatski vraća.',
   'subs.translate.p1':
     'Wyzie može prevesti bilo koji titl na 80+ jezika u hodu. Prevedeni SRT se streamuje nazad redom kako se grupe završavaju, pa prve stavke stižu brzo, umesto tek kada ceo fajl bude gotov. Kompletan prevod se kešuje 30 dana, pa se kasniji zahtevi za isti naslov, epizodu i ciljni jezik isporučuju iz keša.',
 
@@ -372,24 +376,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Ograničenja',
   'subs.translate.limit1':
-    'AI prevodu je potreban tekstualni titl kao polazna tačka. VTT, ASS, SSA i SUB izvori se najpre konvertuju u SRT; ako tekstualni titl ne postoji, poziv vraća 404 No subtitle found i tih 100 zahteva vam se vraća.',
+    'AI prevodu je potreban tekstualni titl kao polazna tačka. VTT, ASS, SSA i SUB izvori se najpre konvertuju u SRT; ako tekstualni titl ne postoji, poziv vraća 404 No subtitle found i tih 25 zahteva vam se vraća.',
   'subs.translate.limit2':
     'Kvalitet prevoda zavisi od izvornog titla. Loše vremenski usklađen ili pogrešno otkucan izvor rezultira loše vremenski usklađenim ili pogrešno otkucanim prevodom.',
   'subs.translate.limit3':
     'Neki korisnici možda žele da u potpunosti isključe AI redove. Filtrirajte po ai === false u vašem klijentu.',
   'subs.translate.limit4':
-    'Prevodi se naplaćuju i na pogodke keša. Bez obzira na to da li je sveže generisan ili isporučen iz 30-dnevnog keša, svaki /translate poziv košta 100 zahteva. Zahtevi se vraćaju samo za pozive koji ne uspeju pre bilo kakvog izlaza.',
+    'Prevodi se naplaćuju i na pogodke keša. Bez obzira na to da li je sveže generisan ili isporučen iz 30-dnevnog keša, svaki /translate poziv košta 25 zahteva. Zahtevi se vraćaju samo za pozive koji ne uspeju pre bilo kakvog izlaza.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced je **Pro funkcija**: besplatni ključevi dobijaju 403 Paid feature. Svaka uspešna sinhronizacija košta **1 zahtev**; sinhronizacija koja ne pronađe podudaranje se ne naplaćuje. Preuzimanje sinhronizovanog linka se zatim računa kao i svako drugo preuzimanje.',
+    'Wyzie Synced je **Pro funkcija**: besplatni ključevi dobijaju 403 Paid feature. Svaka uspešna sinhronizacija košta **5 zahteva**; sinhronizacija koja ne pronađe podudaranje se ne naplaćuje. Preuzimanje sinhronizovanog linka se zatim računa kao i svako drugo preuzimanje.',
   'subs.synced.p1':
     'Titlovi pronađeni na internetu često su vremenski usklađeni za drugi reliz, a ne za video koji imate: počinju nekoliko sekundi ranije ili kasnije, ili se sve više razilaze kako film odmiče jer taj reliz ima drugačiju brzinu kadrova. Wyzie Synced sluša zvuk vaše kopije, pronalazi delove u kojima ljudi govore i izračunava pomak i ispravku brzine kadrova koji usklađuju titl sa njim. Dobijate običan link za preuzimanje sa primenjenom ispravkom (to su [opcije preuzimanja](/subs/usage/direct#download-options) offset i fps).',
   'subs.synced.web.p':
     'Najlakši način: otvorite [sub.wyzie.io/synced](https://sub.wyzie.io/synced), unesite svoj Pro ključ, izaberite video fajl i naslov, i preuzmite sinhronizovani titl. Zvuk se analizira u vašem browseru, tako da se video nikada ne otprema: šalju se samo vremena govora. Podržani su MKV, MP4, AVI i većina drugih formata, uključujući AC3, E-AC3 i DTS zvuk.',
   'subs.synced.api.p':
-    'Pošaljite koji titl želite (link za preuzimanje ili naslov, pa da Wyzie izabere najbolje podudaranje) i zvuk: ili vremena govora koja ste sami detektovali, ili sam audio/video fajl.',
+    'Pošaljite koji titl želite (link za preuzimanje ili naslov, pa da Wyzie izabere najbolje podudaranje) i zvuk: ili vremena govora koja ste sami detektovali, ili sam audio/video fajl. POST /synced je isti API.',
   'subs.synced.param.url':
     'Link za preuzimanje iz /search (https://sub.wyzie.io/c/…). Ostale opcije preuzimanja na njemu (to, sdh, …) zadržavaju se na sinhronizovanom linku.',
   'subs.synced.param.id':
@@ -433,7 +437,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Titl se ne poklapa sa zvukom ni pri jednom pomaku ni brzini kadrova (verovatno je u pitanju druga verzija filma ili epizoda), zvuk sadrži premalo govora ili fajl ne može da se dekodira.',
   'subs.synced.error.429':
-    'Ključ ne može da plati zahtev, kao i kod svakog drugog poziva.',
+    'Ključ ne može da plati: za sinhronizaciju mora da preostane najmanje 5 zahteva, što se proverava pre bilo kakvog rada.',
   'subs.synced.error.503':
     'Server je zauzet dekodiranjem drugih otpremljenih fajlova ili je pretraga nakratko nedostupna. Pokušajte ponovo uskoro ili pošaljite speech.',
   'subs.synced.lib.p':
@@ -503,7 +507,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Dostizanje limita',
   'subs.keys.limit.p':
-    'Pretraga košta 1 zahtev i svako preuzimanje titla košta 1 zahtev, pa jedna pretraga i preuzimanje jednog fajla troše 2. AI prevod košta 100 zahteva po pozivu.',
+    'Pretraga košta 1 zahtev i svako preuzimanje titla košta 1 zahtev, pa jedna pretraga i preuzimanje jednog fajla troše 2. AI prevod košta 25 zahteva po pozivu, a Wyzie Synced sinhronizacija 5.',
   'subs.keys.limit.free':
     '**Besplatni nivo** iscrpljen -> pretrage i linkovi za preuzimanje vraćaju 429 Daily request limit reached, sa reset_at u JSON-u i zaglavljem Retry-After. Dnevni limit od 1.000 zahteva resetuje se u ponoć UTC.',
   'subs.keys.limit.paid':
@@ -573,8 +577,6 @@ const messages: Record<string, string> = {
     '**Inteligentno upravljanje IP skupom**: Automatska rotacija IP adresa sa podesivom veličinom skupa. Pametno upravljanje životnim ciklusom IP adresa. Brojanje zahteva po IP adresi. Čišćenje nekorišćenih IP adresa na osnovu praga neaktivnosti.',
   'i6shark.intro.feature5':
     '**Napredno rukovanje zahtevima**: Prosleđivanje prilagođenih zaglavlja. Uklanjanje Cloudflare i CDN zaglavlja. Podrška za više formata URL parametara. Opcionalni povratak na podrazumevanu sistemsku IP adresu.',
-  'i6shark.intro.feature6':
-    '**Lista dozvoljenih hostova**: Ugrađena lista dozvoljenih domena za bezbednost (podesiva u kodu)',
   'i6shark.intro.feature7':
     '**Automatsko održavanje**: Periodično pražnjenje IP skupa. Validacija i čišćenje podmreže. Optimizacija connection pooling-a i keepalive-a.',
   'i6shark.intro.feature8':

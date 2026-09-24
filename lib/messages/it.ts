@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Introduzione a Wyzie Subs',
   'subs.intro.p1':
     "Wyzie Subs è un'API per il recupero di sottotitoli con un livello gratuito. Ci sono due modi per fare richieste all'API: usando il nostro pacchetto NPM o recuperando direttamente l'API di Wyzie. Consiglio di usare il nostro pacchetto, ma alcuni potrebbero trovare i tipi scomodi. Per utilizzare l'API, devi prima prendere questa decisione.",
-  'subs.intro.note.ai':
-    "La Traduzione AI è attiva per le chiavi Pro. Qualsiasi titolo, 80+ lingue di destinazione, trasmessa nell'ordine dei sottotitoli man mano che i blocchi vengono completati.",
   'subs.intro.important.apikey':
     'Una chiave API è richiesta per tutte le richieste. Ottieni una chiave gratuita su [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifica via email, 1.000 richieste/giorno). Per utilizzi più intensi, sono disponibili [piani Pro e ricariche](https://store.wyzie.io). Consulta la pagina Chiavi API per i dettagli.',
   'subs.intro.note.npm':
@@ -324,6 +322,12 @@ const messages: Record<string, string> = {
     'Aggiunge una seconda lingua (codice ISO 639-1) sotto ogni riga, allineata ai tempi di questo file. Costa 1 richiesta in più, solo quando viene trovata una corrispondenza; altrimenti il file viene restituito da solo con `X-Dual: unavailable`.',
   'subs.direct.dl.after':
     "Le opzioni si combinano, es. `&to=vtt&sdh=strip&offset=-1.5`. I link contengono già `format`, `encoding`, `id` e (per gli episodi) `season` ed `episode`: lasciali come sono. `autoUnzip=false` restituisce un archivio così com'è.",
+  'subs.direct.oneCall.p':
+    'Con una chiave API, GET /download restituisce direttamente il file dei sottotitoli in una sola chiamata: cerca con la tua chiave e gli stessi parametri di /search (language è en per impostazione predefinita), sceglie la corrispondenza migliore e la restituisce. Costa 2 richieste, come una ricerca più un download. Le opzioni di download come to e offset si applicano al file.',
+  'subs.direct.oneCall.pick':
+    'La corrispondenza migliore è il primo risultato di ricerca, con preferenza per i file SRT, WebVTT e ASS a meno che tu non imposti format, e per i file senza testo per non udenti a meno che tu non imposti hi=true. Restringi la scelta con release, filename, source o origin. Gli header di risposta X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language e X-Subtitle-Url indicano quale file è stato scelto. Gli errori sono gli stessi di /search e dei link di download.',
+  'subs.direct.oneCall.keyless':
+    'Senza chiave, la [pagina di download](https://sub.wyzie.io/download) serve a trovare uno o due sottotitoli a mano. I suoi link aprono solo il file per cui sono stati creati, dalla rete che ha effettuato la ricerca, e la pagina ha limiti orari. Per qualsiasi uso automatizzato, usa una chiave.',
   'subs.direct.headers.p':
     'Ogni risposta /search include un header X-Total-Count con il numero totale di risultati. Quando passi limit, include anche:',
   'subs.direct.header.xpage': 'la pagina restituita.',
@@ -335,7 +339,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Traduzione AI dei Sottotitoli',
   'subs.translate.important':
-    'La traduzione AI è una **funzionalità Pro**: le chiavi gratuite ricevono 403 Upgrade required. Ogni chiamata costa **100 richieste** dal saldo della tua chiave, risposte dalla cache incluse. Se una chiamata fallisce prima di produrre output (nessun sottotitolo trovato, un errore di ricerca o di download, oppure il server è occupato), le 100 richieste vengono rimborsate automaticamente.',
+    'La traduzione AI è una **funzionalità Pro**: le chiavi gratuite ricevono 403 Upgrade required. Ogni chiamata costa **25 richieste** dal saldo della tua chiave, risposte dalla cache incluse. Se una chiamata fallisce prima di produrre output (nessun sottotitolo trovato, un errore di ricerca o di download, oppure il server è occupato), le 25 richieste vengono rimborsate automaticamente.',
   'subs.translate.p1':
     "Wyzie può tradurre qualsiasi sottotitolo in 80+ lingue al volo. L'SRT tradotto viene trasmesso in ordine man mano che i blocchi vengono completati, così i primi cue arrivano rapidamente invece che dopo il completamento dell'intero file. La traduzione completa viene memorizzata nella cache per 30 giorni, quindi le richieste successive per lo stesso titolo, episodio e lingua di destinazione vengono servite dalla cache.",
 
@@ -383,24 +387,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Limitazioni',
   'subs.translate.limit1':
-    'La traduzione AI necessita di un sottotitolo testuale da cui partire. Le fonti VTT, ASS, SSA e SUB vengono prima convertite in SRT; se non esiste alcun sottotitolo testuale, la chiamata restituisce 404 No subtitle found e le 100 richieste vengono rimborsate.',
+    'La traduzione AI necessita di un sottotitolo testuale da cui partire. Le fonti VTT, ASS, SSA e SUB vengono prima convertite in SRT; se non esiste alcun sottotitolo testuale, la chiamata restituisce 404 No subtitle found e le 25 richieste vengono rimborsate.',
   'subs.translate.limit2':
     'La qualità della traduzione dipende dal sottotitolo sorgente. Una fonte con tempi sbagliati o errori di battitura produce una traduzione con gli stessi problemi.',
   'subs.translate.limit3':
     'Alcuni utenti potrebbero voler escludere completamente le righe AI. Filtra su ai === false nel tuo client.',
   'subs.translate.limit4':
-    'Le traduzioni vengono addebitate anche sulle risposte dalla cache. Che siano generate di fresco o servite dalla cache di 30 giorni, ogni chiamata /translate costa 100 richieste. Vengono rimborsate solo le chiamate che falliscono prima di produrre output.',
+    'Le traduzioni vengono addebitate anche sulle risposte dalla cache. Che siano generate di fresco o servite dalla cache di 30 giorni, ogni chiamata /translate costa 25 richieste. Vengono rimborsate solo le chiamate che falliscono prima di produrre output.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced è una **funzionalità Pro**: le chiavi gratuite ricevono 403 Paid feature. Ogni sincronizzazione riuscita costa **1 richiesta**; una sincronizzazione che non trova corrispondenze non viene addebitata. Il download del link sincronizzato conta poi come qualsiasi altro download.',
+    'Wyzie Synced è una **funzionalità Pro**: le chiavi gratuite ricevono 403 Paid feature. Ogni sincronizzazione riuscita costa **5 richieste**; una sincronizzazione che non trova corrispondenze non viene addebitata. Il download del link sincronizzato conta poi come qualsiasi altro download.',
   'subs.synced.p1':
     "I sottotitoli trovati online sono spesso sincronizzati per una release diversa dal video che hai: iniziano qualche secondo prima o dopo, oppure si sfasano sempre di più con l'avanzare del film perché quella release ha un frame rate diverso. Wyzie Synced ascolta l'audio della tua copia, trova i punti in cui si parla e calcola l'offset e la correzione del frame rate che allineano il sottotitolo all'audio. Ottieni un normale link di download con la correzione applicata (le [opzioni di download](/subs/usage/direct#download-options) offset e fps).",
   'subs.synced.web.p':
     "Il modo più semplice: apri [sub.wyzie.io/synced](https://sub.wyzie.io/synced), inserisci la tua chiave Pro, scegli il file video e il titolo, e scarica il sottotitolo sincronizzato. L'audio viene analizzato nel tuo browser, quindi il video non viene mai caricato: vengono inviati solo i tempi del parlato. Funzionano MKV, MP4, AVI e la maggior parte degli altri formati, incluso l'audio AC3, E-AC3 e DTS.",
   'subs.synced.api.p':
-    "Invia il sottotitolo che vuoi (un link di download, oppure il titolo per lasciare che Wyzie scelga la corrispondenza migliore) e l'audio: o i tempi del parlato che hai rilevato tu, o il file audio/video stesso.",
+    "Invia il sottotitolo che vuoi (un link di download, oppure il titolo per lasciare che Wyzie scelga la corrispondenza migliore) e l'audio: o i tempi del parlato che hai rilevato tu, o il file audio/video stesso. POST /synced è la stessa API.",
   'subs.synced.param.url':
     'Un link di download da /search (https://sub.wyzie.io/c/…). Le altre opzioni di download presenti (to, sdh, …) vengono mantenute sul link sincronizzato.',
   'subs.synced.param.id':
@@ -445,7 +449,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     "Il sottotitolo non si allinea all'audio con nessun offset né frame rate (probabilmente è di un altro montaggio o di un altro episodio), l'audio contiene troppo poco parlato, oppure il file non può essere decodificato.",
   'subs.synced.error.429':
-    'La chiave non può pagare la richiesta, come per qualsiasi altra chiamata.',
+    'La chiave non può pagare: una sincronizzazione richiede almeno 5 richieste rimanenti, verificate prima di iniziare qualsiasi lavoro.',
   'subs.synced.error.503':
     'Il server è occupato a decodificare altri upload, oppure la ricerca è temporaneamente non disponibile. Riprova tra poco, oppure invia speech.',
   'subs.synced.lib.p':
@@ -516,7 +520,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Raggiungere il Limite',
   'subs.keys.limit.p':
-    'Una ricerca costa 1 richiesta e ogni download di sottotitoli costa 1 richiesta, quindi cercare una volta e scaricare un file ne consuma 2. La traduzione AI costa 100 richieste per chiamata.',
+    'Una ricerca costa 1 richiesta e ogni download di sottotitoli costa 1 richiesta, quindi cercare una volta e scaricare un file ne consuma 2. La traduzione AI costa 25 richieste per chiamata, e una sincronizzazione Wyzie Synced 5.',
   'subs.keys.limit.free':
     '**Livello gratuito** esaurito -> le ricerche e i link di download restituiscono 429 Daily request limit reached, con reset_at nel JSON e un header Retry-After. Il limite giornaliero di 1.000 richieste si azzera a mezzanotte UTC.',
   'subs.keys.limit.paid':
@@ -586,8 +590,6 @@ const messages: Record<string, string> = {
     '**Gestione Intelligente del Pool IP**: Rotazione automatica degli IP con dimensione del pool configurabile. Gestione intelligente del ciclo di vita degli IP. Conteggio delle richieste per IP. Pulizia degli IP inutilizzati basata sulla soglia di inattività.',
   'i6shark.intro.feature5':
     "**Gestione Avanzata delle Richieste**: Inoltro di header personalizzati. Rimozione degli header Cloudflare e CDN. Supporto per più formati di parametri URL. Fallback opzionale all'IP di sistema predefinito.",
-  'i6shark.intro.feature6':
-    '**Whitelist degli Host**: Whitelist di domini integrata per la sicurezza (configurabile nel codice)',
   'i6shark.intro.feature7':
     '**Manutenzione Automatica**: Svuotamento periodico del pool IP. Validazione e pulizia della subnet. Pooling delle connessioni e ottimizzazione keepalive.',
   'i6shark.intro.feature8':

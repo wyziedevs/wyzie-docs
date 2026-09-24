@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Introdução ao Wyzie Subs',
   'subs.intro.p1':
     'Wyzie Subs é uma API de busca de legendas com um plano gratuito. Há duas formas de fazer requisições à API: usando nosso pacote NPM ou buscando a API Wyzie diretamente. Recomendo usar nosso pacote, mas alguns podem achar os tipos um pouco trabalhosos. Para usar a API, você precisa primeiro tomar essa decisão.',
-  'subs.intro.note.ai':
-    'Tradução com IA está disponível para chaves Pro. Qualquer título, mais de 80 idiomas de destino, transmitido na ordem da legenda conforme os lotes terminam.',
   'subs.intro.important.apikey':
     'Uma chave de API é necessária para todas as requisições. Obtenha uma chave gratuita em [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verificação por e-mail, 1.000 requisições/dia). Para uso mais intenso, [planos Pro e de recarga](https://store.wyzie.io) estão disponíveis. Veja a página de Chaves de API para mais detalhes.',
   'subs.intro.note.npm':
@@ -319,6 +317,12 @@ const messages: Record<string, string> = {
     'Adiciona um segundo idioma (código ISO 639-1) abaixo de cada linha, alinhado com a marcação de tempo deste arquivo. Custa 1 requisição extra, apenas quando uma correspondência é encontrada; caso contrário, o arquivo volta sem o segundo idioma, com `X-Dual: unavailable`.',
   'subs.direct.dl.after':
     'As opções podem ser combinadas, ex.: `&to=vtt&sdh=strip&offset=-1.5`. Os links já trazem `format`, `encoding`, `id` e (para episódios) `season` e `episode`: deixe-os como estão. `autoUnzip=false` retorna um arquivo compactado como está.',
+  'subs.direct.oneCall.p':
+    'Com uma chave de API, GET /download retorna o próprio arquivo de legenda em uma única chamada: ele busca com a sua chave e os mesmos parâmetros de /search (language tem en como padrão), escolhe a melhor correspondência e a entrega. Isso custa 2 requisições, o mesmo que uma busca mais um download. Opções de download como to e offset se aplicam ao arquivo.',
+  'subs.direct.oneCall.pick':
+    'A melhor correspondência é o primeiro resultado da busca, dando preferência a arquivos SRT, WebVTT e ASS, a menos que você defina format, e a arquivos sem texto para deficientes auditivos, a menos que você defina hi=true. Refine a escolha com release, filename, source ou origin. Os cabeçalhos de resposta X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language e X-Subtitle-Url informam qual arquivo foi escolhido. Os erros são os mesmos de /search e dos links de download.',
+  'subs.direct.oneCall.keyless':
+    'Sem chave, a [página de download](https://sub.wyzie.io/download) serve para encontrar uma ou duas legendas manualmente. Os links dela abrem apenas o arquivo para o qual foram criados, a partir da rede que fez a busca, e ela tem limites por hora. Para qualquer coisa automatizada, use uma chave.',
   'subs.direct.headers.p':
     'Toda resposta de /search inclui um cabeçalho X-Total-Count com o número total de resultados. Quando você passa limit, ela também inclui:',
   'subs.direct.header.xpage': 'a página retornada.',
@@ -330,7 +334,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Tradução de Legendas com IA',
   'subs.translate.important':
-    'Tradução com IA é um **recurso Pro**; chaves gratuitas recebem 403 Upgrade required. Cada chamada custa **100 requisições** do saldo da sua chave, incluindo acertos de cache. Se uma chamada falhar antes de gerar qualquer saída (nenhuma legenda encontrada, falha na busca ou no download, ou servidor ocupado), as 100 requisições são reembolsadas automaticamente.',
+    'Tradução com IA é um **recurso Pro**; chaves gratuitas recebem 403 Upgrade required. Cada chamada custa **25 requisições** do saldo da sua chave, incluindo acertos de cache. Se uma chamada falhar antes de gerar qualquer saída (nenhuma legenda encontrada, falha na busca ou no download, ou servidor ocupado), as 25 requisições são reembolsadas automaticamente.',
   'subs.translate.p1':
     'O Wyzie pode traduzir qualquer legenda para mais de 80 idiomas em tempo real. O SRT traduzido é transmitido em ordem conforme os lotes terminam, então os primeiros cues chegam rapidamente em vez de só depois que o arquivo inteiro estiver pronto. A tradução completa fica em cache por 30 dias, então requisições posteriores para o mesmo título, episódio e idioma de destino são servidas a partir do cache.',
 
@@ -379,24 +383,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Limitações',
   'subs.translate.limit1':
-    'A tradução com IA precisa de uma legenda de texto como ponto de partida. Fontes VTT, ASS, SSA e SUB são convertidas para SRT primeiro; se não existir nenhuma legenda de texto, a chamada retorna 404 No subtitle found e as 100 requisições são reembolsadas.',
+    'A tradução com IA precisa de uma legenda de texto como ponto de partida. Fontes VTT, ASS, SSA e SUB são convertidas para SRT primeiro; se não existir nenhuma legenda de texto, a chamada retorna 404 No subtitle found e as 25 requisições são reembolsadas.',
   'subs.translate.limit2':
     'A qualidade da tradução depende da legenda fonte. Uma fonte com marcação de tempo ruim ou erros de digitação produzirá uma tradução com os mesmos problemas.',
   'subs.translate.limit3':
     'Alguns usuários podem querer remover completamente as linhas de IA. Filtre por ai === false no seu cliente.',
   'subs.translate.limit4':
-    'As traduções são cobradas mesmo em acertos de cache. Seja gerada recentemente ou servida do cache de 30 dias, cada chamada a /translate custa 100 requisições. Apenas chamadas que falham antes de gerar qualquer saída são reembolsadas.',
+    'As traduções são cobradas mesmo em acertos de cache. Seja gerada recentemente ou servida do cache de 30 dias, cada chamada a /translate custa 25 requisições. Apenas chamadas que falham antes de gerar qualquer saída são reembolsadas.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced é um **recurso Pro**: chaves gratuitas recebem 403 Paid feature. Cada sincronização bem-sucedida custa **1 requisição**; uma sincronização que não encontra correspondência não é cobrada. Baixar o link sincronizado depois conta como qualquer outro download.',
+    'Wyzie Synced é um **recurso Pro**: chaves gratuitas recebem 403 Paid feature. Cada sincronização bem-sucedida custa **5 requisições**; uma sincronização que não encontra correspondência não é cobrada. Baixar o link sincronizado depois conta como qualquer outro download.',
   'subs.synced.p1':
     'Legendas encontradas na internet muitas vezes são sincronizadas para um release diferente do vídeo que você tem: começam alguns segundos antes ou depois, ou vão se afastando à medida que o filme avança porque aquele release roda em outra taxa de quadros. O Wyzie Synced escuta o áudio da sua cópia, encontra onde as pessoas falam e calcula o deslocamento (offset) e a correção de taxa de quadros que alinham a legenda com ele. Você recebe um link de download normal com a correção aplicada (as [opções de download](/subs/usage/direct#download-options) offset e fps).',
   'subs.synced.web.p':
     'O jeito mais fácil: abra [sub.wyzie.io/synced](https://sub.wyzie.io/synced), insira sua chave Pro, escolha o arquivo de vídeo e o título, e baixe a legenda sincronizada. O áudio é analisado no seu navegador, então o vídeo nunca é enviado: só os tempos de fala são transmitidos. MKV, MP4, AVI e a maioria dos outros formatos funcionam, incluindo áudio AC3, E-AC3 e DTS.',
   'subs.synced.api.p':
-    'Envie qual legenda você quer (um link de download, ou o título para deixar o Wyzie escolher a melhor correspondência) e o áudio: ou os tempos de fala que você mesmo detectou, ou o próprio arquivo de áudio/vídeo.',
+    'Envie qual legenda você quer (um link de download, ou o título para deixar o Wyzie escolher a melhor correspondência) e o áudio: ou os tempos de fala que você mesmo detectou, ou o próprio arquivo de áudio/vídeo. POST /synced é a mesma API.',
   'subs.synced.param.url':
     'Um link de download do /search (https://sub.wyzie.io/c/…). Outras opções de download presentes nele (to, sdh, …) são mantidas no link sincronizado.',
   'subs.synced.param.id':
@@ -441,7 +445,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'A legenda não se alinha com o áudio em nenhum deslocamento ou taxa de quadros (provavelmente é de outra versão ou episódio), o áudio tem pouca fala, ou o arquivo não pode ser decodificado.',
   'subs.synced.error.429':
-    'A chave não consegue pagar pela requisição, como em qualquer outra chamada.',
+    'A chave não consegue pagar: uma sincronização precisa de pelo menos 5 requisições restantes, o que é verificado antes de qualquer trabalho.',
   'subs.synced.error.503':
     'O servidor está ocupado decodificando outros uploads, ou a busca está temporariamente indisponível. Tente novamente em breve ou envie speech.',
   'subs.synced.lib.p':
@@ -512,7 +516,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Atingindo o Limite',
   'subs.keys.limit.p':
-    'Uma busca custa 1 requisição e cada download de legenda custa 1 requisição, então buscar uma vez e baixar um arquivo usa 2. A tradução com IA custa 100 requisições por chamada.',
+    'Uma busca custa 1 requisição e cada download de legenda custa 1 requisição, então buscar uma vez e baixar um arquivo usa 2. A tradução com IA custa 25 requisições por chamada, e uma sincronização do Wyzie Synced, 5.',
   'subs.keys.limit.free':
     '**Plano gratuito** esgotado -> buscas e links de download retornam 429 Daily request limit reached, com reset_at no JSON e um cabeçalho Retry-After. O limite diário de 1.000 requisições é zerado à meia-noite UTC.',
   'subs.keys.limit.paid':
@@ -583,8 +587,6 @@ const messages: Record<string, string> = {
     '**Gerenciamento Inteligente de Pool de IPs**: Rotação automática de IP com tamanho de pool configurável. Gerenciamento inteligente do ciclo de vida dos IPs. Contagem de requisições por IP. Limpeza de IPs não utilizados com base em limite de inatividade.',
   'i6shark.intro.feature5':
     '**Tratamento Avançado de Requisições**: Encaminhamento de cabeçalhos personalizados. Remoção de cabeçalhos Cloudflare e CDN. Suporte a múltiplos formatos de parâmetros de URL. Fallback opcional para o IP padrão do sistema.',
-  'i6shark.intro.feature6':
-    '**Lista de Permissões de Hosts**: Lista de permissões de domínio integrada para segurança (configurável no código)',
   'i6shark.intro.feature7':
     '**Manutenção Automática**: Limpeza periódica do pool de IPs. Validação e limpeza de subnet. Pool de conexões e otimização de keepalive.',
   'i6shark.intro.feature8':

@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Wyzie Subs का परिचय',
   'subs.intro.p1':
     'Wyzie Subs एक मुफ्त tier वाला सबटाइटल स्क्रैपिंग API है। API पर request करने के दो तरीके हैं: हमारे NPM पैकेज का उपयोग करना या सीधे Wyzie API को फेच करना। मैं हमारे पैकेज का उपयोग करने की सलाह देता हूँ, लेकिन कुछ लोगों को types बोझिल लग सकते हैं। API का उपयोग करने के लिए, आपको पहले यह निर्णय लेना होगा।',
-  'subs.intro.note.ai':
-    'AI अनुवाद Pro keys के लिए लाइव है। कोई भी शीर्षक, 80+ लक्षित भाषाएं, और batches पूरे होते ही सबटाइटल के क्रम में वापस stream किया जाता है।',
   'subs.intro.important.apikey':
     'सभी requests के लिए API key आवश्यक है। [store.wyzie.io/redeem](https://store.wyzie.io/redeem) पर मुफ्त key प्राप्त करें (email वेरिफिकेशन, 1,000 requests/दिन)। अधिक उपयोग के लिए, [Pro और top-up प्लान](https://store.wyzie.io) उपलब्ध हैं। विवरण के लिए API Keys पृष्ठ देखें।',
   'subs.intro.note.npm':
@@ -314,6 +312,12 @@ const messages: Record<string, string> = {
     'हर line के नीचे दूसरी भाषा (ISO 639-1 कोड) जोड़ें, इस फ़ाइल की timing के साथ मिलाकर। 1 अतिरिक्त request खर्च होती है, केवल तब जब कोई match मिले; अन्यथा फ़ाइल अकेले `X-Dual: unavailable` के साथ वापस आती है।',
   'subs.direct.dl.after':
     'Options को मिलाया जा सकता है, जैसे `&to=vtt&sdh=strip&offset=-1.5`। Links में पहले से `format`, `encoding`, `id` और (episodes के लिए) `season` और `episode` होते हैं: इन्हें वैसे ही रहने दें। `autoUnzip=false` किसी archive को जैसा है वैसा ही वापस करता है।',
+  'subs.direct.oneCall.p':
+    'API key के साथ, GET /download एक ही call में सबटाइटल फ़ाइल खुद वापस करता है: यह आपकी key और /search वाले ही parameters से search करता है (language का default en है), सबसे अच्छा match चुनता है और उसे serve करता है। इसमें 2 requests खर्च होती हैं, उतनी ही जितनी एक search और एक download में। to और offset जैसे download options फ़ाइल पर लागू होते हैं।',
+  'subs.direct.oneCall.pick':
+    'सबसे अच्छा match पहला search result होता है, जिसमें SRT, WebVTT और ASS फ़ाइलों को प्राथमिकता दी जाती है जब तक आप format सेट न करें, और सुनने में अक्षम लोगों वाले text के बिना फ़ाइलों को, जब तक आप hi=true सेट न करें। इसे release, filename, source या origin से सीमित करें। X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language और X-Subtitle-Url response headers बताते हैं कि कौन सी फ़ाइल चुनी गई। Errors वही हैं जो /search और download links के लिए हैं।',
+  'subs.direct.oneCall.keyless':
+    'Key के बिना, [download page](https://sub.wyzie.io/download) हाथ से एक-दो सबटाइटल खोजने के लिए है। इसके links केवल वही फ़ाइल खोलते हैं जिसके लिए वे बनाए गए थे, और केवल उसी network से जिसने search किया था, और इस page पर प्रति घंटे की सीमाएँ हैं। किसी भी automated काम के लिए key का उपयोग करें।',
   'subs.direct.headers.p':
     'हर /search response में एक X-Total-Count header होता है जिसमें परिणामों की कुल संख्या होती है। जब आप limit pass करते हैं, तो इसमें ये भी शामिल होते हैं:',
   'subs.direct.header.xpage': 'वापस किया गया page।',
@@ -325,7 +329,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI सबटाइटल अनुवाद',
   'subs.translate.important':
-    'AI अनुवाद एक **Pro फीचर** है; मुफ्त keys को 403 Upgrade required मिलता है। हर call पर आपकी key के balance से **100 requests** खर्च होती हैं, cache hits सहित। यदि कोई call कोई भी output देने से पहले विफल हो जाए (कोई सबटाइटल नहीं मिला, search या download विफल हुआ, या server व्यस्त है), तो वे 100 requests स्वचालित रूप से refund कर दी जाती हैं।',
+    'AI अनुवाद एक **Pro फीचर** है; मुफ्त keys को 403 Upgrade required मिलता है। हर call पर आपकी key के balance से **25 requests** खर्च होती हैं, cache hits सहित। यदि कोई call कोई भी output देने से पहले विफल हो जाए (कोई सबटाइटल नहीं मिला, search या download विफल हुआ, या server व्यस्त है), तो वे 25 requests स्वचालित रूप से refund कर दी जाती हैं।',
   'subs.translate.p1':
     'Wyzie किसी भी सबटाइटल को तुरंत 80+ भाषाओं में अनुवाद कर सकता है। जैसे-जैसे batches पूरे होते हैं, अनुवादित SRT क्रम से वापस stream होता है, इसलिए पहले cues पूरी फ़ाइल तैयार होने के बाद नहीं, बल्कि जल्दी पहुँच जाते हैं। पूरा अनुवाद 30 दिनों के लिए cache किया जाता है, इसलिए उसी शीर्षक, episode और लक्षित भाषा के लिए बाद की requests cache से serve होती हैं।',
 
@@ -373,24 +377,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'सीमाएं',
   'subs.translate.limit1':
-    'AI अनुवाद को शुरुआत के लिए एक text सबटाइटल की आवश्यकता है। VTT, ASS, SSA, और SUB स्रोत पहले SRT में convert किए जाते हैं; यदि कोई text सबटाइटल मौजूद नहीं है, तो call 404 No subtitle found लौटाती है और वे 100 requests refund कर दी जाती हैं।',
+    'AI अनुवाद को शुरुआत के लिए एक text सबटाइटल की आवश्यकता है। VTT, ASS, SSA, और SUB स्रोत पहले SRT में convert किए जाते हैं; यदि कोई text सबटाइटल मौजूद नहीं है, तो call 404 No subtitle found लौटाती है और वे 25 requests refund कर दी जाती हैं।',
   'subs.translate.limit2':
     'अनुवाद की गुणवत्ता स्रोत सबटाइटल पर निर्भर करती है। खराब-timed या mistyped स्रोत एक खराब-timed या mistyped अनुवाद उत्पन्न करता है।',
   'subs.translate.limit3':
     'कुछ उपयोगकर्ता AI rows से पूरी तरह बाहर निकलना चाह सकते हैं। अपने client में ai === false पर filter करें।',
   'subs.translate.limit4':
-    'अनुवाद cache hits पर भी बिल होते हैं। चाहे ताज़ा generated हो या 30-दिन के cache से serve हो, हर /translate call पर 100 requests खर्च होती हैं। केवल उन calls का refund होता है जो कोई भी output देने से पहले विफल हो जाती हैं।',
+    'अनुवाद cache hits पर भी बिल होते हैं। चाहे ताज़ा generated हो या 30-दिन के cache से serve हो, हर /translate call पर 25 requests खर्च होती हैं। केवल उन calls का refund होता है जो कोई भी output देने से पहले विफल हो जाती हैं।',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced एक **Pro फीचर** है: मुफ्त keys को 403 Paid feature मिलता है। हर सफल sync पर **1 request** खर्च होती है; जिस sync को कोई match नहीं मिलता, उसका charge नहीं लगता। इसके बाद synced link को download करना किसी भी अन्य download की तरह गिना जाता है।',
+    'Wyzie Synced एक **Pro फीचर** है: मुफ्त keys को 403 Paid feature मिलता है। हर सफल sync पर **5 requests** खर्च होती हैं; जिस sync को कोई match नहीं मिलता, उसका charge नहीं लगता। इसके बाद synced link को download करना किसी भी अन्य download की तरह गिना जाता है।',
   'subs.synced.p1':
     'Online मिलने वाले सबटाइटल अक्सर आपके video से अलग किसी release के लिए timed होते हैं: वे कुछ सेकंड पहले या देर से शुरू होते हैं, या फिल्म आगे बढ़ने के साथ और ज़्यादा खिसकते जाते हैं क्योंकि वह release किसी दूसरे frame rate पर चलता है। Wyzie Synced आपकी copy का audio सुनता है, पता लगाता है कि लोग कहाँ बोल रहे हैं, और वह offset और frame-rate सुधार निकालता है जो सबटाइटल को उसके साथ मिला दे। आपको सुधार लागू किया हुआ एक सामान्य download link मिलता है (offset और fps [download options](/subs/usage/direct#download-options))।',
   'subs.synced.web.p':
     'सबसे आसान तरीका: [sub.wyzie.io/synced](https://sub.wyzie.io/synced) खोलें, अपनी Pro key दर्ज करें, अपनी video फ़ाइल और शीर्षक चुनें, और synced सबटाइटल download करें। Audio का विश्लेषण आपके browser में ही होता है, इसलिए video कभी upload नहीं होता: केवल speech timings भेजी जाती हैं। MKV, MP4, AVI और अधिकांश अन्य formats काम करते हैं, जिनमें AC3, E-AC3 और DTS audio भी शामिल हैं।',
   'subs.synced.api.p':
-    'बताएं कि आपको कौन सा सबटाइटल चाहिए (एक download link, या शीर्षक ताकि Wyzie सबसे अच्छा match चुन सके) और audio भेजें: या तो आपके द्वारा खुद detect की गई speech timings, या स्वयं audio/video फ़ाइल।',
+    'बताएं कि आपको कौन सा सबटाइटल चाहिए (एक download link, या शीर्षक ताकि Wyzie सबसे अच्छा match चुन सके) और audio भेजें: या तो आपके द्वारा खुद detect की गई speech timings, या स्वयं audio/video फ़ाइल। POST /synced भी यही API है।',
   'subs.synced.param.url':
     '/search से मिला download link (https://sub.wyzie.io/c/…)। उस पर लगे अन्य download options (to, sdh, …) synced link पर बने रहते हैं।',
   'subs.synced.param.id':
@@ -435,7 +439,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'सबटाइटल किसी भी offset या frame rate पर audio से मेल नहीं खाता (शायद कोई दूसरा cut या episode है), audio में बहुत कम speech है, या फ़ाइल decode नहीं हो सकती।',
   'subs.synced.error.429':
-    'Key request का भुगतान नहीं कर सकती, ठीक किसी भी अन्य call की तरह।',
+    'Key भुगतान नहीं कर सकती: एक sync के लिए कम से कम 5 requests बची होनी चाहिए, और यह कोई भी काम शुरू होने से पहले जांचा जाता है।',
   'subs.synced.error.503':
     'अन्य uploads को decode करने में व्यस्त है, या search कुछ समय के लिए अनुपलब्ध है। थोड़ी देर बाद फिर से प्रयास करें, या speech भेजें।',
   'subs.synced.lib.p':
@@ -504,7 +508,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'सीमा तक पहुँचना',
   'subs.keys.limit.p':
-    'एक search पर 1 request खर्च होती है और हर सबटाइटल download पर 1 request, इसलिए एक बार search करके एक फ़ाइल download करने में 2 खर्च होती हैं। AI अनुवाद में प्रति call 100 requests खर्च होती हैं।',
+    'एक search पर 1 request खर्च होती है और हर सबटाइटल download पर 1 request, इसलिए एक बार search करके एक फ़ाइल download करने में 2 खर्च होती हैं। AI अनुवाद में प्रति call 25 requests खर्च होती हैं, और एक Wyzie Synced sync में 5।',
   'subs.keys.limit.free':
     '**मुफ्त tier** समाप्त -> searches और download links 429 Daily request limit reached वापस करते हैं, JSON में reset_at और एक Retry-After header के साथ। 1,000 requests की दैनिक सीमा UTC midnight पर reset होती है।',
   'subs.keys.limit.paid':
@@ -574,8 +578,6 @@ const messages: Record<string, string> = {
     '**Intelligent IP Pool Management**: configurable pool size के साथ automatic IP rotation। Smart IP lifecycle management। प्रति-IP request counting। inactivity threshold के आधार पर unused IP cleanup।',
   'i6shark.intro.feature5':
     '**Advanced Request Handling**: Custom header forwarding। Cloudflare और CDN header stripping। एकाधिक URL parameter formats का समर्थन। system default IP पर optional fallback।',
-  'i6shark.intro.feature6':
-    '**Host Whitelisting**: सुरक्षा के लिए Built-in domain whitelist (code में configurable)',
   'i6shark.intro.feature7':
     '**Automatic Maintenance**: Periodic IP pool flushing। Subnet validation और cleanup। Connection pooling और keepalive optimization।',
   'i6shark.intro.feature8':

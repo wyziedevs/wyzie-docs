@@ -33,8 +33,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Wyzie Subs 简介',
   'subs.intro.p1':
     'Wyzie Subs 是一个提供免费版的字幕抓取 API。向 API 发起请求有两种方式：使用我们的 NPM 包，或直接请求 Wyzie API。我推荐使用我们的包，但有些人可能觉得类型定义比较繁琐。在使用 API 之前，请先做出这个选择。',
-  'subs.intro.note.ai':
-    'AI 翻译已对 Pro 密钥上线。任意标题，80 余种目标语言，随各批次完成按字幕顺序流式返回。',
   'subs.intro.important.apikey':
     '所有请求都需要 API 密钥。请在 [store.wyzie.io/redeem](https://store.wyzie.io/redeem) 获取免费密钥（邮箱验证，每天 1,000 次请求）。如需更高用量，可选择 [Pro 方案及补充包](https://store.wyzie.io)。详情请参阅 API 密钥页面。',
   'subs.intro.note.npm':
@@ -286,6 +284,12 @@ const messages: Record<string, string> = {
     '在每行字幕下方添加第二种语言（ISO 639-1 代码），并与本文件的时间轴对齐。仅在找到匹配字幕时额外消耗 1 次请求；否则只返回原文件，并附带 `X-Dual: unavailable`。',
   'subs.direct.dl.after':
     '选项可以组合使用，例如 `&to=vtt&sdh=strip&offset=-1.5`。链接中已带有 `format`、`encoding`、`id` 以及（剧集的）`season` 和 `episode`：请保持这些参数不变。`autoUnzip=false` 会原样返回压缩包。',
+  'subs.direct.oneCall.p':
+    '使用 API 密钥时，GET /download 只需一次调用即可直接返回字幕文件本身：它使用你的密钥和与 /search 相同的参数进行搜索（language 默认为 en），挑选最佳匹配并返回。这会消耗 2 次请求，与一次搜索加一次下载相同。to 和 offset 等下载选项会应用到该文件。',
+  'subs.direct.oneCall.pick':
+    '最佳匹配即第一个搜索结果：除非设置了 format，否则优先选择 SRT、WebVTT 和 ASS 文件；除非设置了 hi=true，否则优先选择不含听障文本的文件。可以用 release、filename、source 或 origin 缩小范围。X-Subtitle-Release、X-Subtitle-Source、X-Subtitle-Language 和 X-Subtitle-Url 响应头会说明选中了哪个文件。错误与 /search 和下载链接相同。',
+  'subs.direct.oneCall.keyless':
+    '没有密钥时，可以使用[下载页面](https://sub.wyzie.io/download)手动查找一两个字幕。其链接只能打开为之生成的那个文件，且只能从执行搜索的网络访问，页面还有每小时限制。任何自动化用途，请使用密钥。',
   'subs.direct.headers.p':
     '每个 /search 响应都包含 X-Total-Count 响应头，表示结果总数。当你传入 limit 时，还会包含：',
   'subs.direct.header.xpage': '返回的页码。',
@@ -297,7 +301,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI 字幕翻译',
   'subs.translate.important':
-    'AI 翻译是 **Pro 专属功能**；免费密钥会收到 403 Upgrade required。每次调用从你的密钥余额中消耗 **100 次请求**，命中缓存也照常计费。如果调用在产生任何输出之前就失败（未找到字幕、搜索或下载失败，或服务器繁忙），这 100 次请求会自动退还。',
+    'AI 翻译是 **Pro 专属功能**；免费密钥会收到 403 Upgrade required。每次调用从你的密钥余额中消耗 **25 次请求**，命中缓存也照常计费。如果调用在产生任何输出之前就失败（未找到字幕、搜索或下载失败，或服务器繁忙），这 25 次请求会自动退还。',
   'subs.translate.p1':
     'Wyzie 可以即时将任意字幕翻译成 80 余种语言。翻译后的 SRT 会随各批次完成按顺序流式返回，因此最前面的字幕条目很快就能到达，而不必等整个文件完成。完整的翻译结果会缓存 30 天，之后对同一标题、剧集和目标语言的请求将直接由缓存提供。',
 
@@ -341,24 +345,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': '限制',
   'subs.translate.limit1':
-    'AI 翻译需要以文本字幕为起点。VTT、ASS、SSA 和 SUB 来源会先转换为 SRT；如果不存在任何文本字幕，调用将返回 404 No subtitle found，并退还这 100 次请求。',
+    'AI 翻译需要以文本字幕为起点。VTT、ASS、SSA 和 SUB 来源会先转换为 SRT；如果不存在任何文本字幕，调用将返回 404 No subtitle found，并退还这 25 次请求。',
   'subs.translate.limit2':
     '翻译质量取决于源字幕的质量。时间轴不准确或有错别字的源字幕会产生同样有问题的翻译。',
   'subs.translate.limit3':
     '部分用户可能希望完全屏蔽 AI 条目，可在客户端过滤 ai === false。',
   'subs.translate.limit4':
-    '缓存命中也会计费。无论是全新生成还是从 30 天缓存中提供，每次 /translate 调用均消耗 100 次请求。只有在产生任何输出之前就失败的调用才会退还请求。',
+    '缓存命中也会计费。无论是全新生成还是从 30 天缓存中提供，每次 /translate 调用均消耗 25 次请求。只有在产生任何输出之前就失败的调用才会退还请求。',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced 是 **Pro 专属功能**：免费密钥会收到 403 Paid feature。每次成功同步消耗 **1 次请求**；未找到匹配的同步不计费。之后下载同步后的链接时，与其他下载一样计费。',
+    'Wyzie Synced 是 **Pro 专属功能**：免费密钥会收到 403 Paid feature。每次成功同步消耗 **5 次请求**；未找到匹配的同步不计费。之后下载同步后的链接时，与其他下载一样计费。',
   'subs.synced.p1':
     '网上找到的字幕，时间轴往往是按照与你手中视频不同的发布版本制作的：字幕会提前或延后几秒出现，或者由于该版本的帧率不同，随着影片播放偏差越来越大。Wyzie Synced 会分析你这份视频的音频，找出有人说话的位置，并计算出让字幕与之对齐所需的偏移量和帧率修正。你会得到一个已应用该修正的普通下载链接（即 offset 和 fps [下载选项](/subs/usage/direct#download-options)）。',
   'subs.synced.web.p':
     '最简单的方式：打开 [sub.wyzie.io/synced](https://sub.wyzie.io/synced)，输入你的 Pro 密钥，选择视频文件和对应标题，然后下载同步后的字幕。音频在你的浏览器中分析，因此视频永远不会被上传：只会发送语音的时间信息。支持 MKV、MP4、AVI 及大多数其他格式，包括 AC3、E-AC3 和 DTS 音频。',
   'subs.synced.api.p':
-    '发送你想要的字幕（一个下载链接，或者标题，由 Wyzie 挑选最佳匹配）以及音频：可以是你自己检测出的语音时间段，也可以是音频/视频文件本身。',
+    '发送你想要的字幕（一个下载链接，或者标题，由 Wyzie 挑选最佳匹配）以及音频：可以是你自己检测出的语音时间段，也可以是音频/视频文件本身。POST /synced 是同一个 API。',
   'subs.synced.param.url':
     '来自 /search 的下载链接（https://sub.wyzie.io/c/…）。链接上已有的其他下载选项（to、sdh、…）会保留在同步后的链接中。',
   'subs.synced.param.id':
@@ -398,7 +402,8 @@ const messages: Record<string, string> = {
     'media 文件超过 95 MB。请只上传音轨，或改为发送 speech。',
   'subs.synced.error.422':
     '在任何偏移量或帧率下，字幕都无法与音频对齐（可能是其他剪辑版本或其他剧集），音频中的语音太少，或文件无法解码。',
-  'subs.synced.error.429': '与其他任何调用一样，密钥无法支付该请求的费用。',
+  'subs.synced.error.429':
+    '密钥余额不足：一次同步至少需要剩余 5 次请求，会在开始任何处理之前检查。',
   'subs.synced.error.503':
     '正忙于解码其他上传的文件，或搜索暂时不可用。请稍后重试，或改为发送 speech。',
   'subs.synced.lib.p':
@@ -466,7 +471,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': '达到限额',
   'subs.keys.limit.p':
-    '每次搜索消耗 1 次请求，每次字幕下载消耗 1 次请求，因此搜索一次并下载一个文件共消耗 2 次。AI 翻译每次调用消耗 100 次请求。',
+    '每次搜索消耗 1 次请求，每次字幕下载消耗 1 次请求，因此搜索一次并下载一个文件共消耗 2 次。AI 翻译每次调用消耗 25 次请求，Wyzie Synced 每次同步消耗 5 次。',
   'subs.keys.limit.free':
     '**免费版**耗尽 -> 搜索和下载链接返回 429 Daily request limit reached，JSON 中包含 reset_at，并附带 Retry-After 响应头。每日 1,000 次请求的上限在 UTC 午夜重置。',
   'subs.keys.limit.paid':
@@ -535,8 +540,6 @@ const messages: Record<string, string> = {
     '**智能 IP 池管理**：可配置池大小的自动 IP 轮换。智能 IP 生命周期管理。每个 IP 的请求计数。基于不活跃阈值的闲置 IP 清理。',
   'i6shark.intro.feature5':
     '**高级请求处理**：自定义请求头转发。Cloudflare 及 CDN 请求头剥离。支持多种 URL 参数格式。可选回退到系统默认 IP。',
-  'i6shark.intro.feature6':
-    '**主机白名单**：内置域名白名单以提升安全性（可在代码中配置）',
   'i6shark.intro.feature7':
     '**自动维护**：定期清空 IP 池。子网验证与清理。连接池与长连接优化。',
   'i6shark.intro.feature8':

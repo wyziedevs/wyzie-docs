@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Introducere în Wyzie Subs',
   'subs.intro.p1':
     'Wyzie Subs este un API de extragere a subtitlurilor cu un nivel gratuit. Există două moduri de a face cereri către API: folosind pachetul nostru NPM sau accesând direct API-ul Wyzie. Recomand utilizarea pachetului nostru, dar unii pot găsi tipurile incomode. Pentru a folosi API-ul, trebuie mai întâi să iei această decizie.',
-  'subs.intro.note.ai':
-    'Traducerea AI este activă pentru cheile Pro. Orice titlu, 80+ limbi țintă, transmis înapoi în ordinea subtitlului, pe măsură ce loturile se termină.',
   'subs.intro.important.apikey':
     'O cheie API este necesară pentru toate cererile. Obține o cheie gratuită la [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verificare prin email, 1.000 de cereri/zi). Pentru utilizare mai intensă, sunt disponibile [planuri Pro și reîncărcare](https://store.wyzie.io). Vezi pagina Chei API pentru detalii.',
   'subs.intro.note.npm':
@@ -321,6 +319,12 @@ const messages: Record<string, string> = {
     'Adaugă o a doua limbă (cod ISO 639-1) sub fiecare rând, aliniată cu temporizarea acestui fișier. Costă 1 cerere în plus, doar când se găsește o potrivire; altfel fișierul vine singur, cu `X-Dual: unavailable`.',
   'subs.direct.dl.after':
     'Opțiunile se pot combina, ex. `&to=vtt&sdh=strip&offset=-1.5`. Linkurile conțin deja `format`, `encoding`, `id` și (pentru episoade) `season` și `episode`: lasă-le așa cum sunt. `autoUnzip=false` returnează arhiva ca atare.',
+  'subs.direct.oneCall.p':
+    'Cu o cheie API, GET /download returnează direct fișierul de subtitlu într-un singur apel: caută cu cheia ta și cu aceiași parametri ca /search (language are implicit valoarea en), alege cea mai bună potrivire și o servește. Costă 2 cereri, la fel ca o căutare plus o descărcare. Opțiunile de descărcare precum to și offset se aplică fișierului.',
+  'subs.direct.oneCall.pick':
+    'Cea mai bună potrivire este primul rezultat al căutării, cu preferință pentru fișierele SRT, WebVTT și ASS, dacă nu setezi format, și pentru fișierele fără text pentru persoane cu deficiențe de auz, dacă nu setezi hi=true. Restrânge alegerea cu release, filename, source sau origin. Anteturile de răspuns X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language și X-Subtitle-Url arată ce fișier a fost ales. Erorile sunt aceleași ca pentru /search și linkurile de descărcare.',
+  'subs.direct.oneCall.keyless':
+    'Fără cheie, [pagina de descărcare](https://sub.wyzie.io/download) este acolo pentru a găsi manual un subtitlu sau două. Linkurile ei deschid doar fișierul pentru care au fost create, din rețeaua care a făcut căutarea, iar pagina are limite pe oră. Pentru orice automatizare, folosește o cheie.',
   'subs.direct.headers.p':
     'Fiecare răspuns /search include un antet X-Total-Count cu numărul total de rezultate. Când transmiți limit, include și:',
   'subs.direct.header.xpage': 'pagina returnată.',
@@ -332,7 +336,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Traducere AI a Subtitlurilor',
   'subs.translate.important':
-    'Traducerea AI este o **funcție Pro**; cheile gratuite primesc 403 Upgrade required. Fiecare apel costă **100 de cereri** din soldul cheii tale, inclusiv la un cache hit. Dacă un apel eșuează înainte de a produce vreun rezultat (nu s-a găsit niciun subtitlu, căutarea sau descărcarea a eșuat ori serverul este ocupat), cele 100 de cereri sunt rambursate automat.',
+    'Traducerea AI este o **funcție Pro**; cheile gratuite primesc 403 Upgrade required. Fiecare apel costă **25 de cereri** din soldul cheii tale, inclusiv la un cache hit. Dacă un apel eșuează înainte de a produce vreun rezultat (nu s-a găsit niciun subtitlu, căutarea sau descărcarea a eșuat ori serverul este ocupat), cele 25 de cereri sunt rambursate automat.',
   'subs.translate.p1':
     'Wyzie poate traduce orice subtitlu în 80+ limbi din mers. SRT-ul tradus este transmis înapoi în ordine, pe măsură ce loturile se termină, astfel încât primele intrări ajung rapid, nu abia după ce întregul fișier este gata. Traducerea completă este stocată în cache timp de 30 de zile, așa că cererile ulterioare pentru același titlu, episod și limbă țintă sunt servite din cache.',
 
@@ -380,24 +384,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Limitări',
   'subs.translate.limit1':
-    'Traducerea AI are nevoie de un subtitlu text ca punct de plecare. Sursele VTT, ASS, SSA și SUB sunt mai întâi convertite în SRT; dacă nu există niciun subtitlu text, apelul returnează 404 No subtitle found, iar cele 100 de cereri sunt rambursate.',
+    'Traducerea AI are nevoie de un subtitlu text ca punct de plecare. Sursele VTT, ASS, SSA și SUB sunt mai întâi convertite în SRT; dacă nu există niciun subtitlu text, apelul returnează 404 No subtitle found, iar cele 25 de cereri sunt rambursate.',
   'subs.translate.limit2':
     'Calitatea traducerii depinde de subtitlul sursă. O sursă slab sincronizată sau cu erori de scriere produce o traducere slab sincronizată sau cu erori de scriere.',
   'subs.translate.limit3':
     'Unii utilizatori pot dori să excludă complet rândurile AI. Filtrează după ai === false în clientul tău.',
   'subs.translate.limit4':
-    'Traducerile sunt facturate și la cache hit. Indiferent dacă sunt generate proaspăt sau servite din cache-ul de 30 de zile, fiecare apel /translate costă 100 de cereri. Doar apelurile care eșuează înainte de a produce vreun rezultat sunt rambursate.',
+    'Traducerile sunt facturate și la cache hit. Indiferent dacă sunt generate proaspăt sau servite din cache-ul de 30 de zile, fiecare apel /translate costă 25 de cereri. Doar apelurile care eșuează înainte de a produce vreun rezultat sunt rambursate.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced este o **funcție Pro**: cheile gratuite primesc 403 Paid feature. Fiecare sincronizare reușită costă **1 cerere**; o sincronizare care nu găsește o potrivire nu este taxată. Descărcarea linkului sincronizat se contorizează apoi ca orice altă descărcare.',
+    'Wyzie Synced este o **funcție Pro**: cheile gratuite primesc 403 Paid feature. Fiecare sincronizare reușită costă **5 cereri**; o sincronizare care nu găsește o potrivire nu este taxată. Descărcarea linkului sincronizat se contorizează apoi ca orice altă descărcare.',
   'subs.synced.p1':
     'Subtitlurile găsite online sunt adesea sincronizate pentru alt release decât videoclipul tău: încep cu câteva secunde prea devreme sau prea târziu, ori se decalează tot mai mult pe parcursul filmului, pentru că acel release rulează la o altă rată de cadre. Wyzie Synced ascultă sunetul copiei tale, găsește unde vorbesc oamenii și calculează decalajul (offset) și corecția ratei de cadre (fps) care aliniază subtitlul cu acesta. Primești un link de descărcare obișnuit cu corecția aplicată ([opțiunile de descărcare](/subs/usage/direct#download-options) offset și fps).',
   'subs.synced.web.p':
     'Cea mai simplă cale: deschide [sub.wyzie.io/synced](https://sub.wyzie.io/synced), introdu cheia ta Pro, alege fișierul video și titlul, apoi descarcă subtitlul sincronizat. Sunetul este analizat în browserul tău, deci videoclipul nu este încărcat niciodată: sunt trimise doar momentele în care se vorbește. Funcționează MKV, MP4, AVI și majoritatea celorlalte formate, inclusiv audio AC3, E-AC3 și DTS.',
   'subs.synced.api.p':
-    'Trimite ce subtitlu vrei (un link de descărcare sau titlul, ca Wyzie să aleagă cea mai bună potrivire) și sunetul: fie momentele de vorbire detectate de tine, fie chiar fișierul audio/video.',
+    'Trimite ce subtitlu vrei (un link de descărcare sau titlul, ca Wyzie să aleagă cea mai bună potrivire) și sunetul: fie momentele de vorbire detectate de tine, fie chiar fișierul audio/video. POST /synced este același API.',
   'subs.synced.param.url':
     'Un link de descărcare din /search (https://sub.wyzie.io/c/…). Celelalte opțiuni de descărcare de pe el (to, sdh, …) sunt păstrate pe linkul sincronizat.',
   'subs.synced.param.id':
@@ -442,7 +446,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Subtitlul nu se aliniază cu sunetul la niciun decalaj sau rată de cadre (probabil altă versiune de montaj sau alt episod), sunetul conține prea puțină vorbire sau fișierul nu poate fi decodat.',
   'subs.synced.error.429':
-    'Cheia nu poate plăti cererea, la fel ca la orice alt apel.',
+    'Cheia nu poate plăti: o sincronizare are nevoie de cel puțin 5 cereri rămase, lucru verificat înainte de începerea oricărei procesări.',
   'subs.synced.error.503':
     'Serverul este ocupat cu decodarea altor încărcări sau căutarea este temporar indisponibilă. Reîncearcă în scurt timp sau trimite speech.',
   'subs.synced.lib.p':
@@ -512,7 +516,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Atingerea Limitei',
   'subs.keys.limit.p':
-    'O căutare costă 1 cerere și fiecare descărcare de subtitlu costă 1 cerere, deci o căutare urmată de descărcarea unui fișier consumă 2. Traducerea AI costă 100 de cereri per apel.',
+    'O căutare costă 1 cerere și fiecare descărcare de subtitlu costă 1 cerere, deci o căutare urmată de descărcarea unui fișier consumă 2. Traducerea AI costă 25 de cereri per apel, iar o sincronizare Wyzie Synced 5.',
   'subs.keys.limit.free':
     '**Nivelul gratuit** epuizat -> căutările și linkurile de descărcare returnează 429 Daily request limit reached, cu reset_at în JSON și un antet Retry-After. Plafonul zilnic de 1.000 de cereri se resetează la miezul nopții UTC.',
   'subs.keys.limit.paid':
@@ -582,8 +586,6 @@ const messages: Record<string, string> = {
     '**Gestionare Inteligentă a Pool-ului de IP-uri**: Rotație automată a IP-urilor cu dimensiune de pool configurabilă. Gestionare inteligentă a ciclului de viață al IP-urilor. Numărarea cererilor per IP. Curățarea IP-urilor neutilizate bazată pe pragul de inactivitate.',
   'i6shark.intro.feature5':
     '**Gestionare Avansată a Cererilor**: Redirecționare personalizată a antetelor. Eliminarea antetelor Cloudflare și CDN. Suport pentru mai multe formate de parametri URL. Fallback opțional la IP-ul implicit al sistemului.',
-  'i6shark.intro.feature6':
-    '**Lista Albă de Gazde**: Listă albă de domenii integrată pentru securitate (configurabilă în cod)',
   'i6shark.intro.feature7':
     '**Întreținere Automată**: Golire periodică a pool-ului de IP-uri. Validarea și curățarea subnetului. Optimizarea pool-ului de conexiuni și keepalive.',
   'i6shark.intro.feature8':

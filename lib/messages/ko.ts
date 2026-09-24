@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Wyzie Subs 소개',
   'subs.intro.p1':
     'Wyzie Subs는 무료 등급을 제공하는 자막 스크래핑 API입니다. API에 요청하는 방법은 두 가지입니다: NPM 패키지를 사용하거나 Wyzie API를 직접 호출하는 것입니다. 패키지 사용을 권장하지만, 타입이 번거롭다고 느끼는 분도 있을 수 있습니다. API를 사용하기 전에 먼저 방법을 결정해야 합니다.',
-  'subs.intro.note.ai':
-    'AI 번역이 Pro 키에 대해 제공됩니다. 모든 제목, 80개 이상의 대상 언어, 배치가 완료되는 대로 자막 순서대로 스트리밍.',
   'subs.intro.important.apikey':
     '모든 요청에는 API 키가 필요합니다. [store.wyzie.io/redeem](https://store.wyzie.io/redeem)에서 무료 키를 받으세요 (이메일 인증, 하루 1,000회 요청). 더 많은 사용량이 필요하다면 [Pro 및 충전 플랜](https://store.wyzie.io)을 이용하세요. 자세한 내용은 API 키 페이지를 참고하세요.',
   'subs.intro.note.npm':
@@ -304,6 +302,12 @@ const messages: Record<string, string> = {
     '각 줄 아래에 두 번째 언어 (ISO 639-1 코드)를 이 파일의 타이밍에 맞춰 추가합니다. 일치하는 자막을 찾은 경우에만 1회 요청이 추가로 차감되며, 찾지 못하면 `X-Dual: unavailable`과 함께 원래 파일만 반환됩니다.',
   'subs.direct.dl.after':
     '옵션은 조합할 수 있습니다 (예: `&to=vtt&sdh=strip&offset=-1.5`). 링크에는 이미 `format`, `encoding`, `id`, 그리고 (에피소드의 경우) `season`과 `episode`가 포함되어 있으니 그대로 두세요. `autoUnzip=false`를 사용하면 아카이브가 그대로 반환됩니다.',
+  'subs.direct.oneCall.p':
+    'API 키가 있으면 GET /download가 호출 한 번으로 자막 파일 자체를 반환합니다. 키와 /search와 같은 파라미터로 검색하고 (language 기본값은 en), 가장 잘 맞는 자막을 골라 제공합니다. 검색 한 번과 다운로드 한 번을 합친 것과 같은 2회 요청이 차감됩니다. to, offset 같은 다운로드 옵션은 파일에 적용됩니다.',
+  'subs.direct.oneCall.pick':
+    '가장 잘 맞는 자막은 첫 번째 검색 결과이며, format을 지정하지 않으면 SRT, WebVTT, ASS 파일을, hi=true를 지정하지 않으면 청각 장애인용 텍스트가 없는 파일을 우선합니다. release, filename, source, origin으로 범위를 좁힐 수 있습니다. 어떤 파일이 선택되었는지는 X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language, X-Subtitle-Url 응답 헤더에서 확인할 수 있습니다. 오류는 /search 및 다운로드 링크와 같습니다.',
+  'subs.direct.oneCall.keyless':
+    '키가 없다면 [다운로드 페이지](https://sub.wyzie.io/download)에서 자막 한두 개를 직접 찾을 수 있습니다. 이 페이지의 링크는 만들어진 대상 파일만 열 수 있고, 검색한 네트워크에서만 작동하며, 페이지에는 시간당 한도가 있습니다. 자동화된 용도에는 키를 사용하세요.',
   'subs.direct.headers.p':
     '모든 /search 응답에는 전체 결과 수를 나타내는 X-Total-Count 헤더가 포함됩니다. limit을 전달하면 다음도 포함됩니다:',
   'subs.direct.header.xpage': '반환된 페이지.',
@@ -315,7 +319,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI 자막 번역',
   'subs.translate.important':
-    'AI 번역은 **Pro 기능**입니다. 무료 키는 403 Upgrade required를 받습니다. 호출 한 번에 키 잔액에서 **100회 요청**이 차감되며, 캐시 적중 시에도 마찬가지입니다. 출력이 나오기 전에 호출이 실패하면 (자막을 찾지 못함, 검색 또는 다운로드 실패, 서버 혼잡) 100회 요청이 자동으로 환불됩니다.',
+    'AI 번역은 **Pro 기능**입니다. 무료 키는 403 Upgrade required를 받습니다. 호출 한 번에 키 잔액에서 **25회 요청**이 차감되며, 캐시 적중 시에도 마찬가지입니다. 출력이 나오기 전에 호출이 실패하면 (자막을 찾지 못함, 검색 또는 다운로드 실패, 서버 혼잡) 25회 요청이 자동으로 환불됩니다.',
   'subs.translate.p1':
     'Wyzie는 어떤 자막이든 80개 이상의 언어로 즉시 번역할 수 있습니다. 번역된 SRT는 배치가 완료되는 대로 순서대로 스트리밍되므로, 전체 파일이 끝날 때까지 기다리지 않고 첫 큐가 빠르게 도착합니다. 완성된 번역은 30일 동안 캐시되므로, 이후 동일한 제목, 에피소드, 대상 언어에 대한 요청은 캐시에서 제공됩니다.',
 
@@ -359,24 +363,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': '제한 사항',
   'subs.translate.limit1':
-    'AI 번역에는 시작점이 될 텍스트 자막이 필요합니다. VTT, ASS, SSA, SUB 소스는 먼저 SRT로 변환되며, 텍스트 자막이 없으면 호출이 404 No subtitle found를 반환하고 100회 요청이 환불됩니다.',
+    'AI 번역에는 시작점이 될 텍스트 자막이 필요합니다. VTT, ASS, SSA, SUB 소스는 먼저 SRT로 변환되며, 텍스트 자막이 없으면 호출이 404 No subtitle found를 반환하고 25회 요청이 환불됩니다.',
   'subs.translate.limit2':
     '번역 품질은 소스 자막에 따라 달라집니다. 타이밍이 맞지 않거나 오타가 있는 소스는 번역도 동일한 문제를 가집니다.',
   'subs.translate.limit3':
     '일부 사용자는 AI 행을 완전히 제외하고 싶을 수 있습니다. 클라이언트에서 ai === false로 필터링하세요.',
   'subs.translate.limit4':
-    '번역은 캐시 적중 시에도 요금이 부과됩니다. 새로 생성되든 30일 캐시에서 제공되든 /translate 호출 한 번에 100회 요청이 차감됩니다. 출력이 나오기 전에 실패한 호출만 환불됩니다.',
+    '번역은 캐시 적중 시에도 요금이 부과됩니다. 새로 생성되든 30일 캐시에서 제공되든 /translate 호출 한 번에 25회 요청이 차감됩니다. 출력이 나오기 전에 실패한 호출만 환불됩니다.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced는 **Pro 기능**입니다. 무료 키는 403 Paid feature를 받습니다. 동기화에 성공할 때마다 **1회 요청**이 차감되며, 일치 항목을 찾지 못한 동기화는 차감되지 않습니다. 이후 동기화된 링크를 다운로드하면 다른 다운로드와 동일하게 계산됩니다.',
+    'Wyzie Synced는 **Pro 기능**입니다. 무료 키는 403 Paid feature를 받습니다. 동기화에 성공할 때마다 **5회 요청**이 차감되며, 일치 항목을 찾지 못한 동기화는 차감되지 않습니다. 이후 동기화된 링크를 다운로드하면 다른 다운로드와 동일하게 계산됩니다.',
   'subs.synced.p1':
     '온라인에서 찾은 자막은 가지고 있는 영상과 다른 릴리스에 맞춰 타이밍이 잡혀 있는 경우가 많습니다: 몇 초 일찍 또는 늦게 시작하거나, 해당 릴리스의 프레임 레이트가 달라 영화가 진행될수록 점점 더 어긋납니다. Wyzie Synced는 여러분이 가진 영상의 오디오를 듣고 사람이 말하는 구간을 찾아, 자막을 그에 맞추는 오프셋과 프레임 레이트 보정값을 계산합니다. 보정이 적용된 일반 다운로드 링크를 받게 됩니다 (offset 및 fps [다운로드 옵션](/subs/usage/direct#download-options)).',
   'subs.synced.web.p':
     '가장 쉬운 방법: [sub.wyzie.io/synced](https://sub.wyzie.io/synced)를 열고, Pro 키를 입력한 뒤, 영상 파일과 제목을 선택하고 동기화된 자막을 다운로드하세요. 오디오는 브라우저에서 분석되므로 영상은 업로드되지 않습니다: 발화 타이밍만 전송됩니다. MKV, MP4, AVI를 비롯한 대부분의 형식이 지원되며, AC3, E-AC3, DTS 오디오도 지원됩니다.',
   'subs.synced.api.p':
-    '원하는 자막 (다운로드 링크, 또는 Wyzie가 가장 잘 맞는 자막을 고르도록 할 제목)과 오디오를 보내세요. 오디오는 직접 감지한 발화 타이밍이나 오디오/비디오 파일 자체 중 하나입니다.',
+    '원하는 자막 (다운로드 링크, 또는 Wyzie가 가장 잘 맞는 자막을 고르도록 할 제목)과 오디오를 보내세요. 오디오는 직접 감지한 발화 타이밍이나 오디오/비디오 파일 자체 중 하나입니다. POST /synced도 같은 API입니다.',
   'subs.synced.param.url':
     '/search에서 받은 다운로드 링크 (https://sub.wyzie.io/c/…). 링크에 붙어 있는 다른 다운로드 옵션 (to, sdh 등)은 동기화된 링크에도 유지됩니다.',
   'subs.synced.param.id':
@@ -419,7 +423,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     '어떤 오프셋이나 프레임 레이트에서도 자막이 오디오와 맞지 않거나 (다른 편집본이나 에피소드일 가능성이 높음), 오디오에 발화가 너무 적거나, 파일을 디코딩할 수 없습니다.',
   'subs.synced.error.429':
-    '다른 호출과 마찬가지로, 키로 요청 비용을 지불할 수 없습니다.',
+    '키로 비용을 지불할 수 없습니다. 동기화에는 최소 5회 요청이 남아 있어야 하며, 작업을 시작하기 전에 확인합니다.',
   'subs.synced.error.503':
     '다른 업로드를 디코딩하느라 바쁘거나, 검색을 잠시 사용할 수 없습니다. 잠시 후 다시 시도하거나 speech를 보내세요.',
   'subs.synced.lib.p':
@@ -488,7 +492,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': '한도 초과 시',
   'subs.keys.limit.p':
-    '검색은 1회 요청, 자막 다운로드는 건당 1회 요청이 차감되므로, 한 번 검색하고 파일 하나를 다운로드하면 2회를 사용합니다. AI 번역은 호출당 100회 요청이 차감됩니다.',
+    '검색은 1회 요청, 자막 다운로드는 건당 1회 요청이 차감되므로, 한 번 검색하고 파일 하나를 다운로드하면 2회를 사용합니다. AI 번역은 호출당 25회 요청, Wyzie Synced 동기화는 1회당 5회 요청이 차감됩니다.',
   'subs.keys.limit.free':
     '**무료 등급** 소진 -> 검색 및 다운로드 링크가 429 Daily request limit reached를 반환하며, JSON에 reset_at이 포함되고 Retry-After 헤더가 함께 전송됩니다. 하루 1,000회 요청 한도는 UTC 자정에 초기화됩니다.',
   'subs.keys.limit.paid':
@@ -557,8 +561,6 @@ const messages: Record<string, string> = {
     '**지능형 IP 풀 관리**: 설정 가능한 풀 크기로 자동 IP 로테이션. 스마트 IP 수명 주기 관리. IP별 요청 수 계산. 비활성 임계값 기반 미사용 IP 정리.',
   'i6shark.intro.feature5':
     '**고급 요청 처리**: 커스텀 헤더 전달. Cloudflare 및 CDN 헤더 제거. 여러 URL 파라미터 형식 지원. 시스템 기본 IP로의 선택적 폴백.',
-  'i6shark.intro.feature6':
-    '**호스트 화이트리스팅**: 보안을 위한 내장 도메인 화이트리스트 (코드에서 설정 가능)',
   'i6shark.intro.feature7':
     '**자동 유지 관리**: 주기적인 IP 풀 플러싱. 서브넷 검증 및 정리. 연결 풀링 및 keepalive 최적화.',
   'i6shark.intro.feature8':

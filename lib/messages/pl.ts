@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Wprowadzenie do Wyzie Subs',
   'subs.intro.p1':
     'Wyzie Subs to API do pobierania napisów, które oferuje darmowy poziom. Istnieją dwa sposoby wykonywania żądań do API: przy użyciu naszego pakietu NPM lub przez bezpośrednie odpytywanie samego API Wyzie. Zalecam użycie naszego pakietu, choć niektórzy mogą uznać typy za uciążliwe. Aby korzystać z API, musisz najpierw podjąć tę decyzję.',
-  'subs.intro.note.ai':
-    'Tłumaczenie AI jest już dostępne dla kluczy Pro. Dowolny tytuł, ponad 80 języków docelowych, wynik strumieniowany w kolejności napisów w miarę kończenia kolejnych partii.',
   'subs.intro.important.apikey':
     'Klucz API jest wymagany dla wszystkich żądań. Pobierz darmowy klucz na [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (weryfikacja e-mail, 1 000 żądań dziennie). Dla wyższego zużycia dostępne są [plany Pro i doładowania](https://store.wyzie.io). Szczegóły znajdziesz na stronie Klucze API.',
   'subs.intro.note.npm':
@@ -314,6 +312,12 @@ const messages: Record<string, string> = {
     'Dodaje drugi język (kod ISO 639-1) pod każdą linią, dopasowany do czasów tego pliku. Kosztuje 1 dodatkowe żądanie, tylko gdy zostanie znalezione dopasowanie; w przeciwnym razie plik jest zwracany bez drugiego języka, z `X-Dual: unavailable`.',
   'subs.direct.dl.after':
     'Opcje można łączyć, np. `&to=vtt&sdh=strip&offset=-1.5`. Linki zawierają już `format`, `encoding`, `id` oraz (dla odcinków) `season` i `episode`: pozostaw je bez zmian. `autoUnzip=false` zwraca archiwum w oryginalnej postaci.',
+  'subs.direct.oneCall.p':
+    'Z kluczem API GET /download zwraca sam plik napisów w jednym wywołaniu: wyszukuje z Twoim kluczem i tymi samymi parametrami co /search (language domyślnie ma wartość en), wybiera najlepsze dopasowanie i je zwraca. Kosztuje to 2 żądania, tyle samo co wyszukiwanie plus pobranie. Opcje pobierania, takie jak to i offset, są stosowane do pliku.',
+  'subs.direct.oneCall.pick':
+    'Najlepsze dopasowanie to pierwszy wynik wyszukiwania, przy czym preferowane są pliki SRT, WebVTT i ASS, chyba że ustawisz format, oraz pliki bez tekstu dla osób niesłyszących, chyba że ustawisz hi=true. Zawęź wybór za pomocą release, filename, source lub origin. Nagłówki odpowiedzi X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language i X-Subtitle-Url informują, który plik został wybrany. Błędy są takie same jak dla /search i linków do pobrania.',
+  'subs.direct.oneCall.keyless':
+    'Bez klucza [strona pobierania](https://sub.wyzie.io/download) służy do ręcznego znalezienia jednych czy dwóch napisów. Jej linki otwierają tylko plik, dla którego zostały utworzone, i tylko z sieci, z której wykonano wyszukiwanie, a sama strona ma limity godzinowe. Do wszystkiego, co zautomatyzowane, używaj klucza.',
   'subs.direct.headers.p':
     'Każda odpowiedź /search zawiera nagłówek X-Total-Count z łączną liczbą wyników. Gdy podasz limit, zawiera również:',
   'subs.direct.header.xpage': 'zwrócona strona.',
@@ -325,7 +329,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Tłumaczenie napisów przez AI',
   'subs.translate.important':
-    'Tłumaczenie AI to **funkcja Pro**; darmowe klucze otrzymują 403 Upgrade required. Każde wywołanie kosztuje **100 żądań** z salda Twojego klucza, również przy trafieniu w cache. Jeśli wywołanie zakończy się niepowodzeniem, zanim zwróci jakikolwiek wynik (nie znaleziono napisów, wyszukiwanie lub pobieranie się nie powiodło albo serwer jest zajęty), 100 żądań zostaje automatycznie zwróconych.',
+    'Tłumaczenie AI to **funkcja Pro**; darmowe klucze otrzymują 403 Upgrade required. Każde wywołanie kosztuje **25 żądań** z salda Twojego klucza, również przy trafieniu w cache. Jeśli wywołanie zakończy się niepowodzeniem, zanim zwróci jakikolwiek wynik (nie znaleziono napisów, wyszukiwanie lub pobieranie się nie powiodło albo serwer jest zajęty), 25 żądań zostaje automatycznie zwróconych.',
   'subs.translate.p1':
     'Wyzie może przetłumaczyć dowolne napisy na ponad 80 języków w locie. Przetłumaczony plik SRT jest strumieniowany po kolei, w miarę kończenia kolejnych partii, więc pierwsze wpisy docierają szybko, a nie dopiero po przetworzeniu całego pliku. Kompletne tłumaczenie jest buforowane przez 30 dni, więc kolejne żądania dotyczące tego samego tytułu, odcinka i języka docelowego są obsługiwane z cache.',
 
@@ -372,24 +376,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Ograniczenia',
   'subs.translate.limit1':
-    'Tłumaczenie AI wymaga napisów tekstowych jako punktu wyjścia. Źródła VTT, ASS, SSA i SUB są najpierw konwertowane do SRT; jeśli nie ma żadnych napisów tekstowych, wywołanie zwraca 404 No subtitle found, a 100 żądań zostaje zwróconych.',
+    'Tłumaczenie AI wymaga napisów tekstowych jako punktu wyjścia. Źródła VTT, ASS, SSA i SUB są najpierw konwertowane do SRT; jeśli nie ma żadnych napisów tekstowych, wywołanie zwraca 404 No subtitle found, a 25 żądań zostaje zwróconych.',
   'subs.translate.limit2':
     'Jakość tłumaczenia zależy od źródłowego napisu. Źle zsynchronizowany lub zawierający błędy źródłowy napis skutkuje źle zsynchronizowanym lub zawierającym błędy tłumaczeniem.',
   'subs.translate.limit3':
     'Niektórzy użytkownicy mogą chcieć całkowicie zrezygnować z wierszy AI. Filtruj według ai === false po stronie klienta.',
   'subs.translate.limit4':
-    'Tłumaczenia są naliczane również przy trafieniach w cache. Niezależnie od tego, czy są generowane na nowo, czy serwowane z 30-dniowego cache, każde wywołanie /translate kosztuje 100 żądań. Zwrot obejmuje tylko wywołania, które zakończą się niepowodzeniem, zanim zwrócą jakikolwiek wynik.',
+    'Tłumaczenia są naliczane również przy trafieniach w cache. Niezależnie od tego, czy są generowane na nowo, czy serwowane z 30-dniowego cache, każde wywołanie /translate kosztuje 25 żądań. Zwrot obejmuje tylko wywołania, które zakończą się niepowodzeniem, zanim zwrócą jakikolwiek wynik.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced to **funkcja Pro**: darmowe klucze otrzymują 403 Paid feature. Każda udana synchronizacja kosztuje **1 żądanie**; synchronizacja, która nie znajdzie dopasowania, nie jest naliczana. Pobranie zsynchronizowanego linku liczy się potem jak każde inne pobranie.',
+    'Wyzie Synced to **funkcja Pro**: darmowe klucze otrzymują 403 Paid feature. Każda udana synchronizacja kosztuje **5 żądań**; synchronizacja, która nie znajdzie dopasowania, nie jest naliczana. Pobranie zsynchronizowanego linku liczy się potem jak każde inne pobranie.',
   'subs.synced.p1':
     'Napisy znalezione w sieci są często zsynchronizowane z innym wydaniem niż Twoje wideo: zaczynają się kilka sekund za wcześnie lub za późno albo rozjeżdżają się coraz bardziej w miarę trwania filmu, bo tamto wydanie ma inną liczbę klatek na sekundę. Wyzie Synced analizuje ścieżkę dźwiękową Twojej kopii, znajduje miejsca, w których ktoś mówi, i wylicza przesunięcie (offset) oraz korektę liczby klatek (fps), które dopasowują do niej napisy. Otrzymujesz zwykły link do pobrania z zastosowaną poprawką ([opcje pobierania](/subs/usage/direct#download-options) offset i fps).',
   'subs.synced.web.p':
     'Najprościej: otwórz [sub.wyzie.io/synced](https://sub.wyzie.io/synced), wpisz swój klucz Pro, wybierz plik wideo i tytuł, a następnie pobierz zsynchronizowane napisy. Dźwięk jest analizowany w Twojej przeglądarce, więc wideo nigdy nie jest wysyłane: przesyłane są tylko czasy mowy. Obsługiwane są MKV, MP4, AVI i większość innych formatów, w tym dźwięk AC3, E-AC3 i DTS.',
   'subs.synced.api.p':
-    'Wyślij informację, o które napisy chodzi (link do pobrania albo tytuł, aby Wyzie wybrało najlepsze dopasowanie), oraz dźwięk: albo samodzielnie wykryte czasy mowy, albo sam plik audio/wideo.',
+    'Wyślij informację, o które napisy chodzi (link do pobrania albo tytuł, aby Wyzie wybrało najlepsze dopasowanie), oraz dźwięk: albo samodzielnie wykryte czasy mowy, albo sam plik audio/wideo. POST /synced to to samo API.',
   'subs.synced.param.url':
     'Link do pobrania z /search (https://sub.wyzie.io/c/…). Pozostałe opcje pobierania zawarte w linku (to, sdh, …) są zachowywane w zsynchronizowanym linku.',
   'subs.synced.param.id':
@@ -434,7 +438,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Napisy nie pasują do dźwięku przy żadnym przesunięciu ani liczbie klatek (prawdopodobnie inna wersja montażowa lub inny odcinek), w dźwięku jest za mało mowy albo nie da się zdekodować pliku.',
   'subs.synced.error.429':
-    'Klucz nie może pokryć kosztu żądania, tak jak przy każdym innym wywołaniu.',
+    'Klucz nie może zapłacić: synchronizacja wymaga, aby zostało co najmniej 5 żądań, co jest sprawdzane przed rozpoczęciem jakiejkolwiek pracy.',
   'subs.synced.error.503':
     'Serwer dekoduje inne przesłane pliki albo wyszukiwanie jest chwilowo niedostępne. Spróbuj ponownie za chwilę lub wyślij speech.',
   'subs.synced.lib.p':
@@ -504,7 +508,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Osiągnięcie limitu',
   'subs.keys.limit.p':
-    'Wyszukiwanie kosztuje 1 żądanie i każde pobranie napisów kosztuje 1 żądanie, więc jedno wyszukiwanie i pobranie jednego pliku zużywa 2. Tłumaczenie AI kosztuje 100 żądań za wywołanie.',
+    'Wyszukiwanie kosztuje 1 żądanie i każde pobranie napisów kosztuje 1 żądanie, więc jedno wyszukiwanie i pobranie jednego pliku zużywa 2. Tłumaczenie AI kosztuje 25 żądań za wywołanie, a synchronizacja w Wyzie Synced 5.',
   'subs.keys.limit.free':
     '**Darmowy poziom** wyczerpany -> wyszukiwania i linki do pobrania zwracają 429 Daily request limit reached, z polem reset_at w odpowiedzi JSON i nagłówkiem Retry-After. Dzienny limit 1 000 żądań resetuje się o północy UTC.',
   'subs.keys.limit.paid':
@@ -576,8 +580,6 @@ const messages: Record<string, string> = {
     '**Inteligentne zarządzanie pulą IP**: Automatyczna rotacja IP z konfigurowalnym rozmiarem puli. Inteligentne zarządzanie cyklem życia IP. Licznik żądań na IP. Czyszczenie nieużywanych IP na podstawie progu nieaktywności.',
   'i6shark.intro.feature5':
     '**Zaawansowana obsługa żądań**: Przekazywanie niestandardowych nagłówków. Usuwanie nagłówków Cloudflare i CDN. Obsługa wielu formatów parametrów URL. Opcjonalny fallback do systemowego domyślnego IP.',
-  'i6shark.intro.feature6':
-    '**Lista dozwolonych hostów**: Wbudowana lista dozwolonych domen dla bezpieczeństwa (konfigurowalna w kodzie)',
   'i6shark.intro.feature7':
     '**Automatyczna konserwacja**: Periodyczne opróżnianie puli IP. Walidacja i czyszczenie podsieci. Optymalizacja buforowania połączeń i keepalive.',
   'i6shark.intro.feature8':

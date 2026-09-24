@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': "Wyzie Subs'a Giriş",
   'subs.intro.p1':
     "Wyzie Subs, ücretsiz katmanı olan bir altyazı kazıma API'sidir. API'ye istek yapmanın iki yolu vardır: NPM paketimizi kullanmak veya Wyzie API'sini doğrudan çağırmak. Paketi kullanmanızı öneririm, ancak bazıları türleri zahmetli bulabilir. API'yi kullanmak için önce bu kararı vermeniz gerekir.",
-  'subs.intro.note.ai':
-    "AI Çevirisi Pro anahtarlar için yayındadır. Herhangi bir başlık, 80'den fazla hedef dil, gruplar tamamlandıkça altyazı sırasıyla akış halinde döner.",
   'subs.intro.important.apikey':
     'Tüm istekler için bir API anahtarı gereklidir. [store.wyzie.io/redeem](https://store.wyzie.io/redeem) adresinden ücretsiz anahtar alın (e-posta doğrulaması, günde 1.000 istek). Daha yüksek kullanım için [Pro ve üst doldurma planları](https://store.wyzie.io) mevcuttur. Ayrıntılar için API Anahtarları sayfasına bakın.',
   'subs.intro.note.npm':
@@ -314,6 +312,12 @@ const messages: Record<string, string> = {
     'Her satırın altına, bu dosyanın zamanlamasıyla hizalanmış ikinci bir dil (ISO 639-1 kodu) ekler. Yalnızca eşleşme bulunduğunda 1 ek istek harcar; aksi halde dosya `X-Dual: unavailable` ile tek başına döner.',
   'subs.direct.dl.after':
     'Seçenekler birleştirilebilir, örn. `&to=vtt&sdh=strip&offset=-1.5`. Bağlantılar zaten `format`, `encoding`, `id` ve (bölümler için) `season` ile `episode` içerir: bunları olduğu gibi bırakın. `autoUnzip=false` bir arşivi olduğu gibi döndürür.',
+  'subs.direct.oneCall.p':
+    "Bir API anahtarıyla GET /download, altyazı dosyasının kendisini tek bir çağrıda döndürür: anahtarınızla ve /search ile aynı parametrelerle arama yapar (language varsayılan olarak en'dir), en iyi eşleşmeyi seçer ve onu sunar. Bu, bir arama artı bir indirmeyle aynı şekilde 2 istek harcar. to ve offset gibi indirme seçenekleri dosyaya uygulanır.",
+  'subs.direct.oneCall.pick':
+    'En iyi eşleşme ilk arama sonucudur; format ayarlamadığınız sürece SRT, WebVTT ve ASS dosyaları, hi=true ayarlamadığınız sürece de işitme engelli metni içermeyen dosyalar tercih edilir. Seçimi release, filename, source veya origin ile daraltın. X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language ve X-Subtitle-Url yanıt başlıkları hangi dosyanın seçildiğini belirtir. Hatalar /search ve indirme bağlantılarındakilerle aynıdır.',
+  'subs.direct.oneCall.keyless':
+    'Anahtar olmadan, [indirme sayfası](https://sub.wyzie.io/download) bir iki altyazıyı elle bulmak içindir. Bu sayfanın bağlantıları yalnızca oluşturuldukları dosyayı ve yalnızca aramayı yapan ağdan açar; ayrıca sayfanın saatlik limitleri vardır. Otomatik her şey için bir anahtar kullanın.',
   'subs.direct.headers.p':
     'Her /search yanıtı, toplam sonuç sayısını gösteren bir X-Total-Count başlığı içerir. limit parametresini geçtiğinizde şunları da içerir:',
   'subs.direct.header.xpage': 'döndürülen sayfa.',
@@ -325,7 +329,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI Altyazı Çevirisi',
   'subs.translate.important':
-    'AI çevirisi bir **Pro özelliğidir**; ücretsiz anahtarlar 403 Upgrade required alır. Her çağrı, önbellek isabetleri dahil anahtarınızın bakiyesinden **100 istek** harcar. Bir çağrı herhangi bir çıktı üretmeden başarısız olursa (altyazı bulunamazsa, arama veya indirme başarısız olursa ya da sunucu meşgulse) 100 istek otomatik olarak iade edilir.',
+    'AI çevirisi bir **Pro özelliğidir**; ücretsiz anahtarlar 403 Upgrade required alır. Her çağrı, önbellek isabetleri dahil anahtarınızın bakiyesinden **25 istek** harcar. Bir çağrı herhangi bir çıktı üretmeden başarısız olursa (altyazı bulunamazsa, arama veya indirme başarısız olursa ya da sunucu meşgulse) 25 istek otomatik olarak iade edilir.',
   'subs.translate.p1':
     "Wyzie herhangi bir altyazıyı anında 80'den fazla dile çevirebilir. Çevrilen SRT, gruplar tamamlandıkça sırayla akış halinde döner; böylece ilk ipuçları dosyanın tamamı bitene kadar beklemeden hızla gelir. Tam çeviri 30 gün boyunca önbelleklenir; böylece aynı başlık, bölüm ve hedef dil için sonraki istekler önbellekten sunulur.",
 
@@ -373,24 +377,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Sınırlamalar',
   'subs.translate.limit1':
-    "AI çevirisinin başlangıç noktası olarak bir metin altyazıya ihtiyacı vardır. VTT, ASS, SSA ve SUB kaynakları önce SRT'ye dönüştürülür; hiç metin altyazı yoksa çağrı 404 No subtitle found döndürür ve 100 istek iade edilir.",
+    "AI çevirisinin başlangıç noktası olarak bir metin altyazıya ihtiyacı vardır. VTT, ASS, SSA ve SUB kaynakları önce SRT'ye dönüştürülür; hiç metin altyazı yoksa çağrı 404 No subtitle found döndürür ve 25 istek iade edilir.",
   'subs.translate.limit2':
     'Çeviri kalitesi kaynak altyazıya bağlıdır. Kötü zamanlanmış veya yanlış yazılmış bir kaynak, kötü zamanlanmış veya yanlış yazılmış bir çeviri üretir.',
   'subs.translate.limit3':
     'Bazı kullanıcılar AI satırlarını tamamen devre dışı bırakmak isteyebilir. İstemcinizde ai === false ile filtreleyin.',
   'subs.translate.limit4':
-    'Çeviriler önbellek isabetlerinde de faturalandırılır. Taze oluşturulmuş veya 30 günlük önbellekten sunulmuş olsun, her /translate çağrısı 100 istek harcar. Yalnızca herhangi bir çıktı üretmeden başarısız olan çağrılar iade edilir.',
+    'Çeviriler önbellek isabetlerinde de faturalandırılır. Taze oluşturulmuş veya 30 günlük önbellekten sunulmuş olsun, her /translate çağrısı 25 istek harcar. Yalnızca herhangi bir çıktı üretmeden başarısız olan çağrılar iade edilir.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced bir **Pro özelliğidir**: ücretsiz anahtarlar 403 Paid feature alır. Her başarılı senkronizasyon **1 istek** harcar; eşleşme bulamayan bir senkronizasyon ücretlendirilmez. Senkronize bağlantının indirilmesi ise diğer tüm indirmeler gibi sayılır.',
+    'Wyzie Synced bir **Pro özelliğidir**: ücretsiz anahtarlar 403 Paid feature alır. Her başarılı senkronizasyon **5 istek** harcar; eşleşme bulamayan bir senkronizasyon ücretlendirilmez. Senkronize bağlantının indirilmesi ise diğer tüm indirmeler gibi sayılır.',
   'subs.synced.p1':
     'İnternette bulunan altyazılar çoğu zaman elinizdeki videodan farklı bir sürüme göre zamanlanmıştır: birkaç saniye erken ya da geç başlarlar veya o sürüm farklı bir kare hızında çalıştığı için film ilerledikçe giderek daha fazla kayarlar. Wyzie Synced, kopyanızın sesini dinler, insanların konuştuğu yerleri bulur ve altyazıyı sesle hizalayan kaydırmayı ve kare hızı düzeltmesini hesaplar. Düzeltmenin uygulandığı normal bir indirme bağlantısı alırsınız (offset ve fps [indirme seçenekleri](/subs/usage/direct#download-options)).',
   'subs.synced.web.p':
     'En kolay yol: [sub.wyzie.io/synced](https://sub.wyzie.io/synced) adresini açın, Pro anahtarınızı girin, video dosyanızı ve ilgili başlığı seçin, ardından senkronize altyazıyı indirin. Ses tarayıcınızda analiz edilir, bu yüzden video hiçbir zaman yüklenmez: yalnızca konuşma zamanlamaları gönderilir. AC3, E-AC3 ve DTS ses dahil olmak üzere MKV, MP4, AVI ve diğer çoğu biçim desteklenir.',
   'subs.synced.api.p':
-    "Hangi altyazıyı istediğinizi (bir indirme bağlantısı ya da Wyzie'nin en iyi eşleşmeyi seçmesi için başlık) ve sesi gönderin: ya kendiniz tespit ettiğiniz konuşma zamanlamalarını ya da ses/video dosyasının kendisini.",
+    "Hangi altyazıyı istediğinizi (bir indirme bağlantısı ya da Wyzie'nin en iyi eşleşmeyi seçmesi için başlık) ve sesi gönderin: ya kendiniz tespit ettiğiniz konuşma zamanlamalarını ya da ses/video dosyasının kendisini. POST /synced de aynı API'dir.",
   'subs.synced.param.url':
     "/search'ten alınan bir indirme bağlantısı (https://sub.wyzie.io/c/…). Üzerindeki diğer indirme seçenekleri (to, sdh, …) senkronize bağlantıda korunur.",
   'subs.synced.param.id':
@@ -433,7 +437,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Altyazı hiçbir kaydırma veya kare hızında sesle hizalanmıyor (muhtemelen farklı bir kurgu ya da bölüm), seste çok az konuşma var veya dosyanın kodu çözülemiyor.',
   'subs.synced.error.429':
-    'Anahtar, diğer tüm çağrılarda olduğu gibi isteğin bedelini karşılayamıyor.',
+    'Anahtar ödeyemiyor: bir senkronizasyon için en az 5 istek kalmış olmalıdır ve bu, herhangi bir işlem başlamadan önce kontrol edilir.',
   'subs.synced.error.503':
     'Sunucu diğer yüklemelerin kodunu çözmekle meşgul ya da arama kısa süreliğine kullanılamıyor. Biraz sonra yeniden deneyin ya da speech gönderin.',
   'subs.synced.lib.p':
@@ -503,7 +507,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Limite Ulaşma',
   'subs.keys.limit.p':
-    'Bir arama 1 istek, her altyazı indirmesi de 1 istek harcar; yani bir kez arama yapıp bir dosya indirmek 2 istek kullanır. AI çevirisi çağrı başına 100 istek harcar.',
+    'Bir arama 1 istek, her altyazı indirmesi de 1 istek harcar; yani bir kez arama yapıp bir dosya indirmek 2 istek kullanır. AI çevirisi çağrı başına 25 istek, bir Wyzie Synced senkronizasyonu ise 5 istek harcar.',
   'subs.keys.limit.free':
     '**Ücretsiz katman** tükendi -> aramalar ve indirme bağlantıları, JSON içinde reset_at ve bir Retry-After başlığıyla birlikte 429 Daily request limit reached döndürür. Günlük 1.000 isteklik üst sınır UTC gece yarısı sıfırlanır.',
   'subs.keys.limit.paid':
@@ -574,8 +578,6 @@ const messages: Record<string, string> = {
     '**Akıllı IP Havuzu Yönetimi**: Yapılandırılabilir havuz boyutuyla otomatik IP rotasyonu. Akıllı IP yaşam döngüsü yönetimi. IP başına istek sayımı. Etkinlik dışı kalma eşiğine göre kullanılmayan IP temizliği.',
   'i6shark.intro.feature5':
     "**Gelişmiş İstek İşleme**: Özel başlık yönlendirme. Cloudflare ve CDN başlık temizliği. Birden fazla URL parametre biçimi desteği. Sistem varsayılan IP'ye isteğe bağlı yedek.",
-  'i6shark.intro.feature6':
-    '**Ana Bilgisayar Beyaz Listesi**: Güvenlik için yerleşik alan adı beyaz listesi (kod içinde yapılandırılabilir)',
   'i6shark.intro.feature7':
     '**Otomatik Bakım**: Periyodik IP havuzu temizleme. Subnet doğrulama ve temizlik. Bağlantı havuzlama ve keepalive optimizasyonu.',
   'i6shark.intro.feature8':

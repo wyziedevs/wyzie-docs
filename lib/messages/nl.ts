@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Introductie tot Wyzie Subs',
   'subs.intro.p1':
     'Wyzie Subs is een API voor het scrapen van ondertitels met een gratis abonnement. Er zijn twee manieren om verzoeken aan de API te doen: via ons NPM-pakket of door de Wyzie API rechtstreeks op te vragen. Ik raad aan ons pakket te gebruiken, maar sommigen vinden de types omslachtig. Om de API te gebruiken, moet je eerst die keuze maken.',
-  'subs.intro.note.ai':
-    'AI-vertaling is live voor Pro-sleutels. Elke titel, 80+ doeltalen, in ondertitelvolgorde teruggestreamd zodra batches klaar zijn.',
   'subs.intro.important.apikey':
     'Voor alle verzoeken is een API-sleutel vereist. Haal een gratis sleutel op bij [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (e-mailverificatie, 1.000 verzoeken/dag). Voor intensiever gebruik zijn [Pro- en opwaardeerplannen](https://store.wyzie.io) beschikbaar. Zie de pagina API-sleutels voor meer details.',
   'subs.intro.note.npm':
@@ -320,6 +318,12 @@ const messages: Record<string, string> = {
     'Voeg onder elke regel een tweede taal (ISO 639-1-code) toe, afgestemd op de timing van dit bestand. Kost 1 extra verzoek, alleen als er een match wordt gevonden; anders komt alleen het bestand zelf terug, met `X-Dual: unavailable`.',
   'subs.direct.dl.after':
     'Opties zijn te combineren, bijv. `&to=vtt&sdh=strip&offset=-1.5`. Links bevatten al `format`, `encoding`, `id` en (voor afleveringen) `season` en `episode`: laat die zoals ze zijn. `autoUnzip=false` geeft een archief ongewijzigd terug.',
+  'subs.direct.oneCall.p':
+    'Met een API-sleutel geeft GET /download het ondertitelbestand zelf terug in één aanroep: het zoekt met je sleutel en dezelfde parameters als /search (language is standaard en), kiest de beste match en levert die. Dat kost 2 verzoeken, evenveel als een zoekopdracht plus een download. Downloadopties zoals to en offset worden op het bestand toegepast.',
+  'subs.direct.oneCall.pick':
+    'De beste match is het eerste zoekresultaat, waarbij SRT-, WebVTT- en ASS-bestanden de voorkeur krijgen tenzij je format instelt, en bestanden zonder tekst voor slechthorenden tenzij je hi=true instelt. Verfijn de keuze met release, filename, source of origin. De antwoordheaders X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language en X-Subtitle-Url geven aan welk bestand is gekozen. De fouten zijn dezelfde als bij /search en downloadlinks.',
+  'subs.direct.oneCall.keyless':
+    'Zonder sleutel is de [downloadpagina](https://sub.wyzie.io/download) er om met de hand een ondertitel of twee te vinden. De links daarvan openen alleen het bestand waarvoor ze zijn gemaakt, vanaf het netwerk dat de zoekopdracht deed, en de pagina heeft limieten per uur. Gebruik voor alles wat geautomatiseerd is een sleutel.',
   'subs.direct.headers.p':
     'Elk /search-antwoord bevat een X-Total-Count-header met het totale aantal resultaten. Als je limit meegeeft, bevat het ook:',
   'subs.direct.header.xpage': 'de teruggegeven pagina.',
@@ -331,7 +335,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI-ondertitelvertaling',
   'subs.translate.important':
-    'AI-vertaling is een **Pro-functie**; gratis sleutels krijgen 403 Upgrade required. Elke aanroep kost **100 verzoeken** van het saldo van je sleutel, cache-hits inbegrepen. Als een aanroep mislukt voordat er uitvoer is (geen ondertitel gevonden, een zoek- of downloadfout, of de server is overbelast), worden de 100 verzoeken automatisch terugbetaald.',
+    'AI-vertaling is een **Pro-functie**; gratis sleutels krijgen 403 Upgrade required. Elke aanroep kost **25 verzoeken** van het saldo van je sleutel, cache-hits inbegrepen. Als een aanroep mislukt voordat er uitvoer is (geen ondertitel gevonden, een zoek- of downloadfout, of de server is overbelast), worden de 25 verzoeken automatisch terugbetaald.',
   'subs.translate.p1':
     'Wyzie kan elke ondertitel ter plekke vertalen naar 80+ talen. De vertaalde SRT wordt op volgorde teruggestreamd zodra batches klaar zijn, zodat de eerste cues snel binnenkomen in plaats van pas nadat het hele bestand klaar is. De volledige vertaling wordt 30 dagen gecached, zodat latere verzoeken voor dezelfde titel, aflevering en doeltaal vanuit de cache worden geleverd.',
 
@@ -379,24 +383,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Beperkingen',
   'subs.translate.limit1':
-    'AI-vertaling heeft een tekstondertitel nodig om van uit te gaan. VTT-, ASS-, SSA- en SUB-bronnen worden eerst naar SRT geconverteerd; als er geen tekstondertitel bestaat, geeft de aanroep 404 No subtitle found terug en worden de 100 verzoeken terugbetaald.',
+    'AI-vertaling heeft een tekstondertitel nodig om van uit te gaan. VTT-, ASS-, SSA- en SUB-bronnen worden eerst naar SRT geconverteerd; als er geen tekstondertitel bestaat, geeft de aanroep 404 No subtitle found terug en worden de 25 verzoeken terugbetaald.',
   'subs.translate.limit2':
     'De vertaalkwaliteit hangt af van de bronondertitel. Een slecht getimede of verkeerd getypte bron levert een slecht getimede of verkeerd getypte vertaling op.',
   'subs.translate.limit3':
     'Sommige gebruikers willen AI-rijen volledig uitsluiten. Filter op ai === false in je client.',
   'subs.translate.limit4':
-    'Vertalingen worden ook bij cache-hits in rekening gebracht. Of ze nu vers worden gegenereerd of geleverd vanuit de 30-daagse cache, elke /translate-aanroep kost 100 verzoeken. Alleen aanroepen die mislukken voordat er uitvoer is, worden terugbetaald.',
+    'Vertalingen worden ook bij cache-hits in rekening gebracht. Of ze nu vers worden gegenereerd of geleverd vanuit de 30-daagse cache, elke /translate-aanroep kost 25 verzoeken. Alleen aanroepen die mislukken voordat er uitvoer is, worden terugbetaald.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced is een **Pro-functie**: gratis sleutels krijgen 403 Paid feature. Elke geslaagde synchronisatie kost **1 verzoek**; een synchronisatie zonder match wordt niet in rekening gebracht. Het downloaden van de gesynchroniseerde link telt daarna als elke andere download.',
+    'Wyzie Synced is een **Pro-functie**: gratis sleutels krijgen 403 Paid feature. Elke geslaagde synchronisatie kost **5 verzoeken**; een synchronisatie zonder match wordt niet in rekening gebracht. Het downloaden van de gesynchroniseerde link telt daarna als elke andere download.',
   'subs.synced.p1':
     'Online gevonden ondertitels zijn vaak getimed voor een andere release dan de video die je hebt: ze beginnen een paar seconden te vroeg of te laat, of lopen naarmate de film vordert steeds verder uit de pas omdat die release op een andere framerate draait. Wyzie Synced luistert naar de audio van jouw kopie, bepaalt waar er gesproken wordt en berekent de verschuiving en framerate-correctie waarmee de ondertitel daarop aansluit. Je krijgt een normale downloadlink met de correctie toegepast (via de [downloadopties](/subs/usage/direct#download-options) offset en fps).',
   'subs.synced.web.p':
     'De makkelijkste manier: open [sub.wyzie.io/synced](https://sub.wyzie.io/synced), voer je Pro-sleutel in, kies je videobestand en de titel, en download de gesynchroniseerde ondertitel. De audio wordt in je browser geanalyseerd, dus de video wordt nooit geüpload: alleen de spraaktimings worden verstuurd. MKV, MP4, AVI en de meeste andere formaten werken, inclusief AC3-, E-AC3- en DTS-audio.',
   'subs.synced.api.p':
-    'Stuur welke ondertitel je wilt (een downloadlink, of de titel zodat Wyzie de beste match kiest) en de audio: ofwel spraaktimings die je zelf hebt gedetecteerd, ofwel het audio-/videobestand zelf.',
+    'Stuur welke ondertitel je wilt (een downloadlink, of de titel zodat Wyzie de beste match kiest) en de audio: ofwel spraaktimings die je zelf hebt gedetecteerd, ofwel het audio-/videobestand zelf. POST /synced is dezelfde API.',
   'subs.synced.param.url':
     'Een downloadlink van /search (https://sub.wyzie.io/c/…). Andere downloadopties daarop (to, sdh, …) blijven behouden op de gesynchroniseerde link.',
   'subs.synced.param.id':
@@ -440,7 +444,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'De ondertitel sluit bij geen enkele verschuiving of framerate aan op de audio (waarschijnlijk een andere versie of aflevering), de audio bevat te weinig spraak, of het bestand kan niet worden gedecodeerd.',
   'subs.synced.error.429':
-    'De sleutel kan het verzoek niet betalen, net als bij elke andere aanroep.',
+    'De sleutel kan niet betalen: voor een synchronisatie moeten er nog minstens 5 verzoeken over zijn, en dat wordt gecontroleerd voordat het werk begint.',
   'subs.synced.error.503':
     'Bezig met het decoderen van andere uploads, of zoeken is even niet beschikbaar. Probeer het zo opnieuw, of stuur speech.',
   'subs.synced.lib.p':
@@ -510,7 +514,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'De limiet bereiken',
   'subs.keys.limit.p':
-    'Een zoekopdracht kost 1 verzoek en elke ondertiteldownload kost 1 verzoek, dus één keer zoeken en één bestand downloaden verbruikt er 2. AI-vertaling kost 100 verzoeken per aanroep.',
+    'Een zoekopdracht kost 1 verzoek en elke ondertiteldownload kost 1 verzoek, dus één keer zoeken en één bestand downloaden verbruikt er 2. AI-vertaling kost 25 verzoeken per aanroep, en een synchronisatie met Wyzie Synced 5.',
   'subs.keys.limit.free':
     '**Gratis abonnement** uitgeput -> zoekopdrachten en downloadlinks geven 429 Daily request limit reached terug, met reset_at in de JSON en een Retry-After-header. De daglimiet van 1.000 verzoeken wordt om middernacht UTC gereset.',
   'subs.keys.limit.paid':
@@ -581,8 +585,6 @@ const messages: Record<string, string> = {
     "**Intelligent IP-poolbeheer**: Automatische IP-rotatie met configureerbare poolgrootte. Slim IP-levenscyclusbeheer. Verzoektelling per IP. Opruimen van ongebruikte IP's op basis van inactiviteitsdrempel.",
   'i6shark.intro.feature5':
     '**Geavanceerde verzoekafhandeling**: Doorsturen van aangepaste headers. Cloudflare- en CDN-header-verwijdering. Ondersteuning voor meerdere URL-parameterformaten. Optionele terugval naar standaard systeem-IP.',
-  'i6shark.intro.feature6':
-    '**Host-whitelisting**: Ingebouwde domeinwitte lijst voor beveiliging (configureerbaar in code)',
   'i6shark.intro.feature7':
     '**Automatisch onderhoud**: Periodiek doorspoelen van IP-pool. Subnetvalidatie en opruiming. Verbindingspooling en keepalive-optimalisatie.',
   'i6shark.intro.feature8':

@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Pengantar Wyzie Subs',
   'subs.intro.p1':
     'Wyzie Subs adalah API scraping subtitle dengan tingkatan gratis. Ada dua cara untuk membuat permintaan ke API: menggunakan paket NPM kami atau langsung mengambil API Wyzie itu sendiri. Saya merekomendasikan menggunakan paket kami, tetapi sebagian orang mungkin merasa tipenya merepotkan. Untuk menggunakan API, Anda harus terlebih dahulu membuat keputusan tersebut.',
-  'subs.intro.note.ai':
-    'Terjemahan AI telah aktif untuk kunci Pro. Judul apa pun, 80+ bahasa target, dialirkan kembali sesuai urutan subtitle seiring batch selesai.',
   'subs.intro.important.apikey':
     'API key diperlukan untuk semua permintaan. Dapatkan kunci gratis di [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (verifikasi email, 1.000 permintaan/hari). Untuk penggunaan lebih tinggi, tersedia [paket Pro dan top-up](https://store.wyzie.io). Lihat halaman API Keys untuk detailnya.',
   'subs.intro.note.npm':
@@ -317,6 +315,12 @@ const messages: Record<string, string> = {
     'Tambahkan bahasa kedua (kode ISO 639-1) di bawah setiap baris, diselaraskan dengan waktu file ini. Membutuhkan 1 permintaan tambahan, hanya jika ditemukan kecocokan; jika tidak, file dikembalikan sendiri dengan `X-Dual: unavailable`.',
   'subs.direct.dl.after':
     'Opsi dapat digabungkan, mis. `&to=vtt&sdh=strip&offset=-1.5`. Tautan sudah membawa `format`, `encoding`, `id`, dan (untuk episode) `season` serta `episode`: biarkan apa adanya. `autoUnzip=false` mengembalikan arsip apa adanya.',
+  'subs.direct.oneCall.p':
+    'Dengan API key, GET /download mengembalikan file subtitle itu sendiri dalam satu panggilan: ia mencari dengan kunci Anda dan parameter yang sama seperti /search (language bawaannya en), memilih yang paling cocok, lalu menyajikannya. Biayanya 2 permintaan, sama dengan satu pencarian ditambah satu unduhan. Opsi unduhan seperti to dan offset diterapkan pada file tersebut.',
+  'subs.direct.oneCall.pick':
+    'Yang paling cocok adalah hasil pencarian pertama, dengan mengutamakan file SRT, WebVTT, dan ASS kecuali Anda mengatur format, serta file tanpa teks untuk gangguan pendengaran kecuali Anda mengatur hi=true. Persempit pilihannya dengan release, filename, source, atau origin. Header respons X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language, dan X-Subtitle-Url menunjukkan file mana yang dipilih. Error-nya sama seperti untuk /search dan tautan unduhan.',
+  'subs.direct.oneCall.keyless':
+    'Tanpa kunci, [halaman unduhan](https://sub.wyzie.io/download) tersedia untuk mencari satu atau dua subtitle secara manual. Tautannya hanya membuka file yang menjadi tujuan pembuatannya, dari jaringan yang melakukan pencarian, dan halaman ini memiliki batas per jam. Untuk apa pun yang otomatis, gunakan kunci.',
   'subs.direct.headers.p':
     'Setiap respons /search menyertakan header X-Total-Count yang berisi jumlah total hasil. Jika Anda menyertakan limit, respons juga menyertakan:',
   'subs.direct.header.xpage': 'halaman yang dikembalikan.',
@@ -328,7 +332,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Terjemahan Subtitle AI',
   'subs.translate.important':
-    'Terjemahan AI adalah **fitur Pro**; kunci gratis mendapatkan 403 Upgrade required. Setiap panggilan membutuhkan **100 permintaan** dari saldo kunci Anda, termasuk cache hit. Jika panggilan gagal sebelum menghasilkan output apa pun (tidak ada subtitle yang ditemukan, pencarian atau unduhan gagal, atau server sedang sibuk), 100 permintaan tersebut dikembalikan secara otomatis.',
+    'Terjemahan AI adalah **fitur Pro**; kunci gratis mendapatkan 403 Upgrade required. Setiap panggilan membutuhkan **25 permintaan** dari saldo kunci Anda, termasuk cache hit. Jika panggilan gagal sebelum menghasilkan output apa pun (tidak ada subtitle yang ditemukan, pencarian atau unduhan gagal, atau server sedang sibuk), 25 permintaan tersebut dikembalikan secara otomatis.',
   'subs.translate.p1':
     'Wyzie dapat menerjemahkan subtitle apa pun ke 80+ bahasa secara langsung. SRT hasil terjemahan dialirkan kembali secara berurutan seiring batch selesai, sehingga cue pertama tiba dengan cepat alih-alih setelah seluruh file selesai. Terjemahan lengkap di-cache selama 30 hari, sehingga permintaan berikutnya untuk judul, episode, dan bahasa target yang sama disajikan dari cache.',
 
@@ -376,24 +380,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Keterbatasan',
   'subs.translate.limit1':
-    'Terjemahan AI memerlukan subtitle teks sebagai titik awal. Sumber VTT, ASS, SSA, dan SUB dikonversi ke SRT terlebih dahulu; jika tidak ada subtitle teks, panggilan mengembalikan 404 No subtitle found dan 100 permintaan tersebut dikembalikan ke saldo Anda.',
+    'Terjemahan AI memerlukan subtitle teks sebagai titik awal. Sumber VTT, ASS, SSA, dan SUB dikonversi ke SRT terlebih dahulu; jika tidak ada subtitle teks, panggilan mengembalikan 404 No subtitle found dan 25 permintaan tersebut dikembalikan ke saldo Anda.',
   'subs.translate.limit2':
     'Kualitas terjemahan bergantung pada subtitle sumber. Sumber yang waktunya buruk atau salah ketik akan menghasilkan terjemahan yang waktunya buruk atau salah ketik.',
   'subs.translate.limit3':
     'Beberapa pengguna mungkin ingin sepenuhnya menghindari baris AI. Filter pada ai === false di klien Anda.',
   'subs.translate.limit4':
-    'Terjemahan ditagih pada cache hit juga. Baik yang baru dibuat maupun yang disajikan dari cache 30 hari, setiap panggilan /translate membutuhkan 100 permintaan. Biaya hanya dikembalikan untuk panggilan yang gagal sebelum menghasilkan output apa pun.',
+    'Terjemahan ditagih pada cache hit juga. Baik yang baru dibuat maupun yang disajikan dari cache 30 hari, setiap panggilan /translate membutuhkan 25 permintaan. Biaya hanya dikembalikan untuk panggilan yang gagal sebelum menghasilkan output apa pun.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced adalah **fitur Pro**: kunci gratis mendapatkan 403 Paid feature. Setiap sinkronisasi yang berhasil membutuhkan **1 permintaan**; sinkronisasi yang tidak menemukan kecocokan tidak dikenakan biaya. Mengunduh tautan hasil sinkronisasi kemudian dihitung seperti unduhan lainnya.',
+    'Wyzie Synced adalah **fitur Pro**: kunci gratis mendapatkan 403 Paid feature. Setiap sinkronisasi yang berhasil membutuhkan **5 permintaan**; sinkronisasi yang tidak menemukan kecocokan tidak dikenakan biaya. Mengunduh tautan hasil sinkronisasi kemudian dihitung seperti unduhan lainnya.',
   'subs.synced.p1':
     'Subtitle yang ditemukan online sering kali diatur waktunya untuk rilis yang berbeda dari video yang Anda miliki: subtitle dimulai beberapa detik terlalu awal atau terlambat, atau makin bergeser seiring film berjalan karena rilis tersebut berjalan pada frame rate yang berbeda. Wyzie Synced mendengarkan audio salinan Anda, menemukan bagian di mana orang berbicara, lalu menghitung offset dan perbaikan frame rate yang menyelaraskan subtitle dengannya. Anda mendapatkan tautan unduhan biasa dengan perbaikan yang sudah diterapkan (melalui [opsi unduhan](/subs/usage/direct#download-options) offset dan fps).',
   'subs.synced.web.p':
     'Cara termudah: buka [sub.wyzie.io/synced](https://sub.wyzie.io/synced), masukkan kunci Pro Anda, pilih file video dan judulnya, lalu unduh subtitle yang sudah disinkronkan. Audio dianalisis di browser Anda, sehingga video tidak pernah diunggah: hanya waktu ucapan yang dikirim. MKV, MP4, AVI, dan sebagian besar format lainnya didukung, termasuk audio AC3, E-AC3, dan DTS.',
   'subs.synced.api.p':
-    'Kirim subtitle yang Anda inginkan (tautan unduhan, atau judul agar Wyzie memilih yang paling cocok) beserta audionya: baik waktu ucapan yang Anda deteksi sendiri, maupun file audio/video itu sendiri.',
+    'Kirim subtitle yang Anda inginkan (tautan unduhan, atau judul agar Wyzie memilih yang paling cocok) beserta audionya: baik waktu ucapan yang Anda deteksi sendiri, maupun file audio/video itu sendiri. POST /synced adalah API yang sama.',
   'subs.synced.param.url':
     'Tautan unduhan dari /search (https://sub.wyzie.io/c/…). Opsi unduhan lain di dalamnya (to, sdh, …) tetap dipertahankan pada tautan hasil sinkronisasi.',
   'subs.synced.param.id':
@@ -438,7 +442,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Subtitle tidak selaras dengan audio pada offset atau frame rate mana pun (kemungkinan versi atau episode lain), audio terlalu sedikit mengandung ucapan, atau file tidak dapat didekode.',
   'subs.synced.error.429':
-    'Kunci tidak dapat membayar permintaan ini, sama seperti panggilan lainnya.',
+    'Kunci tidak dapat membayar: sinkronisasi memerlukan sisa minimal 5 permintaan, yang diperiksa sebelum pekerjaan apa pun dimulai.',
   'subs.synced.error.503':
     'Sedang sibuk mendekode unggahan lain, atau pencarian sementara tidak tersedia. Coba lagi sebentar lagi, atau kirim speech.',
   'subs.synced.lib.p':
@@ -510,7 +514,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Mencapai Batas',
   'subs.keys.limit.p':
-    'Satu pencarian membutuhkan 1 permintaan dan setiap unduhan subtitle membutuhkan 1 permintaan, jadi mencari sekali lalu mengunduh satu file menggunakan 2. Terjemahan AI membutuhkan 100 permintaan per panggilan.',
+    'Satu pencarian membutuhkan 1 permintaan dan setiap unduhan subtitle membutuhkan 1 permintaan, jadi mencari sekali lalu mengunduh satu file menggunakan 2. Terjemahan AI membutuhkan 25 permintaan per panggilan, dan satu sinkronisasi Wyzie Synced membutuhkan 5.',
   'subs.keys.limit.free':
     '**Tingkatan gratis** habis -> pencarian dan tautan unduhan mengembalikan 429 Daily request limit reached, dengan reset_at di dalam JSON dan header Retry-After. Batas harian 1.000 permintaan direset pada tengah malam UTC.',
   'subs.keys.limit.paid':
@@ -582,8 +586,6 @@ const messages: Record<string, string> = {
     '**Manajemen Pool IP Cerdas**: Rotasi IP otomatis dengan ukuran pool yang dapat dikonfigurasi. Manajemen siklus hidup IP yang cerdas. Penghitungan permintaan per IP. Pembersihan IP yang tidak digunakan berdasarkan ambang batas tidak aktif.',
   'i6shark.intro.feature5':
     '**Penanganan Permintaan Lanjutan**: Penerusan header kustom. Penghapusan header Cloudflare dan CDN. Dukungan untuk berbagai format parameter URL. Fallback opsional ke IP default sistem.',
-  'i6shark.intro.feature6':
-    '**Whitelist Host**: Daftar putih domain bawaan untuk keamanan (dapat dikonfigurasi dalam kode)',
   'i6shark.intro.feature7':
     '**Pemeliharaan Otomatis**: Pembersihan pool IP secara berkala. Validasi dan pembersihan subnet. Optimasi connection pooling dan keepalive.',
   'i6shark.intro.feature8':

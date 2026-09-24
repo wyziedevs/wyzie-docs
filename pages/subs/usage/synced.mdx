@@ -93,7 +93,7 @@ curl -X POST "https://sub.wyzie.io/sync?key=YOUR_KEY&id=tt3659388&language=en" \
 | **404** | `"No subtitles found"`                    | <T id="subs.synced.error.404" />    |
 | **413** | `"File too large"`                        | <T id="subs.synced.error.413" />    |
 | **422** | `"Couldn't sync"`, `"No speech found"`    | <T id="subs.synced.error.422" />    |
-| **429 / 402** | `"Daily request limit reached"`, `"Pro key request balance exhausted"` | <T id="subs.synced.error.429" /> |
+| **429 / 402** | `"Not enough requests"`, `"Pro key request balance exhausted"` | <T id="subs.synced.error.429" /> |
 | **503** | `"Unavailable"`, `"Search failed"`        | <T id="subs.synced.error.503" />    |
 
 ### With wyzie-lib

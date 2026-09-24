@@ -1,4 +1,4 @@
-import { T, TP, TImportant, TCaution } from '../../../components/T';
+import { T, TP, TNote, TImportant, TCaution } from '../../../components/T';
 
 # Directly Fetching Wyzie Subs
 
@@ -119,6 +119,18 @@ import { T, TP, TImportant, TCaution } from '../../../components/T';
 | **dual**   | `&dual=ja`        | Pro  | <T id="subs.direct.dl.param.dual" />    |
 
 <TP id="subs.direct.dl.after" />
+
+#### One-Call Download
+
+<TP id="subs.direct.oneCall.p" />
+
+```bash
+curl -o subtitle.vtt "https://sub.wyzie.io/download?id=tt0111161&language=en&to=vtt&key=YOUR_KEY"
+```
+
+<TP id="subs.direct.oneCall.pick" />
+
+<TNote id="subs.direct.oneCall.keyless" />
 
 ### Pagination and Headers
 

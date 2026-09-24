@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Intro to Wyzie Subs',
   'subs.intro.p1':
     'Wyzie Subs is a subtitle scraping API with a free tier. There are two ways to make requests to the API: using our NPM package or directly fetching the Wyzie API itself. I recommend using our package, but some may find the types cumbersome. In order to use the API, you must first make that decision.',
-  'subs.intro.note.ai':
-    'AI Translation is live for Pro keys. Any title, 80+ target languages, streamed back in subtitle order as batches finish.',
   'subs.intro.important.apikey':
     'An API key is required for all requests. Get a free key at [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (email verification, 1,000 requests/day). For higher usage, [Pro and top-up plans](https://store.wyzie.io) are available. See the API Keys page for details.',
   'subs.intro.note.npm':
@@ -314,6 +312,12 @@ const messages: Record<string, string> = {
     "Add a second language (ISO 639-1 code) under each line, lined up with this file's timing. Costs 1 extra request, only when a match is found; otherwise the file comes back alone with `X-Dual: unavailable`.",
   'subs.direct.dl.after':
     'Options combine, e.g. `&to=vtt&sdh=strip&offset=-1.5`. Links already carry `format`, `encoding`, `id` and (for episodes) `season` and `episode`: leave those as they are. `autoUnzip=false` returns an archive as-is.',
+  'subs.direct.oneCall.p':
+    'With an API key, GET /download returns the subtitle file itself in one call: it searches with your key and the same parameters as /search (language defaults to en), picks the best match and serves it. That costs 2 requests, the same as a search plus a download. Download options such as to and offset apply to the file.',
+  'subs.direct.oneCall.pick':
+    'The best match is the first search result, preferring SRT, WebVTT and ASS files unless you set format, and files without hearing-impaired text unless you set hi=true. Narrow it with release, filename, source or origin. The X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language and X-Subtitle-Url response headers say which file was picked. Errors are the same as for /search and download links.',
+  'subs.direct.oneCall.keyless':
+    'Without a key, the [download page](https://sub.wyzie.io/download) is there for finding a subtitle or two by hand. Its links open only the file they were made for, from the network that searched, and it has hourly limits. For anything automated, use a key.',
   'subs.direct.headers.p':
     'Every /search response includes an X-Total-Count header with the total number of results. When you pass limit, it also includes:',
   'subs.direct.header.xpage': 'the page returned.',
@@ -325,7 +329,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'AI Subtitle Translation',
   'subs.translate.important':
-    "AI translation is a **Pro feature**; free keys get 403 Upgrade required. Each call costs **100 requests** from your key's balance, cache hits included. If a call fails before any output (no subtitle found, a search or download failure, or the server is busy), the 100 requests are refunded automatically.",
+    "AI translation is a **Pro feature**; free keys get 403 Upgrade required. Each call costs **25 requests** from your key's balance, cache hits included. If a call fails before any output (no subtitle found, a search or download failure, or the server is busy), the 25 requests are refunded automatically.",
   'subs.translate.p1':
     'Wyzie can translate any subtitle into 80+ languages on the fly. The translated SRT is streamed back in order as batches finish, so the first cues arrive quickly instead of after the whole file is done. The complete translation is cached for 30 days, so later requests for the same title, episode, and target language are served from the cache.',
 
@@ -373,24 +377,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Limitations',
   'subs.translate.limit1':
-    'AI translation needs a text subtitle to start from. VTT, ASS, SSA, and SUB sources are converted to SRT first; if no text subtitle exists, the call returns 404 No subtitle found and the 100 requests are refunded.',
+    'AI translation needs a text subtitle to start from. VTT, ASS, SSA, and SUB sources are converted to SRT first; if no text subtitle exists, the call returns 404 No subtitle found and the 25 requests are refunded.',
   'subs.translate.limit2':
     'Translation quality depends on the source subtitle. A poorly-timed or mistyped source produces a poorly-timed or mistyped translation.',
   'subs.translate.limit3':
     'Some users may want to opt out of AI rows entirely. Filter on ai === false in your client.',
   'subs.translate.limit4':
-    'Translations are billed on cache hits too. Whether freshly generated or served from the 30-day cache, each /translate call costs 100 requests. Only calls that fail before any output are refunded.',
+    'Translations are billed on cache hits too. Whether freshly generated or served from the 30-day cache, each /translate call costs 25 requests. Only calls that fail before any output are refunded.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced is a **Pro feature**: free keys get 403 Paid feature. Each successful sync costs **1 request**; a sync that finds no match is not charged. Downloading the synced link then counts like any other download.',
+    'Wyzie Synced is a **Pro feature**: free keys get 403 Paid feature. Each successful sync costs **5 requests**; a sync that finds no match is not charged. Downloading the synced link then counts like any other download.',
   'subs.synced.p1':
     "Subtitles found online are often timed for a different release than the video you have: they start a few seconds early or late, or drift further out as the film goes on because that release runs at another frame rate. Wyzie Synced listens to your copy's audio, finds where people talk, and works out the offset and frame-rate fix that line the subtitle up with it. You get a normal download link with the fix applied (the offset and fps [download options](/subs/usage/direct#download-options)).",
   'subs.synced.web.p':
     'The easiest way: open [sub.wyzie.io/synced](https://sub.wyzie.io/synced), enter your Pro key, pick your video file and the title, and download the synced subtitle. The audio is analysed in your browser, so the video is never uploaded: only the speech timings are sent. MKV, MP4, AVI and most other formats work, including AC3, E-AC3 and DTS audio.',
   'subs.synced.api.p':
-    'Send which subtitle you want (a download link, or the title to let Wyzie pick the best match) and the audio: either speech timings you detected yourself, or the audio/video file itself.',
+    'Send which subtitle you want (a download link, or the title to let Wyzie pick the best match) and the audio: either speech timings you detected yourself, or the audio/video file itself. POST /synced is the same API.',
   'subs.synced.param.url':
     'A download link from /search (https://sub.wyzie.io/c/…). Other download options on it (to, sdh, …) are kept on the synced link.',
   'subs.synced.param.id':
@@ -434,7 +438,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     "The subtitle doesn't line up with the audio at any offset or frame rate (probably another cut or episode), the audio has too little speech, or the file can't be decoded.",
   'subs.synced.error.429':
-    "The key can't pay for the request, as with any other call.",
+    "The key can't pay: a sync needs at least 5 requests left, checked before any work.",
   'subs.synced.error.503':
     'Busy decoding other uploads, or search is briefly unavailable. Retry shortly, or send speech.',
   'subs.synced.lib.p':
@@ -503,7 +507,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Hitting the Limit',
   'subs.keys.limit.p':
-    'A search costs 1 request and each subtitle download costs 1 request, so searching once and downloading one file uses 2. AI translation costs 100 requests per call.',
+    'A search costs 1 request and each subtitle download costs 1 request, so searching once and downloading one file uses 2. AI translation costs 25 requests per call, and a Wyzie Synced sync 5.',
   'subs.keys.limit.free':
     '**Free tier** depleted -> searches and download links return 429 Daily request limit reached, with reset_at in the JSON and a Retry-After header. The daily cap of 1,000 requests resets at UTC midnight.',
   'subs.keys.limit.paid':

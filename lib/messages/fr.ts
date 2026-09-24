@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Introduction à Wyzie Subs',
   'subs.intro.p1':
     "Wyzie Subs est une API de scraping de sous-titres avec un niveau gratuit. Il existe deux façons d'effectuer des requêtes vers l'API : en utilisant notre package NPM ou en appelant directement l'API Wyzie. Je recommande d'utiliser notre package, mais certains trouveront les types encombrants. Pour utiliser l'API, vous devez d'abord faire ce choix.",
-  'subs.intro.note.ai':
-    "La traduction IA est disponible pour les clés Pro. N'importe quel titre, 80+ langues cibles, diffusé dans l'ordre des sous-titres au fur et à mesure que les lots se terminent.",
   'subs.intro.important.apikey':
     'Une clé API est requise pour toutes les requêtes. Obtenez une clé gratuite sur [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (vérification par email, 1 000 requêtes/jour). Pour une utilisation plus intensive, des [plans Pro et recharges](https://store.wyzie.io) sont disponibles. Consultez la page Clés API pour plus de détails.',
   'subs.intro.note.npm':
@@ -323,6 +321,12 @@ const messages: Record<string, string> = {
     "Ajoute une seconde langue (code ISO 639-1) sous chaque ligne, alignée sur le minutage de ce fichier. Coûte 1 requête supplémentaire, uniquement lorsqu'une correspondance est trouvée ; sinon le fichier est renvoyé seul avec `X-Dual: unavailable`.",
   'subs.direct.dl.after':
     'Les options se combinent, ex. : `&to=vtt&sdh=strip&offset=-1.5`. Les liens contiennent déjà `format`, `encoding`, `id` et (pour les épisodes) `season` et `episode` : laissez-les tels quels. `autoUnzip=false` renvoie une archive telle quelle, sans la décompresser.',
+  'subs.direct.oneCall.p':
+    "Avec une clé API, GET /download renvoie directement le fichier de sous-titres en un seul appel : il effectue la recherche avec votre clé et les mêmes paramètres que /search (language vaut en par défaut), choisit la meilleure correspondance et la sert. Cela coûte 2 requêtes, autant qu'une recherche plus un téléchargement. Les options de téléchargement comme to et offset s'appliquent au fichier.",
+  'subs.direct.oneCall.pick':
+    'La meilleure correspondance est le premier résultat de recherche, en privilégiant les fichiers SRT, WebVTT et ASS sauf si vous définissez format, et les fichiers sans texte pour malentendants sauf si vous définissez hi=true. Affinez-la avec release, filename, source ou origin. Les en-têtes de réponse X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language et X-Subtitle-Url indiquent quel fichier a été choisi. Les erreurs sont les mêmes que pour /search et les liens de téléchargement.',
+  'subs.direct.oneCall.keyless':
+    "Sans clé, la [page de téléchargement](https://sub.wyzie.io/download) permet de trouver un ou deux sous-titres à la main. Ses liens n'ouvrent que le fichier pour lequel ils ont été créés, depuis le réseau qui a effectué la recherche, et elle est soumise à des limites horaires. Pour tout usage automatisé, utilisez une clé.",
   'subs.direct.headers.p':
     'Chaque réponse /search inclut un en-tête X-Total-Count indiquant le nombre total de résultats. Lorsque vous passez limit, elle inclut également :',
   'subs.direct.header.xpage': 'la page retournée.',
@@ -334,7 +338,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Traduction de sous-titres par IA',
   'subs.translate.important':
-    'La traduction IA est une **fonctionnalité Pro** : les clés gratuites reçoivent 403 Upgrade required. Chaque appel coûte **100 requêtes** du solde de votre clé, cache hits compris. Si un appel échoue avant toute sortie (aucun sous-titre trouvé, échec de la recherche ou du téléchargement, ou serveur occupé), les 100 requêtes sont remboursées automatiquement.',
+    'La traduction IA est une **fonctionnalité Pro** : les clés gratuites reçoivent 403 Upgrade required. Chaque appel coûte **25 requêtes** du solde de votre clé, cache hits compris. Si un appel échoue avant toute sortie (aucun sous-titre trouvé, échec de la recherche ou du téléchargement, ou serveur occupé), les 25 requêtes sont remboursées automatiquement.',
   'subs.translate.p1':
     "Wyzie peut traduire n'importe quel sous-titre en 80+ langues à la volée. Le SRT traduit est diffusé dans l'ordre au fur et à mesure que les lots se terminent : les cues du début arrivent ainsi rapidement, sans attendre que tout le fichier soit terminé. La traduction complète est mise en cache pendant 30 jours : les requêtes ultérieures pour le même titre, le même épisode et la même langue cible sont donc servies depuis le cache.",
 
@@ -383,24 +387,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Limitations',
   'subs.translate.limit1':
-    "La traduction IA a besoin d'un sous-titre texte comme point de départ. Les sources VTT, ASS, SSA et SUB sont d'abord converties en SRT ; s'il n'existe aucun sous-titre texte, l'appel retourne 404 No subtitle found et les 100 requêtes sont remboursées.",
+    "La traduction IA a besoin d'un sous-titre texte comme point de départ. Les sources VTT, ASS, SSA et SUB sont d'abord converties en SRT ; s'il n'existe aucun sous-titre texte, l'appel retourne 404 No subtitle found et les 25 requêtes sont remboursées.",
   'subs.translate.limit2':
     'La qualité de la traduction dépend du sous-titre source. Un source mal synchronisé ou mal tapé produit une traduction mal synchronisée ou mal tapée.',
   'subs.translate.limit3':
     'Certains utilisateurs peuvent vouloir exclure entièrement les lignes IA. Filtrez sur ai === false dans votre client.',
   'subs.translate.limit4':
-    "Les traductions sont facturées aussi sur les cache hits. Qu'une traduction soit fraîchement générée ou servie depuis le cache de 30 jours, chaque appel /translate coûte 100 requêtes. Seuls les appels qui échouent avant toute sortie sont remboursés.",
+    "Les traductions sont facturées aussi sur les cache hits. Qu'une traduction soit fraîchement générée ou servie depuis le cache de 30 jours, chaque appel /translate coûte 25 requêtes. Seuls les appels qui échouent avant toute sortie sont remboursés.",
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    "Wyzie Synced est une **fonctionnalité Pro** : les clés gratuites reçoivent 403 Paid feature. Chaque synchronisation réussie coûte **1 requête** ; une synchronisation qui ne trouve aucune correspondance n'est pas facturée. Le téléchargement du lien synchronisé compte ensuite comme n'importe quel autre téléchargement.",
+    "Wyzie Synced est une **fonctionnalité Pro** : les clés gratuites reçoivent 403 Paid feature. Chaque synchronisation réussie coûte **5 requêtes** ; une synchronisation qui ne trouve aucune correspondance n'est pas facturée. Le téléchargement du lien synchronisé compte ensuite comme n'importe quel autre téléchargement.",
   'subs.synced.p1':
     "Les sous-titres trouvés en ligne sont souvent calés sur une autre release que la vidéo que vous avez : ils commencent quelques secondes trop tôt ou trop tard, ou se décalent de plus en plus au fil du film parce que cette release tourne à une autre fréquence d'images. Wyzie Synced écoute l'audio de votre copie, repère les moments où l'on parle, et calcule le décalage (offset) et la correction de fréquence d'images nécessaires pour aligner le sous-titre sur cet audio. Vous obtenez un lien de téléchargement normal avec la correction appliquée (les [options de téléchargement](/subs/usage/direct#download-options) offset et fps).",
   'subs.synced.web.p':
     "Le plus simple : ouvrez [sub.wyzie.io/synced](https://sub.wyzie.io/synced), saisissez votre clé Pro, choisissez votre fichier vidéo et le titre, puis téléchargez le sous-titre synchronisé. L'audio est analysé dans votre navigateur, la vidéo n'est donc jamais envoyée : seuls les horodatages de la parole sont transmis. MKV, MP4, AVI et la plupart des autres formats fonctionnent, y compris l'audio AC3, E-AC3 et DTS.",
   'subs.synced.api.p':
-    "Envoyez le sous-titre souhaité (un lien de téléchargement, ou le titre pour laisser Wyzie choisir la meilleure correspondance) et l'audio : soit des horodatages de parole que vous avez détectés vous-même, soit le fichier audio/vidéo lui-même.",
+    "Envoyez le sous-titre souhaité (un lien de téléchargement, ou le titre pour laisser Wyzie choisir la meilleure correspondance) et l'audio : soit des horodatages de parole que vous avez détectés vous-même, soit le fichier audio/vidéo lui-même. POST /synced est la même API.",
   'subs.synced.param.url':
     "Un lien de téléchargement issu de /search (https://sub.wyzie.io/c/…). Les autres options de téléchargement qu'il contient (to, sdh, …) sont conservées sur le lien synchronisé.",
   'subs.synced.param.id':
@@ -445,7 +449,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     "Le sous-titre ne s'aligne sur l'audio à aucun décalage ni aucune fréquence d'images (probablement un autre montage ou un autre épisode), l'audio contient trop peu de parole, ou le fichier ne peut pas être décodé.",
   'subs.synced.error.429':
-    'La clé ne peut pas payer la requête, comme pour tout autre appel.',
+    "La clé ne peut pas payer : une synchronisation nécessite qu'il reste au moins 5 requêtes, ce qui est vérifié avant tout traitement.",
   'subs.synced.error.503':
     "Le serveur est occupé à décoder d'autres fichiers envoyés, ou la recherche est momentanément indisponible. Réessayez un peu plus tard, ou envoyez speech.",
   'subs.synced.lib.p':
@@ -516,7 +520,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Atteindre la limite',
   'subs.keys.limit.p':
-    "Une recherche coûte 1 requête et chaque téléchargement de sous-titre coûte 1 requête : une recherche suivie du téléchargement d'un fichier en consomme donc 2. La traduction IA coûte 100 requêtes par appel.",
+    "Une recherche coûte 1 requête et chaque téléchargement de sous-titre coûte 1 requête : une recherche suivie du téléchargement d'un fichier en consomme donc 2. La traduction IA coûte 25 requêtes par appel, et une synchronisation Wyzie Synced 5.",
   'subs.keys.limit.free':
     '**Niveau gratuit** épuisé -> les recherches et les liens de téléchargement retournent 429 Daily request limit reached, avec reset_at dans le JSON et un en-tête Retry-After. Le plafond quotidien de 1 000 requêtes se réinitialise à minuit UTC.',
   'subs.keys.limit.paid':
@@ -587,8 +591,6 @@ const messages: Record<string, string> = {
     "**Gestion intelligente du pool d'IP** : Rotation automatique d'IP avec taille de pool configurable. Gestion intelligente du cycle de vie des IP. Comptage des requêtes par IP. Nettoyage des IP inutilisées selon un seuil d'inactivité.",
   'i6shark.intro.feature5':
     "**Traitement avancé des requêtes** : Transfert d'en-têtes personnalisés. Suppression des en-têtes Cloudflare et CDN. Support de multiples formats de paramètres URL. Repli optionnel sur l'IP système par défaut.",
-  'i6shark.intro.feature6':
-    '**Liste blanche de domaines** : Liste blanche intégrée pour la sécurité (configurable dans le code)',
   'i6shark.intro.feature7':
     "**Maintenance automatique** : Vidage périodique du pool d'IP. Validation et nettoyage des sous-réseaux. Mise en pool de connexions et optimisation keepalive.",
   'i6shark.intro.feature8':

@@ -34,8 +34,6 @@ const messages: Record<string, string> = {
   'subs.intro.title': 'Giới thiệu Wyzie Subs',
   'subs.intro.p1':
     'Wyzie Subs là một API tìm kiếm phụ đề có gói miễn phí. Có hai cách để gửi yêu cầu tới API: sử dụng gói NPM của chúng tôi hoặc trực tiếp gọi Wyzie API. Tôi khuyến nghị dùng gói của chúng tôi, nhưng một số người có thể thấy các kiểu dữ liệu hơi phức tạp. Để sử dụng API, trước tiên bạn cần đưa ra quyết định đó.',
-  'subs.intro.note.ai':
-    'Dịch thuật AI đã hoạt động cho các key Pro. Bất kỳ tiêu đề nào, hơn 80 ngôn ngữ đích, phát trực tuyến về theo thứ tự phụ đề khi từng lô hoàn tất.',
   'subs.intro.important.apikey':
     'API key là bắt buộc cho tất cả các yêu cầu. Lấy key miễn phí tại [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (xác minh email, 1.000 yêu cầu/ngày). Để sử dụng nhiều hơn, [các gói Pro và nạp thêm](https://store.wyzie.io) đã có sẵn. Xem trang API Keys để biết chi tiết.',
   'subs.intro.note.npm':
@@ -319,6 +317,12 @@ const messages: Record<string, string> = {
     'Thêm ngôn ngữ thứ hai (mã ISO 639-1) bên dưới mỗi dòng, căn khớp với thời gian của file này. Tốn thêm 1 yêu cầu, chỉ khi tìm được bản khớp; nếu không, file được trả về một mình kèm `X-Dual: unavailable`.',
   'subs.direct.dl.after':
     'Các tùy chọn có thể kết hợp, ví dụ `&to=vtt&sdh=strip&offset=-1.5`. Liên kết đã mang sẵn `format`, `encoding`, `id` và (với tập phim) `season` và `episode`: hãy giữ nguyên các tham số đó. `autoUnzip=false` trả về file nén nguyên trạng.',
+  'subs.direct.oneCall.p':
+    'Với API key, GET /download trả về chính file phụ đề chỉ trong một lần gọi: nó tìm kiếm bằng key của bạn với cùng các tham số như /search (language mặc định là en), chọn bản khớp nhất và trả về. Việc này tốn 2 yêu cầu, bằng một lần tìm kiếm cộng một lượt tải xuống. Các tùy chọn tải xuống như to và offset được áp dụng cho file.',
+  'subs.direct.oneCall.pick':
+    'Bản khớp nhất là kết quả tìm kiếm đầu tiên, ưu tiên các file SRT, WebVTT và ASS trừ khi bạn đặt format, và các file không có văn bản dành cho người khiếm thính trừ khi bạn đặt hi=true. Thu hẹp lựa chọn bằng release, filename, source hoặc origin. Các header phản hồi X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language và X-Subtitle-Url cho biết file nào đã được chọn. Các lỗi giống như với /search và liên kết tải xuống.',
+  'subs.direct.oneCall.keyless':
+    'Nếu không có key, [trang tải xuống](https://sub.wyzie.io/download) dùng để tìm thủ công một hai phụ đề. Liên kết của trang này chỉ mở được đúng file mà nó được tạo ra, từ mạng đã thực hiện tìm kiếm, và trang có giới hạn theo giờ. Với mọi việc tự động hóa, hãy dùng key.',
   'subs.direct.headers.p':
     'Mọi phản hồi /search đều bao gồm header X-Total-Count với tổng số kết quả. Khi bạn truyền limit, phản hồi cũng bao gồm:',
   'subs.direct.header.xpage': 'trang được trả về.',
@@ -330,7 +334,7 @@ const messages: Record<string, string> = {
   // Subs Translate Page
   'subs.translate.title': 'Dịch thuật phụ đề bằng AI',
   'subs.translate.important':
-    'Dịch thuật AI là **tính năng Pro**; key miễn phí nhận 403 Upgrade required. Mỗi lần gọi tốn **100 yêu cầu** từ số dư của key, kể cả khi lấy từ bộ nhớ đệm. Nếu một lần gọi thất bại trước khi có bất kỳ đầu ra nào (không tìm thấy phụ đề, lỗi tìm kiếm hoặc tải xuống, hoặc máy chủ đang bận), 100 yêu cầu sẽ được hoàn trả tự động.',
+    'Dịch thuật AI là **tính năng Pro**; key miễn phí nhận 403 Upgrade required. Mỗi lần gọi tốn **25 yêu cầu** từ số dư của key, kể cả khi lấy từ bộ nhớ đệm. Nếu một lần gọi thất bại trước khi có bất kỳ đầu ra nào (không tìm thấy phụ đề, lỗi tìm kiếm hoặc tải xuống, hoặc máy chủ đang bận), 25 yêu cầu sẽ được hoàn trả tự động.',
   'subs.translate.p1':
     'Wyzie có thể dịch bất kỳ phụ đề nào sang hơn 80 ngôn ngữ ngay lập tức. SRT đã dịch được phát trực tuyến về theo thứ tự khi từng lô hoàn tất, nên các cue đầu tiên đến rất nhanh thay vì phải đợi cả file xong. Bản dịch hoàn chỉnh được lưu đệm 30 ngày, vì vậy các yêu cầu sau đó cho cùng tiêu đề, tập và ngôn ngữ đích sẽ được phục vụ từ bộ nhớ đệm.',
 
@@ -378,24 +382,24 @@ const messages: Record<string, string> = {
 
   'subs.translate.limitations.h2': 'Giới hạn',
   'subs.translate.limit1':
-    'Dịch thuật AI cần một phụ đề dạng văn bản làm điểm xuất phát. Các nguồn VTT, ASS, SSA và SUB được chuyển đổi sang SRT trước; nếu không có phụ đề dạng văn bản nào, lệnh gọi sẽ trả về 404 No subtitle found và 100 yêu cầu được hoàn trả.',
+    'Dịch thuật AI cần một phụ đề dạng văn bản làm điểm xuất phát. Các nguồn VTT, ASS, SSA và SUB được chuyển đổi sang SRT trước; nếu không có phụ đề dạng văn bản nào, lệnh gọi sẽ trả về 404 No subtitle found và 25 yêu cầu được hoàn trả.',
   'subs.translate.limit2':
     'Chất lượng dịch phụ thuộc vào phụ đề nguồn. Một nguồn có thời gian kém hoặc lỗi đánh máy sẽ tạo ra bản dịch có thời gian kém hoặc lỗi đánh máy tương tự.',
   'subs.translate.limit3':
     'Một số người dùng có thể muốn loại bỏ hoàn toàn các hàng AI. Lọc theo ai === false trong client của bạn.',
   'subs.translate.limit4':
-    'Các bản dịch cũng được tính phí khi lấy từ bộ nhớ đệm. Dù được tạo mới hay lấy từ bộ nhớ đệm 30 ngày, mỗi lệnh gọi /translate tốn 100 yêu cầu. Chỉ những lệnh gọi thất bại trước khi có bất kỳ đầu ra nào mới được hoàn trả.',
+    'Các bản dịch cũng được tính phí khi lấy từ bộ nhớ đệm. Dù được tạo mới hay lấy từ bộ nhớ đệm 30 ngày, mỗi lệnh gọi /translate tốn 25 yêu cầu. Chỉ những lệnh gọi thất bại trước khi có bất kỳ đầu ra nào mới được hoàn trả.',
 
   // Subs Synced Page
   'subs.synced.title': 'Wyzie Synced',
   'subs.synced.important':
-    'Wyzie Synced là **tính năng Pro**: key miễn phí nhận 403 Paid feature. Mỗi lần đồng bộ thành công tốn **1 yêu cầu**; lần đồng bộ không tìm thấy bản khớp sẽ không bị tính phí. Sau đó, việc tải xuống liên kết đã đồng bộ được tính như mọi lượt tải xuống khác.',
+    'Wyzie Synced là **tính năng Pro**: key miễn phí nhận 403 Paid feature. Mỗi lần đồng bộ thành công tốn **5 yêu cầu**; lần đồng bộ không tìm thấy bản khớp sẽ không bị tính phí. Sau đó, việc tải xuống liên kết đã đồng bộ được tính như mọi lượt tải xuống khác.',
   'subs.synced.p1':
     'Phụ đề tìm thấy trên mạng thường được căn thời gian cho một bản phát hành khác với video bạn đang có: chúng bắt đầu sớm hoặc muộn vài giây, hoặc lệch dần khi phim chạy vì bản phát hành đó dùng tốc độ khung hình khác. Wyzie Synced nghe âm thanh trong bản của bạn, tìm những chỗ có người nói, và tính ra độ lệch cùng mức sửa tốc độ khung hình để khớp phụ đề với âm thanh đó. Bạn nhận được một liên kết tải xuống bình thường đã áp dụng bản sửa (các [tùy chọn tải xuống](/subs/usage/direct#download-options) offset và fps).',
   'subs.synced.web.p':
     'Cách dễ nhất: mở [sub.wyzie.io/synced](https://sub.wyzie.io/synced), nhập key Pro của bạn, chọn file video và tiêu đề, rồi tải xuống phụ đề đã đồng bộ. Âm thanh được phân tích ngay trong trình duyệt của bạn, nên video không bao giờ bị tải lên: chỉ có các mốc thời gian lời nói được gửi đi. MKV, MP4, AVI và hầu hết các định dạng khác đều dùng được, kể cả âm thanh AC3, E-AC3 và DTS.',
   'subs.synced.api.p':
-    'Gửi phụ đề bạn muốn (một liên kết tải xuống, hoặc tiêu đề để Wyzie chọn bản khớp nhất) và âm thanh: hoặc là các mốc thời gian lời nói do bạn tự phát hiện, hoặc chính file âm thanh/video.',
+    'Gửi phụ đề bạn muốn (một liên kết tải xuống, hoặc tiêu đề để Wyzie chọn bản khớp nhất) và âm thanh: hoặc là các mốc thời gian lời nói do bạn tự phát hiện, hoặc chính file âm thanh/video. POST /synced là cùng một API.',
   'subs.synced.param.url':
     'Liên kết tải xuống từ /search (https://sub.wyzie.io/c/…). Các tùy chọn tải xuống khác có trên liên kết đó (to, sdh, …) được giữ lại trên liên kết đã đồng bộ.',
   'subs.synced.param.id':
@@ -439,7 +443,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     'Phụ đề không khớp với âm thanh ở bất kỳ độ lệch hay tốc độ khung hình nào (có thể là một phiên bản dựng hoặc một tập khác), âm thanh có quá ít lời nói, hoặc không thể giải mã file.',
   'subs.synced.error.429':
-    'Key không đủ khả năng chi trả cho yêu cầu, giống như với mọi lệnh gọi khác.',
+    'Key không đủ khả năng chi trả: một lần đồng bộ cần còn ít nhất 5 yêu cầu, và điều này được kiểm tra trước khi bắt đầu bất kỳ xử lý nào.',
   'subs.synced.error.503':
     'Đang bận giải mã các file tải lên khác, hoặc tìm kiếm tạm thời không khả dụng. Hãy thử lại sau giây lát, hoặc gửi speech.',
   'subs.synced.lib.p':
@@ -508,7 +512,7 @@ const messages: Record<string, string> = {
 
   'subs.keys.limit.h2': 'Đạt giới hạn',
   'subs.keys.limit.p':
-    'Một lần tìm kiếm tốn 1 yêu cầu và mỗi lượt tải phụ đề tốn 1 yêu cầu, vì vậy tìm kiếm một lần và tải một file sẽ dùng 2 yêu cầu. Dịch thuật AI tốn 100 yêu cầu cho mỗi lần gọi.',
+    'Một lần tìm kiếm tốn 1 yêu cầu và mỗi lượt tải phụ đề tốn 1 yêu cầu, vì vậy tìm kiếm một lần và tải một file sẽ dùng 2 yêu cầu. Dịch thuật AI tốn 25 yêu cầu cho mỗi lần gọi, và một lần đồng bộ Wyzie Synced tốn 5.',
   'subs.keys.limit.free':
     '**Gói miễn phí** đã hết -> tìm kiếm và liên kết tải xuống trả về 429 Daily request limit reached, kèm reset_at trong JSON và header Retry-After. Giới hạn hàng ngày 1.000 yêu cầu được đặt lại vào lúc nửa đêm UTC.',
   'subs.keys.limit.paid':
@@ -578,8 +582,6 @@ const messages: Record<string, string> = {
     '**Quản lý nhóm IP thông minh**: Xoay vòng IP tự động với kích thước nhóm có thể cấu hình. Quản lý vòng đời IP thông minh. Đếm yêu cầu theo từng IP. Dọn dẹp IP không sử dụng dựa trên ngưỡng không hoạt động.',
   'i6shark.intro.feature5':
     '**Xử lý yêu cầu nâng cao**: Chuyển tiếp header tùy chỉnh. Loại bỏ header Cloudflare và CDN. Hỗ trợ nhiều định dạng tham số URL. Dự phòng tùy chọn về IP mặc định của hệ thống.',
-  'i6shark.intro.feature6':
-    '**Danh sách trắng host**: Danh sách trắng domain tích hợp để bảo mật (có thể cấu hình trong code)',
   'i6shark.intro.feature7':
     '**Bảo trì tự động**: Xả nhóm IP định kỳ. Xác thực và dọn dẹp subnet. Tối ưu hóa kết nối pooling và keepalive.',
   'i6shark.intro.feature8':
