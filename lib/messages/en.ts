@@ -221,6 +221,8 @@ const messages: Record<string, string> = {
   'subs.pkg.type.sources': 'Response type from the /sources endpoint.',
   'subs.pkg.type.download':
     'Options for withDownloadOptions: to, offset, fps, plain, and (Pro) sdh, clean, dual.',
+  'subs.pkg.type.sync':
+    'Input and result of syncSubtitle (Wyzie Synced, Pro keys): which subtitle (a result, its url, or tmdb_id/imdb_id with language), the speech detectSpeech found or the media file, and the synced download link with its offset, fps and confidence. See [Wyzie Synced](/subs/usage/synced).',
   'subs.pkg.types.end':
     'Our types are very simple and well-documented. See [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) in the wyzie-lib repository.',
   'subs.pkg.config.h3': 'Configuration',
@@ -378,6 +380,78 @@ const messages: Record<string, string> = {
     'Some users may want to opt out of AI rows entirely. Filter on ai === false in your client.',
   'subs.translate.limit4':
     'Translations are billed on cache hits too. Whether freshly generated or served from the 30-day cache, each /translate call costs 100 requests. Only calls that fail before any output are refunded.',
+
+  // Subs Synced Page
+  'subs.synced.title': 'Wyzie Synced',
+  'subs.synced.important':
+    'Wyzie Synced is a **Pro feature**: free keys get 403 Paid feature. Each successful sync costs **1 request**; a sync that finds no match is not charged. Downloading the synced link then counts like any other download.',
+  'subs.synced.p1':
+    "Subtitles found online are often timed for a different release than the video you have: they start a few seconds early or late, or drift further out as the film goes on because that release runs at another frame rate. Wyzie Synced listens to your copy's audio, finds where people talk, and works out the offset and frame-rate fix that line the subtitle up with it. You get a normal download link with the fix applied (the offset and fps [download options](/subs/usage/direct#download-options)).",
+  'subs.synced.web.p':
+    'The easiest way: open [sub.wyzie.io/synced](https://sub.wyzie.io/synced), enter your Pro key, pick your video file and the title, and download the synced subtitle. The audio is analysed in your browser, so the video is never uploaded: only the speech timings are sent. MKV, MP4, AVI and most other formats work, including AC3, E-AC3 and DTS audio.',
+  'subs.synced.api.p':
+    'Send which subtitle you want (a download link, or the title to let Wyzie pick the best match) and the audio: either speech timings you detected yourself, or the audio/video file itself.',
+  'subs.synced.param.url':
+    'A download link from /search (https://sub.wyzie.io/c/…). Other download options on it (to, sdh, …) are kept on the synced link.',
+  'subs.synced.param.id':
+    'Instead of url: TMDB or IMDB ID. Wyzie tries the top 5 text subtitles in that language and returns the one that fits your audio best.',
+  'subs.synced.param.language':
+    'With id: ISO 639-1 code of the subtitle language (required).',
+  'subs.synced.param.seasonEpisode':
+    'With id, for TV. Both must be present together.',
+  'subs.synced.param.key':
+    "Your Pro API key. Without it, the key behind url's tok is used; links from the keyless download page need key.",
+  'subs.synced.param.speech':
+    "Where people talk: [[start, end], …] in seconds, from any voice activity detector (wyzie-lib's detectSpeech, Silero VAD, webrtcvad). A 2-hour film is roughly 2,000 segments, about 40 KB of JSON.",
+  'subs.synced.param.media':
+    'Or the audio/video file itself: as the raw request body (with the other fields in the query string), or as the multipart field media. Up to 95 MB, so for a full film upload the audio track alone.',
+  'subs.synced.fields.note':
+    'Fields go in a JSON body, a multipart form, or the query string (with a raw media body).',
+  'subs.synced.response.p': 'A 200 response is JSON:',
+  'subs.synced.field.url':
+    "the subtitle's download link with the timing fix (offset, fps) and a fresh tok for your key. Use it like any /search url: each download costs 1 request.",
+  'subs.synced.field.offset':
+    'seconds added to every line after the frame-rate fix (negative is earlier).',
+  'subs.synced.field.fps':
+    'the frame-rate fix as SUBTITLE_FPS:VIDEO_FPS (e.g. "25:23.976"), or null when none was needed.',
+  'subs.synced.field.confidence':
+    '0 to 1: how clearly this timing beats every other. Anything returned has passed the match test; higher is more certain.',
+  'subs.synced.field.inSync':
+    'true when the subtitle already matched your copy.',
+  'subs.synced.field.subtitle':
+    'which subtitle was used (release, fileName, format, source, …). With url, only its format.',
+  'subs.synced.errors.p':
+    'Errors are JSON with message and details. Refused and failed syncs are not charged.',
+  'subs.synced.error.400':
+    "Missing or invalid fields: no subtitle, no audio, or speech that isn't [start, end] pairs.",
+  'subs.synced.error.401':
+    "No key, or url's download link is invalid or expired.",
+  'subs.synced.error.403':
+    'The key is free (Wyzie Synced needs Pro), invalid, or on hold.',
+  'subs.synced.error.404': 'No text subtitles in that language for the title.',
+  'subs.synced.error.413':
+    'The media file is over 95 MB. Upload the audio track alone, or send speech.',
+  'subs.synced.error.422':
+    "The subtitle doesn't line up with the audio at any offset or frame rate (probably another cut or episode), the audio has too little speech, or the file can't be decoded.",
+  'subs.synced.error.429':
+    "The key can't pay for the request, as with any other call.",
+  'subs.synced.error.503':
+    'Busy decoding other uploads, or search is briefly unavailable. Retry shortly, or send speech.',
+  'subs.synced.lib.p':
+    'wyzie-lib has detectSpeech (the same detector the site runs in your browser) and syncSubtitle:',
+  'subs.synced.how.step1':
+    'Speech: the audio is decoded to 8 kHz mono (the centre channel alone for 5.1 and 7.1 mixes, where dialogue lives), and a voice activity detector marks where people talk: loud, speech-band sound that rises and falls with syllables.',
+  'subs.synced.how.step2':
+    "Alignment: the subtitle's on-screen times are cross-correlated with that speech at every offset within ±10 minutes, for the usual frame-rate mismatches (25 vs 23.976, 25 vs 24, 24 vs 23.976 fps).",
+  'subs.synced.how.step3':
+    'Refinement: the best timing is refined to 10 ms by lining up where lines start with where speech starts.',
+  'subs.synced.how.step4':
+    "A timing is only returned when it stands far above every other offset, so a subtitle for another cut or episode gets 422 Couldn't sync instead of a wrong shift.",
+  'subs.synced.limit1':
+    "Wyzie Synced fixes a constant offset and a frame-rate difference. A subtitle for a different cut (added or missing scenes) can't be fixed by one shift, and is refused.",
+  'subs.synced.limit2':
+    "It needs speech: films with little dialogue, or audio that's mostly music, may not sync.",
+  'subs.synced.limit3': 'Offsets up to ±10 minutes are found.',
 
   // Subs API Keys Page
   'subs.keys.title': 'API Keys',

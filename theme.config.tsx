@@ -93,6 +93,10 @@ export default defineTheme({
                   usageGuide('translate'),
                 ),
                 link(
+                  'Wyzie Synced',
+                  usageGuide('synced'),
+                ),
+                link(
                   'API Keys',
                   usageGuide('api-keys'),
                 ),

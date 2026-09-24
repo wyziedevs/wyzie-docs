@@ -20,7 +20,7 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 
 ## Usage
 
-<Tabs items={["Fetching Subtitles", "VTT Parser", "Download Options", "Get Sources", "Handling Errors"]}>
+<Tabs items={["Fetching Subtitles", "VTT Parser", "Download Options", "Wyzie Synced", "Get Sources", "Handling Errors"]}>
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
@@ -62,6 +62,23 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 
     // Pro keys: hearing-impaired text removed, Japanese under each line
     const studyUrl = withDownloadOptions(data[0], { sdh: true, dual: "ja" });
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+    import { detectSpeech, syncSubtitle, parseToVTT } from "wyzie-lib";
+
+
+    // Pro keys: time a subtitle to the viewer's own copy of the video.
+    // Any mono audio works; here the browser decodes the file.
+    const ctx = new OfflineAudioContext(1, 8000, 8000);
+    const audio = await ctx.decodeAudioData(await file.arrayBuffer());
+    const speech = detectSpeech(audio.getChannelData(0), audio.sampleRate);
+
+    const synced = await syncSubtitle({ tmdb_id: 286217, language: "en", speech, key: "YOUR_KEY" });
+    console.log(synced.offset, synced.fps); // e.g. 4.09 null
+    const vtt = await parseToVTT(synced.url);
     ```
 
   </Tabs.Tab>
@@ -142,6 +159,7 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 - **SubtitleData**: <T id="subs.pkg.type.subtitle" />
 - **SourcesResponse**: <T id="subs.pkg.type.sources" />
 - **DownloadOptions**: <T id="subs.pkg.type.download" />
+- **SyncParams** / **SyncResult**: <T id="subs.pkg.type.sync" />
 
 <TP id="subs.pkg.types.end" />
 

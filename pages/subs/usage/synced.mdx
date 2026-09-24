@@ -1,0 +1,126 @@
+---
+title: 'Wyzie Synced'
+---
+
+import { T, TP, TImportant, TNote } from '../../../components/T';
+
+# Wyzie Synced
+
+<TImportant id="subs.synced.important" />
+
+<TP id="subs.synced.p1" />
+
+## On the Web
+
+<TP id="subs.synced.web.p" />
+
+## The API: `POST /sync`
+
+<TP id="subs.synced.api.p" />
+
+```bash
+curl -X POST https://sub.wyzie.io/sync \
+  -H "Content-Type: application/json" \
+  -d '{"key":"YOUR_KEY","id":"tt3659388","language":"en","speech":[[129.1,131.2],[131.4,133.6],[140.2,142.9]]}'
+```
+
+### Which Subtitle
+
+| Parameter            | Example                              | Description                                    |
+| -------------------- | ------------------------------------ | ---------------------------------------------- |
+| **url**              | `https://sub.wyzie.io/c/…`           | <T id="subs.synced.param.url" />               |
+| **id**               | `tt3659388` or `286217`              | <T id="subs.synced.param.id" />                |
+| **language**         | `en`                                 | <T id="subs.synced.param.language" />          |
+| **season & episode** | `1` and `4`                          | <T id="subs.synced.param.seasonEpisode" />     |
+| **key**              | `YOUR_KEY`                           | <T id="subs.synced.param.key" />               |
+
+### The Audio
+
+| Parameter  | Example                     | Description                          |
+| ---------- | --------------------------- | ------------------------------------ |
+| **speech** | `[[12.1, 14.8], [15.3, 17]]` | <T id="subs.synced.param.speech" /> |
+| **media**  | `movie-audio.m4a`           | <T id="subs.synced.param.media" />   |
+
+<TNote id="subs.synced.fields.note" />
+
+```bash
+# Upload the audio track itself (Pro keys, up to 95 MB)
+ffmpeg -i movie.mkv -vn -ac 1 -b:a 48k audio.m4a
+curl -X POST "https://sub.wyzie.io/sync?key=YOUR_KEY&id=tt3659388&language=en" \
+  -H "Content-Type: audio/mp4" --data-binary @audio.m4a
+```
+
+### Response
+
+<TP id="subs.synced.response.p" />
+
+```json
+{
+  "url": "https://sub.wyzie.io/c/198e0c4d/id/1955024019?format=srt&encoding=UTF-8&id=tt3659388&offset=4.09&tok=...",
+  "offset": 4.09,
+  "fps": null,
+  "confidence": 0.62,
+  "inSync": false,
+  "subtitle": {
+    "display": "English",
+    "language": "en",
+    "format": "srt",
+    "release": "The.Martian.2015.720p.BluRay.x264-SPARKS",
+    "fileName": "The.Martian.2015.720p.BluRay.x264-SPARKS.srt",
+    "source": "charlie",
+    "isHearingImpaired": false
+  },
+  "tried": 5
+}
+```
+
+- `url`: <T id="subs.synced.field.url" />
+- `offset`: <T id="subs.synced.field.offset" />
+- `fps`: <T id="subs.synced.field.fps" />
+- `confidence`: <T id="subs.synced.field.confidence" />
+- `inSync`: <T id="subs.synced.field.inSync" />
+- `subtitle`: <T id="subs.synced.field.subtitle" />
+
+### Errors
+
+<TP id="subs.synced.errors.p" />
+
+| Status  | Message                                   | Meaning                             |
+| ------- | ----------------------------------------- | ----------------------------------- |
+| **400** | e.g. `"No audio"`, `"Invalid speech"`     | <T id="subs.synced.error.400" />    |
+| **401** | `"API key required"`                      | <T id="subs.synced.error.401" />    |
+| **403** | `"Paid feature"`, `"Invalid API key"`     | <T id="subs.synced.error.403" />    |
+| **404** | `"No subtitles found"`                    | <T id="subs.synced.error.404" />    |
+| **413** | `"File too large"`                        | <T id="subs.synced.error.413" />    |
+| **422** | `"Couldn't sync"`, `"No speech found"`    | <T id="subs.synced.error.422" />    |
+| **429 / 402** | `"Daily request limit reached"`, `"Pro key request balance exhausted"` | <T id="subs.synced.error.429" /> |
+| **503** | `"Unavailable"`, `"Search failed"`        | <T id="subs.synced.error.503" />    |
+
+### With wyzie-lib
+
+<TP id="subs.synced.lib.p" />
+
+```ts
+import { detectSpeech, syncSubtitle } from "wyzie-lib";
+
+// Decode the audio any way you like (here: the browser's decoder); one channel at any sample rate will do.
+const ctx = new OfflineAudioContext(1, 8000, 8000);
+const audio = await ctx.decodeAudioData(await file.arrayBuffer());
+const speech = detectSpeech(audio.getChannelData(0), audio.sampleRate);
+
+const synced = await syncSubtitle({ id: "tt3659388", language: "en", speech, key: "YOUR_KEY" });
+console.log(synced.offset, synced.fps, synced.url);
+```
+
+## How It Works
+
+1. <TP id="subs.synced.how.step1" />
+2. <TP id="subs.synced.how.step2" />
+3. <TP id="subs.synced.how.step3" />
+4. <TP id="subs.synced.how.step4" />
+
+## Limitations
+
+- <T id="subs.synced.limit1" />
+- <T id="subs.synced.limit2" />
+- <T id="subs.synced.limit3" />
