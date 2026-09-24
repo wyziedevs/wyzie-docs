@@ -84,7 +84,7 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
-    import { getSources, getSourcesInfo } from "wyzie-lib";
+    import { getSources, getSourcesInfo, getStatus } from "wyzie-lib";
 
 
     const sources = await getSources();
@@ -93,6 +93,10 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
     // Full /sources response; with a key it also lists what that key can use.
     const info = await getSourcesInfo("YOUR_KEY");
     console.log(info.free, info.paid, info.available);
+
+    // Status and uptime (the Status API); pass a number of days for daily history.
+    const status = await getStatus();
+    console.log(status.summary, status.api.uptime["30d"]);
     ```
 
   </Tabs.Tab>
@@ -150,7 +154,7 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 - `apiMessage` and `details`: the API's own message, e.g. `"Key on hold"`
 - `body`: the full JSON error, with extras such as `topup`, `reset_at`, `reinstate`, or `offline` (the paused sources)
 
-`parseToVTT`, the TMDB helpers, `getSources`, and `getSourcesInfo` reject with a `WyzieError` the same way. Invalid parameters (no ID, or a season without an episode) and network failures reject with a plain `Error`. `parseToVTT` asks the server for WebVTT on Wyzie download links (every format converts), converts other SRT itself, and returns files that are already WebVTT unchanged. `withDownloadOptions` adds [download options](/subs/usage/direct#download-options) to a result's `url`; a Pro-only option on a free key makes the download reject with a 403 `"Paid feature"`.
+`parseToVTT`, the TMDB helpers, `getSources`, `getSourcesInfo` and `getStatus` reject with a `WyzieError` the same way. Invalid parameters (no ID, or a season without an episode) and network failures reject with a plain `Error`. `parseToVTT` asks the server for WebVTT on Wyzie download links (every format converts), converts other SRT itself, and returns files that are already WebVTT unchanged. `withDownloadOptions` adds [download options](/subs/usage/direct#download-options) to a result's `url`; a Pro-only option on a free key makes the download reject with a 403 `"Paid feature"`.
 
 ### Types
 

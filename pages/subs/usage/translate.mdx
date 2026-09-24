@@ -29,7 +29,7 @@ import { T, TP, TImportant } from '../../../components/T';
 }
 ```
 
-The `tk` param is an encrypted token made from the API key you passed to `/search`. It does not reveal your key, stays valid for 60 days, and lets the translate endpoint authorise the request. You do not need to compute it yourself; just use the URL as-is.
+The `tk` param is an encrypted token made from the API key you passed to `/search`. It does not reveal your key, stays valid for 60 days, and lets the translate endpoint authorise the request for that title only (a download link's tok does not work here). You do not need to compute it yourself; just use the URL as-is.
 
 <TP id="subs.translate.way1.filter" />
 

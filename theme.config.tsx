@@ -97,6 +97,10 @@ export default defineTheme({
                   usageGuide('synced'),
                 ),
                 link(
+                  'Status API',
+                  usageGuide('status'),
+                ),
+                link(
                   'API Keys',
                   usageGuide('api-keys'),
                 ),

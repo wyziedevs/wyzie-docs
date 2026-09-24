@@ -1,0 +1,106 @@
+---
+title: 'Status API'
+---
+
+import { T, TP, TNote } from '../../../components/T';
+
+# Status API
+
+<TP id="subs.status.p1" />
+
+```bash
+curl https://sub.wyzie.io/status/api?days=7
+```
+
+<TNote id="subs.status.note" />
+
+## Parameters
+
+| Parameter  | Example        | Description                           |
+| ---------- | -------------- | ------------------------------------- |
+| **days**   | `30`           | <T id="subs.status.param.days" />     |
+| **format** | `shields`      | <T id="subs.status.param.format" />   |
+| **source** | `charlie`      | <T id="subs.status.param.source" />   |
+
+## Response
+
+```json
+{
+  "status": "degraded",
+  "summary": "API operational; 1 of 7 sources paused",
+  "updatedAt": "2026-09-24T20:10:00.000Z",
+  "trackingSince": "2026-09-24T19:48:37.032Z",
+  "api": {
+    "status": "operational",
+    "uptime": { "24h": 100, "7d": 99.98, "30d": 99.98, "90d": 99.98 },
+    "history": [{ "date": "2026-09-24", "uptime": 100, "downMinutes": 0 }]
+  },
+  "sources": {
+    "charlie": {
+      "name": "charlie",
+      "tier": "free",
+      "tags": [],
+      "status": "operational",
+      "movies": "operational",
+      "tv": "operational",
+      "state": "online",
+      "listed": true,
+      "pausedSince": null,
+      "latencyMs": 281,
+      "lastChecked": "2026-09-24T19:20:02.127Z",
+      "nextCheck": "2026-09-24T20:20:00.000Z",
+      "uptime": { "24h": 100, "7d": 100, "30d": 100, "90d": 100 },
+      "history": [{ "date": "2026-09-24", "uptime": 100, "downMinutes": 0 }]
+    }
+  },
+  "incidents": [
+    {
+      "source": "lima",
+      "start": "2026-09-24T06:20:04.000Z",
+      "end": null,
+      "ongoing": true,
+      "minutes": 830
+    }
+  ],
+  "docs": "https://docs.wyzie.io/subs/usage/status"
+}
+```
+
+- `status`: <T id="subs.status.field.status" />
+- `summary`: <T id="subs.status.field.summary" />
+- `trackingSince`: <T id="subs.status.field.trackingSince" />
+- `api`: <T id="subs.status.field.api" />
+- `sources`: <T id="subs.status.field.sources" />
+- `sources.*.state` / `listed`: <T id="subs.status.field.state" />
+- `uptime`: <T id="subs.status.field.uptime" />
+- `history`: <T id="subs.status.field.history" />
+- `incidents`: <T id="subs.status.field.incidents" />
+
+## How It's Measured
+
+<TP id="subs.status.how.api" />
+
+<TP id="subs.status.how.sources" />
+
+<TP id="subs.status.how.tracking" />
+
+## Badges
+
+<TP id="subs.status.badge.p" />
+
+```md
+![Wyzie Subs](https://img.shields.io/endpoint?url=https%3A%2F%2Fsub.wyzie.io%2Fstatus%2Fapi%3Fformat%3Dshields)
+![charlie](https://img.shields.io/endpoint?url=https%3A%2F%2Fsub.wyzie.io%2Fstatus%2Fapi%3Fformat%3Dshields%26source%3Dcharlie)
+```
+
+## Using It in Your App
+
+<TP id="subs.status.use.p" />
+
+```js
+const report = await fetch("https://sub.wyzie.io/status/api?days=0").then((r) => r.json());
+const live = Object.values(report.sources).filter((s) => s.listed).map((s) => s.name);
+if (report.status !== "operational") console.warn(report.summary);
+```
+
+<TP id="subs.status.news.p" />

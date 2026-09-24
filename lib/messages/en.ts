@@ -38,6 +38,8 @@ const messages: Record<string, string> = {
     'An API key is required for all requests. Get a free key at [store.wyzie.io/redeem](https://store.wyzie.io/redeem) (email verification, 1,000 requests/day). For higher usage, [Pro and top-up plans](https://store.wyzie.io) are available. See the API Keys page for details.',
   'subs.intro.note.npm':
     'We strongly recommend the NPM package if you are familiar with TypeScript or JavaScript',
+  'subs.intro.note.status':
+    'Uptime and incidents: [sub.wyzie.io/status](https://sub.wyzie.io/status) and the [Status API](/subs/usage/status). News about the API and the store: [sub.wyzie.io/news](https://sub.wyzie.io/news).',
   'subs.intro.btn.npm': 'NPM Package',
   'subs.intro.btn.direct': 'Direct Fetching',
 
@@ -293,7 +295,7 @@ const messages: Record<string, string> = {
   'subs.direct.data.ai':
     'true if the entry is an AI-translated subtitle, false for normal scraped subtitles. Use it as a client-side filter when you only want one or the other.',
   'subs.direct.download.p':
-    'Every url in a /search response points to https://sub.wyzie.io/c/... and carries a tok query parameter. tok is encrypted, so it does not reveal your API key, and it stays valid for 60 days. Use the URL as-is. A search costs 1 request and each download costs 1 more, billed to the key that ran the search. When that key cannot pay for a download, the link is refused:',
+    'Every url in a /search response points to https://sub.wyzie.io/c/... and carries a tok query parameter. tok is encrypted, so it does not reveal your API key, and it stays valid for 60 days. Each link has its own tok that opens only that file, so use the URL as-is (adding download options is fine). A search costs 1 request and each download costs 1 more, billed to the key that ran the search. When that key cannot pay for a download, the link is refused:',
   'subs.direct.dl.p':
     'Add these to a download URL to change what it returns. They work on every download, cached or not, and cost nothing extra (except dual, below). The X-Subtitle-Transforms response header lists what was applied, with counts.',
   'subs.direct.dl.param.to':
@@ -408,7 +410,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     "Where people talk: [[start, end], …] in seconds, from any voice activity detector (wyzie-lib's detectSpeech, Silero VAD, webrtcvad). A 2-hour film is roughly 2,000 segments, about 40 KB of JSON.",
   'subs.synced.param.media':
-    'Or the audio/video file itself: as the raw request body (with the other fields in the query string), or as the multipart field media. Up to 95 MB, so for a full film upload the audio track alone.',
+    'Or the audio/video file itself: as the raw request body (with the other fields in the query string), or as the multipart field media. Up to 95 MB, so for a full film upload the audio track alone. For a multipart upload over 8 MB, put key in the query string: it is checked before the file is read.',
   'subs.synced.fields.note':
     'Fields go in a JSON body, a multipart form, or the query string (with a raw media body).',
   'subs.synced.response.p': 'A 200 response is JSON:',
@@ -429,7 +431,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.400':
     "Missing or invalid fields: no subtitle, no audio, or speech that isn't [start, end] pairs.",
   'subs.synced.error.401':
-    "No key, or url's download link is invalid or expired.",
+    "No key, url's download link is invalid or expired, or a multipart upload over 8 MB has no key in the query string.",
   'subs.synced.error.403':
     'The key is free (Wyzie Synced needs Pro), invalid, or on hold.',
   'subs.synced.error.404': 'No text subtitles in that language for the title.',
@@ -438,9 +440,9 @@ const messages: Record<string, string> = {
   'subs.synced.error.422':
     "The subtitle doesn't line up with the audio at any offset or frame rate (probably another cut or episode), the audio has too little speech, or the file can't be decoded.",
   'subs.synced.error.429':
-    "The key can't pay: a sync needs at least 5 requests left, checked before any work.",
+    "The key can't pay: a sync needs at least 5 requests left, checked before any work. Or 429 Too many syncs: a key can start 60 syncs an hour.",
   'subs.synced.error.503':
-    'Busy decoding other uploads, or search is briefly unavailable. Retry shortly, or send speech.',
+    'Busy decoding or reading other uploads, or search is briefly unavailable. Retry shortly, or send speech.',
   'subs.synced.lib.p':
     'wyzie-lib has detectSpeech (the same detector the site runs in your browser) and syncSubtitle:',
   'subs.synced.how.step1':
@@ -456,6 +458,47 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     "It needs speech: films with little dialogue, or audio that's mostly music, may not sync.",
   'subs.synced.limit3': 'Offsets up to ±10 minutes are found.',
+
+  // Subs Status API Page
+  'subs.status.title': 'Status API',
+  'subs.status.p1':
+    'GET https://sub.wyzie.io/status/api is the same status the [status page](https://sub.wyzie.io/status) shows, as JSON for your own monitoring: whether the API is up, each source\'s state, uptime over 24 hours, 7, 30 and 90 days, a day-by-day history and recent incidents. No key needed, and it costs nothing.',
+  'subs.status.note':
+    'It is public (CORS open) and cached for 60 seconds, so polling more than once a minute returns the same answer. Sources are named by codename, as in /sources.',
+  'subs.status.param.days':
+    'Days of per-day history in each history array, newest first: 0 to 90 (default 90). 0 leaves history out for a smaller response.',
+  'subs.status.param.format':
+    'shields returns a [shields.io endpoint badge](https://shields.io/badges/endpoint-badge) instead of the report.',
+  'subs.status.param.source':
+    'With format=shields: a badge for one source (its 30-day uptime, or paused) instead of the overall status.',
+  'subs.status.field.status':
+    'operational (every source passing), degraded (a source paused or failing a check) or partial_outage (more than half the sources paused).',
+  'subs.status.field.summary': 'the same in one sentence, e.g. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.trackingSince':
+    'when uptime tracking began. Earlier time is not counted, so windows reaching further back cover less (or are null).',
+  'subs.status.field.api':
+    'the API itself: its uptime and history. status is always operational in a response you received.',
+  'subs.status.field.sources':
+    'one entry per source: tier (free or paid), the last check\'s status for movies and TV, latencyMs, lastChecked and nextCheck, plus uptime and history.',
+  'subs.status.field.state':
+    'online, suspect (failed one check; re-checked within 5 minutes) or paused (failed two checks in a row). A paused source has listed: false: it is out of /sources and source=all until a check passes, and pausedSince says since when.',
+  'subs.status.field.uptime':
+    'percentage of each window the API or source was up, rounded down to 3 decimals (so any downtime shows below 100), or null with no data yet.',
+  'subs.status.field.history':
+    'one entry per UTC day: date, uptime and downMinutes (null before tracking began).',
+  'subs.status.field.incidents':
+    'source pauses from the last 30 days, newest first: start, end (null while ongoing) and minutes.',
+  'subs.status.how.api':
+    'API uptime: while the API runs, the server records a heartbeat every minute. A minute without one counts as down. It is measured on our server, so a problem only between you and Cloudflare will not show here.',
+  'subs.status.how.sources':
+    'Source uptime: every source is checked hourly with a real search and download. The time a source is paused counts as down, from its first failed check until a check passes. One failed check alone does not count, and neither does a source we pause by hand.',
+  'subs.status.how.tracking': 'Tracking began on September 24, 2026.',
+  'subs.status.badge.p':
+    'Add ?format=shields to get a shields.io badge for your README or status page:',
+  'subs.status.use.p':
+    'To pick sources in your app, /sources already lists only the live ones. The status API is for showing your users what is up, alerting yourself, or deciding when to retry:',
+  'subs.status.news.p':
+    'Announcements about the API and the store (new features, changes that affect your app) are posted at [sub.wyzie.io/news](https://sub.wyzie.io/news), by email if you subscribe there, or by [RSS](https://sub.wyzie.io/news/feed.xml).',
 
   // Subs API Keys Page
   'subs.keys.title': 'API Keys',
@@ -570,13 +613,13 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature1':
     '**Random IPv6 Generation**: Creates random IPv6 addresses from your /48 prefix for each request',
   'i6shark.intro.feature2':
-    '**Full HTTP Method Support**: GET, POST, PUT, DELETE, and all other HTTP methods',
+    '**HTTP Methods**: GET, HEAD and POST; anything else gets a 405',
   'i6shark.intro.feature3':
     '**HMAC-SHA256 Authentication**: Secure API key authentication using user-agent based tokens',
   'i6shark.intro.feature4':
     '**Intelligent IP Pool Management**: Automatic IP rotation with configurable pool size. Smart IP lifecycle management. Per-IP request counting. Unused IP cleanup based on inactivity threshold.',
   'i6shark.intro.feature5':
-    '**Advanced Request Handling**: Custom header forwarding. Cloudflare and CDN header stripping. Support for multiple URL parameter formats. Optional fallback to system default IP.',
+    '**Safe Request Handling**: Only an allowlist of request headers is forwarded, never the API token or Cloudflare and forwarding headers. Destinations on loopback, private, link-local and other internal networks (including the server\'s own addresses) are refused, after DNS and on every redirect (at most 5). Support for multiple URL parameter formats. Optional fallback to system default IP.',
   'i6shark.intro.feature7':
     '**Automatic Maintenance**: Periodic IP pool flushing. Subnet validation and cleanup. Connection pooling and keepalive optimization.',
   'i6shark.intro.feature8':
@@ -605,7 +648,9 @@ const messages: Record<string, string> = {
   'i6shark.hosting.step1': 'Clone the repository to /opt/i6.shark:',
   'i6shark.hosting.step2': 'Configure constants in src/consts.go:',
   'i6shark.hosting.step2.note':
-    "Update SharedSecret, IPv6Prefix, and Interface to match your server. The remaining tuning constants have sensible defaults and typically don't need changes.",
+    "Update IPv6Prefix and Interface to match your server. The shared secret goes in the environment (next step), not in this file; SharedSecret is only a fallback when I6_SHARED_SECRET is unset. The remaining tuning constants have sensible defaults and typically don't need changes.",
+  'i6shark.hosting.stepSecret':
+    'Put the shared secret in a root-only environment file. Use the same value in your client (for Wyzie Subs, I6_PROXY_SECRET):',
   'i6shark.hosting.step3': 'Build the application:',
   'i6shark.hosting.step4': 'Create the systemd service:',
   'i6shark.hosting.step5': 'Enable and start the service:',
@@ -619,7 +664,7 @@ const messages: Record<string, string> = {
 
   'i6shark.hosting.auth.h2': 'API Authentication',
   'i6shark.hosting.auth.p':
-    'API tokens are generated using HMAC-SHA256 with a shared secret key. The input for key generation is the user-agent header. See the validateAPIToken function in the source code for implementation details.',
+    'API tokens are generated using HMAC-SHA256 with the shared secret (I6_SHARED_SECRET) over the user-agent header, and sent in the API-Token header, which the proxy never forwards upstream. See the validateAPIToken function in the source code for implementation details. If a secret ever leaks, set a new one and restart the service.',
 
   // Plugins
   'plugins.common.required': 'Required',
