@@ -462,7 +462,7 @@ const messages: Record<string, string> = {
   // Subs Status API Page
   'subs.status.title': 'Status API',
   'subs.status.p1':
-    'GET https://sub.wyzie.io/status/api is the same status the [status page](https://sub.wyzie.io/status) shows, as JSON for your own monitoring: whether the API is up, each source\'s state, uptime over 24 hours, 7, 30 and 90 days, a day-by-day history and recent incidents. No key needed, and it costs nothing.',
+    "GET https://sub.wyzie.io/status/api is the same status the [status page](https://sub.wyzie.io/status) shows, as JSON for your own monitoring: whether the API is up, each source's state, uptime over 24 hours, 7, 30 and 90 days, a day-by-day history and recent incidents. No key needed, and it costs nothing.",
   'subs.status.note':
     'It is public (CORS open) and cached for 60 seconds, so polling more than once a minute returns the same answer. Sources are named by codename, as in /sources.',
   'subs.status.param.days':
@@ -473,13 +473,14 @@ const messages: Record<string, string> = {
     'With format=shields: a badge for one source (its 30-day uptime, or paused) instead of the overall status.',
   'subs.status.field.status':
     'operational (every source passing), degraded (a source paused or failing a check) or partial_outage (more than half the sources paused).',
-  'subs.status.field.summary': 'the same in one sentence, e.g. "API operational; 2 of 7 sources paused".',
+  'subs.status.field.summary':
+    'the same in one sentence, e.g. "API operational; 2 of 7 sources paused".',
   'subs.status.field.trackingSince':
     'when uptime tracking began. Earlier time is not counted, so windows reaching further back cover less (or are null).',
   'subs.status.field.api':
     'the API itself: its uptime and history. status is always operational in a response you received.',
   'subs.status.field.sources':
-    'one entry per source: tier (free or paid), the last check\'s status for movies and TV, latencyMs, lastChecked and nextCheck, plus uptime and history.',
+    "one entry per source: tier (free or paid), the last check's status for movies and TV, latencyMs, lastChecked and nextCheck, plus uptime and history.",
   'subs.status.field.state':
     'online, suspect (failed one check; re-checked within 5 minutes) or paused (failed two checks in a row). A paused source has listed: false: it is out of /sources and source=all until a check passes, and pausedSince says since when.',
   'subs.status.field.uptime':
@@ -619,7 +620,7 @@ const messages: Record<string, string> = {
   'i6shark.intro.feature4':
     '**Intelligent IP Pool Management**: Automatic IP rotation with configurable pool size. Smart IP lifecycle management. Per-IP request counting. Unused IP cleanup based on inactivity threshold.',
   'i6shark.intro.feature5':
-    '**Safe Request Handling**: Only an allowlist of request headers is forwarded, never the API token or Cloudflare and forwarding headers. Destinations on loopback, private, link-local and other internal networks (including the server\'s own addresses) are refused, after DNS and on every redirect (at most 5). Support for multiple URL parameter formats. Optional fallback to system default IP.',
+    "**Safe Request Handling**: Only an allowlist of request headers is forwarded, never the API token or Cloudflare and forwarding headers. Destinations on loopback, private, link-local and other internal networks (including the server's own addresses) are refused, after DNS and on every redirect (at most 5). Support for multiple URL parameter formats. Optional fallback to system default IP.",
   'i6shark.intro.feature7':
     '**Automatic Maintenance**: Periodic IP pool flushing. Subnet validation and cleanup. Connection pooling and keepalive optimization.',
   'i6shark.intro.feature8':
