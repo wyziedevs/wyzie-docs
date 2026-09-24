@@ -20,7 +20,7 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 
 ## Usage
 
-<Tabs items={["Fetching Subtitles", "VTT Parser", "Get Sources"]}>
+<Tabs items={["Fetching Subtitles", "VTT Parser", "Get Sources", "Handling Errors"]}>
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
@@ -52,11 +52,34 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
-    import { getSources } from "wyzie-lib";
+    import { getSources, getSourcesInfo } from "wyzie-lib";
 
 
     const sources = await getSources();
-    console.log(sources); // ["charlie", "foxtrot", "india", "juliet", "lima", "mike", "november"]
+    console.log(sources); // live codenames, e.g. ["charlie", "foxtrot", "india", "juliet", "mike"]
+
+    // Full /sources response; with a key it also lists what that key can use.
+    const info = await getSourcesInfo("YOUR_KEY");
+    console.log(info.free, info.paid, info.available);
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+    import { searchSubtitles, WyzieError } from "wyzie-lib";
+
+
+    try {
+      const data = await searchSubtitles({ tmdb_id: 286217, key: "YOUR_KEY" });
+      if (data.length === 0) console.log("No subtitles for this title");
+    } catch (error) {
+      if (error instanceof WyzieError) {
+        console.log(error.status, error.apiMessage, error.details);
+        if (error.status === 402) console.log("Top up:", error.body?.topup);
+      } else {
+        throw error; // bad parameters or a network failure
+      }
+    }
     ```
 
   </Tabs.Tab>
@@ -82,8 +105,20 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 | **origin**      | origin            | <T id="subs.pkg.param.origin" />                          |
 | **key**         | key               | <T id="subs.pkg.param.key" />  |
 | **refresh**     | refresh           | <T id="subs.pkg.param.refresh" />                             |
+| **limit**       | limit             | Results per page (1 to 200). Without it every result comes back at once.        |
+| **page**        | page              | Page to return, starting at 1. Only used together with `limit`.                 |
 
 <TP id="subs.pkg.helpers" />
+
+### Errors
+
+`searchSubtitles` resolves to an empty array when nothing matches. Any other refusal from the API rejects with a `WyzieError` (exported by the package) that carries:
+
+- `status`: the HTTP status (401 no key, 402 Pro balance used up, 403 invalid key or key on hold, 429 daily limit reached, 503 every requested source paused or a brief outage)
+- `apiMessage` and `details`: the API's own message, e.g. `"Key on hold"`
+- `body`: the full JSON error, with extras such as `topup`, `reset_at`, `reinstate`, or `offline` (the paused sources)
+
+`parseToVTT`, the TMDB helpers, `getSources`, and `getSourcesInfo` reject with a `WyzieError` the same way. Invalid parameters (no ID, or a season without an episode) and network failures reject with a plain `Error`. `parseToVTT` converts SRT to WebVTT and returns files that are already WebVTT unchanged.
 
 ### Types
 

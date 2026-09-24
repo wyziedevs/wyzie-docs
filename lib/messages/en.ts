@@ -200,7 +200,7 @@ const messages: Record<string, string> = {
   'subs.pkg.param.hi':
     'When true, returns only hearing-impaired subtitles. Sources that do not flag hearing-impaired subtitles return nothing.',
   'subs.pkg.param.source':
-    'Subtitle providers to query (all for every source your key can use).',
+    'Subtitle providers to query by codename (all for every live source your key can use; default charlie).',
   'subs.pkg.param.release': 'Release/scene filters (accepts a list).',
   'subs.pkg.param.filename':
     'Filename filters; aliases file and fileName are supported.',
@@ -211,7 +211,7 @@ const messages: Record<string, string> = {
     'Bypass cache and fetch fresh results from sources.',
 
   'subs.pkg.helpers':
-    'The package also ships lightweight TMDB helpers: searchTmdb, getTvDetails, and getSeasonDetails for quickly finding IDs before hitting /search. Additionally, getSources can be used to fetch the list of currently enabled subtitle sources.',
+    'The package also ships lightweight TMDB helpers: searchTmdb, getTvDetails, and getSeasonDetails for quickly finding IDs before hitting /search. getSources returns the codenames of the live sources (a source paused by its health checks is left out until it recovers), and getSourcesInfo returns the full /sources response with tiers, and, given a key, which sources that key can use.',
   'subs.pkg.types.h3': 'Types',
   'subs.pkg.type.search': 'All valid parameters recognized by the API.',
   'subs.pkg.type.query':
