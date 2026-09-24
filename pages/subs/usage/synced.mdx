@@ -44,11 +44,13 @@ curl -X POST https://sub.wyzie.io/sync \
 <TNote id="subs.synced.fields.note" />
 
 ```bash
-# Upload the audio track itself (Pro keys, up to 95 MB)
+# Upload the audio track itself (Pro keys, one request under ~90 MB)
 ffmpeg -i movie.mkv -vn -ac 1 -b:a 48k audio.m4a
 curl -X POST "https://sub.wyzie.io/sync?key=YOUR_KEY&id=tt3659388&language=en" \
   -H "Content-Type: audio/mp4" --data-binary @audio.m4a
 ```
+
+<TP id="subs.synced.rawbody.note" />
 
 ### Response
 
@@ -112,6 +114,47 @@ const synced = await syncSubtitle({ id: "tt3659388", language: "en", speech, key
 console.log(synced.offset, synced.fps, synced.url);
 ```
 
+## Large Files: Chunked Upload
+
+<TP id="subs.synced.chunked.p" />
+
+### 1. Start: `POST /sync/upload`
+
+<TP id="subs.synced.chunked.start.p" />
+
+### 2. Chunks: `POST /sync/upload/:id`
+
+<TP id="subs.synced.chunked.chunk.p" />
+
+### 3. Finish: `POST /sync/upload/:id/finish`
+
+<TP id="subs.synced.chunked.finish.p" />
+
+<TP id="subs.synced.chunked.example.p" />
+
+```bash
+UPLOAD=$(curl -s -X POST "https://sub.wyzie.io/sync/upload?key=YOUR_KEY" | jq -r .uploadId)
+
+split -b 64m -d movie.mkv chunk_
+i=0
+for f in chunk_*; do
+  curl -X POST "https://sub.wyzie.io/sync/upload/$UPLOAD?key=YOUR_KEY" \
+    -H "X-Chunk-Index: $i" --data-binary @"$f"
+  i=$((i + 1))
+done
+
+curl -X POST "https://sub.wyzie.io/sync/upload/$UPLOAD/finish" \
+  -H "Content-Type: application/json" \
+  -d '{"key":"YOUR_KEY","id":"tt3659388","language":"en"}'
+```
+
+```ts
+// wyzie-lib does exactly this for any media over ~90 MB -- nothing extra to write:
+import { syncSubtitle } from "wyzie-lib";
+
+const synced = await syncSubtitle({ id: "tt3659388", language: "en", media: movieFile, key: "YOUR_KEY" });
+```
+
 ## How It Works
 
 1. <TP id="subs.synced.how.step1" />
@@ -124,3 +167,4 @@ console.log(synced.offset, synced.fps, synced.url);
 - <T id="subs.synced.limit1" />
 - <T id="subs.synced.limit2" />
 - <T id="subs.synced.limit3" />
+- <T id="subs.synced.limit4" />

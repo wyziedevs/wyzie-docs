@@ -410,7 +410,7 @@ const messages: Record<string, string> = {
   'subs.synced.param.speech':
     "Where people talk: [[start, end], …] in seconds, from any voice activity detector (wyzie-lib's detectSpeech, Silero VAD, webrtcvad). A 2-hour film is roughly 2,000 segments, about 40 KB of JSON.",
   'subs.synced.param.media':
-    'Or the audio/video file itself: as the raw request body (with the other fields in the query string), or as the multipart field media. Up to 95 MB, so for a full film upload the audio track alone. For a multipart upload over 8 MB, put key in the query string: it is checked before the file is read.',
+    'Or the audio/video file itself, up to 8 GB (a whole film is fine). Sent as the raw request body (with the other fields in the query string) or the multipart field media if it is under ~90 MB; above that, Cloudflare rejects a single request outright, so it goes up in pieces over [POST /sync/upload](#large-files-chunked-upload) instead. For a multipart upload over 8 MB, put key in the query string: it is checked before the file is read.',
   'subs.synced.fields.note':
     'Fields go in a JSON body, a multipart form, or the query string (with a raw media body).',
   'subs.synced.response.p': 'A 200 response is JSON:',
@@ -436,7 +436,7 @@ const messages: Record<string, string> = {
     'The key is free (Wyzie Synced needs Pro), invalid, or on hold.',
   'subs.synced.error.404': 'No text subtitles in that language for the title.',
   'subs.synced.error.413':
-    'The media file is over 95 MB. Upload the audio track alone, or send speech.',
+    "The media file is over the endpoint's own limit (~90 MB for a single request, 8 GB total across a chunked upload, or a per-chunk limit on POST /sync/upload/:id). Upload the audio track alone, send speech, or use the chunked upload for anything big.",
   'subs.synced.error.422':
     "The subtitle doesn't line up with the audio at any offset or frame rate (probably another cut or episode), the audio has too little speech, or the file can't be decoded.",
   'subs.synced.error.429':
@@ -444,7 +444,7 @@ const messages: Record<string, string> = {
   'subs.synced.error.503':
     'Busy decoding or reading other uploads, or search is briefly unavailable. Retry shortly, or send speech.',
   'subs.synced.lib.p':
-    'wyzie-lib has detectSpeech (the same detector the site runs in your browser) and syncSubtitle:',
+    'wyzie-lib has detectSpeech (the same detector the site runs in your browser) and syncSubtitle. Pass media over ~90 MB and it uploads it in chunks for you (see below) -- no other client does this today, so a whole movie file is effectively a wyzie-lib feature: calling the raw API yourself past ~90 MB means implementing the chunked upload protocol.',
   'subs.synced.how.step1':
     'Speech: the audio is decoded to 8 kHz mono (the centre channel alone for 5.1 and 7.1 mixes, where dialogue lives), and a voice activity detector marks where people talk: loud, speech-band sound that rises and falls with syllables.',
   'subs.synced.how.step2':
@@ -458,6 +458,21 @@ const messages: Record<string, string> = {
   'subs.synced.limit2':
     "It needs speech: films with little dialogue, or audio that's mostly music, may not sync.",
   'subs.synced.limit3': 'Offsets up to ±10 minutes are found.',
+  'subs.synced.limit4':
+    "sub.wyzie.io stays behind Cloudflare (its DDoS and WAF protection matter more to us than a bigger upload limit), and Cloudflare caps a single request around 100 MB regardless of anything the app itself allows. A file bigger than that has to go up in pieces over POST /sync/upload -- wyzie-lib's syncSubtitle does this for you automatically.",
+  'subs.synced.chunked.title': 'Large Files: Chunked Upload',
+  'subs.synced.chunked.p':
+    'wyzie-lib calls this automatically -- read this section only if you are integrating without the library. A file over ~90 MB is sent as several chunks instead of one request, since Cloudflare rejects anything bigger outright. Three calls, all Pro-key-only:',
+  'subs.synced.chunked.start.p':
+    'POST /sync/upload?key=YOUR_KEY starts a session and returns { uploadId, chunkMaxBytes }. Sessions are single-flight per key and expire after 30 minutes of inactivity.',
+  'subs.synced.chunked.chunk.p':
+    'POST /sync/upload/:id?key=YOUR_KEY, with header X-Chunk-Index (0, 1, 2, …), appends one chunk (the raw request body, up to chunkMaxBytes) in order. A chunk sent out of order gets 409, with expectedIndex telling you where to resume.',
+  'subs.synced.chunked.finish.p':
+    'POST /sync/upload/:id/finish takes the same fields as POST /sync (url, or id + language [+ season/episode], key -- as JSON or the query string) and runs the sync against everything uploaded, then deletes the session either way. There is no separate cancel call: an unfinished session simply expires.',
+  'subs.synced.chunked.example.p':
+    'Roughly, chunking a 2 GB file into 64 MB pieces:',
+  'subs.synced.rawbody.note':
+    'A whole movie file, not just its audio, works too -- up to 8 GB -- but past ~90 MB it has to go up in [chunks](#large-files-chunked-upload) instead of one request.',
 
   // Subs Status API Page
   'subs.status.title': 'Status API',
