@@ -43,6 +43,20 @@ const messages: Record<string, string> = {
   'subs.intro.btn.npm': 'NPM Package',
   'subs.intro.btn.direct': 'Direct Fetching',
 
+  'subs.intro.more.h2': 'What Else Wyzie Subs Does',
+  'subs.intro.more.p1':
+    'Beyond search and download, a few other things are worth knowing about:',
+  'subs.intro.more.item1':
+    '**[Wyzie Synced](/subs/usage/synced)**: line a subtitle up to your video from a speech timestamp list or the audio itself, up to a whole 4K file (Pro, 5 requests).',
+  'subs.intro.more.item2':
+    '**Download options**: a second language under each line with `dual=<lang>`, or per-request `offset`, `fps`, `plain`, `sdh` and `clean`. See [Direct Fetching](/subs/usage/direct#download-options).',
+  'subs.intro.more.item3':
+    '**[AI Translation](/subs/usage/translate)**: translate any subtitle into 80+ languages on demand (Pro, 25 requests).',
+  'subs.intro.more.item4':
+    '**[Status API](/subs/usage/status)**: uptime and per-provider health as JSON, for your own status page or monitoring.',
+  'subs.intro.more.costs':
+    'Search and download each cost 1 request, a Wyzie Synced sync costs 5, and AI translation costs 25. See [API Keys](/subs/usage/api-keys) for free vs. Pro limits.',
+
   'subs.intro.protect.h2': 'Protecting Your API Key',
   'subs.intro.protect.important':
     "**Real incident:** we have seen developers paste their key directly into a streaming site's frontend JavaScript. Within hours, an unrelated party scraped it out of the JS bundle and used it until the daily limit or paid balance was exhausted. Quota lost this way is not refundable and is treated as the key owner's responsibility under our Terms.",
@@ -211,7 +225,7 @@ const messages: Record<string, string> = {
     'Bypass cache and fetch fresh results from sources.',
 
   'subs.pkg.helpers':
-    "The package also ships lightweight TMDB helpers: searchTmdb, getTvDetails, and getSeasonDetails for quickly finding IDs before hitting /search. getSources returns the codenames of the live sources (a source paused by its health checks is left out until it recovers), and getSourcesInfo returns the full /sources response with tiers, and, given a key, which sources that key can use. withDownloadOptions adds download options (WebVTT output, timing fixes, a second language, and more) to a result's url.",
+    "The package also ships lightweight TMDB helpers (TMDB Search tab above): searchTmdb, getTvDetails, and getSeasonDetails for quickly finding IDs and episode lists before hitting /search. getSources returns the codenames of the live sources (a source paused by its health checks is left out until it recovers), and getSourcesInfo returns the full /sources response with tiers, and, given a key, which sources that key can use. getStatus returns the Status API report. withDownloadOptions adds download options (WebVTT output, timing fixes, a second language, and more) to a result's url.",
   'subs.pkg.types.h3': 'Types',
   'subs.pkg.type.search': 'All valid parameters recognized by the API.',
   'subs.pkg.type.query':
@@ -223,6 +237,12 @@ const messages: Record<string, string> = {
     'Options for withDownloadOptions: to, offset, fps, plain, and (Pro) sdh, clean, dual.',
   'subs.pkg.type.sync':
     'Input and result of syncSubtitle (Wyzie Synced, Pro keys): which subtitle (a result, its url, or tmdb_id/imdb_id with language), the speech detectSpeech found or the media file, and the synced download link with its offset, fps and confidence. See [Wyzie Synced](/subs/usage/synced).',
+  'subs.pkg.type.status':
+    'Result of getStatus: StatusReport (overall status, uptime windows and history, per-source SourceStatus) plus its UptimeWindows and DayUptime pieces. See the [Status API](/subs/usage/status).',
+  'subs.pkg.type.tmdb':
+    'Results of the TMDB helpers: TmdbSearchResult (searchTmdb), TvDetails and SeasonSummary (getTvDetails), SeasonDetails and EpisodeDetails (getSeasonDetails).',
+  'subs.pkg.type.config':
+    'The object configure takes: baseUrl and a default key.',
   'subs.pkg.types.end':
     'Our types are very simple and well-documented. See [src/types.ts](https://github.com/wyziedevs/wyzie-lib/blob/main/src/types.ts) in the wyzie-lib repository.',
   'subs.pkg.config.h3': 'Configuration',
@@ -314,12 +334,14 @@ const messages: Record<string, string> = {
     "Add a second language (ISO 639-1 code) under each line, lined up with this file's timing. Costs 1 extra request, only when a match is found; otherwise the file comes back alone with `X-Dual: unavailable`.",
   'subs.direct.dl.after':
     'Options combine, e.g. `&to=vtt&sdh=strip&offset=-1.5`. Links already carry `format`, `encoding`, `id` and (for episodes) `season` and `episode`: leave those as they are. `autoUnzip=false` returns an archive as-is.',
+  'subs.direct.dl.headers':
+    'Every download also carries `X-Ads-Removed` (`true` if a provider ad cue was stripped) and `X-Cache` (`HIT` or `MISS`).',
   'subs.direct.oneCall.p':
     'With an API key, GET /download returns the subtitle file itself in one call: it searches with your key and the same parameters as /search (language defaults to en), picks the best match and serves it. That costs 2 requests, the same as a search plus a download. Download options such as to and offset apply to the file.',
   'subs.direct.oneCall.pick':
     'The best match is the first search result, preferring SRT, WebVTT and ASS files unless you set format, and files without hearing-impaired text unless you set hi=true. Narrow it with release, filename, source or origin. The X-Subtitle-Release, X-Subtitle-Source, X-Subtitle-Language and X-Subtitle-Url response headers say which file was picked. Errors are the same as for /search and download links.',
   'subs.direct.oneCall.keyless':
-    'Without a key, the [download page](https://sub.wyzie.io/download) is there for finding a subtitle or two by hand. Its links open only the file they were made for, from the network that searched, and it has hourly limits. For anything automated, use a key.',
+    'Without a key, the [download page](https://sub.wyzie.io/download) is there for finding a subtitle or two by hand. It searches every source, free and Pro, behind a quick human check (Cloudflare Turnstile). Its links open only the file they were made for, from the network that searched, and it has hourly limits. For anything automated, use a key.',
   'subs.direct.headers.p':
     'Every /search response includes an X-Total-Count header with the total number of results. When you pass limit, it also includes:',
   'subs.direct.header.xpage': 'the page returned.',
@@ -350,6 +372,10 @@ const messages: Record<string, string> = {
     'For TV. Both must be present together.',
   'subs.translate.param.key':
     'Your API key. Use tk instead if you got the URL from /search.',
+  'subs.translate.param.source':
+    'Pick the original file to translate by source codename (as in /search), when a title has more than one and the default pick is not the one you want.',
+  'subs.translate.param.refresh':
+    'true or 1 skips the translation cache (both the full-result and per-chunk cache) and regenerates from the source file. Useful if a cached translation looks wrong.',
   'subs.translate.param.tk':
     'Encrypted token from the AI row URLs in /search. Works like key, does not reveal your API key, and stays valid for 60 days.',
 
@@ -471,6 +497,8 @@ const messages: Record<string, string> = {
     'POST /sync/upload/:id/finish takes the same fields as POST /sync (url, or id + language [+ season/episode], key -- as JSON or the query string) and runs the sync against everything uploaded, then deletes the session either way. There is no separate cancel call: an unfinished session simply expires.',
   'subs.synced.chunked.example.p':
     'Roughly, chunking a 2 GB file into 64 MB pieces:',
+  'subs.synced.chunked.retry.p':
+    "wyzie-lib's syncSubtitle retries a chunk up to 2 extra times on a network error or a 5xx before giving up; a 4xx (e.g. a stale index) fails immediately. Rolling your own client, do the same rather than restarting the whole upload.",
   'subs.synced.rawbody.note':
     'A whole movie file, not just its audio, works too -- up to 8 GB -- but past ~90 MB it has to go up in [chunks](#large-files-chunked-upload) instead of one request.',
 
@@ -504,6 +532,10 @@ const messages: Record<string, string> = {
     'one entry per UTC day: date, uptime and downMinutes (null before tracking began).',
   'subs.status.field.incidents':
     'source pauses from the last 30 days, newest first: start, end (null while ongoing) and minutes.',
+  'subs.status.field.updatedAt': 'when this report was generated.',
+  'subs.status.field.docs': 'a link back to this page.',
+  'subs.status.badge.unknown':
+    'format=shields with a source that does not exist returns 404: `{"code":404,"message":"Unknown source","sources":[...]}`, with the list of valid codenames.',
   'subs.status.how.api':
     'API uptime: while the API runs, the server records a heartbeat every minute. A minute without one counts as down. It is measured on our server, so a problem only between you and Cloudflare will not show here.',
   'subs.status.how.sources':

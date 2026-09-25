@@ -16,11 +16,11 @@ curl https://sub.wyzie.io/status/api?days=7
 
 ## Parameters
 
-| Parameter  | Example        | Description                           |
-| ---------- | -------------- | ------------------------------------- |
-| **days**   | `30`           | <T id="subs.status.param.days" />     |
-| **format** | `shields`      | <T id="subs.status.param.format" />   |
-| **source** | `charlie`      | <T id="subs.status.param.source" />   |
+| Parameter  | Example   | Description                         |
+| ---------- | --------- | ----------------------------------- |
+| **days**   | `30`      | <T id="subs.status.param.days" />   |
+| **format** | `shields` | <T id="subs.status.param.format" /> |
+| **source** | `charlie` | <T id="subs.status.param.source" /> |
 
 ## Response
 
@@ -75,6 +75,8 @@ curl https://sub.wyzie.io/status/api?days=7
 - `uptime`: <T id="subs.status.field.uptime" />
 - `history`: <T id="subs.status.field.history" />
 - `incidents`: <T id="subs.status.field.incidents" />
+- `updatedAt`: <T id="subs.status.field.updatedAt" />
+- `docs`: <T id="subs.status.field.docs" />
 
 ## How It's Measured
 
@@ -93,14 +95,20 @@ curl https://sub.wyzie.io/status/api?days=7
 ![charlie](https://img.shields.io/endpoint?url=https%3A%2F%2Fsub.wyzie.io%2Fstatus%2Fapi%3Fformat%3Dshields%26source%3Dcharlie)
 ```
 
+<TNote id="subs.status.badge.unknown" />
+
 ## Using It in Your App
 
 <TP id="subs.status.use.p" />
 
 ```js
-const report = await fetch("https://sub.wyzie.io/status/api?days=0").then((r) => r.json());
-const live = Object.values(report.sources).filter((s) => s.listed).map((s) => s.name);
-if (report.status !== "operational") console.warn(report.summary);
+const report = await fetch('https://sub.wyzie.io/status/api?days=0').then((r) =>
+  r.json(),
+);
+const live = Object.values(report.sources)
+  .filter((s) => s.listed)
+  .map((s) => s.name);
+if (report.status !== 'operational') console.warn(report.summary);
 ```
 
 <TP id="subs.status.news.p" />

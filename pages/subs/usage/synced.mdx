@@ -26,20 +26,20 @@ curl -X POST https://sub.wyzie.io/sync \
 
 ### Which Subtitle
 
-| Parameter            | Example                              | Description                                    |
-| -------------------- | ------------------------------------ | ---------------------------------------------- |
-| **url**              | `https://sub.wyzie.io/c/…`           | <T id="subs.synced.param.url" />               |
-| **id**               | `tt3659388` or `286217`              | <T id="subs.synced.param.id" />                |
-| **language**         | `en`                                 | <T id="subs.synced.param.language" />          |
-| **season & episode** | `1` and `4`                          | <T id="subs.synced.param.seasonEpisode" />     |
-| **key**              | `YOUR_KEY`                           | <T id="subs.synced.param.key" />               |
+| Parameter            | Example                    | Description                                |
+| -------------------- | -------------------------- | ------------------------------------------ |
+| **url**              | `https://sub.wyzie.io/c/…` | <T id="subs.synced.param.url" />           |
+| **id**               | `tt3659388` or `286217`    | <T id="subs.synced.param.id" />            |
+| **language**         | `en`                       | <T id="subs.synced.param.language" />      |
+| **season & episode** | `1` and `4`                | <T id="subs.synced.param.seasonEpisode" /> |
+| **key**              | `YOUR_KEY`                 | <T id="subs.synced.param.key" />           |
 
 ### The Audio
 
-| Parameter  | Example                     | Description                          |
-| ---------- | --------------------------- | ------------------------------------ |
+| Parameter  | Example                      | Description                         |
+| ---------- | ---------------------------- | ----------------------------------- |
 | **speech** | `[[12.1, 14.8], [15.3, 17]]` | <T id="subs.synced.param.speech" /> |
-| **media**  | `movie-audio.m4a`           | <T id="subs.synced.param.media" />   |
+| **media**  | `movie-audio.m4a`            | <T id="subs.synced.param.media" />  |
 
 <TNote id="subs.synced.fields.note" />
 
@@ -87,30 +87,35 @@ curl -X POST "https://sub.wyzie.io/sync?key=YOUR_KEY&id=tt3659388&language=en" \
 
 <TP id="subs.synced.errors.p" />
 
-| Status  | Message                                   | Meaning                             |
-| ------- | ----------------------------------------- | ----------------------------------- |
-| **400** | e.g. `"No audio"`, `"Invalid speech"`     | <T id="subs.synced.error.400" />    |
-| **401** | `"API key required"`                      | <T id="subs.synced.error.401" />    |
-| **403** | `"Paid feature"`, `"Invalid API key"`     | <T id="subs.synced.error.403" />    |
-| **404** | `"No subtitles found"`                    | <T id="subs.synced.error.404" />    |
-| **413** | `"File too large"`                        | <T id="subs.synced.error.413" />    |
-| **422** | `"Couldn't sync"`, `"No speech found"`    | <T id="subs.synced.error.422" />    |
-| **429 / 402** | `"Not enough requests"`, `"Pro key request balance exhausted"` | <T id="subs.synced.error.429" /> |
-| **503** | `"Unavailable"`, `"Search failed"`        | <T id="subs.synced.error.503" />    |
+| Status        | Message                                                   | Meaning                          |
+| ------------- | --------------------------------------------------------- | -------------------------------- |
+| **400**       | e.g. `"No audio"`, `"Invalid speech"`                     | <T id="subs.synced.error.400" /> |
+| **401**       | `"API key required"`                                      | <T id="subs.synced.error.401" /> |
+| **403**       | `"Paid feature"`, `"Invalid API key"`                     | <T id="subs.synced.error.403" /> |
+| **404**       | `"No subtitles found"`                                    | <T id="subs.synced.error.404" /> |
+| **413**       | `"File too large"`                                        | <T id="subs.synced.error.413" /> |
+| **422**       | `"Couldn't sync"`, `"No speech found"`                    | <T id="subs.synced.error.422" /> |
+| **429 / 402** | `"Too many syncs"`, `"Pro key request balance exhausted"` | <T id="subs.synced.error.429" /> |
+| **503**       | `"Unavailable"`, `"Search failed"`                        | <T id="subs.synced.error.503" /> |
 
 ### With wyzie-lib
 
 <TP id="subs.synced.lib.p" />
 
 ```ts
-import { detectSpeech, syncSubtitle } from "wyzie-lib";
+import { detectSpeech, syncSubtitle } from 'wyzie-lib';
 
 // Decode the audio any way you like (here: the browser's decoder); one channel at any sample rate will do.
 const ctx = new OfflineAudioContext(1, 8000, 8000);
 const audio = await ctx.decodeAudioData(await file.arrayBuffer());
 const speech = detectSpeech(audio.getChannelData(0), audio.sampleRate);
 
-const synced = await syncSubtitle({ id: "tt3659388", language: "en", speech, key: "YOUR_KEY" });
+const synced = await syncSubtitle({
+  id: 'tt3659388',
+  language: 'en',
+  speech,
+  key: 'YOUR_KEY',
+});
 console.log(synced.offset, synced.fps, synced.url);
 ```
 
@@ -132,6 +137,8 @@ console.log(synced.offset, synced.fps, synced.url);
 
 <TP id="subs.synced.chunked.example.p" />
 
+<TNote id="subs.synced.chunked.retry.p" />
+
 ```bash
 UPLOAD=$(curl -s -X POST "https://sub.wyzie.io/sync/upload?key=YOUR_KEY" | jq -r .uploadId)
 
@@ -150,9 +157,14 @@ curl -X POST "https://sub.wyzie.io/sync/upload/$UPLOAD/finish" \
 
 ```ts
 // wyzie-lib does exactly this for any media over ~90 MB -- nothing extra to write:
-import { syncSubtitle } from "wyzie-lib";
+import { syncSubtitle } from 'wyzie-lib';
 
-const synced = await syncSubtitle({ id: "tt3659388", language: "en", media: movieFile, key: "YOUR_KEY" });
+const synced = await syncSubtitle({
+  id: 'tt3659388',
+  language: 'en',
+  media: movieFile,
+  key: 'YOUR_KEY',
+});
 ```
 
 ## How It Works

@@ -49,76 +49,78 @@ import { T, TP, TNote, TImportant, TCaution } from '../../../components/T';
 
 ### Parameters
 
-| Parameter            | Example                                                | Description                                                                                             |
-| -------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
-| **id**               | `/search?id=tt3659388` or `/search?id=286217`         | <T id="subs.direct.param.id" />                                                                         |
-| **season & episode** | `/search?id=tt0121955&season=1&episode=1`             | <T id="subs.direct.param.seasonEpisode" />                                                              |
-| **language**         | `/search?id=tt3659388&language=en,es`                 | <T id="subs.direct.param.language" />                                                                   |
-| **format**           | `/search?id=tt3659388&format=srt,ass`                 | <T id="subs.direct.param.format" />                                                                     |
-| **hi**               | `/search?id=tt3659388&hi=true`                        | <T id="subs.direct.param.hi" />                                                                         |
-| **encoding**         | `/search?id=tt3659388&encoding=utf-8,latin-1`         | <T id="subs.direct.param.encoding" />                                                                   |
-| **source**           | `/search?id=tt3659388&source=charlie,lima`            | <T id="subs.direct.param.source" />                                                                     |
-| **release**          | `/search?id=tt3659388&release=martian,1080p`          | <T id="subs.direct.param.release" />                                                                    |
-| **file/fileName**    | `/search?id=tt3659388&file=proper`                    | <T id="subs.direct.param.file" />                                                                       |
-| **origin**           | `/search?id=tt3659388&origin=WEB,BLURAY`              | <T id="subs.direct.param.origin" />                                                                     |
-| **key**              | `/search?id=tt3659388&key=YOUR_KEY`                   | <T id="subs.direct.param.key" />                                                                        |
-| **refresh**          | `/search?id=tt3659388&refresh=true`                   | <T id="subs.direct.param.refresh" />                                                                    |
-| **page**             | `/search?id=tt3659388&limit=50&page=2`                | <T id="subs.direct.param.page" />                                                                       |
-| **limit**            | `/search?id=tt3659388&limit=50`                       | <T id="subs.direct.param.limit" />                                                                      |
+| Parameter            | Example                                       | Description                                |
+| -------------------- | --------------------------------------------- | ------------------------------------------ |
+| **id**               | `/search?id=tt3659388` or `/search?id=286217` | <T id="subs.direct.param.id" />            |
+| **season & episode** | `/search?id=tt0121955&season=1&episode=1`     | <T id="subs.direct.param.seasonEpisode" /> |
+| **language**         | `/search?id=tt3659388&language=en,es`         | <T id="subs.direct.param.language" />      |
+| **format**           | `/search?id=tt3659388&format=srt,ass`         | <T id="subs.direct.param.format" />        |
+| **hi**               | `/search?id=tt3659388&hi=true`                | <T id="subs.direct.param.hi" />            |
+| **encoding**         | `/search?id=tt3659388&encoding=utf-8,latin-1` | <T id="subs.direct.param.encoding" />      |
+| **source**           | `/search?id=tt3659388&source=charlie,lima`    | <T id="subs.direct.param.source" />        |
+| **release**          | `/search?id=tt3659388&release=martian,1080p`  | <T id="subs.direct.param.release" />       |
+| **file/fileName**    | `/search?id=tt3659388&file=proper`            | <T id="subs.direct.param.file" />          |
+| **origin**           | `/search?id=tt3659388&origin=WEB,BLURAY`      | <T id="subs.direct.param.origin" />        |
+| **key**              | `/search?id=tt3659388&key=YOUR_KEY`           | <T id="subs.direct.param.key" />           |
+| **refresh**          | `/search?id=tt3659388&refresh=true`           | <T id="subs.direct.param.refresh" />       |
+| **page**             | `/search?id=tt3659388&limit=50&page=2`        | <T id="subs.direct.param.page" />          |
+| **limit**            | `/search?id=tt3659388&limit=50`               | <T id="subs.direct.param.limit" />         |
 
 <TImportant id="subs.direct.important.imdb" />
 
 ### Data Returned
 
-| Object                | Description                                                          |
-| --------------------- | -------------------------------------------------------------------- |
-| **id**                | <T id="subs.direct.data.id" />                                       |
-| **url**               | <T id="subs.direct.data.url" />                                      |
-| **flagUrl**           | <T id="subs.direct.data.flagUrl" />                                  |
-| **format**            | <T id="subs.direct.data.format" />                                   |
-| **encoding**          | <T id="subs.direct.data.encoding" />                                 |
-| **display**           | <T id="subs.direct.data.display" />                                  |
-| **language**          | <T id="subs.direct.data.language" />                                 |
-| **media**             | <T id="subs.direct.data.media" />                                    |
-| **isHearingImpaired** | <T id="subs.direct.data.isHearingImpaired" />                        |
-| **source**            | <T id="subs.direct.data.source" />                                   |
-| **release**           | <T id="subs.direct.data.release" />                                  |
-| **releases**          | <T id="subs.direct.data.releases" />                                 |
-| **fileName**          | <T id="subs.direct.data.fileName" />                                 |
-| **downloadCount**     | <T id="subs.direct.data.downloadCount" />                            |
-| **origin**            | <T id="subs.direct.data.origin" />                                   |
-| **matchedRelease**    | <T id="subs.direct.data.matchedRelease" />                           |
-| **matchedFilter**     | <T id="subs.direct.data.matchedFilter" />                            |
-| **ai**                | <T id="subs.direct.data.ai" />                                       |
+| Object                | Description                                   |
+| --------------------- | --------------------------------------------- |
+| **id**                | <T id="subs.direct.data.id" />                |
+| **url**               | <T id="subs.direct.data.url" />               |
+| **flagUrl**           | <T id="subs.direct.data.flagUrl" />           |
+| **format**            | <T id="subs.direct.data.format" />            |
+| **encoding**          | <T id="subs.direct.data.encoding" />          |
+| **display**           | <T id="subs.direct.data.display" />           |
+| **language**          | <T id="subs.direct.data.language" />          |
+| **media**             | <T id="subs.direct.data.media" />             |
+| **isHearingImpaired** | <T id="subs.direct.data.isHearingImpaired" /> |
+| **source**            | <T id="subs.direct.data.source" />            |
+| **release**           | <T id="subs.direct.data.release" />           |
+| **releases**          | <T id="subs.direct.data.releases" />          |
+| **fileName**          | <T id="subs.direct.data.fileName" />          |
+| **downloadCount**     | <T id="subs.direct.data.downloadCount" />     |
+| **origin**            | <T id="subs.direct.data.origin" />            |
+| **matchedRelease**    | <T id="subs.direct.data.matchedRelease" />    |
+| **matchedFilter**     | <T id="subs.direct.data.matchedFilter" />     |
+| **ai**                | <T id="subs.direct.data.ai" />                |
 
 ### Downloading Subtitles
 
 <TP id="subs.direct.download.p" />
 
-| Status  | Cause                                                                                                   |
-| ------- | ------------------------------------------------------------------------------------------------------- |
-| **402** | The Pro balance is exhausted. The JSON includes a `topup` link.                                         |
-| **429** | A free key is over its daily cap of 1,000 requests. The JSON includes `reset_at`, plus a `Retry-After` header. |
+| Status  | Cause                                                                                                                                                      |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **402** | The Pro balance is exhausted. The JSON includes a `topup` link.                                                                                            |
+| **429** | A free key is over its daily cap of 1,000 requests. The JSON includes `reset_at`, plus a `Retry-After` header.                                             |
 | **403** | The key is invalid, or it is on hold (see [API Keys](/subs/usage/api-keys)). Also `"Paid feature"`: a Pro-only download option on a free key (not billed). |
-| **401** | The `tok` parameter is missing or expired.                                                              |
-| **400** | A download option has an invalid value, or `dual` is used on a link without the title `id` (search again). Not billed. |
-| **422** | Download options were used on a file with no timed lines (an image-based subtitle or plain text).      |
+| **401** | The `tok` parameter is missing or expired.                                                                                                                 |
+| **400** | A download option has an invalid value, or `dual` is used on a link without the title `id` (search again). Not billed.                                     |
+| **422** | Download options were used on a file with no timed lines (an image-based subtitle or plain text).                                                          |
 
 #### Download Options
 
 <TP id="subs.direct.dl.p" />
 
-| Parameter  | Example           | Plan | Description                             |
-| ---------- | ----------------- | ---- | --------------------------------------- |
-| **to**     | `&to=vtt`         | All  | <T id="subs.direct.dl.param.to" />      |
-| **offset** | `&offset=-1.5`    | All  | <T id="subs.direct.dl.param.offset" />  |
-| **fps**    | `&fps=25:23.976`  | All  | <T id="subs.direct.dl.param.fps" />     |
-| **plain**  | `&plain=1`        | All  | <T id="subs.direct.dl.param.plain" />   |
-| **sdh**    | `&sdh=strip`      | Pro  | <T id="subs.direct.dl.param.sdh" />     |
-| **clean**  | `&clean=1`        | Pro  | <T id="subs.direct.dl.param.clean" />   |
-| **dual**   | `&dual=ja`        | Pro  | <T id="subs.direct.dl.param.dual" />    |
+| Parameter  | Example          | Plan | Description                            |
+| ---------- | ---------------- | ---- | -------------------------------------- |
+| **to**     | `&to=vtt`        | All  | <T id="subs.direct.dl.param.to" />     |
+| **offset** | `&offset=-1.5`   | All  | <T id="subs.direct.dl.param.offset" /> |
+| **fps**    | `&fps=25:23.976` | All  | <T id="subs.direct.dl.param.fps" />    |
+| **plain**  | `&plain=1`       | All  | <T id="subs.direct.dl.param.plain" />  |
+| **sdh**    | `&sdh=strip`     | Pro  | <T id="subs.direct.dl.param.sdh" />    |
+| **clean**  | `&clean=1`       | Pro  | <T id="subs.direct.dl.param.clean" />  |
+| **dual**   | `&dual=ja`       | Pro  | <T id="subs.direct.dl.param.dual" />   |
 
 <TP id="subs.direct.dl.after" />
+
+<TNote id="subs.direct.dl.headers" />
 
 #### One-Call Download
 
@@ -155,18 +157,18 @@ Errors are returned as JSON with the matching HTTP status:
 }
 ```
 
-| Status  | Message                                | Cause                                                                                                   |
-| ------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **400** | `No subtitles found`                   | The search completed but nothing matched your parameters.                                               |
-| **400** | `No matching release found`            | Subtitles exist for the title, but none matched your `release`, `file`, or `origin` filters.            |
-| **400** | `Invalid source`                       | A `source` value is not a known codename or `all`.                                                      |
-| **400** | `Invalid language format`              | `language` must be ISO 639-1 codes (two letters, e.g. `en,es`).                                         |
-| **400** | `Both season and episode are required` | Only one of `season` and `episode` was sent.                                                            |
-| **401** | `API key required`                     | The `key` parameter is missing.                                                                         |
-| **402** | `Pro key request balance exhausted`    | The Pro key has no requests left. The JSON includes a `topup` link.                                     |
-| **403** | `Invalid API key`                      | The `key` parameter was sent but the key is not recognized.                                             |
-| **403** | `Provider not available on free plan`  | Every source you asked for is Pro-only. Free keys can use `charlie` and `lima`.                         |
-| **403** | `Key on hold`                          | The key was paused for very high datacenter traffic. The JSON includes `reinstate` and `support` links; see [API Keys](/subs/usage/api-keys). |
-| **429** | `Daily request limit reached`          | A free key is over its daily cap of 1,000 requests. The JSON includes `reset_at` and `upgrade`, plus a `Retry-After` header. |
-| **503** | `Service temporarily unavailable`      | Key verification is briefly unavailable. Retry in a moment.                                             |
+| Status  | Message                                | Cause                                                                                                                                              |
+| ------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **400** | `No subtitles found`                   | The search completed but nothing matched your parameters.                                                                                          |
+| **400** | `No matching release found`            | Subtitles exist for the title, but none matched your `release`, `file`, or `origin` filters.                                                       |
+| **400** | `Invalid source`                       | A `source` value is not a known codename or `all`.                                                                                                 |
+| **400** | `Invalid language format`              | `language` must be ISO 639-1 codes (two letters, e.g. `en,es`).                                                                                    |
+| **400** | `Both season and episode are required` | Only one of `season` and `episode` was sent.                                                                                                       |
+| **401** | `API key required`                     | The `key` parameter is missing.                                                                                                                    |
+| **402** | `Pro key request balance exhausted`    | The Pro key has no requests left. The JSON includes a `topup` link.                                                                                |
+| **403** | `Invalid API key`                      | The `key` parameter was sent but the key is not recognized.                                                                                        |
+| **403** | `Provider not available on free plan`  | Every source you asked for is Pro-only. Free keys can use `charlie` and `lima`.                                                                    |
+| **403** | `Key on hold`                          | The key was paused for very high datacenter traffic. The JSON includes `reinstate` and `support` links; see [API Keys](/subs/usage/api-keys).      |
+| **429** | `Daily request limit reached`          | A free key is over its daily cap of 1,000 requests. The JSON includes `reset_at` and `upgrade`, plus a `Retry-After` header.                       |
+| **503** | `Service temporarily unavailable`      | Key verification is briefly unavailable. Retry in a moment.                                                                                        |
 | **503** | `Source temporarily offline`           | Every source you named is paused by its health checks (not billed). See [Sources](/subs/sources#health-checks); use a live source or `source=all`. |

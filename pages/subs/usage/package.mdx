@@ -20,11 +20,10 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 
 ## Usage
 
-<Tabs items={["Fetching Subtitles", "VTT Parser", "Download Options", "Wyzie Synced", "Get Sources", "Handling Errors"]}>
+<Tabs items={["Fetching Subtitles", "TMDB Search", "VTT Parser", "Download Options", "Wyzie Synced", "Get Sources", "Handling Errors"]}>
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
-
 
     const data: SubtitleData[] = await searchSubtitles({
       tmdb_id: 286217,
@@ -37,11 +36,28 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 
     console.log(data[0].url);
     ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```ts
+    import { searchTmdb, getTvDetails, getSeasonDetails, searchSubtitles } from "wyzie-lib";
+
+    // Look a title up by name, e.g. to build a title picker
+    const results = await searchTmdb("The Martian");
+    console.log(results[0].id, results[0].mediaType, results[0].releaseYear);
+
+    // TV shows: list seasons, then a season's episodes
+    const show = await getTvDetails(1399);
+    const season = await getSeasonDetails(1399, show.seasons[0].season_number);
+    console.log(show.name, season.episodes.map((e) => e.name));
+
+    const data = await searchSubtitles({ tmdb_id: results[0].id, key: "YOUR_KEY" });
+    ```
+
   </Tabs.Tab>
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, parseToVTT } from "wyzie-lib";
-
 
     const data: SubtitleData[] = await searchSubtitles({ tmdb_id: 286217, format: "srt", key: "YOUR_KEY" });
 
@@ -53,7 +69,6 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
   <Tabs.Tab>
     ```ts
     import { type SubtitleData, searchSubtitles, withDownloadOptions } from "wyzie-lib";
-
 
     const data: SubtitleData[] = await searchSubtitles({ tmdb_id: 286217, key: "YOUR_KEY" });
 
@@ -68,7 +83,6 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
   <Tabs.Tab>
     ```ts
     import { detectSpeech, syncSubtitle, parseToVTT } from "wyzie-lib";
-
 
     // Pro keys: time a subtitle to the viewer's own copy of the video.
     // Any mono audio works; here the browser decodes the file.
@@ -86,7 +100,6 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
     ```ts
     import { getSources, getSourcesInfo, getStatus } from "wyzie-lib";
 
-
     const sources = await getSources();
     console.log(sources); // live codenames, e.g. ["charlie", "foxtrot", "india", "juliet", "mike"]
 
@@ -103,7 +116,6 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
   <Tabs.Tab>
     ```ts
     import { searchSubtitles, WyzieError } from "wyzie-lib";
-
 
     try {
       const data = await searchSubtitles({ tmdb_id: 286217, key: "YOUR_KEY" });
@@ -125,24 +137,24 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 
 <TNote id="subs.pkg.params.note" />
 
-| Parameter       | Name              | Description                                                                     |
-| --------------- | ----------------- | ------------------------------------------------------------------------------- |
-| **tmdb_id**     | TmdbId            | <T id="subs.pkg.param.tmdb" />            |
-| **imdb_id**     | ImdbId            | <T id="subs.pkg.param.imdb" />            |
-| **format**      | format            | <T id="subs.pkg.param.format" />                   |
-| **season**      | season            | <T id="subs.pkg.param.season" />                                              |
-| **episode**     | episode           | <T id="subs.pkg.param.episode" />                                              |
-| **language**    | language          | <T id="subs.pkg.param.language" />                         |
-| **encoding**    | encoding          | <T id="subs.pkg.param.encoding" />                          |
-| **hi**          | isHearingImpaired | <T id="subs.pkg.param.hi" />                                        |
-| **source**      | source            | <T id="subs.pkg.param.source" />                  |
-| **release**     | release           | <T id="subs.pkg.param.release" />                                        |
-| **filename**    | filename/file     | <T id="subs.pkg.param.filename" />                 |
-| **origin**      | origin            | <T id="subs.pkg.param.origin" />                          |
-| **key**         | key               | <T id="subs.pkg.param.key" />  |
-| **refresh**     | refresh           | <T id="subs.pkg.param.refresh" />                             |
-| **limit**       | limit             | Results per page (1 to 200). Without it every result comes back at once.        |
-| **page**        | page              | Page to return, starting at 1. Only used together with `limit`.                 |
+| Parameter    | Name              | Description                                                              |
+| ------------ | ----------------- | ------------------------------------------------------------------------ |
+| **tmdb_id**  | TmdbId            | <T id="subs.pkg.param.tmdb" />                                           |
+| **imdb_id**  | ImdbId            | <T id="subs.pkg.param.imdb" />                                           |
+| **format**   | format            | <T id="subs.pkg.param.format" />                                         |
+| **season**   | season            | <T id="subs.pkg.param.season" />                                         |
+| **episode**  | episode           | <T id="subs.pkg.param.episode" />                                        |
+| **language** | language          | <T id="subs.pkg.param.language" />                                       |
+| **encoding** | encoding          | <T id="subs.pkg.param.encoding" />                                       |
+| **hi**       | isHearingImpaired | <T id="subs.pkg.param.hi" />                                             |
+| **source**   | source            | <T id="subs.pkg.param.source" />                                         |
+| **release**  | release           | <T id="subs.pkg.param.release" />                                        |
+| **filename** | filename/file     | <T id="subs.pkg.param.filename" />                                       |
+| **origin**   | origin            | <T id="subs.pkg.param.origin" />                                         |
+| **key**      | key               | <T id="subs.pkg.param.key" />                                            |
+| **refresh**  | refresh           | <T id="subs.pkg.param.refresh" />                                        |
+| **limit**    | limit             | Results per page (1 to 200). Without it every result comes back at once. |
+| **page**     | page              | Page to return, starting at 1. Only used together with `limit`.          |
 
 <TP id="subs.pkg.helpers" />
 
@@ -164,6 +176,9 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 - **SourcesResponse**: <T id="subs.pkg.type.sources" />
 - **DownloadOptions**: <T id="subs.pkg.type.download" />
 - **SyncParams** / **SyncResult**: <T id="subs.pkg.type.sync" />
+- **StatusReport** / **SourceStatus** / **UptimeWindows** / **DayUptime**: <T id="subs.pkg.type.status" />
+- **TmdbSearchResult** / **TvDetails** / **SeasonSummary** / **SeasonDetails** / **EpisodeDetails**: <T id="subs.pkg.type.tmdb" />
+- **ConfigurationOptions**: <T id="subs.pkg.type.config" />
 
 <TP id="subs.pkg.types.end" />
 
@@ -174,15 +189,13 @@ import { T, TP, TImportant, TNote } from '../../../components/T';
 ```ts
 import { configure, searchSubtitles, parseToVTT } from 'wyzie-lib';
 
-
-configure({ 
+configure({
   baseUrl: 'https://my-custom-subtitle-scraper.com',
   key: 'YOUR_KEY',
 });
 
-
 const subtitles = await searchSubtitles({
   tmdb_id: 123456,
-  language: "en"
+  language: 'en',
 });
 ```
